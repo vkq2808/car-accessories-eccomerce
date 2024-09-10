@@ -12,6 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 viewEngine(app);
 initWebRoutes(app);
 
+
 let port = process.env.PORT || 3001; //tạo tham số port lấy từ .env
 //Port === undefined => port = 6969
 //chạy server
