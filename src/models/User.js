@@ -19,7 +19,10 @@ module.exports = (sequelize, DataTypes) => {
         gender: DataTypes.STRING,
         roleId: DataTypes.INTEGER,
         positionId: DataTypes.INTEGER,
-        imgaeUrl: DataTypes.STRING
+        imageUrl: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
     }, {
         sequelize,
         modelName: 'User',

@@ -10,6 +10,17 @@ let initWebRoutes = (app) => {
 
     app.use(authenticateToken);
 
+    router.get("/login", loginController.getLoginPage);
+    router.post("/login", loginController.handleLogin);
+    router.get("/register", loginController.getRegisterPage);
+    router.post("/register", loginController.handleRegister);
+    router.post("/forgot-password", loginController.handleForgotPassword);
+
+    router.get("/signout", (req, res) => {
+        res.clearCookie('token');
+        return res.redirect('/login');
+    });
+
     router.get("/", (req, res) => {
         return res.send("Hello World");
     });

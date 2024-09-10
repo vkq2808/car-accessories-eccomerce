@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import db from '../models/index';
 
-const salt = bcrypt.genSaltSync(10);
+const salt = process.env.SALT;
 let createNewUser = async (data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -11,7 +11,6 @@ let createNewUser = async (data) => {
                 password: hashPasswordFromBcrypt,
                 firstName: data.firstName,
                 lastName: data.lastName,
-                address: data.address,
             });
             resolve('Create a new user successful');
         } catch (e) {
@@ -101,10 +100,29 @@ let deleteUser = (userId) => {
     });
 }
 
+let getUserInfoByEmail = (userEmail) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let user = await db.User.findOne({
+                where: { email: userEmail },
+                raw: true,
+            });
+            if (user) {
+                resolve(user);
+            } else {
+                resolve();
+            }
+        } catch (e) {
+            reject(e);
+        }
+    });
+}
+
 export default {
     createNewUser: createNewUser,
     getAllUsers: getAllUsers,
     getUserInfoById: getUserInfoById,
     updateUser: updateUser,
     deleteUser: deleteUser,
+    getUserInfoByEmail: getUserInfoByEmail,
 }

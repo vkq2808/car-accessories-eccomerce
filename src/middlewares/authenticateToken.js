@@ -10,19 +10,32 @@ const authenticateToken = (req, res, next) => {
         return next();
     }
 
-    // Kiểm tra token từ header Authorization
-    const token = req.headers['authorization'];
+    try {
+        // Kiểm tra token từ header Authorization
+        const token = req.headers['authorization'] || req?.cookies?.token;
+        if (!token) {
+            // chuyển người dùng về trang login nếu không có token
+            return res.redirect('/login');
+        }
 
-    if (!token) return res.status(403).json({ message: 'TokenNotFound' });
+        // Xác thực token
+        jwt.verify(token, process.env.TOKEN_SERCET_KEY, (err, user) => {
+            // Nếu token không hợp lệ, chuyển người dùng về trang login
+            if (err) {
+                return res.redirect('/login');
+            }
 
-    // Xác thực token
-    jwt.verify(token, SECRET_KEY, (err, user) => {
-        if (err) return res.status(403).json({ message: 'InvalidToken' });
+            // Lưu thông tin người dùng vào request
+            req.user = user;
+            next();
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
 
-        // Lưu thông tin người dùng vào request
-        req.user = user;
-        next();
-    });
+
+
 };
 
 export default authenticateToken;
