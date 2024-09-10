@@ -1,24 +1,28 @@
-import { DataTypes } from 'sequelize';
-import sequelize from '../config/database.js';
+'use strict';
+const {
+    Model
+} = require('sequelize');
 
-// Định nghĩa model User
-const User = sequelize.define('User', {
-    name: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
-    },
-    password: {
-        type: DataTypes.STRING,
-        allowNull: false
+// user bao gồm: email, password, firstName, lastName, address, phone, gender, roleId, positionId
+module.exports = (sequelize, DataTypes) => {
+    class User extends Model {
+        static associate(models) {
+        }
     }
-}, {
-    tableName: 'users',
-    timestamps: true
-});
-
-export default User;
+    User.init({
+        email: DataTypes.STRING,
+        password: DataTypes.STRING,
+        firstName: DataTypes.STRING,
+        lastName: DataTypes.STRING,
+        address: DataTypes.STRING,
+        phone: DataTypes.STRING,
+        gender: DataTypes.STRING,
+        roleId: DataTypes.INTEGER,
+        positionId: DataTypes.INTEGER,
+        imgaeUrl: DataTypes.STRING
+    }, {
+        sequelize,
+        modelName: 'User',
+    });
+    return User;
+}

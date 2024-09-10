@@ -1,8 +1,8 @@
 {
     "development": {
         "username": "root",
-        "password": "1234567@a$",
-        "database": "node_fulltask",
+        "password": "@123",
+        "database": "db",
         "host": "127.0.0.1",
         "dialect": "mysql"
     },

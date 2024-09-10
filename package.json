@@ -4,12 +4,18 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec babel-node src/server.js"
+    "start": "nodemon --exec babel-node src/server.js",
+    "sequelize": "sequelize",
+    "db:migrate": "sequelize db:migrate",
+    "db:seed": "sequelize db:seed:all",
+    "db:create": "sequelize db:create",
+    "db:drop": "sequelize db:drop"
   },
   "author": "Vu Khanh Quoc",
   "license": "Apache-2.0",
   "description": "",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
@@ -20,9 +26,9 @@
     "sequelize": "^6.37.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.7",
-    "@babel/node": "^7.24.7",
-    "@babel/preset-env": "^7.24.7",
+    "@babel/core": "^7.25.2",
+    "@babel/node": "^7.25.0",
+    "@babel/preset-env": "^7.25.4",
     "nodemon": "^3.1.4",
     "sequelize-cli": "^6.6.2"
   }
