@@ -41,9 +41,12 @@ let handleRegister = async (req, res) => {
     return res.redirect('/login');
 };
 
-const handleForgotPassword = (req, res) => {
-    // Logic xử lý quên mật khẩu
-    res.send('Forgot Password handler');
+const getForgotPasswordPage = (req, res) => {
+    res.render('forgotPassword.ejs');
+}
+
+let handleForgotPassword = async (req, res) => {
+
 };
 
 export default {

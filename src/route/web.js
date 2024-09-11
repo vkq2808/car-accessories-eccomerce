@@ -14,6 +14,7 @@ let initWebRoutes = (app) => {
     router.post("/login", loginController.handleLogin);
     router.get("/register", loginController.getRegisterPage);
     router.post("/register", loginController.handleRegister);
+    router.get("/forgot-password", loginController.getForgotPasswordPage);
     router.post("/forgot-password", loginController.handleForgotPassword);
 
     router.get("/signout", (req, res) => {
