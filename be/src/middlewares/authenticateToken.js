@@ -31,7 +31,7 @@ const authenticateToken = (req, res, next) => {
         });
     }
     catch (error) {
-        return res.status(403).send({ msg: 'Forbidden' });
+        return res.status(401).send({ msg: 'Forbidden' });
     }
 
 

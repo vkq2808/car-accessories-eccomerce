@@ -1,0 +1,16 @@
+{
+  "name": "exercise-group-8",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start:fe": "cd fe && npm start",
+    "start:be": "cd be && npm start",
+    "start": "concurrently \"npm run start:fe\" \"npm run start:be\""
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  }
+}
