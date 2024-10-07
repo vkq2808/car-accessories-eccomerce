@@ -11,7 +11,7 @@ const Logout = () => {
         dispatch(logout()).then(() => {
             setIsLoading(false);
         });
-    }, []);
+    }, [dispatch]);
     return (
         <>
             {

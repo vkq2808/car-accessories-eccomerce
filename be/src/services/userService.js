@@ -9,8 +9,10 @@ let createNewUser = async (data) => {
             await db.User.create({
                 email: data.email,
                 password: hashPasswordFromBcrypt,
-                firstName: data.firstName,
-                lastName: data.lastName,
+                name: data.name,
+                gender: data.gender,
+                birth: data.birth,
+                role: data.role
             });
             resolve('Create a new user successful');
         } catch (e) {

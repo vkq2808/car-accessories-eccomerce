@@ -12,16 +12,16 @@ module.exports = {
                 type: Sequelize.INTEGER
             },
             email: {
-                type: Sequelize.STRING
+                type: Sequelize.STRING,
+                allowNull: false
             },
             password: {
-                type: Sequelize.STRING
+                type: Sequelize.STRING,
+                allowNull: false
             },
-            firstName: {
-                type: Sequelize.STRING
-            },
-            lastName: {
-                type: Sequelize.STRING
+            name: {
+                type: Sequelize.STRING,
+                allowNull: false
             },
             address: {
                 type: Sequelize.STRING
@@ -33,10 +33,8 @@ module.exports = {
                 type: Sequelize.STRING
             },
             role: {
-                type: Sequelize.INTEGER
-            },
-            positionId: {
-                type: Sequelize.INTEGER
+                type: Sequelize.INTEGER,
+                allowNull: false
             },
             imageUrl: {
                 type: Sequelize.STRING
@@ -48,7 +46,6 @@ module.exports = {
             updatedAt: {
                 allowNull: false,
                 type: Sequelize.DATE
-
             }
         });
     },

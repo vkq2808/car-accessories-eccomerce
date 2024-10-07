@@ -51,7 +51,6 @@ export const regist = (data) => async (dispatch) => {
 
         const res = await postDataAPI("auth/regist", data)
         if (res.data.msg === REGIST_SUCESS) {
-
             dispatch({ type: GLOBALTYPES.LOADING, payload: false })
             dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.msg })
         } else {

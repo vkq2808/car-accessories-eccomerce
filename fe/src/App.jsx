@@ -1,6 +1,6 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 
 // import Login from './pages/Login';
@@ -18,12 +18,10 @@ function App() {
 
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch()
-  const auth = useSelector(state => state.auth)
 
   useEffect(() => {
     dispatch(getUserInfo()).then(() => {
       setIsLoading(false)
-      console.log(auth)
     })
   }, [dispatch])
 

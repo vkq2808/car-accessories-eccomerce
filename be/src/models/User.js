@@ -12,13 +12,11 @@ module.exports = (sequelize, DataTypes) => {
     User.init({
         email: DataTypes.STRING,
         password: DataTypes.STRING,
-        firstName: DataTypes.STRING,
-        lastName: DataTypes.STRING,
+        name: DataTypes.STRING,
         address: DataTypes.STRING,
         phone: DataTypes.STRING,
         gender: DataTypes.STRING,
         role: DataTypes.INTEGER,
-        positionId: DataTypes.INTEGER,
         imageUrl: {
             type: DataTypes.STRING,
             allowNull: true

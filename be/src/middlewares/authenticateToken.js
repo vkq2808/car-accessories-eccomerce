@@ -3,35 +3,31 @@ import jwt from 'jsonwebtoken'; //gọi jwt
 
 const authenticateToken = (req, res, next) => {
     // Miễn xác thực cho các route cụ thể
-    const openRoutes = ['/login', '/register', '/forgot-password'];
+    const openRoutes = ['/auth'];
 
     // Nếu là một trong các route miễn xác thực, bỏ qua middleware
-    if (openRoutes.includes(req.path)) {
+    if (req.path.includes(openRoutes)) {
         return next();
     }
 
     try {
-        // Kiểm tra token từ header Authorization
         const token = req.headers['authorization'] || req?.cookies?.token;
         if (!token) {
-            // chuyển người dùng về trang login nếu không có token
-            return res.status(401).send({ msg: 'Unauthorized' });
+            return res.status(401).send({ msg: "Token not found" });
         }
 
         // Xác thực token
         jwt.verify(token, process.env.TOKEN_SERCET_KEY, (err, user) => {
-            // Nếu token không hợp lệ, chuyển người dùng về trang login
             if (err) {
-                return res.status(403).send({ msg: 'Forbidden' });
+                return res.status(401).send({ msg: "Unauthorized" });
             }
 
-            // Lưu thông tin người dùng vào request
             req.user = user;
             next();
         });
     }
     catch (error) {
-        return res.status(401).send({ msg: 'Forbidden' });
+        console.log(error);
     }
 
 

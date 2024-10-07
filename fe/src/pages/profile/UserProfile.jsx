@@ -1,12 +1,9 @@
 import React from "react";
-import Loading from "../../components/common/alert/Loading";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import './UserProfile.css';
 
 const UserProfile = ({ isEditing = false }) => {
-    const [isLoading, setIsLoading] = React.useState(false);
     const auth = useSelector(state => state.auth);
     const navigate = useNavigate();
     const [category, setCategory] = React.useState(1);
@@ -15,7 +12,7 @@ const UserProfile = ({ isEditing = false }) => {
         if (!auth?.user) {
             navigate('/auth/login');
         }
-    }, []);
+    }, [auth, navigate]);
 
     const user = auth.user;
 
@@ -104,10 +101,7 @@ const UserProfile = ({ isEditing = false }) => {
 
     return (
         <>
-            {
-                isLoading && <Loading />
-            }
-            {!isLoading && < ProfilePage />}
+            < ProfilePage />
         </>
     )
 }
