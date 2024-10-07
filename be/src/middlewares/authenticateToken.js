@@ -15,14 +15,14 @@ const authenticateToken = (req, res, next) => {
         const token = req.headers['authorization'] || req?.cookies?.token;
         if (!token) {
             // chuyển người dùng về trang login nếu không có token
-            return res.redirect('/login');
+            return res.status(401).send({ msg: 'Unauthorized' });
         }
 
         // Xác thực token
         jwt.verify(token, process.env.TOKEN_SERCET_KEY, (err, user) => {
             // Nếu token không hợp lệ, chuyển người dùng về trang login
             if (err) {
-                return res.redirect('/login');
+                return res.status(403).send({ msg: 'Forbidden' });
             }
 
             // Lưu thông tin người dùng vào request
@@ -31,7 +31,7 @@ const authenticateToken = (req, res, next) => {
         });
     }
     catch (error) {
-        console.log(error);
+        return res.status(403).send({ msg: 'Forbidden' });
     }
 
 

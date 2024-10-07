@@ -118,6 +118,25 @@ let getUserInfoByEmail = (userEmail) => {
     });
 }
 
+let updateUserPassword = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let user = await db.User.findOne({
+                where: { email: data.email },
+            });
+            if (user) {
+                user.hashed_password = await hashUserPassword(data.password);
+                await user.save();
+                resolve(user);
+            } else {
+                resolve();
+            }
+        } catch (e) {
+            reject(e);
+        }
+    });
+}
+
 export default {
     createNewUser: createNewUser,
     getAllUsers: getAllUsers,
@@ -125,4 +144,5 @@ export default {
     updateUser: updateUser,
     deleteUser: deleteUser,
     getUserInfoByEmail: getUserInfoByEmail,
+    updateUserPassword: updateUserPassword
 }
