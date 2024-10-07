@@ -1,0 +1,64 @@
+.profile-container {
+    border-radius: 10px;
+    max-width: 900px;
+}
+
+.avatar-category-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-left: 25px;
+    width: 40%;
+
+    padding-right: 25px;
+    border-right: 1px solid #3e4042;
+}
+
+.user-name {
+    font-size: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: white;
+    border-bottom: 1px solid #3e4042;
+}
+
+.category-i {
+    display: block;
+    unicode-bidi: isolate;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.category-i div {
+    font-size: 15px;
+    font-family: "Segoe UI Historic", "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+.category-i:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.info-title {
+    padding: 20px 10px;
+    width: 40%;
+    font-size: 15px;
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #3e4042;
+}
+
+.info-content {
+    width: 60%;
+    font-size: 15px;
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #3e4042;
+}

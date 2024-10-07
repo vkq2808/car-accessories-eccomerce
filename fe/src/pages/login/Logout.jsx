@@ -1,0 +1,24 @@
+import React from "react";
+import Loading from "../../components/common/alert/Loading";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/action/authAction";
+
+const Logout = () => {
+    const [isLoading, setIsLoading] = React.useState(true);
+    const dispatch = useDispatch();
+
+    React.useEffect(() => {
+        dispatch(logout()).then(() => {
+            setIsLoading(false);
+        });
+    }, []);
+    return (
+        <>
+            {
+                isLoading && <Loading />
+            }
+        </>
+    )
+}
+
+export default Logout;

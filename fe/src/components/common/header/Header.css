@@ -1,0 +1,33 @@
+.s-btn .icon-button {
+    padding: 0;
+    margin: 0;
+    padding-left: 6px;
+}
+
+
+.nav-bar {
+    color: var(--yellow-color);
+}
+
+.nav-bar a {
+    text-decoration: none;
+    color: var(--yellow-color);
+}
+
+.nav-bar li {
+    list-style-type: none;
+}
+
+.headroom--pinned {
+    position: fixed;
+}
+
+@media screen and (max-width: 1300px) {
+    .search-bar {
+        display: none;
+    }
+
+    .nav-bar {
+        display: none;
+    }
+}

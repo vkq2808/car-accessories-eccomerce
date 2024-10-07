@@ -1,0 +1,22 @@
+.icon-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    margin-left: 10px;
+}
+
+.icon-button:hover {
+    color: #002fff;
+}
+
+.icon-button i {
+    margin-right: 8px;
+    font-size: 20px;
+}
+
+.label {
+    font-size: 16px;
+}
