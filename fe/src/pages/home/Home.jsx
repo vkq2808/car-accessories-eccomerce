@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import Header from '../../components/common/header/Header';
+import Headroom from 'react-headroom';
 import './Home.css';
+import CommonSideBar from '../../components/common/sideBar/CommonSideBar';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper';
+import Footer from '../../components/common/footer/Footer';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {

@@ -1,193 +1,132 @@
-import React, { useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { regist } from "../../redux/action/authAction";
-import { useDispatch } from "react-redux";
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { regist } from '../../redux/action/authAction';
+
+import './Regist.css';
 
 const Regist = () => {
+
     const dispatch = useDispatch();
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        birth: "",
-        gender: ""
-    });
+    const initialState = { email: "", password: "", firstName: "", lastName: "", phone: "", birth: "" }
+    const [userData, setUserData] = useState(initialState)
+    const { email, password, firstName, lastName, phone, birth } = userData
     const [errors, setErrors] = useState({});
-    const [showPassword, setShowPassword] = useState(false);
-    const [loading, setLoading] = useState(false);
 
-    const validateName = (name) => {
-        return /^[\p{L}\s]+$/u.test(name);
-    };
-
-
-    const validateEmail = (email) => {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    };
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-
-        // Real-time validation
-        if (name === "name") {
-            setErrors({ ...errors, name: validateName(value) ? "" : "Name should only contain alphabets and spaces" });
-        } else if (name === "email") {
-            setErrors({ ...errors, email: validateEmail(value) ? "" : "Invalid email format" });
-        } else if (name === "confirmPassword") {
-            setErrors({ ...errors, confirmPassword: value === formData.password ? "" : "Passwords do not match" });
-        }
-    };
-
-    const handleSubmit = (e) => {
+    const handleChangeInput = (e) => {
+        const { name, value } = e.target
+        setUserData({ ...userData, [name]: value })
+        setErrors({ ...errors, [name]: "" });
+    }
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
 
-        setErrors({});
-        // Form validation
-        const nameValid = validateName(formData.name);
-        const emailValid = validateEmail(formData.email);
-        const passwordValid = formData.password.length >= 6;
-        const confirmPasswordValid = formData.confirmPassword === formData.password;
-
-        let invalid = {}
-        if (!nameValid) {
-            invalid.name = "Name should only contain alphabets and spaces"
-        } else if (!emailValid) {
-            invalid.email = "Invalid email format"
-        } else if (!passwordValid) {
-            invalid.password = "Password should be at least 6 characters"
-        } else if (!confirmPasswordValid) {
-            invalid.confirmPassword = "Passwords do not match"
+        // Kiểm tra validation
+        let errors = {};
+        if (!email) {
+            errors.email = "Vui lòng nhập email của bạn";
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            errors.email = "Email không hợp lệ";
         }
 
-        setErrors(invalid);
+        if (!password) {
+            errors.password = "Vui lòng nhập mật khẩu của bạn";
+        } else if (password.length < 6) {
+            errors.password = "Mật khẩu phải chứa ít nhất 6 ký tự";
+        }
 
-        if (Object.keys(invalid).length === 0) {
-            dispatch(regist(formData)).then(() => {
-                setLoading(false);
-            });
+        if (!firstName) {
+            errors.firstName = "Vui lòng nhập họ của bạn";
+        }
+
+        if (!lastName) {
+            errors.lastName = "Vui lòng nhập tên của bạn";
+        }
+
+        if (!phone) {
+            errors.phone = "Vui lòng nhập số điện thoại của bạn";
+        } else if (!/((09|03|07|08|05)+([0-9]{8})\b)/g.test(phone)) {
+            errors.phone = "Số điện thoại không hợp lệ";
+        }
+
+        if (!birth) {
+            errors.birth = "Vui lòng nhập ngày sinh của bạn";
+        } else if (!/^\d{4}-\d{2}-\d{2}$/.test(birth) || isNaN(new Date(birth).getTime())) {
+            errors.birth = "Ngày sinh không hợp lệ. Định dạng đúng là YYYY-MM-DD";
+        }
+
+        if (Object.keys(errors).length === 0) {
+            dispatch(regist({ email: userData.email, password: userData.password, firstName: userData.firstName, lastName: userData.lastName, phone: userData.phone, birth: userData.birth }));
         } else {
-            setLoading(false);
+            setErrors(errors);
         }
+    }
+
+    const handleLoginSubmit = (e) => {
+        e.preventDefault();
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-r from-blue-100 to-white flex items-center justify-center p-4">
-            <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 transition-all duration-300 hover:shadow-xl">
-                <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">Join Our Social Network</h2>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 ${errors.name ? 'border-red-500' : ''}`}
-                            required
-                            aria-describedby="nameError"
-                        />
-                        {errors.name && <p id="nameError" className="mt-1 text-sm text-red-600">{errors.name}</p>}
-                    </div>
+        <div className='flex flex-col w-full h-auto items-center text-[#212529]'>
+            <div className="body-box flex flex-row w-full justify-center items-center">
+                <div className="regist-form-container flex flex-col p-4 mt-4 items-center w-[60%] mx-10">
+                    <h2 className='form-title'>Đăng ký</h2>
 
-                    <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 ${errors.email ? 'border-red-500' : ''}`}
-                            required
-                            aria-describedby="emailError"
-                        />
-                        {errors.email && <p id="emailError" className="mt-1 text-sm text-red-600">{errors.email}</p>}
-                    </div>
+                    <form className='w-full flex justify-between mt-5' onSubmit={handleSubmit}>
+                        <div className="first-col flex flex-col w-[45%]">
+                            <div className="form-outline mb-4 w-full">
+                                <label className="form-label" htmlFor="InputEmail" style={{ fontWeight: "bold", color: "#2F56A6" }}>Email</label>
+                                <input type="text" id="InputEmail" onChange={handleChangeInput} value={email} name="email" className="form-control form-control-lg"
+                                    placeholder="Nhập email của bạn" />
+                                {errors.email && <small style={{ fontWeight: "bold" }} className="text-danger">{errors.email}</small>}
+                            </div>
 
-                    <div className="relative">
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
-                        <input
-                            type={showPassword ? "text" : "password"}
-                            id="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                            required
-                        />
-                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 mt-4">
-                            {showPassword ?
-                                <FaEyeSlash className="h-5 w-5 text-gray-400" onClick={() => setShowPassword(!showPassword)} /> :
-                                <FaEye className="h-5 w-5 text-gray-400" onClick={() => setShowPassword(!showPassword)} />}
+                            <div className="form-outline mb-4">
+                                <label className="form-label" htmlFor="InputPassword" style={{ fontWeight: "bold", color: "#2F56A6" }}>Mật khẩu</label>
+                                <input type="password" id="InputPassword" onChange={handleChangeInput} value={password} name="password" className="form-control form-control-lg"
+                                    placeholder="Nhập mật khẩu" />
+                                {errors.password && <small style={{ fontWeight: "bold" }} className="text-danger">{errors.password}</small>}
+                            </div>
+
+                            <div className="form-outline mb-4">
+                                <label className="form-label" htmlFor="InputFirstName" style={{ fontWeight: "bold", color: "#2F56A6" }}>Họ</label>
+                                <input type="text" id="InputFirstName" onChange={handleChangeInput} value={firstName} name="firstName" className="form-control form-control-lg"
+                                    placeholder="Nhập họ của bạn" />
+                                {errors.firstName && <small style={{ fontWeight: "bold" }} className="text-danger">{errors.firstName}</small>}
+                            </div>
+
+                            <div className="form-outline mb-4">
+                                <label className="form-label" htmlFor="InputLastName" style={{ fontWeight: "bold", color: "#2F56A6" }}>Tên</label>
+                                <input type="text" id="InputLastName" onChange={handleChangeInput} value={lastName} name="lastName" className="form-control form-control-lg"
+                                    placeholder="Nhập tên của bạn" />
+                                {errors.lastName && <small style={{ fontWeight: "bold" }} className="text-danger">{errors.lastName}</small>}
+                            </div>
                         </div>
-                    </div>
+                        <div className="first-col flex flex-col w-[45%]">
+                            <div className="form-outline mb-4">
+                                <label className="form-label" htmlFor="InputPhone" style={{ fontWeight: "bold", color: "#2F56A6" }}>Số điện thoại</label>
+                                <input type="text" id="InputPhone" onChange={handleChangeInput} value={phone} name="phone" className="form-control form-control-lg"
+                                    placeholder="Nhập số điện thoại của bạn" />
+                                {errors.phone && <small style={{ fontWeight: "bold" }} className="text-danger">{errors.phone}</small>}
+                            </div>
 
-                    <div>
-                        <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Confirm Password</label>
-                        <input
-                            type="password"
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            value={formData.confirmPassword}
-                            onChange={handleChange}
-                            className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 ${errors.confirmPassword ? 'border-red-500' : ''}`}
-                            required
-                            aria-describedby="confirmPasswordError"
-                        />
-                        {errors.confirmPassword && <p id="confirmPasswordError" className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>}
-                    </div>
+                            <div className="form-outline mb-4">
+                                <label className="form-label" htmlFor="InputBirth" style={{ fontWeight: "bold", color: "#2F56A6" }}>Ngày sinh</label>
+                                <input type="text" id="InputBirth" onChange={handleChangeInput} value={birth} name="birth" className="form-control form-control-lg"
+                                    placeholder="YYYY-MM-DD" />
+                                {errors.birth && <small style={{ fontWeight: "bold" }} className="text-danger">{errors.birth}</small>}
+                            </div>
 
-                    <div>
-                        <label htmlFor="birth" className="block text-sm font-medium text-gray-700">Birth Date</label>
-                        <input
-                            type="date"
-                            id="birth"
-                            name="birth"
-                            value={formData.birth}
-                            onChange={handleChange}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <label htmlFor="gender" className="block text-sm font-medium text-gray-700">Gender</label>
-                        <select
-                            id="gender"
-                            name="gender"
-                            value={formData.gender}
-                            onChange={handleChange}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                            required
-                        >
-                            <option value="">Select gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <button
-                            type="submit"
-                            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                            disabled={loading}
-                        >
-                            {loading ? (
-                                <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 mr-3" />
-                            ) : (
-                                "Register"
-                            )}
-                        </button>
-                    </div>
-                </form>
+                            <div className="text-center mt-4 mb-4 pt-2">
+                                <button type="submit" className="btn btn-primary btn-lg"
+                                    style={{ width: "60%" }} >Đăng ký ngay</button>
+                            </div>
+                            <p className="small fw-bold mt-2 pt-1 mb-0">Bạn đã có tài khoản? <a href="/auth/login"
+                                className="link-danger">Đăng nhập ngay</a></p>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
+        </div >
     );
 };
 

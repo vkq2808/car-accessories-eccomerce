@@ -1,142 +1,82 @@
-import React, { useState } from "react";
-import { FaHome, FaUser, FaEnvelope, FaBars, FaSearch } from "react-icons/fa";
-import './Header.css'
+import React from 'react';
+import IconButton from './IconButton';
+import './Header.css';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-const Header = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [searchTerm, setSearchTerm] = useState("");
-    const [suggestions, setSuggestions] = useState([]);
+const Header = ({ setIsSideBarOpen }) => {
 
-    const dummySuggestions = [
-        "React",
-        "Tailwind CSS",
-        "JavaScript",
-        "Node.js",
-        "Express.js",
-    ];
+    const auth = useSelector(state => state.auth);
+    const nav = useNavigate();
 
-    const handleSearchChange = (e) => {
-        const value = e.target.value;
-        setSearchTerm(value);
-        if (value.length > 0) {
-            const filteredSuggestions = dummySuggestions.filter((item) =>
-                item.toLowerCase().includes(value.toLowerCase())
-            );
-            setSuggestions(filteredSuggestions);
-        } else {
-            setSuggestions([]);
-        }
+    const handleClick = () => {
+        console.log(auth);
+    };
+
+    const handleProfileClick = () => {
+        nav('/profile');
     };
 
     const handleSearch = () => {
-        console.log("Searching for:", searchTerm);
-        setSuggestions([]);
-    };
-
-    const handleKeyPress = (e) => {
-        if (e.key === "Enter") {
-            handleSearch();
-        }
+        console.log('Search clicked');
     };
 
     return (
-        <header className="bg-gradient-to-r from-blue-400 to-blue-500 p-4 shadow-md">
-            <div className="container mx-auto">
-                <div className="flex flex-col md:flex-row justify-between items-center">
-                    <div className="flex items-center space-x-4 md:mb-0">
-                        <div
-                            className="header-item flex items-center text-white cursor-pointer hover:text-blue-100 transition-colors duration-200"
-                            aria-label="Home"
-                            onClick={() => window.location.href = '/'}
-                        >
-                            <FaHome size={24} />
-                        </div>
-                        <div
-                            className="header-item flex items-center text-white cursor-pointer hover:text-blue-100 transition-colors duration-200"
-                            aria-label="Profile"
-                        >
-                            <FaUser size={23} />
-                        </div>
-                        <div
-                            className="header-item flex items-center text-white cursor-pointer hover:text-blue-100 transition-colors duration-200"
-                            aria-label="Messages"
-                        >
-                            <FaEnvelope size={24} />
-                        </div>
-                        <div className="relative">
-                            <div
-                                className="header-item flex items-center text-white cursor-pointer hover:text-blue-100 transition-colors duration-200"
-                                aria-label="Menu"
-                                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            >
-                                <FaBars size={24} />
-                            </div>
-                            {isMenuOpen && (
-                                <div className="absolute top-full left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-in-out">
-                                    <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                        <a
-                                            href="/profile/settings"
-                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                                            role="menuitem"
-                                        >
-                                            Account Settings
-                                        </a>
-                                        <a
-                                            href="/support"
-                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                                            role="menuitem"
-                                        >
-                                            Support
-                                        </a>
-                                        <a
-                                            href="/auth/logout"
-                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                                            role="menuitem"
-                                        >
-                                            Sign out
-                                        </a>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                    <div className="relative w-full md:w-64 justify-center">
-                        <input
-                            type="text"
-                            placeholder="Search..."
-                            className="w-full px-4 py-2 rounded-full bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                            value={searchTerm}
-                            onChange={handleSearchChange}
-                            onKeyPress={handleKeyPress}
-                            aria-label="Search"
+        <div className='flex flex-col w-[100%] border-none z-10 bg-white'>
+            <header className="PageHeader flex flex-col md:flex-row justify-between items-center border-b border-b-black">
+                <div className="HomeIcon flex m-2">
+                    <a href="/">
+                        <img
+                            className="w-[150px] md:w-[250px] lg:w-[250px]"
+                            src="https://file.hstatic.net/200000317829/file/logo-02_9e045ad7d96c45e0ade84fd8ff5e8ca2.png"
+                            alt="Home"
                         />
-                        <div
-                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-blue-500 transition-colors duration-200"
-                            onClick={handleSearch}
-                            aria-label="Perform search"
-                        >
-                            <FaSearch size={18} />
-                        </div>
-                        {suggestions.length > 0 && (
-                            <ul className="absolute z-10 w-full bg-white mt-1 rounded-md shadow-lg max-h-60 overflow-auto">
-                                {suggestions.map((suggestion, index) => (
-                                    <li
-                                        key={index}
-                                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                                        onClick={() => {
-                                            setSearchTerm(suggestion);
-                                            setSuggestions([]);
-                                        }}
-                                    >
-                                        {suggestion}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </div>
+                    </a>
+                </div>
+                <div className="search-bar lg:flex flex-row w-[40%] hidden justify-center">
+                    <input
+                        className="border border-black px-2 py-1 w-full md:w-[70%] lg:w-[80%] rounded-lg"
+                        type="text"
+                        placeholder="Search"
+                    />
+                    <button onClick={handleSearch} className="s-btn block border w-auto rounded-lg py-2 ml-[5%]">
+                        <IconButton iconClassName="fa-search" />
+                    </button>
+                </div>
+                <div className="flex flex-row justify-start space-x-4 mt-2 md:mt-0">
+                    {!auth?.token && <div>
+                        <a href='/auth/login'>
+                            <span>Đăng nhập</span>
+                        </a>
+                        /
+                        <a href='/auth/regist'>
+                            <span>Đăng ký</span>
+                        </a>
+                    </div>}
+                    {auth?.token && <IconButton iconClassName="fa-user" onClick={handleProfileClick} />}
+                    <IconButton iconClassName="fa-heart" onClick={handleClick} />
+                    <IconButton iconClassName="fa-shopping-cart" onClick={handleClick} />
+                    <IconButton iconClassName="fa-bars" onClick={() => setIsSideBarOpen(true)} />
+                </div>
+            </header>
+            <div className="nav-bar flex flex-row bg-black justify-between items-center p-2 px-4">
+                <div>Chào mừng đến với UTE Gara</div>
+                <div className="flex flex-row justify-center items-center space-x-4">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="/products">Products</a>
+                    </li>
+                    <li>
+                        <a href="/about">About</a>
+                    </li>
+                    <li>
+                        <a href="/contact">Contact</a>
+                    </li>
                 </div>
             </div>
-        </header>
+        </div>
     );
 };
 
