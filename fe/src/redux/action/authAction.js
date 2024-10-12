@@ -1,7 +1,7 @@
 import { postDataAPI, getDataAPI } from "../../utils/fetchData"
 import { GLOBALTYPES } from "./globalTypes";
 
-export const TYPES = {
+export const AUTH_ACTION_TYPES = {
     AUTH: "AUTH"
 }
 

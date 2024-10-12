@@ -27,7 +27,7 @@ const Header = ({ setIsSideBarOpen }) => {
                 <div className="HomeIcon flex m-2">
                     <a href="/">
                         <img
-                            className="w-[150px] md:w-[250px] lg:w-[250px]"
+                            className="home-icon w-[150px] md:w-[250px] lg:w-[250px]"
                             src="https://file.hstatic.net/200000317829/file/logo-02_9e045ad7d96c45e0ade84fd8ff5e8ca2.png"
                             alt="Home"
                         />

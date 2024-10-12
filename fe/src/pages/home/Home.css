@@ -41,19 +41,21 @@
 }
 
 .banner-card .banner-content,
-.cate-slider .cate-card {
+.cate-slider .cate-card,
+.product-card {
     position: relative;
     z-index: 0;
 }
 
 .banner-card .gradient-box,
-.cate-slider .gradient-box {
+.cate-slider .gradient-box,
+.product-card .gradient-box {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(45deg, rgba(255, 255, 255, 0.7), rgba(100, 100, 100, 0.7));
+    background: linear-gradient(45deg, rgba(220, 220, 220, 0.7), rgba(100, 100, 100, 0.7));
     background-size: 100% 100%;
     z-index: 1;
     transition: all 0.3s ease;
@@ -63,7 +65,8 @@
 }
 
 .banner-card:hover .gradient-box,
-.cate-card:hover .gradient-box {
+.cate-card:hover .gradient-box,
+.product-card:hover .gradient-box {
     animation: gradientMove 0.5s linear;
     /* Gradient bắt đầu di chuyển khi hover */
     opacity: 0.7;

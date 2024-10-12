@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import Header from '../../components/common/header/Header';
-import Headroom from 'react-headroom';
 import './Home.css';
-import CommonSideBar from '../../components/common/sideBar/CommonSideBar';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper';
-import Footer from '../../components/common/footer/Footer';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProducts } from '../../redux/action/productAction';
 
 const Home = () => {
     const [categorySelected, setCategorySelected] = useState(null);
@@ -17,7 +15,24 @@ const Home = () => {
     const [isHoveringPanel, setIsHoveringPanel] = useState(false);
     const [isSmallDevice, setIsSmallDevice] = React.useState(false);
     const [cateSwiperItemCount, setCateSwiperItemCount] = React.useState(4);
+    const [newProducts, setNewProducts] = useState([]);
+
+    const { products } = useSelector(state => state.products);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (!products || products.length === 0) {
+            dispatch(getProducts());
+        }
+
+        let newProductsUpdate = products
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // So sánh chính xác theo ngày
+            .slice(0, 4); // Lấy 4 sản phẩm mới nhất
+        setNewProducts(newProductsUpdate);
+
+    }, [products, dispatch]);
+
     const policies = [
         {
             imgSrc: "https://file.hstatic.net/200000265255/file/static-icons-3_bf2d3625ab414276a01c726228fd46c0.png",
@@ -50,16 +65,16 @@ const Home = () => {
                     products: [
                         {
                             name: "Màn Hình Android Owince C970 Pro",
-                            link: "/products/dau-dvd-android-owince-c970-pro",
+                            link: "/product/man-hinh-android-ownice-c970-pro",
                         }, {
                             name: "Màn Hình Android Xe Ô tô Winca",
-                            link: "https://lenguyenauto.com.vn/products/man-hinh-android-xe-o-to-winca"
+                            link: "/product/man-hinh-android-xe-o-to-winca"
                         }, {
                             name: "Màn Hình DVD Android Ô tô Kia Cerato",
-                            link: "https://lenguyenauto.com.vn/products/man-hinh-dvd-android-o-to-kia-cerato"
+                            link: "/product/man-hinh-dvd-android-o-to-kia-cerato"
                         }, {
                             name: "Màn Hình Androi Cho Xe Ô tô Toyota Fotuner",
-                            link: "https://lenguyenauto.com.vn/products/man-hinh-android-cho-xe-o-to-toyota-fortuner"
+                            link: "/product/man-hinh-android-cho-xe-o-to-toyota-fortuner"
                         }
                     ]
                 }, {
@@ -67,13 +82,13 @@ const Home = () => {
                     products: [
                         {
                             name: "Phim Cách Nhiệt Xe Ô tô 3M",
-                            link: "/products/phim-cach-nhiet-xe-o-to-3m"
+                            link: "/product/phim-cach-nhiet-xe-o-to-3m"
                         }, {
                             name: "Phim Cách Nhiệt Xe Ô tô Llumar",
-                            link: "/products/phim-cach-nhiet-xe-o-to-llumar"
+                            link: "/product/phim-cach-nhiet-xe-o-to-llumar"
                         }, {
                             name: "Phim Cách Nhiệt Xe Ô tô Vkool",
-                            link: "/products/phim-cach-nhiet-xe-o-to-vkool"
+                            link: "/product/phim-cach-nhiet-xe-o-to-vkool"
                         }
                     ]
                 }, {
@@ -81,13 +96,13 @@ const Home = () => {
                     products: [
                         {
                             name: "Bọc Ghế Da Xe Ô tô",
-                            link: "/products/boc-ghe-da-xe-o-to"
+                            link: "/product/boc-ghe-da-xe-o-to"
                         }, {
                             name: "Bọc Ghế Da Xe Ô tô Toyota",
-                            link: "/products/boc-ghe-da-xe-o-to-toyota"
+                            link: "/product/boc-ghe-da-xe-o-to-toyota"
                         }, {
                             name: "Bọc Ghế Da Xe Ô tô Honda",
-                            link: "/products/boc-ghe-da-xe-o-to-honda"
+                            link: "/product/boc-ghe-da-xe-o-to-honda"
                         }
                     ]
                 }, {
@@ -95,13 +110,13 @@ const Home = () => {
                     products: [
                         {
                             name: "Camera Hành Trình Ô tô Xiaomi",
-                            link: "/products/camera-hanh-trinh-o-to-xiaomi"
+                            link: "/product/camera-hanh-trinh-o-to-xiaomi"
                         }, {
                             name: "Camera Hành Trình Ô tô Vietmap",
-                            link: "/products/camera-hanh-trinh-o-to-vietmap"
+                            link: "/product/camera-hanh-trinh-o-to-vietmap"
                         }, {
                             name: "Camera Hành Trình Ô tô Junsun",
-                            link: "/products/camera-hanh-trinh-o-to-junsun"
+                            link: "/product/camera-hanh-trinh-o-to-junsun"
                         }
                     ]
                 }
@@ -118,7 +133,7 @@ const Home = () => {
                     products: [
                         {
                             name: "Nước Hoa Xe GRASSE",
-                            link: "/products/nuoc-hoa-xe-grasse"
+                            link: "/product/nuoc-hoa-xe-grasse"
                         }
                     ]
                 }, {
@@ -126,16 +141,16 @@ const Home = () => {
                     products: [
                         {
                             name: "Body Kits Toyota Fortuner",
-                            link: "/products/body-kits-toyota-fortuner"
+                            link: "/product/body-kits-toyota-fortuner"
                         }, {
                             name: "Body Kits Honda Civic",
-                            link: "/products/body-kits-honda-civic"
+                            link: "/product/body-kits-honda-civic"
                         }, {
                             name: "Body Kits Toyota Camry",
-                            link: "/products/body-kits-toyota-camry"
+                            link: "/product/body-kits-toyota-camry"
                         }, {
                             name: "Body Kits Xpander",
-                            link: "/products/body-kits-xpander"
+                            link: "/product/body-kits-xpander"
                         }
                     ]
                 }, {
@@ -143,7 +158,7 @@ const Home = () => {
                     products: [
                         {
                             name: "Cách Âm Xe Ô tô",
-                            link: "/products/cach-am-xe-o-to"
+                            link: "/product/cach-am-xe-o-to"
                         }
                     ]
                 }, {
@@ -153,10 +168,10 @@ const Home = () => {
                     products: [
                         {
                             name: "Cốp Điện Perfect Car",
-                            link: "/products/cop-dien-perfect-car"
+                            link: "/product/cop-dien-perfect-car"
                         }, {
                             name: "Độ Ty Cốp Điện Xe Ô Tô",
-                            link: "/products/do-ty-cop-dien-xe-o-to"
+                            link: "/product/do-ty-cop-dien-xe-o-to"
                         }
                     ]
                 }
@@ -167,6 +182,12 @@ const Home = () => {
             link: "/collections/man-hinh-android-oto",
             imgSrc: "https://file.hstatic.net/200000317829/file/1200x790-1_8168758d1def49fab8149a4bfdaad88d.png",
             iconSrc: "https://file.hstatic.net/200000265255/file/dkzffakympllkpnc-cyefc1u1qh0iy_6_c6ef4a3de3654b51a8f7c05aebca2021.png",
+            products: [
+                {
+                    name: "Màn hình Android Xe Ô tô Winca",
+                    link: "/product/man-hinh-android-xe-o-to-winca"
+                }
+            ]
         }, {
             id: 4,
             name: "Phim cách nhiệt Ô tô",
@@ -263,7 +284,7 @@ const Home = () => {
     }, [isHoveringCategory, isHoveringPanel]);
 
     const onCategoryMouseEnter = (cate) => {
-        if (cate.subCategories && cate.subCategories?.length > 0) {
+        if ((cate.subCategories && cate.subCategories?.length > 0) || (cate?.products && cate?.products?.length)) {
             setCategorySelected(cate);
             setIsHoveringCategory(true);
         }
@@ -306,7 +327,7 @@ const Home = () => {
                                         </span>
                                         <div className='category-name pl-2'>{cate.name}</div>
                                     </div>
-                                    {cate.subCategories && cate.subCategories.length > 0 && (
+                                    {((cate?.subCategories && cate?.subCategories?.length > 0) || (cate?.products && cate?.products?.length)) && (
                                         <i className='lni lni-chevron-right' />
                                     )}
                                 </div>
@@ -347,20 +368,38 @@ const Home = () => {
                             onMouseLeave={() => setIsHoveringPanel(false)}
                         >
                             {categorySelected && (
-                                categorySelected.subCategories?.map(subCate => (
-                                    <div key={subCate.name} className="sub-category flex flex-col items-start pl-3 pr-6">
-                                        <div className="sub-category-title w-full bg-slate-500 text-[--yellow-color] px-2 py-1">
-                                            {subCate.name}
-                                        </div>
-                                        <div className="sub-category-products flex flex-col items-start">
-                                            {subCate.products.map(product => (
-                                                <div key={product.name} className="w-full product-name px-2 py-1 bg-slate-300 cursor-pointer hover:bg-[#ffffff]">
-                                                    {product.name}
+                                ( // Render sub-categories or products
+                                    categorySelected.subCategories && (
+                                        categorySelected.subCategories?.map(
+                                            subCate => (
+                                                <div key={subCate.name} className="sub-category flex flex-col items-start pl-3 pr-6">
+                                                    <div className="sub-category-title w-full bg-slate-500 text-[--yellow-color] px-2 py-1">
+                                                        {subCate.name}
+                                                    </div>
+                                                    <div className="sub-category-products flex flex-col items-start">
+                                                        {subCate.products.map(product => (
+                                                            <div
+                                                                key={product.name}
+                                                                className="w-full product-name px-2 py-1 bg-slate-300 cursor-pointer hover:bg-[#ffffff]"
+                                                                onClick={() => handleNavigate(product.link)}>
+                                                                {product.name}
+                                                            </div>
+                                                        ))}
+                                                    </div>
                                                 </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                ))
+                                            )
+                                        )
+                                    )
+                                ) || (
+                                    categorySelected.products?.map(
+                                        product => (
+                                            <div key={product.name} className="w-full product-name px-2 py-1 bg-slate-300 cursor-pointer hover:bg-[#ffffff]"
+                                                onClick={() => handleNavigate(product.link)}>
+                                                {product.name}
+                                            </div>
+                                        )
+                                    )
+                                )
                             )}
                         </div>
                     </div>
@@ -392,8 +431,8 @@ const Home = () => {
                 </div>
                 {/* CATEGORIES AND SERVICES*/}
                 <div id="categories-and-services-container"
-                    className="flex flex-col width-full bg-white">
-                    <h2 className='underline-title m-2'>
+                    className="flex flex-col w-full bg-white">
+                    <h2 className='underline-title m-2 w-full'>
                         DANH MỤC SẢN PHẨM VÀ DỊCH VỤ
                     </h2>
                     <div className={`slider-container block max-w-[1300px] p-2 px-10`}>
@@ -427,7 +466,33 @@ const Home = () => {
                         </Swiper>
                     </div>
                 </div>
+                {/* SẢN PHẨM MỚI */}
+                <div className="w-full flex flex-col items-start justify-start">
+                    <h2 className='underline-title m-2 w-full'>
+                        SẢN PHẨM MỚI
+                    </h2>
+                    <div className="flex flex-row justify-between flex-wrap w-full p-2">
+                        {newProducts && newProducts.map(product => (
+                            <div key={product.id} className='product-card flex flex-col items-center'>
+                                <div className='product-name text-center text-lg font-semibold '
+                                >
+                                    {product.name}
+                                </div>
+                                <div className='w-full flex justify-center items-center content-center'>
+                                    <img
+                                        src={product.imageUrl}
+                                        alt={product.name}
+                                        className='w-auto h-full max-h-[152px] object-cover my-2 cursor-pointer'
+                                    />
+                                </div>
+                                <div className="gradient-box cursor-pointer"
+                                    onClick={() => handleNavigate(`/product/${product.path}`)} />
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
+
         </div>
     );
 }

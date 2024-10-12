@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import db from '../models/index';
 
 const salt = process.env.SALT;
-let createNewUser = async (data) => {
+export const createNewUser = async (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             let hashPasswordFromBcrypt = await hashUserPassword(data.password);
@@ -22,7 +22,7 @@ let createNewUser = async (data) => {
     });
 }
 
-let hashUserPassword = (password) => {
+export const hashUserPassword = (password) => {
     return new Promise(async (resolve, reject) => {
         try {
             let hashPassword = bcrypt.hashSync(password, salt);
@@ -33,7 +33,7 @@ let hashUserPassword = (password) => {
     });
 }
 
-let getAllUsers = () => {
+export const getAllUsers = () => {
     return new Promise(async (resolve, reject) => {
         try {
             let users = db.User.findAll({
@@ -46,7 +46,7 @@ let getAllUsers = () => {
     });
 }
 
-let getUserInfoById = (userId) => {
+export const getUserInfoById = (userId) => {
     return new Promise(async (resolve, reject) => {
         try {
             let user = await db.User.findOne({
@@ -64,7 +64,7 @@ let getUserInfoById = (userId) => {
     });
 }
 
-let updateUser = (data) => {
+export const updateUser = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             let user = await db.User.findOne({
@@ -86,7 +86,7 @@ let updateUser = (data) => {
     });
 }
 
-let deleteUser = (userId) => {
+export const deleteUser = (userId) => {
     return new Promise(async (resolve, reject) => {
         try {
             let user = await db.User.findOne({
@@ -102,7 +102,7 @@ let deleteUser = (userId) => {
     });
 }
 
-let getUserInfoByEmail = (userEmail) => {
+export const getUserInfoByEmail = (userEmail) => {
     return new Promise(async (resolve, reject) => {
         try {
             let user = await db.User.findOne({
@@ -120,7 +120,7 @@ let getUserInfoByEmail = (userEmail) => {
     });
 }
 
-let updateUserPassword = (data) => {
+export const updateUserPassword = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             let user = await db.User.findOne({
@@ -137,14 +137,4 @@ let updateUserPassword = (data) => {
             reject(e);
         }
     });
-}
-
-export default {
-    createNewUser: createNewUser,
-    getAllUsers: getAllUsers,
-    getUserInfoById: getUserInfoById,
-    updateUser: updateUser,
-    deleteUser: deleteUser,
-    getUserInfoByEmail: getUserInfoByEmail,
-    updateUserPassword: updateUserPassword
 }

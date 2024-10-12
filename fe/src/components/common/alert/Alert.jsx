@@ -13,7 +13,7 @@ const Alert = () => {
 
             {alert.error && (
                 <Toast
-                    msg={{ title: "Xảy ra lỗi!", body: alert.error }}
+                    msg={{ title: "Ôi không!", body: alert.error }}
                     handleShow={() => dispatch({ type: GLOBALTYPES.RESET_ALERT })}
                     icon="fa-solid fa-circle-xmark"
                     textColor="text-danger"

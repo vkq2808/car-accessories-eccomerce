@@ -8,7 +8,6 @@ import './UserProfile.css';
 const UserProfile = ({ isEditing = false }) => {
     const [isLoading, setIsLoading] = React.useState(false);
     const auth = useSelector(state => state.auth);
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [category, setCategory] = React.useState(1);
 
@@ -16,7 +15,7 @@ const UserProfile = ({ isEditing = false }) => {
         if (!auth?.user) {
             navigate('/auth/login');
         }
-    }, []);
+    }, [auth, navigate]);
 
     const user = auth.user;
 

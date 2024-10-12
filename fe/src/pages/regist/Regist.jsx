@@ -61,10 +61,6 @@ const Regist = () => {
         }
     }
 
-    const handleLoginSubmit = (e) => {
-        e.preventDefault();
-    };
-
     return (
         <div className='flex flex-col w-full h-auto items-center text-[#212529]'>
             <div className="body-box flex flex-row w-full justify-center items-center">

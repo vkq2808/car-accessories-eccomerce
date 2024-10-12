@@ -1,0 +1,9 @@
+.markdown {
+    padding: 20px;
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+    outline: none;
+    background-color: #f5f8fd;
+    color: #777;
+    overflow-y: auto;
+}

@@ -8,6 +8,8 @@ import authenticateToken from './middlewares/authenticateToken.js';
 import connectDB from './config/database.js';
 // route
 import authAPIRoute from './route/authRoute.js';
+import productRoute from './route/productRoute.js';
+
 
 require('dotenv').config();
 
@@ -29,12 +31,13 @@ const startServer = async () => {
         app.use(authenticateToken);
 
         // Đăng ký route
-        authAPIRoute(app); // Đăng ký route cho API đăng nhập
-
+        authAPIRoute(app);
+        productRoute(app);
 
         // Kết nối cơ sở dữ liệu
         connectDB();
 
+        // Khởi động server
         const port = process.env.PORT || 3001;
         app.listen(port, () => {
             console.log(`Backend Nodejs is running on port : ${port}`);

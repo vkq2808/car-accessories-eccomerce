@@ -3,11 +3,13 @@ import jwt from 'jsonwebtoken'; //gọi jwt
 
 const authenticateToken = (req, res, next) => {
     // Miễn xác thực cho các route cụ thể
-    const openRoutes = ['/auth'];
+    const openRoutes = ['/auth', '/product', '/category'];
 
     // Nếu là một trong các route miễn xác thực, bỏ qua middleware
-    if (req.path.includes(openRoutes)) {
+    if (openRoutes.some(route => req.path.includes(route))) {
         return next();
+    } else {
+        console.log("Path: ", req.path);
     }
 
     try {
@@ -19,6 +21,7 @@ const authenticateToken = (req, res, next) => {
         // Xác thực token
         jwt.verify(token, process.env.TOKEN_SERCET_KEY, (err, user) => {
             if (err) {
+                console.log(err);
                 return res.status(401).send({ msg: "Unauthorized" });
             }
 
