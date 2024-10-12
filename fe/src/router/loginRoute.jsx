@@ -6,6 +6,7 @@ import VerifyEmail from '../pages/regist/VerifyEmail';
 import Logout from '../pages/login/Logout';
 import EnterEmail from '../pages/resetPassword/EnterEmail';
 import EnterNewPassword from '../pages/resetPassword/EnterNewPassword';
+import HeaderWithCommonSideBar from '../components/common/header/HeaderWithCommonSideBar';
 
 const LoginRoute = () => {
     return (
