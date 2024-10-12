@@ -43,7 +43,6 @@ function App() {
                 <Routes>
                     <Route path='/auth/*' element={<LoginRoute />} />
                     <Route path='/product/*' element={<ProductRoute />} />
-                    <Route exact path='/' Component={Home} />
                     <Route path='/*' element={<HomeRoute />} />
                 </Routes>
                 <Footer />
