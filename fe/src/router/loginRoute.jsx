@@ -9,14 +9,17 @@ import EnterNewPassword from '../pages/resetPassword/EnterNewPassword';
 
 const LoginRoute = () => {
     return (
-        <Routes>
-            <Route path='login' element={<Login />} />
-            <Route path='regist' element={<Regist />} />
-            <Route path='verify-email/*' element={<VerifyEmail />} />
-            <Route path='logout' element={<Logout />} />
-            <Route path='forgot-password' element={<EnterEmail />} />
-            <Route path='reset-password/*' element={<EnterNewPassword />} />
-        </Routes>
+        <>
+            <HeaderWithCommonSideBar />
+            <Routes>
+                <Route path='login' element={<Login />} />
+                <Route path='regist' element={<Regist />} />
+                <Route path='verify-email/*' element={<VerifyEmail />} />
+                <Route path='logout' element={<Logout />} />
+                <Route path='forgot-password' element={<EnterEmail />} />
+                <Route path='reset-password/*' element={<EnterNewPassword />} />
+            </Routes>
+        </>
     )
 };
 
