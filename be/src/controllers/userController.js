@@ -1,13 +1,12 @@
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
-import userService from '../services/userService';
+import { getUserInfoById } from '../services/userService';
 
 const handleGetUserInfo = async (req, res) => {
 
     try {
         let decoded = jwt.verify(req.headers?.authorization?.split(' ')[1], process.env.ACCESS_TOKEN_SERCET_KEY); // Bearer *token*
 
-        let user = await userService.getUserInfoById(decoded?.id);
+        let user = await getUserInfoById(decoded?.id);
 
         if (!user) {
             console.log("User not found");
