@@ -8,7 +8,6 @@ const ProductRoute = () => {
     return (
         <>
             <HeaderWithCommonSideBar />
-
             <Routes>
                 <Route path='/*' element={<ProductDetail />} />
             </Routes>
