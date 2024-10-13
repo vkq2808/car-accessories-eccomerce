@@ -15,11 +15,15 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false
             },
-            password: {
+            hashed_password: {
                 type: Sequelize.STRING,
                 allowNull: false
             },
-            name: {
+            firstName: {
+                type: Sequelize.STRING,
+                allowNull: false
+            },
+            lastName: {
                 type: Sequelize.STRING,
                 allowNull: false
             },
@@ -33,7 +37,7 @@ module.exports = {
                 type: Sequelize.STRING
             },
             role: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.STRING,
                 allowNull: false
             },
             imageUrl: {

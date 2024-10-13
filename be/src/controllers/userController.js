@@ -13,7 +13,7 @@ const handleGetUserInfo = async (req, res) => {
             return res.status(204).send("User not found");
         }
 
-        console.log("Get user info successfully", user);
+        console.log("Get user info successfully");
         return res.status(200).send({ msg: "Get user info successfully", user: user });
     } catch (error) {
         return res.status(401).send("jwt expired");

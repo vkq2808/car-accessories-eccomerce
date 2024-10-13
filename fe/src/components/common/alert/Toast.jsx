@@ -4,7 +4,7 @@ const Toast = ({ msg, handleShow, icon, textColor }) => {
     useEffect(() => {
         const timeout = setTimeout(() => {
             handleShow()
-        }, 200000)
+        }, 2000)
         return () => clearTimeout(timeout)
     }, [handleShow])
     return (

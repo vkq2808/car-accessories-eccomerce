@@ -9,9 +9,6 @@ const USER_ROLE = "USER";
 const handleLogin = async (req, res) => {
     let { email, password } = req.body;
 
-    console.log("Email: ", email);
-    console.log("Password: ", password);
-
     if (!email || !password) {
         console.log("Email and Password are required");
         return res.status(208).send("Email and Password are required");
@@ -42,7 +39,7 @@ const handleLogin = async (req, res) => {
 
 const handleRegister = async (req, res) => {
 
-    let { email, password, name, gender, birth } = req.body;
+    let { email, password, firstName, lastName, gender, birth } = req.body;
     if (!email || !email) {
         console.log("Email and Password are required");
         return res.status(207).send({ msg: "Email và mật khẩu là bắt buộc" });
@@ -56,7 +53,7 @@ const handleRegister = async (req, res) => {
         console.log('Email hợp lệ để đăng ký.');
     }
 
-    const token = jwt.sign({ email, password, name: name.trim(), gender, birth, role: USER_ROLE }, process.env.REGISTER_SECRET_KEY, { expiresIn: '20m' });
+    const token = jwt.sign({ email, password, firstName: firstName.trim(), lastName: lastName.trim(), gender, birth, role: USER_ROLE }, process.env.REGISTER_SECRET_KEY, { expiresIn: '20m' });
 
     const registerLink = `${process.env.CLIENT_URL}/auth/verify-email/${token}`;
 
@@ -90,7 +87,8 @@ const handleVerifyEmail = async (req, res) => {
             let newUser = await createNewUser({
                 email: decoded.email,
                 password: decoded.password,
-                name: decoded.name,
+                firstName: decoded.firstName,
+                lastName: decoded.lastName,
                 gender: decoded.gender,
                 birth: decoded.birth,
                 role: decoded.role

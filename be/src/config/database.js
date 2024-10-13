@@ -4,7 +4,7 @@ const sequelize = new Sequelize(process.env.DB_NAME || 'db', process.env.DB_USER
     host: 'localhost',
     dialect: 'mysql',
     port: process.env.DB_PORT || 3306,
-    logging: false,
+    logging: false
 });
 
 let connectDB = async () => {

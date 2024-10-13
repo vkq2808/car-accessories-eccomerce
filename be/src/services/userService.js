@@ -8,8 +8,9 @@ export const createNewUser = async (data) => {
             let hashPasswordFromBcrypt = await hashUserPassword(data.password);
             await db.User.create({
                 email: data.email,
-                password: hashPasswordFromBcrypt,
-                name: data.name,
+                hashed_password: hashPasswordFromBcrypt,
+                firstName: data.firstName,
+                lastName: data.lastName,
                 gender: data.gender,
                 birth: data.birth,
                 role: data.role
