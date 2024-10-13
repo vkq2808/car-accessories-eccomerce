@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import userService from "../services/userService";
+import { getUserInfoByEmail, updateUserPassword, createNewUser } from "../services/userService";
 
 import sendEmail from "../utils/sendEmail";
 
@@ -18,7 +18,7 @@ const handleLogin = async (req, res) => {
     }
 
     try {
-        const userLogin = await userService.getUserInfoByEmail(email);
+        const userLogin = await getUserInfoByEmail(email);
 
         if (userLogin) {
             let isPasswordCorrect = await bcrypt.compare(password, userLogin.hashed_password);
@@ -48,7 +48,7 @@ const handleRegister = async (req, res) => {
         return res.status(207).send({ msg: "Email và mật khẩu là bắt buộc" });
     }
 
-    let checkUserExist = await userService.getUserInfoByEmail(email);
+    let checkUserExist = await getUserInfoByEmail(email);
     if (checkUserExist) {
         console.log("User already exists");
         return res.status(207).send({ msg: "Email đã tồn tại" });
@@ -81,13 +81,13 @@ const handleVerifyEmail = async (req, res) => {
     try {
         const decoded = jwt.verify(token, process.env.REGISTER_SECRET_KEY);
         if (decoded) {
-            let checkUserVerified = await userService.getUserInfoByEmail(decoded.email);
+            let checkUserVerified = await getUserInfoByEmail(decoded.email);
             if (checkUserVerified) {
                 console.log("Email already verified");
                 return res.status(209).json({ msg: "Email already verified" });
             }
 
-            let newUser = await userService.createNewUser({
+            let newUser = await createNewUser({
                 email: decoded.email,
                 password: decoded.password,
                 name: decoded.name,
@@ -109,7 +109,7 @@ const handleEnterEmailForResetingPassword = async (req, res) => {
         return res.status(209).json({ msg: "Email is required" });
     }
 
-    let user = userService.getUserInfoByEmail(email);
+    let user = getUserInfoByEmail(email);
     if (!user) {
         return res.status(207).json({ msg: "Email not found" });
     }
@@ -139,12 +139,12 @@ const handleResetPassword = async (req, res) => {
     try {
         const decoded = jwt.verify(token, process.env.RESET_PASSWORD_SECRET_KEY);
         if (decoded) {
-            let user = userService.getUserInfoByEmail(decoded.email);
+            let user = getUserInfoByEmail(decoded.email);
             if (!user) {
                 return res.status(207).json({ msg: "Email not found" });
             }
 
-            let updateUser = userService.updateUserPassword({ email: decoded.email, password });
+            let updateUser = updateUserPassword({ email: decoded.email, password });
             return res.status(200).json({ msg: "Password changed successfully", user: updateUser });
         }
     } catch (error) {
@@ -162,7 +162,7 @@ let handleRefreshToken = async (req, res) => {
     try {
         const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SERCET_KEY);
         if (decoded) {
-            let user = await userService.getUserInfoByEmail(decoded.email);
+            let user = await getUserInfoByEmail(decoded.email);
             if (!user) {
                 return res.status(207).json({ msg: "User not found" });
             }
