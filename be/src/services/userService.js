@@ -6,12 +6,12 @@ export const createNewUser = async (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             let hashPasswordFromBcrypt = await hashUserPassword(data.password);
-            await db.User.create({
+            await db.user.create({
                 email: data.email,
                 hashed_password: hashPasswordFromBcrypt,
                 firstName: data.firstName,
                 lastName: data.lastName,
-                gender: data.gender,
+                phone: data.phone,
                 birth: data.birth,
                 role: data.role
             });
@@ -23,7 +23,7 @@ export const createNewUser = async (data) => {
     });
 }
 
-export const hashUserPassword = (password) => {
+const hashUserPassword = (password) => {
     return new Promise(async (resolve, reject) => {
         try {
             let hashPassword = bcrypt.hashSync(password, salt);
@@ -37,9 +37,7 @@ export const hashUserPassword = (password) => {
 export const getAllUsers = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let users = db.User.findAll({
-                raw: true,
-            });
+            let users = db.user.findAll();
             resolve(users);
         } catch (e) {
             reject(e);
@@ -50,9 +48,8 @@ export const getAllUsers = () => {
 export const getUserInfoById = (userId) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let user = await db.User.findOne({
+            let user = await db.user.findOne({
                 where: { id: userId },
-                raw: true,
             });
             if (user) {
                 resolve(user);
@@ -68,7 +65,7 @@ export const getUserInfoById = (userId) => {
 export const updateUser = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let user = await db.User.findOne({
+            let user = await db.user.findOne({
                 where: { id: data.id },
             });
             if (user) {
@@ -76,7 +73,7 @@ export const updateUser = (data) => {
                 user.lastName = data.lastName;
                 user.address = data.address;
                 await user.save();
-                let allusers = await db.User.findAll();
+                let allusers = await db.user.findAll();
                 resolve(allusers);
             } else {
                 resolve();
@@ -90,7 +87,7 @@ export const updateUser = (data) => {
 export const deleteUser = (userId) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let user = await db.User.findOne({
+            let user = await db.user.findOne({
                 where: { id: userId },
             });
             if (user) {
@@ -106,9 +103,8 @@ export const deleteUser = (userId) => {
 export const getUserInfoByEmail = (userEmail) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let user = await db.User.findOne({
+            let user = await db.user.findOne({
                 where: { email: userEmail },
-                raw: true,
             });
             if (user) {
                 resolve(user);
@@ -124,7 +120,7 @@ export const getUserInfoByEmail = (userEmail) => {
 export const updateUserPassword = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let user = await db.User.findOne({
+            let user = await db.user.findOne({
                 where: { email: data.email },
             });
             if (user) {

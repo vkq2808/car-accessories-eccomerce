@@ -12,6 +12,7 @@ export const login = (data) => async (dispatch) => {
         dispatch({ type: GLOBALTYPES.LOADING, payload: true })
 
         const res = await postDataAPI("auth/login", data)
+
         if (res.data.msg === "Login success") {
 
             dispatch({
@@ -26,7 +27,7 @@ export const login = (data) => async (dispatch) => {
 
             dispatch({ type: GLOBALTYPES.LOADING, payload: false })
 
-            localStorage.setItem("firstLogin", true)
+            localStorage.setItem("isLoggedIn", true)
             localStorage.setItem("accessToken", "Bearer " + res.data.accessToken)
             localStorage.setItem("refreshToken", "Bearer " + res.data.refreshToken)
 
@@ -88,7 +89,7 @@ export const verifyEmail = ({ token, setIsLoading, setResult }) => async (dispat
 
 export const logout = () => async (dispatch) => {
     try {
-        localStorage.removeItem("firstLogin")
+        localStorage.removeItem("isLoggedIn")
         localStorage.removeItem("accessToken")
         localStorage.removeItem("refreshToken")
         window.location.href = "/"
@@ -101,9 +102,9 @@ export const logout = () => async (dispatch) => {
 }
 export const getUserInfo = () => async (dispatch) => {
 
-    const firstLogin = localStorage.getItem("firstLogin")
+    const isLoggedIn = localStorage.getItem("isLoggedIn")
 
-    if (firstLogin) {
+    if (isLoggedIn) {
         const accessToken = localStorage.getItem("accessToken")
         try {
             const res = await postDataAPI("auth/get-user-info", null, accessToken)

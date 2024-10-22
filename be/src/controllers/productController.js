@@ -16,7 +16,7 @@ export const handleGetProductDetail = async (req, res) => {
     }
 }
 
-export const handleGetProducts = async (req, res) => {
+export const handleGetAllProducts = async (req, res) => {
     try {
         let products = await getAllProducts();
 

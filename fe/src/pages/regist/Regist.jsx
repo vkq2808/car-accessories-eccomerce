@@ -97,7 +97,7 @@ const Regist = () => {
                                 {errors.lastName && <small style={{ fontWeight: "bold" }} className="text-danger">{errors.lastName}</small>}
                             </div>
                         </div>
-                        <div className="first-col flex flex-col w-[45%]">
+                        <div className="second-col flex flex-col w-[45%]">
                             <div className="form-outline mb-4">
                                 <label className="form-label" htmlFor="InputPhone" style={{ fontWeight: "bold", color: "#2F56A6" }}>Số điện thoại</label>
                                 <input type="text" id="InputPhone" onChange={handleChangeInput} value={phone} name="phone" className="form-control form-control-lg"

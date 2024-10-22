@@ -8,7 +8,6 @@ export const PRODUCT_ACTION_TYPES = {
 
 export const getProducts = () => async (dispatch) => {
     try {
-        console.log("test")
         const res = await getDataAPI("product")
         if (res.status !== 200) {
             dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: res.data.msg } })

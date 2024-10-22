@@ -1,13 +1,16 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom'
-import UserProfile from '../pages/profile/UserProfile';
-import HeaderWithCommonSideBar from '../components/common/header/HeaderWithCommonSideBar';
-import Home from '../pages/home/Home';
+import { HeaderWithSideBar } from '../components/common'
+import { Home, UserProfile } from '../pages'
+import { useSelector } from 'react-redux';
 
 const HomeRoute = () => {
+
+    const auth = useSelector(state => state.auth);
+
     return (
         <>
-            <HeaderWithCommonSideBar />
+            <HeaderWithSideBar user={auth?.user} />
             <Routes>
                 <Route path='' element={<Home />} />
                 <Route path='profile' element={<UserProfile />} />

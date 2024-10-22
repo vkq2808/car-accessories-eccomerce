@@ -1,6 +1,4 @@
-# app
-app/
-
+src/config/config.json
 # Logs
 logs
 *.log
@@ -38,11 +36,11 @@ bower_components
 # node-waf configuration
 .lock-wscript
 
+# Compiled binary addons (https://nodejs.org/api/addons.html)
+build/Release
+
 # Dependency directories
 node_modules/
-be/node_modules/
-fe/node_modules/
-fe/build/
 jspm_packages/
 
 # Snowpack dependency directory (https://snowpack.dev/)
@@ -131,5 +129,3 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-# config
-be/src/config/config.js

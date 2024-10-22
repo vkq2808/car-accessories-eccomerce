@@ -4,9 +4,9 @@ import db from '../models/index';
 export const getProductDetailByPath = (path) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let product = await db.Product.findOne({
+            let product = await db.product.findOne({
                 where: { path: path },
-                raw: true,
+                include: [db.category]
             });
             if (product) {
                 resolve(product);
@@ -22,9 +22,16 @@ export const getProductDetailByPath = (path) => {
 export const getAllProducts = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let products = await db.Product.findAll({
-                raw: true,
+            let products = await db.product.findAll({
+                include: [{
+                    model: db.category
+                }],
             });
+            if (products) {
+                resolve(products);
+            } else {
+                resolve(null);
+            }
             if (products) {
                 resolve(products);
             } else {

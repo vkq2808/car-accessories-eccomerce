@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { getUserInfoById } from '../services/userService';
 
-const handleGetUserInfo = async (req, res) => {
+export const handleGetUserInfo = async (req, res) => {
 
     try {
         let decoded = jwt.verify(req.headers?.authorization?.split(' ')[1], process.env.ACCESS_TOKEN_SERCET_KEY); // Bearer *token*
@@ -18,8 +18,4 @@ const handleGetUserInfo = async (req, res) => {
     } catch (error) {
         return res.status(401).send("jwt expired");
     }
-}
-
-export default {
-    handleGetUserInfo
 }

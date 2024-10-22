@@ -38,7 +38,7 @@ function App() {
         <Router>
             {/* <SocketClient>*/}
             <Alert />
-            <div className='main'>
+            <div className='main w-full flex flex-col items-center justify-center'>
                 <Routes>
                     <Route path='/auth/*' element={<LoginRoute />} />
                     <Route path='/product/*' element={<ProductRoute />} />

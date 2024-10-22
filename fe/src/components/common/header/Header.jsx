@@ -1,16 +1,15 @@
 import React from 'react';
-import IconButton from './IconButton';
+import IconButton from '../button/IconButton';
 import './Header.css';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
+import Cart from '../../customer/cart/Cart';
 const Header = ({ setIsSideBarOpen }) => {
 
     const auth = useSelector(state => state.auth);
     const nav = useNavigate();
 
     const handleClick = () => {
-        console.log(auth);
     };
 
     const handleProfileClick = () => {
@@ -21,15 +20,17 @@ const Header = ({ setIsSideBarOpen }) => {
         console.log('Search clicked');
     };
 
+
+
     return (
-        <div className='flex flex-col w-[100%] border-none z-10 bg-white'>
+        <div className='flex flex-col w-[100vw] md:w-[80vw] border-none z-10 bg-white md:py-0'>
             <header className="PageHeader flex flex-col md:flex-row justify-between items-center border-b border-b-black">
                 <div className="HomeIcon flex m-2">
                     <img
                         className="home-icon w-[150px] md:w-[250px] lg:w-[250px] cursor-pointer"
                         src="https://file.hstatic.net/200000317829/file/logo-02_9e045ad7d96c45e0ade84fd8ff5e8ca2.png"
                         alt="Home"
-                        onClick={() => nav('/')}
+                        onClick={() => { nav('/'); }}
                     />
                 </div>
                 <div className="search-bar lg:flex flex-row w-[40%] hidden justify-center">
@@ -54,7 +55,7 @@ const Header = ({ setIsSideBarOpen }) => {
                     </div>}
                     {auth?.token && <IconButton iconClassName="fa-user" onClick={handleProfileClick} />}
                     <IconButton iconClassName="fa-heart" onClick={handleClick} />
-                    <IconButton iconClassName="fa-shopping-cart" onClick={handleClick} />
+                    <Cart />
                     <IconButton iconClassName="fa-bars" onClick={() => setIsSideBarOpen(true)} />
                 </div>
             </header>

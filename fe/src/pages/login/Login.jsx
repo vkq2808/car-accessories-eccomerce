@@ -48,7 +48,13 @@ const Login = () => {
     }
 
     React.useEffect(() => {
-        if (auth.token) navigate("/")
+        if (auth.token)
+            navigate("/")
+        else {
+            localStorage.removeItem("isLoggedIn")
+            localStorage.removeItem("accessToken")
+            localStorage.removeItem("refreshToken")
+        }
     }, [auth.token, navigate])
 
 
@@ -80,6 +86,9 @@ const Login = () => {
                             </div>
                             <p className="small fw-bold mt-2 pt-1 mb-0">Bạn chưa có tài khoản? <a href="/auth/regist"
                                 className="link-danger">Đăng ký ngay</a></p>
+
+                            <p className="small fw-bold mt-2 pt-1 mb-0">Quên mật khẩu? <a href="/auth/forgot-password"
+                                className="link-danger">Tại đây</a></p>
                         </div>
                     </form>
                 </div>
