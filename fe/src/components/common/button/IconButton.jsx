@@ -1,6 +1,5 @@
 import React from "react";
 import '@fortawesome/fontawesome-free/css/all.min.css';
-<<<<<<< HEAD
 
 const ICON_BUTTON_TAILWIND_CSS = "flex cursor-pointer border-none bg-transparent hover:text-[#002fff] px-2 items-center justify-center";
 
@@ -33,14 +32,6 @@ const IconButton = ({ className, iconClassName, onClick, status, size = 20 }) =>
     return (
         <div onClick={onClick} className={`${ICON_BUTTON_TAILWIND_CSS} ${className}`}>
             <i className={`text-inherit text-[${size}px] ${iconClassName}`} />
-=======
-import './IconButton.css';
-
-const IconButton = ({ iconClassName, onClick }) => {
-    return (
-        <div onClick={onClick} className="icon-button">
-            <i className={"fas " + iconClassName}></i> {/* Thẻ <i> cho icon */}
->>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
         </div>
     );
 }

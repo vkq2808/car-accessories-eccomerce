@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-<<<<<<< HEAD
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import './Header.css';
@@ -8,16 +7,6 @@ import { formatNumberWithCommas } from '../../../utils/stringProcess';
 import { getCategories } from '../../../redux/actions/categoryActions';
 import { getProducts } from '../../../redux/actions/productActions';
 import Following from './following/Following';
-=======
-import IconButton from '../button/IconButton';
-import './Header.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import Cart from '../../customer/cart/Cart';
-import { formatNumberWithCommas } from '../../../utils/stringProcess';
-import { getCategories } from '../../../redux/actions/categoryActions';
-import { getProducts } from '../../../redux/actions/productActions';
->>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
 const Header = ({ setIsSideBarOpen }) => {
 
     const auth = useSelector(state => state.auth);
@@ -28,12 +17,6 @@ const Header = ({ setIsSideBarOpen }) => {
     const [searchTerm, setSearchTerm] = React.useState('');
     const [searchResults, setSearchResults] = React.useState([]);
     const [categoryId, setCategoryId] = React.useState(-1);
-<<<<<<< HEAD
-=======
-
-    const handleClick = () => {
-    };
->>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
 
     const handleProfileClick = () => {
         nav('/profile');
@@ -66,26 +49,15 @@ const Header = ({ setIsSideBarOpen }) => {
 
     useEffect(() => {
         if (searchTerm !== '') {
-<<<<<<< HEAD
             let searchProducts = Array.from(products);
             // Lọc sản phẩm dựa trên searchTerm
             const filterByCategoryResults = searchProducts.filter(product =>
                 product.path.toLowerCase().includes(searchTerm.toLowerCase())
-=======
-
-            // Lọc sản phẩm dựa trên searchTerm
-            const filterByCategoryResults = products.filter(product =>
-                product.name.toLowerCase().includes(searchTerm.toLowerCase())
->>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
             );
 
             // Lọc tiếp theo categoryId nếu categoryId không phải là -1
             const results = filterByCategoryResults.filter(product =>
-<<<<<<< HEAD
                 product.categoryId === parseInt(categoryId) || parseInt(categoryId) === -1
-=======
-                product.categoryId === parseInt(categoryId) || categoryId === -1
->>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
             );
 
             setSearchResults(results);
@@ -120,13 +92,8 @@ const Header = ({ setIsSideBarOpen }) => {
                         onClick={() => { nav('/'); }}
                     />
                 </div>
-<<<<<<< HEAD
                 <div className="search-bar flex-row w-[40%] flex justify-center ">
                     <select className="border px-2 py-1 w-[100px] "
-=======
-                <div className="search-bar flex-row w-[40%] flex justify-center">
-                    <select className="border-l border-t border-b border-black px-2 py-1 w-[100px] "
->>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
                         onChange={(e) => onFilterCategoryChange(e)}
                         value={categoryId}
                     >
@@ -139,11 +106,7 @@ const Header = ({ setIsSideBarOpen }) => {
                         ))}
                     </select>
                     <input
-<<<<<<< HEAD
                         className="border px-2 py-1 w-full md:w-[70%] lg:w-[80%]"
-=======
-                        className="border border-black px-2 py-1 w-full md:w-[70%] lg:w-[80%]"
->>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
                         type="text"
                         placeholder="Search"
                         value={searchTerm}
@@ -152,13 +115,10 @@ const Header = ({ setIsSideBarOpen }) => {
                     />
                     {searchResults.length > 0 &&
                         <div className="search-result absolute bg-white border border-black w-[500px] top-[78px]">
-<<<<<<< HEAD
                             <div className="flex justify-between">
                                 <h6 className="text-center">Kết quả tìm kiếm:</h6>
                                 <h6>{searchResults.length} sản phẩm được tìm thấy</h6>
                             </div>
-=======
->>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
                             {searchResults.slice(0, 5).map(product => (
                                 <div key={product.id}
                                     className="search-item p-2 border-b border-black"
@@ -183,12 +143,8 @@ const Header = ({ setIsSideBarOpen }) => {
                         </div>
                     }
                     <button onClick={handleSearch} className="s-btn block border w-auto py-2">
-<<<<<<< HEAD
                         <IconButton iconClassName="fas fa-search"
                             className={"h-auto p-[0px] m-[0px]"} />
-=======
-                        <IconButton iconClassName="fa-search" />
->>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
                     </button>
                 </div>
                 <div className="flex flex-row justify-start space-x-4 mt-2 md:mt-0">
@@ -201,7 +157,6 @@ const Header = ({ setIsSideBarOpen }) => {
                             <span className='underline text-[blue] cursor-pointer'>Đăng ký</span>
                         </div>
                     </div>}
-<<<<<<< HEAD
                     {auth?.token && <IconButton iconClassName="fas fa-user" onClick={handleProfileClick} />}
                     <Following />
                     <Cart />
@@ -210,15 +165,6 @@ const Header = ({ setIsSideBarOpen }) => {
             </header >
             <div className="nav-bar flex flex-row bg-black justify-between 
             items-center pl-8 text-[var(--yellow-color)]">
-=======
-                    {auth?.token && <IconButton iconClassName="fa-user" onClick={handleProfileClick} />}
-                    <IconButton iconClassName="fa-heart" onClick={handleClick} />
-                    <Cart />
-                    <IconButton iconClassName="fa-bars" onClick={() => setIsSideBarOpen(true)} />
-                </div>
-            </header >
-            <div className="nav-bar flex flex-row bg-black justify-between items-center p-2 px-4">
->>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
                 <div>Chào mừng đến với UTE Gara</div>
                 <div className="flex flex-row justify-center items-center space-x-4">
                     <li className='list-none'>

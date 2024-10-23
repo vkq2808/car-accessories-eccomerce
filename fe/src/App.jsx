@@ -20,21 +20,14 @@ import { getCategories } from './redux/actions/categoryActions.js';
 function App() {
 
     const auth = useSelector(state => state.auth);
-<<<<<<< HEAD
     const cart = useSelector(state => state.cart);
     const following = useSelector(state => state.product.following);
-=======
->>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getCategories());
     }, [dispatch, auth]);
-<<<<<<< HEAD
-=======
-
->>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
 
     useEffect(() => {
         if (!auth.token) {

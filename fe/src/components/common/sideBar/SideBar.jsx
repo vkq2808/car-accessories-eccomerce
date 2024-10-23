@@ -1,11 +1,6 @@
 import React from "react";
 import './SideBar.css'
-<<<<<<< HEAD
 import { IconButton, SideBarItem } from "..";
-=======
-import IconButton from "../button/IconButton";
-import { SideBarItem } from "..";
->>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
 import { useNavigate } from "react-router-dom";
 
 const SideBar = ({ setIsSideBarOpen, user }) => {
