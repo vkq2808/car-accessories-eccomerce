@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { regist } from '../../redux/action/authAction';
+import { regist } from '../../redux/actions/authActions';
 
 import './Regist.css';
 

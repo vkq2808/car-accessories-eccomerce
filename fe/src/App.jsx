@@ -1,6 +1,6 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 
 // import Login from './pages/Login';
@@ -11,21 +11,21 @@ import Alert from './components/common/alert/Alert';
 import Footer from './components/common/footer/Footer.jsx';
 
 // import SocketClient from './SocketClient'
-import { getUserInfo } from './redux/action/authAction'
+import { getUserInfo } from './redux/actions/authActions'
 import HomeRoute from './router/homeRoute.jsx';
 import ProductRoute from './router/productRoute.jsx';
+import { getCategories } from './redux/actions/categoryActions.js';
 // import { getCodeExerCises, getQueueCodeExercises } from './redux/action/codeExerciseAction'
 
 function App() {
 
+    const auth = useSelector(state => state.auth);
     const [isLoading, setIsLoading] = useState(false);
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getUserInfo()).then(() => {
-            setIsLoading(false)
-        })
-    }, [dispatch])
+        dispatch(getCategories());
+    }, [dispatch, auth]);
 
 
 

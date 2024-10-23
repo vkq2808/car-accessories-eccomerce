@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { resetPassword } from '../../redux/action/authAction';
+import { resetPassword } from '../../redux/actions/authActions';
 
 
 const EnterEmail = () => {

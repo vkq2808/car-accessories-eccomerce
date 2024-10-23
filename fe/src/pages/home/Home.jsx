@@ -7,7 +7,7 @@ import 'swiper/css/pagination';
 import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProducts } from '../../redux/action/productAction';
+import { getProducts } from '../../redux/actions/productActions';
 import Helmet from 'react-helmet';
 
 const Home = () => {
@@ -19,7 +19,7 @@ const Home = () => {
     const [newProducts, setNewProducts] = useState([]);
     const [deviceWidth, setDeviceWidth] = useState(window.innerWidth);
 
-    const { products } = useSelector(state => state.products);
+    const products = useSelector(state => state.product.list);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 

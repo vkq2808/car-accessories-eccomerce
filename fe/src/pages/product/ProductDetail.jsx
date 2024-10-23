@@ -3,8 +3,8 @@ import Loading from "../../components/common/alert/Loading";
 import { getDataAPI } from "../../utils/fetchData";
 import ReactMarkdown from 'react-markdown';
 import { useDispatch, useSelector } from "react-redux";
-import { GLOBALTYPES } from "../../redux/action/globalTypes";
-import { addProductToCart, CART_ACTION_TYPES } from "../../redux/action/cartAction";
+import { GLOBALTYPES } from "../../redux/actions/globalTypes";
+import { addProductToCart, CART_ACTION_TYPES } from "../../redux/actions/cartActions";
 import { formatNumberWithCommas } from "../../utils/stringProcess";
 
 const ProductDetail = () => {
@@ -107,9 +107,9 @@ const ProductDetail = () => {
                 (isLoading && <Loading />) ||
                 (product &&
                     (<div className="flex w-full md:w-[80%]">
-                        <div className="flex flex-col">
-                            <div className="flex flex-col w-full py-4 md:flex-row">
-                                <img className="w-full md:w-[50%] p-2" src={product.imageUrl} alt={product.name} />
+                        <div className="flex flex-col w-full">
+                            <div className="flex flex-col w-full py-4 md:flex-row justify-between">
+                                <img className="w-full md:w-[40%] md:max-h-[300px] object-contain p-2" src={product.imageUrl} alt={product.name} />
                                 <div className="flex flex-col p-2">
                                     <h2 className="select-all">{product.name}</h2>
                                     <h4 className="text-[#a50a08]">{formatNumberWithCommas(product.price)} {product.currency}</h4>

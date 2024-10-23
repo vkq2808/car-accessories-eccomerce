@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { CART_ACTION_TYPES, getCart, updateCart } from '../../../redux/action/cartAction';
+import { getCart, updateCart } from '../../../redux/actions/cartActions';
 import { formatNumberWithCommas } from '../../../utils/stringProcess';
 import { useNavigate } from 'react-router-dom';
 
@@ -107,7 +107,7 @@ const Cart = () => {
 
                                         </td>
                                         <td className="pl-8 text-center cursor-pointer"
-                                            onClick={() => nav(item.product.path)}>
+                                            onClick={() => nav('/product/' + item.product.path)}>
                                             {item.product.name}
                                         </td>
                                         <td className="pl-8 text-center select-none">

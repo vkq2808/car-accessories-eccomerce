@@ -7,6 +7,8 @@ const authenticateToken = (req, res, next) => {
     // Miễn xác thực cho các route cụ thể
     const openRoutes = ['/auth', '/product', '/category'];
 
+    console.log(req.path);
+
     // Nếu là một trong các route miễn xác thực, bỏ qua middleware
     if (openRoutes.some(route => req.path.includes('/api/v1' + route))) {
         return next();

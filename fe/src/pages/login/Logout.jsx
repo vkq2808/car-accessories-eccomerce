@@ -1,7 +1,7 @@
 import React from "react";
 import Loading from "../../components/common/alert/Loading";
 import { useDispatch } from "react-redux";
-import { logout } from "../../redux/action/authAction";
+import { logout } from "../../redux/actions/authActions";
 
 const Logout = () => {
     const [isLoading, setIsLoading] = React.useState(true);

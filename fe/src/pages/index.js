@@ -7,6 +7,7 @@ import VerifyEmail from './regist/VerifyEmail';
 import EnterEmail from './resetPassword/EnterEmail';
 import EnterNewPassword from './resetPassword/EnterNewPassword';
 import ProductDetail from './product/ProductDetail';
+import SearchPage from './search/SearchPage';
 
 export {
     Regist,
@@ -17,5 +18,6 @@ export {
     VerifyEmail,
     EnterEmail,
     EnterNewPassword,
-    ProductDetail
+    ProductDetail,
+    SearchPage
 }

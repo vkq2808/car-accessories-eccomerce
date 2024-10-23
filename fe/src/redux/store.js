@@ -1,30 +1,39 @@
-import { legacy_createStore as createStore, applyMiddleware } from 'redux'
-import { Provider } from 'react-redux'
-import { thunk } from "redux-thunk"
+import { legacy_createStore as createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import { thunk } from 'redux-thunk';
+import rootReducer from './reducers/index';
 
-import combineReducers from './reducer/index'
+// Middleware lưu state vào localStorage
+const saveToLocalStorage = store => next => action => {
+    const result = next(action); // Thực hiện action trước
+    try {
+        const currentState = store.getState();
+        const filteredState = {
+            cart: currentState.cart,
+            product: currentState.product,
+            category: currentState.category,
+        }
+        const serializedState = JSON.stringify(filteredState);
+        localStorage.setItem('reduxState', serializedState); // Lưu state vào localStorage
+    } catch (error) {
+        console.error('Could not save state to localStorage:', error);
+    }
+    return result;
+};
 
-const store = createStore(combineReducers, applyMiddleware(thunk))
+
+// Tạo store với state từ localStorage
+const store = createStore(
+    rootReducer,
+    applyMiddleware(thunk, saveToLocalStorage) // Kết hợp middleware
+);
 
 const DataProvider = ({ children }) => {
-    // Đồng bộ trạng thái Redux vào localStorage
-    store.subscribe(() => {
-        localStorage.setItem('reduxState', JSON.stringify(store.getState()));
-    });
-
-    // Trong mỗi tab, lắng nghe sự thay đổi của localStorage
-    window.addEventListener('storage', (event) => {
-        if (event.key === 'reduxState') {
-            const newState = JSON.parse(event.newValue);
-            store.dispatch({ type: 'SET_STATE_FROM_STORAGE', payload: newState });
-        }
-    });
-
     return (
         <Provider store={store}>
             {children}
         </Provider>
-    )
-}
+    );
+};
 
-export default DataProvider
+export default DataProvider;

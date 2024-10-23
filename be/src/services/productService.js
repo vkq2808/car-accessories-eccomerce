@@ -32,11 +32,6 @@ export const getAllProducts = () => {
             } else {
                 resolve(null);
             }
-            if (products) {
-                resolve(products);
-            } else {
-                resolve(null);
-            }
         } catch (e) {
             reject(e);
         }
