@@ -4,7 +4,7 @@ const Footer = () => {
 
     const ContactCol = () => {
         return (
-            <div className="contact-container flex flex-col max-w-[25%] text-left text-wrap text-md">
+            <div className="contact-container flex flex-col max-w-[25vw] min-w-[20dw] text-left text-wrap text-md">
                 <div className="contact-title font-semibold text-lg">
                     Thông tin liên hệ
                 </div>
@@ -30,7 +30,7 @@ const Footer = () => {
 
     const HelpOptionCol = () => {
         return (
-            <div className="help-option-container flex flex-col max-w-[25%] text-left text-wrap text-md pr-20">
+            <div className="help-option-container flex flex-col max-w-[25vw] min-w-[20dw] text-left text-wrap text-md pr-20">
                 <div className="help-option-title font-semibold text-lg">
                     Hỗ trợ
                 </div>
@@ -51,7 +51,7 @@ const Footer = () => {
     }
     const LogoCol = () => {
         return (
-            <div className="logo-container flex flex-col max-w-[25%] text-left text-wrap text-md">
+            <div className="logo-container flex flex-col max-w-[25vw] min-w-[20dw] text-left text-wrap text-md">
                 <div className="logo-title font-semibold text-lg">
                     Logo
                 </div>

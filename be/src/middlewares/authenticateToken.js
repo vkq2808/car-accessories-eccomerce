@@ -1,28 +1,35 @@
 
 import jwt from 'jsonwebtoken'; //gọi jwt
+import path from 'path';
+import fs from 'fs';
 
 const authenticateToken = (req, res, next) => {
     // Miễn xác thực cho các route cụ thể
     const openRoutes = ['/auth', '/product', '/category'];
 
+    console.log(req.method, req.path);
+
     // Nếu là một trong các route miễn xác thực, bỏ qua middleware
-    if (openRoutes.some(route => req.path.includes(route))) {
+    if (openRoutes.some(route => req.path.includes('/api/v1' + route))) {
         return next();
-    } else {
-        console.log("Path: ", req.path);
     }
 
+
     try {
-        const token = req.headers['authorization'] || req?.cookies?.token;
+        console.log("Authenticate token: ", req.headers['authorization']);
+        const token = req.headers['authorization'].split(' ')[1];
+        const secretKey = process.env.ACCESS_TOKEN_SERCET_KEY;
+
         if (!token) {
-            return res.status(401).send({ msg: "Token not found" });
+            res.status(401).send({ msg: "Token not found" });
+            return;
         }
 
         // Xác thực token
-        jwt.verify(token, process.env.TOKEN_SERCET_KEY, (err, user) => {
+        jwt.verify(token, secretKey, (err, user) => {
             if (err) {
                 console.log(err);
-                return res.status(401).send({ msg: "Unauthorized" });
+                res.status(401).send({ msg: "Unauthorized" });
             }
 
             req.user = user;
@@ -32,9 +39,6 @@ const authenticateToken = (req, res, next) => {
     catch (error) {
         console.log(error);
     }
-
-
-
 };
 
 export default authenticateToken;

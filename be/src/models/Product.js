@@ -4,12 +4,12 @@ const {
 } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-    class Product extends Model {
+    class product extends Model {
         static associate(models) {
-            Product.belongsTo(models.Category, { foreignKey: 'categoryId' });
+            product.belongsTo(models.category, { foreignKey: 'categoryId' });
         }
     }
-    Product.init({
+    product.init({
         name: DataTypes.STRING,
         path: {
             type: DataTypes.STRING,
@@ -27,9 +27,9 @@ module.exports = (sequelize, DataTypes) => {
         },
     }, {
         sequelize,
-        modelName: 'Product',
+        modelName: 'product',
         timestamps: true
     });
 
-    return Product;
+    return product;
 };

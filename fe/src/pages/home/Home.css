@@ -155,8 +155,13 @@
     place-items: center;
     width: 100%;
     height: 100%;
-    cursor: url('../../assets/go-back-arrow-svgrepo-com.png'), auto;
+    caret-color: red;
+    cursor: url('../../assets/go-back-arrow-svgrepo-com.svg'), auto;
     z-index: 199;
+}
+
+g {
+    fill: red;
 }
 
 .Headroom {

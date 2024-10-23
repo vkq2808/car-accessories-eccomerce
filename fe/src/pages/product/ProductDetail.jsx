@@ -2,15 +2,19 @@ import { useEffect, useState } from "react";
 import Loading from "../../components/common/alert/Loading";
 import { getDataAPI } from "../../utils/fetchData";
 import ReactMarkdown from 'react-markdown';
-import './ProductDetail.css';
-import { useDispatch } from "react-redux";
-import { GLOBALTYPES } from "../../redux/action/globalTypes";
+import { useDispatch, useSelector } from "react-redux";
+import { GLOBALTYPES } from "../../redux/actions/globalTypes";
+import { addProductToCart, CART_ACTION_TYPES } from "../../redux/actions/cartActions";
+import { formatNumberWithCommas } from "../../utils/stringProcess";
+import { IconButton } from "../../components/common";
+import { followProduct } from "../../redux/actions/productActions";
 
 const ProductDetail = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [product, setProduct] = useState(null);
     const [quantity, setQuantity] = useState(1);
+    const auth = useSelector(state => state.auth);
 
     const dispatch = useDispatch()
     const path = window.location.pathname.split('/').reverse()[0]
@@ -35,7 +39,7 @@ const ProductDetail = () => {
 
     const CustomMarkdown = ({ children }) => {
         return (<ReactMarkdown
-            className='markdown'
+            className='markdown p-[20px] bg-[#f5f8fd] text-[#777] overflow-y-auto outline-none text-[1rem]'
             children={children}
             components={{
                 img: ({ node, ...props }) => {
@@ -48,7 +52,7 @@ const ProductDetail = () => {
                     return (<h3 {...props} style={{ color: '#4d0406', fontWeight: 700 }} children={props.children} />)
                 },
                 li: ({ node, ...props }) => {
-                    return (<li {...props} style={{}} />)
+                    return (<li {...props} style={{ userSelect: 'all' }} />)
                 },
                 p: ({ node, ...props }) => {
                     return (<p {...props} style={{}} />)
@@ -70,9 +74,33 @@ const ProductDetail = () => {
     }
 
     const handleQuantityChange = (e) => {
+        if (e.target.value === '') {
+            setQuantity(1)
+            return
+        }
         const value = parseInt(e.target.value)
-        if (value > 0 && value <= product.quantity) {
+        if (value > product.quantity) {
+            setQuantity(product.quantity)
+        }
+        else if (value < 1) {
+            setQuantity(1)
+        }
+        else {
             setQuantity(value)
+        }
+    }
+
+    const handleAddToCart = () => {
+        if (auth?.token) {
+            dispatch(addProductToCart(product, quantity, auth.token))
+        } else {
+            dispatch({ type: CART_ACTION_TYPES.ADD_TO_CART, payload: { product, quantity } })
+        }
+    }
+
+    const handleFollowProduct = () => {
+        if (auth?.token) {
+            dispatch(followProduct({ product, token: auth.token }))
         }
     }
 
@@ -82,15 +110,25 @@ const ProductDetail = () => {
                 (isLoading && <Loading />) ||
                 (product &&
                     (<div className="flex w-full md:w-[80%]">
-                        <div className="flex flex-col">
-                            <div className="flex flex-col w-full py-4 md:flex-row">
-                                <img className="w-full md:w-[50%] p-2" src={product.imageUrl} alt={product.name} />
+                        <div className="flex flex-col w-full">
+                            <div className="flex flex-col w-full py-4 md:flex-row justify-between">
+                                <img className="w-full md:w-[40%] md:max-h-[300px] object-contain p-2" src={product.imageUrl} alt={product.name} />
                                 <div className="flex flex-col p-2">
-                                    <h2>{product.name}</h2>
-                                    <h4 className="text-[#a50a08]">{product.price} {product.currency}</h4>
-                                    <p>{product.quantity} sản phẩm có sẵn</p>
+                                    <h2 className="select-all">{product.name}</h2>
+                                    <h4 className="text-[#a50a08]">{formatNumberWithCommas(product.price)} {product.currency}</h4>
+                                    <p>{formatNumberWithCommas(product.quantity)} sản phẩm có sẵn</p>
 
-                                    <div className="flex flex-row items-center">
+                                    <div className="mb-2 flex border !border-red-400 w-fit p-2 pr-1  hover:bg-red-400 bg-white hover:text-[black] cursor-pointer text-red-400"
+                                        onClick={handleFollowProduct}
+                                    >
+                                        <IconButton
+                                            iconClassName="fas fa-heart"
+                                            className="text-red-500 text-inherit hover:text-[black] mr-2"
+                                        />
+                                        Theo dõi
+                                    </div>
+
+                                    <div className="flex flex-row items-center mb-[2]">
                                         <div className="decrease-button cursor-pointer" onClick={handleDecreaseQuantity}>
                                             <i className="fas fa-minus"></i>
                                         </div>
@@ -99,7 +137,18 @@ const ProductDetail = () => {
                                             <i className="fas fa-plus"></i>
                                         </div>
                                     </div>
-                                    <button className="btn btn-primary w-[40%] min-w-[120px]">Mua ngay</button>
+                                    <div className="mb-2 flex">
+                                        <span className="mr-2">Tổng tiền:</span>
+                                        <span>{formatNumberWithCommas(product.price * quantity)} {product.currency}</span>
+                                    </div>
+                                    <div className="actions flex justify-between">
+                                        <button className="btn btn-primary w-[40%] min-w-[120px]">Mua ngay</button>
+                                        <button className="btn btn-primary w-[40%] min-w-[120px]"
+                                            onClick={handleAddToCart}
+                                        >
+                                            Thêm vào giỏ hàng
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 

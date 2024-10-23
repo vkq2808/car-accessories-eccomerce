@@ -1,17 +1,19 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Login from '../pages/login/Login';
-import Regist from '../pages/regist/Regist';
-import VerifyEmail from '../pages/regist/VerifyEmail';
-import Logout from '../pages/login/Logout';
-import EnterEmail from '../pages/resetPassword/EnterEmail';
-import EnterNewPassword from '../pages/resetPassword/EnterNewPassword';
-import HeaderWithCommonSideBar from '../components/common/header/HeaderWithCommonSideBar';
+import { HeaderWithSideBar } from '../components/common';
+import {
+    Login,
+    Regist,
+    VerifyEmail,
+    Logout,
+    EnterEmail,
+    EnterNewPassword
+} from '../pages';
 
 const LoginRoute = () => {
     return (
         <>
-            <HeaderWithCommonSideBar />
+            <HeaderWithSideBar />
             <Routes>
                 <Route path='login' element={<Login />} />
                 <Route path='regist' element={<Regist />} />

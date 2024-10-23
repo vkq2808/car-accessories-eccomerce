@@ -5,11 +5,12 @@ const {
 
 // user bao gồm: email, password, firstName, lastName, address, phone, gender, roleId, positionId
 module.exports = (sequelize, DataTypes) => {
-    class User extends Model {
+    class user extends Model {
         static associate(models) {
+            user.hasOne(models.cart, { foreignKey: 'userId' });
         }
     }
-    User.init({
+    user.init({
         email: DataTypes.STRING,
         hashed_password: DataTypes.STRING,
         firstName: DataTypes.STRING,
@@ -17,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         address: DataTypes.STRING,
         phone: DataTypes.STRING,
         gender: DataTypes.STRING,
+        birth: DataTypes.DATE,
         role: DataTypes.STRING,
         imageUrl: {
             type: DataTypes.STRING,
@@ -24,8 +26,8 @@ module.exports = (sequelize, DataTypes) => {
         },
     }, {
         sequelize,
-        modelName: 'User',
+        modelName: 'user',
         timestamps: true
     });
-    return User;
+    return user;
 }

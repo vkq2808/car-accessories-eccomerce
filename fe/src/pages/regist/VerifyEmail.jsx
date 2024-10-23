@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { verifyEmail } from '../../redux/action/authAction';
+import { verifyEmail } from '../../redux/actions/authActions';
 import Loading from '../../components/common/alert/Loading';
 
 

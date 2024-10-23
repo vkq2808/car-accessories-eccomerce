@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { changePassword } from '../../redux/action/authAction';
+import { changePassword } from '../../redux/actions/authActions';
 
 
 const EnterNewPassword = () => {
@@ -30,7 +30,6 @@ const EnterNewPassword = () => {
         }
 
         if (Object.keys(errors).length === 0) {
-            console.log("test")
             dispatch(changePassword({ token, password: userData.password }));
         } else {
             setErrors(errors);

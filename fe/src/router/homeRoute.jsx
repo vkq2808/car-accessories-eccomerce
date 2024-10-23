@@ -1,17 +1,21 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom'
-import UserProfile from '../pages/profile/UserProfile';
-import HeaderWithCommonSideBar from '../components/common/header/HeaderWithCommonSideBar';
-import Home from '../pages/home/Home';
+import { HeaderWithSideBar } from '../components/common'
+import { Home, UserProfile, SearchPage } from '../pages'
+import { useSelector } from 'react-redux';
 
 const HomeRoute = () => {
+
+    const auth = useSelector(state => state.auth);
+
     return (
         <>
-            <HeaderWithCommonSideBar />
+            <HeaderWithSideBar user={auth?.user} />
             <Routes>
                 <Route path='' element={<Home />} />
                 <Route path='profile' element={<UserProfile />} />
                 <Route path='profile/edit' element={<UserProfile isEditing={true} />} />
+                <Route path='search/:searchTerm' element={<SearchPage />} loader />
             </Routes>
         </>
     )

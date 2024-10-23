@@ -8,8 +8,7 @@ import helmet from 'helmet';
 // config
 import connectDB from './config/database.js';
 // route
-import authAPIRoute from './route/authRoute.js';
-import productRoute from './route/productRoute.js';
+import { applyAllRoutes } from './routes';
 
 
 require('dotenv').config();
@@ -40,8 +39,7 @@ const startServer = async () => {
         ));
 
         // Đăng ký route
-        authAPIRoute(app);
-        productRoute(app);
+        applyAllRoutes(app);
 
         // Kết nối cơ sở dữ liệu
         connectDB();
