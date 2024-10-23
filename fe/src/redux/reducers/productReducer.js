@@ -2,8 +2,11 @@ import { PRODUCT_ACTION_TYPES } from "../actions/productActions";
 
 const initalState = {
     list: [],
+<<<<<<< HEAD
     following: [],
     follwing_synced: false
+=======
+>>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
 }
 
 const productReducer = (state = initalState, action) => {
@@ -13,6 +16,7 @@ const productReducer = (state = initalState, action) => {
                 ...state,
                 list: action.payload
             }
+<<<<<<< HEAD
         case PRODUCT_ACTION_TYPES.FOLLOW_PRODUCT:
             return {
                 ...state,
@@ -25,6 +29,8 @@ const productReducer = (state = initalState, action) => {
                 following: action.payload,
                 follwing_synced: true
             }
+=======
+>>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
         default:
             return state;
     }

@@ -7,7 +7,11 @@ const authenticateToken = (req, res, next) => {
     // Miễn xác thực cho các route cụ thể
     const openRoutes = ['/auth', '/product', '/category'];
 
+<<<<<<< HEAD
     console.log(req.method, req.path);
+=======
+    console.log(req.path);
+>>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
 
     // Nếu là một trong các route miễn xác thực, bỏ qua middleware
     if (openRoutes.some(route => req.path.includes('/api/v1' + route))) {
@@ -16,7 +20,10 @@ const authenticateToken = (req, res, next) => {
 
 
     try {
+<<<<<<< HEAD
         console.log("Authenticate token: ", req.headers['authorization']);
+=======
+>>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
         const token = req.headers['authorization'].split(' ')[1];
         const secretKey = process.env.ACCESS_TOKEN_SERCET_KEY;
 

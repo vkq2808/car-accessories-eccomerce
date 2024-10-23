@@ -6,8 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 import { addProductToCart, CART_ACTION_TYPES } from "../../redux/actions/cartActions";
 import { formatNumberWithCommas } from "../../utils/stringProcess";
+<<<<<<< HEAD
 import { IconButton } from "../../components/common";
 import { followProduct } from "../../redux/actions/productActions";
+=======
+>>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
 
 const ProductDetail = () => {
 
@@ -15,6 +18,10 @@ const ProductDetail = () => {
     const [product, setProduct] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const auth = useSelector(state => state.auth);
+<<<<<<< HEAD
+=======
+    const cart = useSelector(state => state.cart)
+>>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
 
     const dispatch = useDispatch()
     const path = window.location.pathname.split('/').reverse()[0]
@@ -93,6 +100,7 @@ const ProductDetail = () => {
     const handleAddToCart = () => {
         if (auth?.token) {
             dispatch(addProductToCart(product, quantity, auth.token))
+<<<<<<< HEAD
         } else {
             dispatch({ type: CART_ACTION_TYPES.ADD_TO_CART, payload: { product, quantity } })
         }
@@ -101,6 +109,14 @@ const ProductDetail = () => {
     const handleFollowProduct = () => {
         if (auth?.token) {
             dispatch(followProduct({ product, token: auth.token }))
+=======
+            localStorage.setItem('cart_items', JSON.stringify(cart.items))
+            localStorage.setItem('cart_synced', true)
+        } else {
+            dispatch({ type: CART_ACTION_TYPES.ADD_TO_CART, payload: { product, quantity } })
+            localStorage.setItem('cart_items', JSON.stringify([...cart.items, { product, quantity }]))
+            localStorage.setItem('cart_synced', false)
+>>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
         }
     }
 
@@ -137,10 +153,13 @@ const ProductDetail = () => {
                                             <i className="fas fa-plus"></i>
                                         </div>
                                     </div>
+<<<<<<< HEAD
                                     <div className="mb-2 flex">
                                         <span className="mr-2">Tổng tiền:</span>
                                         <span>{formatNumberWithCommas(product.price * quantity)} {product.currency}</span>
                                     </div>
+=======
+>>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
                                     <div className="actions flex justify-between">
                                         <button className="btn btn-primary w-[40%] min-w-[120px]">Mua ngay</button>
                                         <button className="btn btn-primary w-[40%] min-w-[120px]"

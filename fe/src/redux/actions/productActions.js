@@ -1,11 +1,19 @@
+<<<<<<< HEAD
 import { getDataAPI, postDataAPI, putDataAPI, deleteDataAPI } from "../../utils/fetchData"
+=======
+import { getDataAPI } from "../../utils/fetchData"
+>>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
 import { GLOBALTYPES } from './globalTypes';
 
 
 export const PRODUCT_ACTION_TYPES = {
+<<<<<<< HEAD
     GET_PRODUCTS: "GET_PRODUCTS",
     FOLLOW_PRODUCT: "FOLLOW_PRODUCT",
     GET_FOLLOWING_PRODUCTS: "GET_FOLLOWING_PRODUCTS"
+=======
+    GET_PRODUCTS: "GET_PRODUCTS"
+>>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
 }
 
 export const getProducts = () => async (dispatch) => {
@@ -22,6 +30,7 @@ export const getProducts = () => async (dispatch) => {
     } catch (err) {
         console.log(err)
     }
+<<<<<<< HEAD
 }
 
 export const followProduct = ({ token, product }) => async (dispatch) => {
@@ -68,4 +77,6 @@ export const unfollowProduct = ({ token, product }) => async (dispatch) => {
     } catch (err) {
         console.log(err)
     }
+=======
+>>>>>>> 0883aba932a12d174e483cb7df379f0094262ded
 }
