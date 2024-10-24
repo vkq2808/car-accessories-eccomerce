@@ -3,7 +3,9 @@ import {
     getProductDetailByPath,
     followProduct,
     getFollowingProducts,
-    unfollowProduct
+    unfollowProduct,
+    syncFollowProduct,
+    getProductsByCategoryId
 }
     from '../services/productService.js';
 
@@ -88,6 +90,65 @@ export const handleUnfollowProduct = async (req, res) => {
         }
         console.log("Unfollow product successfully\n");
         return res.status(200).send({ msg: "Unfollow product successfully" });
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send({ msg: "Internal server error" });
+    }
+}
+
+export const handleSyncFollowProduct = async (req, res) => {
+    try {
+        let user = req.user;
+        let following_items = req.body.following_items;
+
+        let user_following = await getFollowingProducts(user);
+
+        console.log(following_items)
+        following_items.forEach(item => {
+            let isExist = false;
+            user_following.forEach(following => {
+                if (parseInt(item.product.id) === following.product.id) {
+                    isExist = true;
+                }
+            });
+            if (!isExist) {
+                followProduct(user, item.product);
+            }
+        });
+
+        console.log("Sync follow product successfully\n");
+        return res.status(200).send({ msg: "Sync follow product successfully" });
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send({ msg: "Internal server error" });
+    }
+}
+
+export const handleSearch = async (req, res) => {
+    try {
+        let categoryId = req.query.category_id;
+        let page = req.query.page || 1;
+        let limit = req.query.limit || 10;
+
+        if (page < 1) page = 1;
+        if (limit < 1 || limit > 100) limit = 20;
+
+        if (categoryId) {
+            let products = await getProductsByCategoryId(categoryId);
+
+            if (!products) {
+                console.log("Products not found");
+                return res.status(204).send({ msg: "Products not found" });
+            }
+
+            const result = products.slice((page - 1) * limit, page * limit);
+
+            console.log("Get products successfully\n");
+            return res.status(200).send({ msg: "Get products successfully", products: result });
+        } else {
+            console.log("Category id is required");
+            return res.status(400).send({ msg: "Category id is required" });
+        }
     } catch (error) {
         console.log(error)
         return res.status(500).send({ msg: "Internal server error" });

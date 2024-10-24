@@ -4,10 +4,13 @@ import { getDataAPI } from "../../utils/fetchData";
 import ReactMarkdown from 'react-markdown';
 import { useDispatch, useSelector } from "react-redux";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
-import { addProductToCart, CART_ACTION_TYPES } from "../../redux/actions/cartActions";
+import { addProductToCart, CART_ACTION_TYPES, getCart } from "../../redux/actions/cartActions";
 import { formatNumberWithCommas } from "../../utils/stringProcess";
 import { IconButton } from "../../components/common";
-import { followProduct } from "../../redux/actions/productActions";
+import { followProduct, getFollowingProducts, PRODUCT_ACTION_TYPES, unfollowProduct } from "../../redux/actions/productActions";
+
+const follwedProductStyle = "text-[#ff0000] hover:text-[#ff0000]"
+const notFollwedProductStyle = "text-[#000000] hover:text-[#000000]"
 
 const ProductDetail = () => {
 
@@ -15,27 +18,46 @@ const ProductDetail = () => {
     const [product, setProduct] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const auth = useSelector(state => state.auth);
+    const cart = useSelector(state => state.cart);
+    const followings = useSelector(state => state.product.following);
 
     const dispatch = useDispatch()
     const path = window.location.pathname.split('/').reverse()[0]
 
+
     useEffect(() => {
-        setIsLoading(true)
-        getDataAPI(`product/${path}`)
-            .then(res => {
-                setIsLoading(false)
-                if (res.status === 200) {
-                    setProduct(res.data.product)
-                }
-                else {
-                    console.log(res)
-                    dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg })
-                }
-            })
-            .catch(err => {
-                setIsLoading(false)
-            })
-    }, [path, dispatch])
+        if (auth.token) {
+            dispatch(getCart(auth.token));
+            dispatch(getFollowingProducts(auth.token));
+        }
+        else {
+            dispatch({ type: CART_ACTION_TYPES.INIT_CART_ITEMS })
+            dispatch({ type: PRODUCT_ACTION_TYPES.INIT_FOLLOWING_PRODUCTS })
+        }
+    }, [auth.token, dispatch]);
+
+    useEffect(() => {
+        if (!product) {
+            setIsLoading(true);
+            getDataAPI(`product/detail/${path}`)
+                .then(res => {
+                    setIsLoading(false);
+                    if (res.status === 200) {
+                        setProduct(res.data.product);
+                    } else {
+                        dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg });
+                    }
+                })
+                .catch(err => {
+                    setIsLoading(false);
+                    dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: 'Có lỗi xảy ra khi lấy dữ liệu sản phẩm!' });
+                });
+        }
+    }, [path, dispatch, product]);
+
+
+    const isFollowing = followings?.find(following => following.product.id === product?.id)
+    const followingStyle = isFollowing ? follwedProductStyle : notFollwedProductStyle
 
     const CustomMarkdown = ({ children }) => {
         return (<ReactMarkdown
@@ -91,16 +113,32 @@ const ProductDetail = () => {
     }
 
     const handleAddToCart = () => {
-        if (auth?.token) {
+        if (auth.token) {
             dispatch(addProductToCart(product, quantity, auth.token))
         } else {
-            dispatch({ type: CART_ACTION_TYPES.ADD_TO_CART, payload: { product, quantity } })
+            if (cart.items.find(item => item.product.id === product.id)) {
+                let newItems = Array.from(cart.items).map(item => item.product.id === product.id ? { ...item, quantity: item.quantity + quantity } : item)
+                dispatch({ type: CART_ACTION_TYPES.UPDATE_CART_ITEMS, payload: newItems })
+            } else {
+                dispatch({ type: CART_ACTION_TYPES.ADD_TO_CART, payload: { product: product, quantity: quantity } })
+                console.log({ product: product, quantity: quantity })
+            }
         }
     }
 
     const handleFollowProduct = () => {
-        if (auth?.token) {
-            dispatch(followProduct({ product, token: auth.token }))
+        if (!isFollowing) {
+            if (auth.token) {
+                dispatch(followProduct({ product, token: auth.token }))
+            } else {
+                dispatch({ type: PRODUCT_ACTION_TYPES.FOLLOW_PRODUCT, payload: { product } })
+            }
+        } else {
+            if (auth.token) {
+                dispatch(unfollowProduct({ product, token: auth.token }))
+            } else {
+                dispatch({ type: PRODUCT_ACTION_TYPES.UNFOLLOW_PRODUCT, payload: { product } })
+            }
         }
     }
 
@@ -118,14 +156,15 @@ const ProductDetail = () => {
                                     <h4 className="text-[#a50a08]">{formatNumberWithCommas(product.price)} {product.currency}</h4>
                                     <p>{formatNumberWithCommas(product.quantity)} sản phẩm có sẵn</p>
 
-                                    <div className="mb-2 flex border !border-red-400 w-fit p-2 pr-1  hover:bg-red-400 bg-white hover:text-[black] cursor-pointer text-red-400"
-                                        onClick={handleFollowProduct}
-                                    >
-                                        <IconButton
-                                            iconClassName="fas fa-heart"
-                                            className="text-red-500 text-inherit hover:text-[black] mr-2"
-                                        />
-                                        Theo dõi
+                                    <div className="flex">
+                                        <div className={"mb-2 flex p-2 cursor-pointer"}
+                                            onClick={handleFollowProduct}
+                                        >
+                                            <IconButton
+                                                iconClassName="fas fa-heart"
+                                                className={followingStyle}
+                                            />
+                                        </div>
                                     </div>
 
                                     <div className="flex flex-row items-center mb-[2]">

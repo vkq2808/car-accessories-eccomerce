@@ -51,7 +51,7 @@ const Login = () => {
         if (auth.token)
             navigate("/")
         else {
-            localStorage.removeItem("isLoggedIn")
+            localStorage.removeItem("firstLogin")
             localStorage.removeItem("accessToken")
             localStorage.removeItem("refreshToken")
         }

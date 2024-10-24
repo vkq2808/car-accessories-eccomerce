@@ -65,3 +65,30 @@ export const updateCart = async (req, res) => {
         return res.status(500).json({ error: error.message });
     }
 }
+
+export const handleSyncCart = async (req, res) => {
+    try {
+        let cart = await getCartByUserId(req.user.id);
+
+        if (!cart) {
+            cart = await createCart(req.user.id);
+        }
+
+        const cart_items = req.body.cart_items;
+        cart_items.forEach(item => {
+            cart.cart_items.forEach(cartItem => {
+                if (item.product_id === cartItem.product_id) {
+                    cartItem.quantity += item.quantity;
+                    updateCartItemQuantity(cartItem);
+                } else {
+                    createProductCartItem(cart.id, item.product.id, item.quantity);
+                }
+            });
+        });
+
+        return res.status(200).json({ msg: 'Sync cart successfully', cart: cart });
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ error: error.message });
+    }
+}

@@ -107,7 +107,7 @@ const Regist = () => {
 
                             <div className="form-outline mb-4">
                                 <label className="form-label" htmlFor="InputBirth" style={{ fontWeight: "bold", color: "#2F56A6" }}>Ngày sinh</label>
-                                <input type="text" id="InputBirth" onChange={handleChangeInput} value={birth} name="birth" className="form-control form-control-lg"
+                                <input type="date" id="InputBirth" onChange={handleChangeInput} value={birth} name="birth" className="form-control form-control-lg"
                                     placeholder="YYYY-MM-DD" />
                                 {errors.birth && <small style={{ fontWeight: "bold" }} className="text-danger">{errors.birth}</small>}
                             </div>

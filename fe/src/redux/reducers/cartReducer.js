@@ -1,8 +1,7 @@
 import { CART_ACTION_TYPES } from '../actions/cartActions'
 
 const initialState = {
-    items: [],
-    synced: false
+    items: []
 }
 
 const cartReducer = (state = initialState, action) => {
@@ -31,15 +30,20 @@ const cartReducer = (state = initialState, action) => {
             return {
                 items: action.payload
             }
-        case CART_ACTION_TYPES.SYNC_CART:
+        case CART_ACTION_TYPES.UPDATE_CART_ITEMS:
             return {
                 ...state,
-                synced: true
+                items: action.payload
             }
-        case CART_ACTION_TYPES.NOT_SYNC_CART:
+        case CART_ACTION_TYPES.INIT_CART_ITEMS:
             return {
                 ...state,
-                synced: false
+                items: []
+            }
+        case CART_ACTION_TYPES.REMOVE_CART_ITEM:
+            return {
+                ...state,
+                items: state.items.filter(item => item.id !== action.payload)
             }
         default:
             return state

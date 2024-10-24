@@ -92,7 +92,7 @@ const Header = ({ setIsSideBarOpen }) => {
                         onClick={() => { nav('/'); }}
                     />
                 </div>
-                <div className="search-bar flex-row w-[40%] flex justify-center ">
+                <div className="search-bar flex-row w-[40%] flex justify-center items-center ">
                     <select className="border px-2 py-1 w-[100px] "
                         onChange={(e) => onFilterCategoryChange(e)}
                         value={categoryId}
@@ -147,8 +147,8 @@ const Header = ({ setIsSideBarOpen }) => {
                             className={"h-auto p-[0px] m-[0px]"} />
                     </button>
                 </div>
-                <div className="flex flex-row justify-start space-x-4 mt-2 md:mt-0">
-                    {!auth?.token && <div className='flex flex-row'>
+                <div className="flex flex-row justify-start space-x-4 mt-2 md:mt-0 items-center">
+                    {!auth.token && <div className='flex flex-row'>
                         <div className='pl-1 mr-1' onClick={() => nav('/auth/login')}>
                             <span className='underline text-[blue] cursor-pointer'>Đăng nhập</span>
                         </div>
@@ -157,7 +157,7 @@ const Header = ({ setIsSideBarOpen }) => {
                             <span className='underline text-[blue] cursor-pointer'>Đăng ký</span>
                         </div>
                     </div>}
-                    {auth?.token && <IconButton iconClassName="fas fa-user" onClick={handleProfileClick} />}
+                    {auth.token && <IconButton iconClassName="fas fa-user" onClick={handleProfileClick} />}
                     <Following />
                     <Cart />
                     <IconButton iconClassName="fas fa-bars" onClick={() => setIsSideBarOpen(true)} />

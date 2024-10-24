@@ -10,6 +10,7 @@ export const GLOBALTYPES = {
     MODAL: "MODAL",
     USER_ROLE: "USER_ROLE",
     SOCKET: "SOCKET",
+    DIALOG: "DIALOG",
 }
 
 export const EditData = (data, id, newItem) => {

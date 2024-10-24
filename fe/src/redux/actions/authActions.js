@@ -1,5 +1,7 @@
 import { postDataAPI, getDataAPI } from "../../utils/fetchData"
+import { CART_ACTION_TYPES, getCart } from "./cartActions";
 import { GLOBALTYPES } from "./globalTypes";
+import { getFollowingProducts, PRODUCT_ACTION_TYPES } from "./productActions";
 
 export const AUTH_ACTION_TYPES = {
     AUTH: "AUTH"
@@ -27,7 +29,7 @@ export const login = (data) => async (dispatch) => {
 
             dispatch({ type: GLOBALTYPES.LOADING, payload: false })
 
-            localStorage.setItem("isLoggedIn", true)
+            localStorage.setItem("firstLogin", true)
             localStorage.setItem("accessToken", "Bearer " + res.data.accessToken)
             localStorage.setItem("refreshToken", "Bearer " + res.data.refreshToken)
 
@@ -89,9 +91,13 @@ export const verifyEmail = ({ token, setIsLoading, setResult }) => async (dispat
 
 export const logout = () => async (dispatch) => {
     try {
-        localStorage.removeItem("isLoggedIn")
+        localStorage.removeItem("firstLogin")
         localStorage.removeItem("accessToken")
         localStorage.removeItem("refreshToken")
+        localStorage.removeItem("cart_items")
+        localStorage.removeItem("following_items")
+        dispatch({ type: PRODUCT_ACTION_TYPES.GET_FOLLOWING_PRODUCTS_FROM_STORAGE, payload: [] })
+        dispatch({ type: CART_ACTION_TYPES.GET_CART_ITEMS_FROM_STORAGE, payload: [] })
         window.location.href = "/"
     } catch (err) {
         dispatch({
@@ -102,9 +108,9 @@ export const logout = () => async (dispatch) => {
 }
 export const getUserInfo = () => async (dispatch) => {
 
-    const isLoggedIn = localStorage.getItem("isLoggedIn")
+    const firstLogin = localStorage.getItem("firstLogin")
 
-    if (isLoggedIn) {
+    if (firstLogin) {
         const accessToken = localStorage.getItem("accessToken")
         try {
             const res = await postDataAPI("auth/get-user-info", null, accessToken)
@@ -200,5 +206,21 @@ export const changePassword = (data) => async (dispatch) => {
             payload: err.response.data.msg
         })
         dispatch({ type: GLOBALTYPES.LOADING, payload: false })
+    }
+}
+
+export const syncCartAndFollowing = (cart_items, following_items, token) => async (dispatch) => {
+    if (token) {
+        try {
+            await postDataAPI("cart/sync", { cart_items }, token)
+            dispatch(getCart(token))
+            await postDataAPI("follow/sync", { following_items }, token)
+            dispatch(getFollowingProducts(token))
+        } catch (err) {
+            dispatch({
+                type: GLOBALTYPES.ERROR_ALERT,
+                payload: err.response.data.msg
+            })
+        }
     }
 }

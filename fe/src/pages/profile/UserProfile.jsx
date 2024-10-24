@@ -1,7 +1,6 @@
 import React from "react";
 import Loading from "../../components/common/alert/Loading";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import './UserProfile.css';
 
@@ -12,8 +11,10 @@ const UserProfile = () => {
     const [category, setCategory] = React.useState(1);
 
     React.useEffect(() => {
-        if (!auth?.user) {
+        if (!auth.token) {
             navigate('/auth/login');
+        } else {
+            setIsLoading(false);
         }
     }, [auth, navigate]);
 

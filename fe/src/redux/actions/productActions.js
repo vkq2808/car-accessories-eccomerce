@@ -5,7 +5,13 @@ import { GLOBALTYPES } from './globalTypes';
 export const PRODUCT_ACTION_TYPES = {
     GET_PRODUCTS: "GET_PRODUCTS",
     FOLLOW_PRODUCT: "FOLLOW_PRODUCT",
-    GET_FOLLOWING_PRODUCTS: "GET_FOLLOWING_PRODUCTS"
+    UNFOLLOW_PRODUCT: "UNFOLLOW_PRODUCT",
+    GET_FOLLOWING_PRODUCTS: "GET_FOLLOWING_PRODUCTS",
+    GET_FOLLOWING_PRODUCTS_FROM_STORAGE: "GET_FOLLOWING_PRODUCTS_FROM_STORAGE",
+    INIT_FOLLOWING_PRODUCTS: "INIT_FOLLOWING_PRODUCTS",
+    UPDATE_FOLLOWING_PRODUCTS: "UPDATE_FOLLOWING_PRODUCTS",
+    GET_NEW_PRODUCTS: "GET_NEW_PRODUCTS",
+    GET_POPULAR_PRODUCTS: "GET_POPULAR_PRODUCTS",
 }
 
 export const getProducts = () => async (dispatch) => {
@@ -45,10 +51,10 @@ export const getFollowingProducts = (token) => async (dispatch) => {
             dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg })
             return;
         }
-        dispatch({
+        dispatch(({
             type: PRODUCT_ACTION_TYPES.GET_FOLLOWING_PRODUCTS,
             payload: res.data.products
-        })
+        }))
     } catch (err) {
         console.log(err)
     }
@@ -61,10 +67,7 @@ export const unfollowProduct = ({ token, product }) => async (dispatch) => {
             dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg })
             return;
         }
-        dispatch({
-            type: PRODUCT_ACTION_TYPES.GET_FOLLOWING_PRODUCTS,
-            payload: res.data.products
-        })
+        dispatch(getFollowingProducts(token))
     } catch (err) {
         console.log(err)
     }

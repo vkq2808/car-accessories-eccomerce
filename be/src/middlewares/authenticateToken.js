@@ -16,7 +16,6 @@ const authenticateToken = (req, res, next) => {
 
 
     try {
-        console.log("Authenticate token: ", req.headers['authorization']);
         const token = req.headers['authorization'].split(' ')[1];
         const secretKey = process.env.ACCESS_TOKEN_SERCET_KEY;
 

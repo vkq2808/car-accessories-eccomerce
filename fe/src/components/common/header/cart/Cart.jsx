@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { CART_ACTION_TYPES, getCart, getCartFromStorage, updateCart } from '../../../../redux/actions/cartActions';
+import { CART_ACTION_TYPES, getCart, updateCart } from '../../../../redux/actions/cartActions';
 import { formatNumberWithCommas } from '../../../../utils/stringProcess';
 import { useNavigate } from 'react-router-dom';
 import IconButton from '../../button/IconButton';
@@ -13,21 +13,13 @@ const Cart = () => {
     const dispatch = useDispatch();
     const nav = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
-    const [previewEnabled, setPreviewEnabled] = useState(Array(cart.items.length).fill(false));
+    const [previewEnabled, setPreviewEnabled] = useState(Array(cart.items?.length).fill(false));
 
     useEffect(() => {
-        if (auth?.token) {
-            dispatch(getCart(auth?.token));
-        } else {
-            dispatch(getCartFromStorage());
+        if (auth.token) {
+            dispatch(getCart(auth.token));
         }
     }, [dispatch, auth]);
-
-    useEffect(() => {
-        if (!auth?.token && cart.items.length > 0) {
-            localStorage.setItem('cart_items', JSON.stringify(cart.items));
-        }
-    }, [cart.items, auth?.token]);
 
     const toggleCart = () => {
         setIsOpen(!isOpen);
@@ -51,11 +43,15 @@ const Cart = () => {
     }
 
     const handleDeleteItem = (index) => {
-        cart.items.splice(index, 1);
+        let updateCartItems = cart.items.filter((item, i) => i !== index);
+
         if (auth.token) {
-            dispatch(updateCart({ token: auth.token, cart_items: cart.items }));
+            dispatch(updateCart({ token: auth.token, cart_items: updateCartItems }));
+        } else {
+            dispatch({ type: CART_ACTION_TYPES.UPDATE_CART_ITEMS, payload: updateCartItems });
         }
     }
+
 
     return (
         <div className="cart-container relative inline-flex">
@@ -63,7 +59,7 @@ const Cart = () => {
                 iconClassName="fas fa-shopping-cart"
                 onClick={toggleCart}
                 className={`${isOpen ? 'text-[#002fff]' : ''}`}
-                status={cart.items.length > 0 ? { count: cart.items.length } : null} />
+                status={cart.items?.length > 0 ? { count: cart.items?.length } : null} />
             {isOpen && (
                 <div style={{ border: "1px solid #ccc", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
                     className="cart-dropdown absolute top-10 right-[-342px] md:right-0 bg-white p-[10px] w-[100vw] max-w-[768px]">

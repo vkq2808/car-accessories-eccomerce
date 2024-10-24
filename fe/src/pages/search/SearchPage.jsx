@@ -24,7 +24,7 @@ const SearchPage = () => {
         if (!products || products.length === 0) {
             dispatch(getProducts());
         }
-    }, [products])
+    }, [dispatch, products])
 
     useEffect(() => {
         const allKeys = key.split('-');
@@ -35,13 +35,12 @@ const SearchPage = () => {
                 if (parseInt(categoryId) === -1 || product.categoryId === parseInt(categoryId)) {
                     if (product.path.toLowerCase().includes(key.toLowerCase())) {
                         results.push(product);
-                        searchProducts.splice(searchProducts.indexOf(product), 1);
                     }
                 }
             });
         });
         setSearchResults(results);
-    }, [key, categoryId, page]);
+    }, [key, categoryId, page, products]);
 
     return (
         <div className='w-full flex flex-col items-center'>

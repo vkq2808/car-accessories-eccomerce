@@ -10,7 +10,7 @@ const HomeRoute = () => {
 
     return (
         <>
-            <HeaderWithSideBar user={auth?.user} />
+            <HeaderWithSideBar user={auth.user} />
             <Routes>
                 <Route path='' element={<Home />} />
                 <Route path='profile' element={<UserProfile />} />

@@ -2,7 +2,7 @@ import { handleLogin, handleRegister, handleVerifyEmail, handleForgetPassword, h
     from './authController';
 import { handleGetUserInfo }
     from './userController';
-import { handleUnfollowProduct, handleGetProductDetail, handleGetAllProducts, handleFollowProduct, handleGetFollowingProducts }
+import { handleSearch, handleSyncFollowProduct, handleUnfollowProduct, handleGetProductDetail, handleGetAllProducts, handleFollowProduct, handleGetFollowingProducts }
     from './productController'
 
 export {
@@ -17,5 +17,7 @@ export {
     handleGetAllProducts,
     handleFollowProduct,
     handleGetFollowingProducts,
-    handleUnfollowProduct
+    handleUnfollowProduct,
+    handleSyncFollowProduct,
+    handleSearch
 }

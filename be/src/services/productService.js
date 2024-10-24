@@ -6,7 +6,7 @@ export const getProductDetailByPath = async (path) => {
         try {
             let product = await db.product.findOne({
                 where: { path: path },
-                include: [db.category]
+                include: [db.category],
             });
             if (product) {
                 resolve(product);
@@ -26,6 +26,9 @@ export const getAllProducts = async () => {
                 include: [{
                     model: db.category
                 }],
+                order: [
+                    ['createdAt', 'DESC']
+                ]
             });
             if (products) {
                 resolve(products);
@@ -60,7 +63,10 @@ export const getFollowingProducts = async (user) => {
                 include: [{
                     model: db.product,
                     include: [db.category]
-                }]
+                }],
+                order: [
+                    ['createdAt', 'DESC']
+                ]
             });
             if (followings) {
                 resolve(followings);
@@ -83,6 +89,27 @@ export const unfollowProduct = async (user, productId) => {
                 }
             })
             resolve(userUnfollowProduct);
+        } catch (e) {
+            reject(e);
+        }
+    });
+}
+
+export const getProductsByCategoryId = async (categoryId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let products = await db.product.findAll({
+                where: { categoryId: categoryId },
+                include: [db.category],
+                order: [
+                    ['createdAt', 'DESC']
+                ]
+            });
+            if (products) {
+                resolve(products);
+            } else {
+                resolve(null);
+            }
         } catch (e) {
             reject(e);
         }

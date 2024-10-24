@@ -4,7 +4,8 @@ const initialState = {
     loading: false,
     error: null,
     success: null,
-    notify: null
+    notify: null,
+    dialog: null
 }
 
 const alertReducer = (state = initialState, action) => {
@@ -46,7 +47,11 @@ const alertReducer = (state = initialState, action) => {
                 success: null,
                 notify: action.payload
             }
-
+        case GLOBALTYPES.DIALOG:
+            return {
+                ...state,
+                dialog: action.payload
+            }
         default:
             return state
     }

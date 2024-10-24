@@ -58,7 +58,7 @@ const Home = () => {
         {
             id: 1,
             name: "Phụ kiện hot",
-            link: "/collections/phu-kien-do-choi-theo-xe",
+            link: "/category/phu-kien-do-choi-theo-xe",
             iconSrc: "https://file.hstatic.net/200000265255/file/hlvqhekrnqcqews3r-pjdg78hfaqq3bf_a2b4cf530ad34ad8864ab1128e33137c.png",
             subCategories: [
                 {
@@ -125,7 +125,7 @@ const Home = () => {
         }, {
             id: 2,
             name: "Phụ kiện - Đồ chơi Xe",
-            link: "/collections/phu-kien-do-choi-theo-xe",
+            link: "/category/phu-kien-do-choi-theo-xe",
             imgSrc: "https://file.hstatic.net/200000317829/file/1200x790-5_2bf0c22bc71b4e05a3fdc9675a630993.png",
             iconSrc: "https://file.hstatic.net/200000265255/file/xo5k-ta6oi4cb9cm-xqcytnl6jjl9twu_1fbf86dc3f7d41d2ad8a5326d183ef19.png",
             subCategories: [
@@ -178,7 +178,7 @@ const Home = () => {
         }, {
             id: 3,
             name: "Màn hình Android Ô tô",
-            link: "/collections/man-hinh-android-oto",
+            link: "/category/man-hinh-android-oto",
             imgSrc: "https://file.hstatic.net/200000317829/file/1200x790-1_8168758d1def49fab8149a4bfdaad88d.png",
             iconSrc: "https://file.hstatic.net/200000265255/file/dkzffakympllkpnc-cyefc1u1qh0iy_6_c6ef4a3de3654b51a8f7c05aebca2021.png",
             products: [
@@ -190,31 +190,31 @@ const Home = () => {
         }, {
             id: 4,
             name: "Phim cách nhiệt Ô tô",
-            link: "/collections/phim-cach-nhiet-oto",
+            link: "/category/phim-cach-nhiet-oto",
             imgSrc: "https://file.hstatic.net/200000317829/file/1200x790-3_fd8a9d37e3d54f7fb55781beed323b0e.png",
             iconSrc: "https://file.hstatic.net/200000265255/file/screenshot_24cdb019a18044f1a91520e68528d0a5.png",
         }, {
             id: 5,
             name: "Camera hành trình Ô tô",
-            link: "/collections/camera-hanh-trinh-oto",
+            link: "/category/camera-hanh-trinh-oto",
             imgSrc: "https://file.hstatic.net/200000317829/file/1200x790-1_8168758d1def49fab8149a4bfdaad88d.png",
             iconSrc: "https://file.hstatic.net/200000265255/file/e8-60mig4odup7dymtdmedcwee34sgnj_20ce2cc0540a49b7a2f72dac88d07317.png",
         }, {
             id: 6,
             name: "Bọc ghế Da Ô tô",
-            link: "/collections/boc-ghe-da-oto",
+            link: "/category/boc-ghe-da-oto",
             imgSrc: "https://file.hstatic.net/200000317829/file/1200x790-4_e3fc46fa192a4eae8111fcbc9384d134.png",
             iconSrc: "https://file.hstatic.net/200000265255/file/wpwvowtszoezflm7yqus_aakvajxdbgd_31d998fee8bb4c4e92ba3b68add6a18e.png",
         }, {
             id: 7,
             name: "Bọc đèn Ô tô",
-            link: "/collections/boc-den-oto",
+            link: "/category/boc-den-oto",
             imgSrc: "https://file.hstatic.net/200000317829/file/1200x790-4_e3fc46fa192a4eae8111fcbc9384d134.png",
             iconSrc: "https://file.hstatic.net/200000265255/file/xqntuskuqp8s_iorbjrin28exodh8lx7_8ba1b79ff47b4a40b6b02e84c31ad27f.png",
         }, {
             id: 8,
             name: "Phủ Ceramic",
-            link: "/collections/phu-ceramic",
+            link: "/category/phu-ceramic",
             iconSrc: "https://file.hstatic.net/200000265255/file/xqntuskuqp8s_iorbjrin28exodh8lx7_8ba1b79ff47b4a40b6b02e84c31ad27f.png",
         }
     ]
@@ -247,13 +247,13 @@ const Home = () => {
 
     const banners = [
         {
-            link: "collections/phu-kien-do-choi-theo-xe",
+            link: "category/phu-kien-do-choi-theo-xe",
             imgSrc: "https://file.hstatic.net/200000317829/file/900x500_9f309779edfe4d3692354d124b2cf71c.png"
         }, {
-            link: "collections/do-den-oto",
+            link: "category/do-den-o-to",
             imgSrc: "https://file.hstatic.net/200000317829/file/900x500-1_739ca159962d4209b1777724da12ddb6.png"
         }, {
-            link: "collections/boc-ghe-da-oto",
+            link: "category/boc-ghe-da-oto",
             imgSrc: "https://file.hstatic.net/200000317829/file/900x500-2_cc1b0d6234264862bfbb05a7d7b12428.png"
         }
     ]

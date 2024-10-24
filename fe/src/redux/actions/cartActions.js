@@ -7,17 +7,19 @@ export const CART_ACTION_TYPES = {
     CLEAR_CART: "CLEAR_CART",
     GET_CART_ITEMS_FROM_STORAGE: "GET_CART_ITEMS_FROM_STORAGE",
     GET_CART: "GET_CART",
+    UPDATE_CART_ITEMS: "UPDATE_CART_ITEMS",
     SYNC_CART: "SYNC_CART",
-    NOT_SYNC_CART: "NOT_SYNC_CART"
+    NOT_SYNC_CART: "NOT_SYNC_CART",
+    INIT_CART_ITEMS: "INIT_CART_ITEMS",
+    REMOVE_CART_ITEM: "REMOVE_CART_ITEM"
 }
 
 export const getCart = (token) => async (dispatch) => {
     try {
         const res = await getDataAPI('cart', token)
         if (res.status === 200 && res.data.cart.cart_items) {
-            console.log(res.data.cart)
             dispatch({
-                type: CART_ACTION_TYPES.GET_CART,
+                type: CART_ACTION_TYPES.UPDATE_CART_ITEMS,
                 payload: res.data.cart.cart_items
             })
             return res.data.cart
@@ -30,21 +32,6 @@ export const getCart = (token) => async (dispatch) => {
         console.log(err)
     }
 }
-
-export const getCartFromStorage = () => async (dispatch) => {
-    try {
-        const cartItems = JSON.parse(localStorage.getItem('cart_items'))
-        if (cartItems) {
-            dispatch({
-                type: CART_ACTION_TYPES.GET_CART_ITEMS_FROM_STORAGE,
-                payload: cartItems
-            })
-        }
-    } catch (err) {
-        console.log(err)
-    }
-}
-
 export const addProductToCart = (product, quantity, token) => async (dispatch) => {
     try {
         const res = await postDataAPI('cart/add-product', { product, quantity }, token)
@@ -61,7 +48,7 @@ export const updateCart = ({ token, cart_items }) => async (dispatch) => {
         const res = await putDataAPI('cart/update', { cartItems: cart_items }, token)
         if (res.status === 200) {
             dispatch({
-                type: CART_ACTION_TYPES.GET_CART_ITEMS_FROM_STORAGE,
+                type: CART_ACTION_TYPES.GET_CART,
                 payload: cart_items
             })
         }

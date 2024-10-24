@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import IconButton from "../../button/IconButton";
 import { formatNumberWithCommas } from "../../../../utils/stringProcess";
-import { getFollowingProducts, unfollowProduct } from "../../../../redux/actions/productActions";
+import { getFollowingProducts, PRODUCT_ACTION_TYPES, unfollowProduct } from "../../../../redux/actions/productActions";
 
 
 const Following = () => {
@@ -16,8 +16,8 @@ const Following = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
-        if (auth?.token) {
-            dispatch(getFollowingProducts(auth?.token));
+        if (auth.token) {
+            dispatch(getFollowingProducts(auth.token));
         }
     }, [dispatch, auth]);
 
@@ -26,7 +26,11 @@ const Following = () => {
     }
 
     const handleDeleteItem = (index) => {
-        dispatch(unfollowProduct({ token: auth.token, product: followings[index].product }));
+        if (auth.token) {
+            dispatch(unfollowProduct({ token: auth.token, product: followings[index].product }));
+        } else {
+            dispatch({ type: PRODUCT_ACTION_TYPES.UNFOLLOW_PRODUCT, payload: { product: followings[index].product } });
+        }
     }
 
     return (
