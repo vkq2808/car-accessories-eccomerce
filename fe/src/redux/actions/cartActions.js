@@ -7,7 +7,7 @@ export const CART_ACTION_TYPES = {
     CLEAR_CART: "CLEAR_CART",
     GET_CART_ITEMS_FROM_STORAGE: "GET_CART_ITEMS_FROM_STORAGE",
     GET_CART: "GET_CART",
-    UPDATE_CART_ITEMS: "UPDATE_CART_ITEMS",
+    UPDATE_CART: "UPDATE_CART",
     SYNC_CART: "SYNC_CART",
     NOT_SYNC_CART: "NOT_SYNC_CART",
     INIT_CART_ITEMS: "INIT_CART_ITEMS",
@@ -19,10 +19,9 @@ export const getCart = (token) => async (dispatch) => {
         const res = await getDataAPI('cart', token)
         if (res.status === 200 && res.data.cart.cart_items) {
             dispatch({
-                type: CART_ACTION_TYPES.UPDATE_CART_ITEMS,
-                payload: res.data.cart.cart_items
+                type: CART_ACTION_TYPES.UPDATE_CART,
+                payload: { items: res.data.cart.cart_items }
             })
-            return res.data.cart
         }
     } catch (err) {
         if (err?.res?.status === 401) {

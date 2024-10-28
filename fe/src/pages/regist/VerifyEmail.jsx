@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { verifyEmail } from '../../redux/actions/authActions';
 import Loading from '../../components/common/alert/Loading';
+import { useNavigate } from 'react-router-dom';
 
 
 const VerifyEmail = () => {
+    const navigate = useNavigate();
     const redirecting = useSelector(state => state.auth.redirecting);
     const [timer, setTimer] = useState(5);
     const [isLoading, setIsLoading] = useState(false);

@@ -1,7 +1,7 @@
 import React from "react";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-const ICON_BUTTON_TAILWIND_CSS = "flex cursor-pointer border-none bg-transparent hover:text-[#002fff] px-2 items-center justify-center";
+const ICON_BUTTON_TAILWIND_CSS = "flex cursor-pointer border-none bg-transparent hover:text-[#002fff] px-2";
 
 /**
  * IconButton component renders a button with an icon and optional status indicator.

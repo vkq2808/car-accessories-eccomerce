@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { regist } from '../../redux/actions/authActions';
 
 import './Regist.css';
+import { useNavigate } from 'react-router-dom';
 
 const Regist = () => {
+    const navigate = useNavigate();
     const redirecting = useSelector(state => state.auth.redirecting);
     const dispatch = useDispatch();
     const initialState = { email: "", password: "", firstName: "", lastName: "", phone: "", birth: "" }

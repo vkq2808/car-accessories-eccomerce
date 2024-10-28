@@ -9,7 +9,7 @@ import EnterNewPassword from './resetPassword/EnterNewPassword';
 import ProductDetail from './product/ProductDetail';
 import SearchPage from './search/SearchPage';
 import CartDetail from './cart/CartDetail';
-import CheckOut from './checkout/CheckOut';
+import CheckOutFirstStep from './checkout/CheckOutStep1';
 
 export {
     Regist,
@@ -23,5 +23,5 @@ export {
     ProductDetail,
     SearchPage,
     CartDetail,
-    CheckOut
+    CheckOutFirstStep
 }

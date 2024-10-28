@@ -1,7 +1,8 @@
 import { CART_ACTION_TYPES } from '../actions/cartActions'
 
 const initialState = {
-    items: []
+    items: [],
+    deleted_items: []
 }
 
 const cartReducer = (state = initialState, action) => {
@@ -30,10 +31,11 @@ const cartReducer = (state = initialState, action) => {
             return {
                 items: action.payload
             }
-        case CART_ACTION_TYPES.UPDATE_CART_ITEMS:
+        case CART_ACTION_TYPES.UPDATE_CART:
             return {
                 ...state,
-                items: action.payload
+                items: action.payload.items || state.items,
+                deleted_items: action.payload.deleted_items || state.deleted_items
             }
         case CART_ACTION_TYPES.INIT_CART_ITEMS:
             return {

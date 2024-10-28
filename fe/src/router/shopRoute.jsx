@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import { CartDetail, CheckOut } from '../pages';
+import { CartDetail, CheckOutFirstStep } from '../pages';
 import { HeaderWithSideBar } from '../components/common'
 
 const ShopRoute = () => {
@@ -10,7 +10,7 @@ const ShopRoute = () => {
       <HeaderWithSideBar />
       <Routes>
         <Route path='/detail' exact element={<CartDetail />} />
-        <Route path='/checkout' element={<CheckOut />} />
+        <Route path='/checkout' element={<CheckOutFirstStep />} />
       </Routes>
     </>
   );

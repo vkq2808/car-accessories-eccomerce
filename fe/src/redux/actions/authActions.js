@@ -96,7 +96,7 @@ export const logout = () => async (dispatch) => {
         localStorage.removeItem("refreshToken")
         localStorage.removeItem("cart_items")
         localStorage.removeItem("following_items")
-        dispatch({ type: GLOBALTYPES.LOGOUT })
+        dispatch({ type: AUTH_ACTION_TYPES.LOGOUT })
         dispatch({ type: PRODUCT_ACTION_TYPES.GET_FOLLOWING_PRODUCTS_FROM_STORAGE, payload: [] })
         dispatch({ type: CART_ACTION_TYPES.GET_CART_ITEMS_FROM_STORAGE, payload: [] })
         window.location.href = "/"

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changePassword } from '../../redux/actions/authActions';
+import { useNavigate } from 'react-router-dom';
 
 
 const EnterNewPassword = () => {
+    const navigate = useNavigate();
     const redirecting = useSelector(state => state.auth.redirecting);
     const [timer, setTimer] = useState(5);
     const dispatch = useDispatch();

@@ -8,9 +8,8 @@ const Logout = () => {
     const dispatch = useDispatch();
 
     React.useEffect(() => {
-        dispatch(logout()).then(() => {
-            setIsLoading(false);
-        });
+        dispatch(logout());
+        setIsLoading(false);
     }, [dispatch]);
     return (
         <>

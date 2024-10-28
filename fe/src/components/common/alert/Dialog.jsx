@@ -5,12 +5,11 @@ import { syncCartAndFollowing } from '../../../redux/actions/authActions'
 import { GLOBALTYPES } from '../../../redux/actions/globalTypes'
 import { useDispatch } from 'react-redux'
 
-export const SyncCartAndFollowingTemplate = (cartItemsRef, followingItemsRef, token) => {
-  const dispatch = useDispatch();
+export const SyncCartAndFollowingTemplate = (cartItemsRef, followingItemsRef, token, dispatch) => {
 
   return (
     <div className='flex justify-center flex-col'>
-      <div className='mb-2'>'Bạn có muốn khôi phục giỏ hàng và sản phẩm theo dõi không?'</div>
+      <div className='mb-2'>'Bạn có muốn đồng bộ giỏ hàng và sản phẩm theo dõi không?'</div>
       <div className='flex justify-between'>
         <button className='btn btn-primary' onClick={() => {
           dispatch(syncCartAndFollowing(cartItemsRef, followingItemsRef, token));

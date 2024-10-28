@@ -30,10 +30,6 @@ const ProductDetail = () => {
             dispatch(getCart(auth.token));
             dispatch(getFollowingProducts(auth.token));
         }
-        else {
-            dispatch({ type: CART_ACTION_TYPES.INIT_CART_ITEMS })
-            dispatch({ type: PRODUCT_ACTION_TYPES.INIT_FOLLOWING_PRODUCTS })
-        }
     }, [auth.token, dispatch]);
 
     useEffect(() => {
@@ -118,10 +114,9 @@ const ProductDetail = () => {
         } else {
             if (cart.items.find(item => item.product.id === product.id)) {
                 let newItems = Array.from(cart.items).map(item => item.product.id === product.id ? { ...item, quantity: item.quantity + quantity } : item)
-                dispatch({ type: CART_ACTION_TYPES.UPDATE_CART_ITEMS, payload: newItems })
+                dispatch({ type: CART_ACTION_TYPES.UPDATE_CART, payload: { items: newItems } })
             } else {
                 dispatch({ type: CART_ACTION_TYPES.ADD_TO_CART, payload: { product: product, quantity: quantity } })
-                console.log({ product: product, quantity: quantity })
             }
         }
     }

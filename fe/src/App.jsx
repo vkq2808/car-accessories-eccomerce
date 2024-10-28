@@ -1,7 +1,7 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 
 import Alert from './components/common/alert/Alert';
 import Dialog, { SyncCartAndFollowingTemplate } from './components/common/alert/Dialog';
@@ -19,22 +19,17 @@ function App() {
     const auth = useSelector(state => state.auth);
     const cart = useSelector(state => state.cart);
     const followings = useSelector(state => state.product.following);
-    const hassSynced = useRef(false);
     const dispatch = useDispatch();
 
-    const cartItemsRef = useRef(null);
-    const followingItemsRef = useRef(null);
-
     useEffect(() => {
-        if (!auth.token) {
-            cartItemsRef.current = JSON.parse(localStorage.getItem('cart_items'));
-            followingItemsRef.current = JSON.parse(localStorage.getItem('following_items'));
-        } else {
-            if (cartItemsRef.current?.length > 0 || followingItemsRef.current?.length > 0) {
+        if (auth.token) {
+            let cart_items = JSON.parse(localStorage.getItem('cart_items') || '[]');
+            let following_items = JSON.parse(localStorage.getItem('following_items') || '[]');
+            if (cart_items?.length > 0 || following_items?.length > 0) {
                 dispatch({
                     type: GLOBALTYPES.DIALOG, payload: {
                         title: 'Thông báo',
-                        children: SyncCartAndFollowingTemplate(cartItemsRef.current, followingItemsRef.current, auth.token),
+                        children: SyncCartAndFollowingTemplate(cart_items, following_items, auth.token, dispatch),
                         onClose: () => {
                             localStorage.removeItem('cart_items');
                             localStorage.removeItem('following_items');
@@ -47,19 +42,15 @@ function App() {
     }, [auth.token, dispatch]);
 
 
-    useEffect(() => {
-        if (!hassSynced) {
-            if (localStorage.getItem('cart_items')) {
-                dispatch({ type: CART_ACTION_TYPES.GET_CART_ITEMS_FROM_STORAGE, payload: JSON.parse(localStorage.getItem('cart_items')) });
-            }
-            if (localStorage.getItem('following_items')) {
-                dispatch({ type: PRODUCT_ACTION_TYPES.GET_FOLLOWING_PRODUCTS_FROM_STORAGE, payload: JSON.parse(localStorage.getItem('following_items')) });
-            }
-
-            dispatch(SynCartAndFollowingProducts({ cart_items: cart.items, followings }));
-            hassSynced.current = true;
-        }
-    });
+    // useEffect(() => {
+    //     if (localStorage.getItem('cart_items')) {
+    //         dispatch({ type: CART_ACTION_TYPES.GET_CART_ITEMS_FROM_STORAGE, payload: JSON.parse(localStorage.getItem('cart_items') || '[]') });
+    //     }
+    //     if (localStorage.getItem('following_items')) {
+    //         dispatch({ type: PRODUCT_ACTION_TYPES.GET_FOLLOWING_PRODUCTS_FROM_STORAGE, payload: JSON.parse(localStorage.getItem('following_items') || '[]') });
+    //     }
+    //     dispatch(SynCartAndFollowingProducts({ cart_items: cart.items, followings }));
+    // });
 
 
 

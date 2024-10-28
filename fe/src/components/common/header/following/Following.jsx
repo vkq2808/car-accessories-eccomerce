@@ -38,7 +38,7 @@ const Following = () => {
             <IconButton
                 iconClassName="fas fa-heart"
                 onClick={toggleFollowing}
-                className={`${isOpen ? 'text-[#002fff]' : ''}`}
+                className={`items-center justify-center ${isOpen ? 'text-[#002fff]' : ''}`}
                 status={followings?.length > 0 ? { count: followings?.length } : null} />
             {isOpen && (
                 <div style={{ border: "1px solid #ccc", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}

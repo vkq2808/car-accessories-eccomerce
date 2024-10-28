@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { resetPassword } from '../../redux/actions/authActions';
+import { useNavigate } from 'react-router-dom';
 
 
 const EnterEmail = () => {
+    const navigate = useNavigate();
     const [timer, setTimer] = useState(5);
     const redirecting = useSelector(state => state.auth.redirecting);
     const dispatch = useDispatch();

@@ -140,7 +140,7 @@ export const SynCartAndFollowingProducts = ({ cart_items, followings }) => async
 
     // Chỉ dispatch nếu có sự thay đổi
     if (JSON.stringify(updatedCartItems) !== JSON.stringify(cart_items)) {
-        dispatch({ type: CART_ACTION_TYPES.UPDATE_CART_ITEMS, payload: updatedCartItems });
+        dispatch({ type: CART_ACTION_TYPES.UPDATE_CART, payload: updatedCartItems });
     }
 
     if (JSON.stringify(updatedFollowingItems) !== JSON.stringify(followings)) {
