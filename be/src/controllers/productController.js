@@ -5,7 +5,8 @@ import {
     getFollowingProducts,
     unfollowProduct,
     syncFollowProduct,
-    getProductsByCategoryId
+    getProductsByCategoryId,
+    searchAndCountProducts,
 }
     from '../services/productService.js';
 
@@ -126,28 +127,22 @@ export const handleSyncFollowProduct = async (req, res) => {
 
 export const handleSearch = async (req, res) => {
     try {
-        let categoryId = req.query.category_id;
-        let page = req.query.page || 1;
-        let limit = req.query.limit || 10;
+        let search = req.query.searchTerm;
+        let categoryId = parseInt(req.query.categoryId);
+        let page = parseInt(req.query.page) || 1;
+        let limit = parseInt(req.query.limit) || 10;
 
         if (page < 1) page = 1;
-        if (limit < 1 || limit > 100) limit = 20;
+        if (limit < 1 || limit > 100) limit = 10;
 
-        if (categoryId) {
-            let products = await getProductsByCategoryId(categoryId);
+        console.log(search, categoryId, page, limit);
 
-            if (!products) {
-                console.log("Products not found");
-                return res.status(204).send({ msg: "Products not found" });
-            }
-
-            const result = products.slice((page - 1) * limit, page * limit);
-
-            console.log("Get products successfully\n");
-            return res.status(200).send({ msg: "Get products successfully", products: result });
+        if (!search) {
+            const products = await getProductsByCategoryId(categoryId, page, limit);
+            return res.status(200).send({ msg: "Get products successfully", products: products });
         } else {
-            console.log("Category id is required");
-            return res.status(400).send({ msg: "Category id is required" });
+            const result = await searchAndCountProducts(search, categoryId, page, limit);
+            return res.status(200).send({ msg: "Get products successfully", result: { products: result.rows, total: result.count } });
         }
     } catch (error) {
         console.log(error)

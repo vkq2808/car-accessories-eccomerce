@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { CART_ACTION_TYPES, getCart, updateCart } from '../../../../redux/actions/cartActions';
-import { formatNumberWithCommas } from '../../../../utils/stringProcess';
+import { formatNumberWithCommas } from '../../../../utils/stringUtils';
 import { useNavigate } from 'react-router-dom';
 import IconButton from '../../button/IconButton';
 
@@ -66,7 +66,7 @@ const Cart = () => {
                     <div className='flex justify-between'>
                         <h5 className='text-[#333]'>Giỏ hàng</h5>
                         <div className='hover:text-blue-400 cursor-pointer'
-                            onClick={() => nav('/user/cart')}
+                            onClick={() => nav('/cart/detail')}
                         >
                             Xem chi tiết
                         </div>

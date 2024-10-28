@@ -1,3 +1,5 @@
+
+import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import './Home.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -7,8 +9,9 @@ import 'swiper/css/pagination';
 import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProducts } from '../../redux/actions/productActions';
+import { getNewProducts } from '../../redux/actions/productActions';
 import Helmet from 'react-helmet';
+import { formatNumberWithCommas, maximizeString } from '../../utils/stringUtils';
 
 const Home = () => {
     const [categorySelected, setCategorySelected] = useState(null);
@@ -16,23 +19,18 @@ const Home = () => {
     const [isHoveringPanel, setIsHoveringPanel] = useState(false);
     const [isSmallDevice, setIsSmallDevice] = React.useState(false);
     const [cateSwiperItemCount, setCateSwiperItemCount] = React.useState(4);
-    const [newProducts, setNewProducts] = useState([]);
     const [deviceWidth, setDeviceWidth] = useState(window.innerWidth);
 
-    const products = useSelector(state => state.product.list);
+    const newProducts = useSelector(state => state.product.newProducts);
+    const [hoveringNewProducts, setHoveringNewProducts] = useState(Array(newProducts.length).fill(false));
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (!products || products.length === 0) {
-            dispatch(getProducts());
-        }
+        dispatch(getNewProducts());
+    }, [dispatch]);
 
-        let newProductsUpdate = products
-            .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)) // So sánh chính xác theo ngày
-            .slice(4, 40); // Lấy 4 sản phẩm mới nhất
-        setNewProducts(newProductsUpdate);
-    }, [products, dispatch]);
 
     const policies = [
         {
@@ -304,6 +302,20 @@ const Home = () => {
         }
     });
 
+    const handleMouseEnterNewProduct = (index) => {
+        setHoveringNewProducts((prevHovering) => {
+            const newHoveringNewProducts = new Array(prevHovering.length).fill(false);
+
+            if (index >= 0) {
+                newHoveringNewProducts[index] = true;
+            }
+
+            return newHoveringNewProducts;
+        });
+
+    }
+
+
     return (
         <>
             <Helmet>
@@ -440,7 +452,7 @@ const Home = () => {
                     <h2 className='underline-title m-2 w-full'>
                         DANH MỤC SẢN PHẨM VÀ DỊCH VỤ
                     </h2>
-                    <div className={`w-full slider-container block max-w-[1300px] p-2 px-10`}>
+                    <div className={`slider-container block w-[100vw] lg:w-[80vw] p-2 px-10`}>
                         <Swiper
                             modules={[Navigation, Pagination, EffectFade]}
                             slidesPerView={cateSwiperItemCount}
@@ -471,26 +483,47 @@ const Home = () => {
                     </div>
                 </div>
                 {/* SẢN PHẨM MỚI */}
-                <div className="w-[100vw] lg:w-[80vw] flex flex-col items-start justify-start">
+                <div className="w-[100vw] lg:w-[80vw] flex flex-col items-center justify-center">
                     <h2 className='underline-title m-2 w-full'>
                         SẢN PHẨM MỚI
                     </h2>
-                    <div className="flex flex-row justify-between flex-wrap w-full p-2">
-                        {newProducts && newProducts.map(product => (
-                            <div key={product.id} className='product-card flex flex-col items-center'>
-                                <div className='product-name text-center text-lg font-semibold '
+                    <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mt-5'>
+                        {newProducts.map((product, index) => (
+                            <div
+                                key={product.id}
+                                className={'h-[328px] w-[342px] bg-white m-[0.75rem] shadow-md flex flex-col cursor-pointer items-center ' +
+                                    (index === 6 || index === 7 ? ' md:hidden lg:flex' : '')}
+                                onClick={() => navigate(`/product/${product.path}`)}
+                                onMouseEnter={() => handleMouseEnterNewProduct(index)}
+                                onMouseLeave={() => handleMouseEnterNewProduct(-1)}
+                            >
+                                <motion.div
+                                    className={`flex h-[200px] w-full items-center justify-center transition ease-in ${hoveringNewProducts[index] ? '' : 'p-[20px]'}`}
+                                    initial={{ opacity: 1 }} // Trạng thái ban đầu
+                                    animate={{ opacity: hoveringNewProducts[index] ? 0.8 : 1 }} // Giảm độ trong suốt khi hover
+                                    transition={{ duration: 0.4 }} // Thời gian animation
                                 >
-                                    {product.name}
-                                </div>
-                                <div className='w-full flex justify-center items-center content-center'>
-                                    <img
+                                    <motion.img
+                                        initial={{ scale: 1 }} // Trạng thái ban đầu
+                                        animate={{ scale: hoveringNewProducts[index] ? 1.03 : 1 }}
+                                        transition={{ duration: 0.4 }}
+
+                                        loading='lazy'
                                         src={product.imageUrl}
-                                        alt={product.name}
-                                        className='w-auto h-full max-h-[152px] object-cover my-2 cursor-pointer'
+                                        alt={maximizeString(product.name, 20)}
+                                        className={`w-full h-[200px] object-cover`}
                                     />
-                                </div>
-                                <div className="gradient-box cursor-pointer"
-                                    onClick={() => handleNavigate(`/product/${product.path}`)} />
+                                </motion.div>
+                                <motion.div
+                                    className='flex flex-col justify-center w-[282px]'
+
+                                    initial={{ opacity: 1 }}
+                                    animate={{ opacity: hoveringNewProducts[index] ? 0.8 : 1 }}
+                                    transition={{ duration: 0.4 }}
+                                >
+                                    <h1 className='text-lg font-semibold mt-2'>{maximizeString(product.name, 45)}</h1>
+                                    <p className='text-lg font-semibold mt-2'>{formatNumberWithCommas(product.price)} {product.currency}</p>
+                                </motion.div>
                             </div>
                         ))}
                     </div>

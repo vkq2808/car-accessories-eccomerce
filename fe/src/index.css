@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap');
-@import "lineicons-react/dist/styles/styles.css";
 
 @tailwind base;
 @tailwind components;
@@ -12,4 +11,69 @@ body {
         sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+    --color-primary: #2d3748;
+    --color-secondary: #2b6cb0;
+    --color-tertiary: #718096;
+    --color-quaternary: #e2e8f0;
+    --color-quinary: #edf2f7;
+    --color-white: #fff;
+    --color-black: #000;
+    --color-gray: #718096;
+    --color-red: #f56565;
+    --color-green: #48bb78;
+    --color-blue: #4299e1;
+    --color-yellow: #ecc94b;
+    --color-indigo: #667eea;
+    --color-purple: #9f7aea;
+    --color-pink: #ed64a6;
+
+    --font-sans: 'IBM Plex Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+
+    --font-light: 100;
+    --font-normal: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+    --font-bold: 700;
+
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+
+    --dark-primary-background-color: #2d3748;
+    --dark-secondary-background-color: #2b6cb0;
+    --dark-tertiary-background-color: #718096;
+    --dark-quaternary-background-color: #e2e8f0;
+
+    --dark-primary-text-color: #e2e8f0;
+    --dark-secondary-text-color: #e2e8f0;
+    --dark-tertiary-text-color: #e2e8f0;
+    --dark-quaternary-text-color: #e2e8f0;
+
+    --light-primary-background-color: #e2e8f0;
+    --light-secondary-background-color: #e2e8f0;
+    --light-tertiary-background-color: #e2e8f0;
+    --light-quaternary-background-color: #e2e8f0;
+
+    --light-primary-text-color: #2d3748;
+    --light-secondary-text-color: #2d3748;
+    --light-tertiary-text-color: #2d3748;
+    --light-quaternary-text-color: #2d3748;
+
+    --primary-color: #2b6cb0;
+    --secondary-color: #2b6cb0;
+    --tertiary-color: #2b6cb0;
+    --quaternary-color: #2b6cb0;
+
+    --primary-text-color: #2d3748;
+    --secondary-text-color: #2d3748;
+    --tertiary-text-color: #2d3748;
+    --quaternary-text-color: #2d3748;
+
 }

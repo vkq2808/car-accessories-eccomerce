@@ -8,7 +8,7 @@ const Toast = ({ msg, handleShow, icon, textColor }) => {
         return () => clearTimeout(timeout)
     }, [handleShow])
     return (
-        <div className={`toast show position-fixed !bg-[rgba(255,255,255,0.95)]`} style={{ maxWidth: "350px", right: "10px", top: "10px", zIndex: 1000 }}>
+        <div className={`toast show position-fixed !bg-[rgba(255,255,255,0.95)]`} style={{ maxWidth: "350px", left: "10px", top: "10px", zIndex: 1000 }}>
             <div className={`toast-header justify-content-between`}>
                 <strong className={`mr-auto ${textColor}`}><p style={{ fontSize: "1.2rem" }}><i className={`${icon}`} /> {msg.title}</p></strong>
                 <button

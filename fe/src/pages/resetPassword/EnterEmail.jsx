@@ -4,7 +4,8 @@ import { resetPassword } from '../../redux/actions/authActions';
 
 
 const EnterEmail = () => {
-
+    const [timer, setTimer] = useState(5);
+    const redirecting = useSelector(state => state.auth.redirecting);
     const dispatch = useDispatch();
     const initialState = { email: "" }
     const [userData, setUserData] = useState(initialState)
@@ -32,6 +33,28 @@ const EnterEmail = () => {
         } else {
             setErrors(errors);
         }
+    }
+
+    const redirectTimer = async () => {
+        if (timer === 0) {
+            navigate('/');
+        } else {
+            setTimeout(() => {
+                setTimer((prev) => prev - 1);
+            }, 1000);
+        }
+    };
+
+    if (redirecting) {
+        redirectTimer();
+
+        return (
+            <div className='flex flex-col w-full h-[60dvh] items-center justify-center'>
+                <h1>Đăng ký thành công</h1>
+                <h4>Hãy kiểm tra email của bạn để xác thực tài khoản</h4>
+                <h4>Bạn sẽ được đưa về trang chủ trong {timer} giây nữa </h4>
+            </div>
+        );
     }
 
     return (

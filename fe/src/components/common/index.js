@@ -1,5 +1,6 @@
 import Alert from './alert/Alert';
 import Loading from './alert/Loading';
+import LoadingSpinner from './alert/LoadingSpinner';
 import Toast from './alert/Toast';
 import Footer from './footer/Footer';
 import HeaderWithSideBar from './header/HeaderWithSideBar';
@@ -19,5 +20,6 @@ export {
     SideBar,
     SideBarItem,
     Header,
-    Cart
+    Cart,
+    LoadingSpinner
 }

@@ -5,7 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import { useDispatch, useSelector } from "react-redux";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 import { addProductToCart, CART_ACTION_TYPES, getCart } from "../../redux/actions/cartActions";
-import { formatNumberWithCommas } from "../../utils/stringProcess";
+import { formatNumberWithCommas } from "../../utils/stringUtils";
 import { IconButton } from "../../components/common";
 import { followProduct, getFollowingProducts, PRODUCT_ACTION_TYPES, unfollowProduct } from "../../redux/actions/productActions";
 

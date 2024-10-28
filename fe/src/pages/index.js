@@ -8,6 +8,8 @@ import EnterEmail from './resetPassword/EnterEmail';
 import EnterNewPassword from './resetPassword/EnterNewPassword';
 import ProductDetail from './product/ProductDetail';
 import SearchPage from './search/SearchPage';
+import CartDetail from './cart/CartDetail';
+import CheckOut from './checkout/CheckOut';
 
 export {
     Regist,
@@ -19,5 +21,7 @@ export {
     EnterEmail,
     EnterNewPassword,
     ProductDetail,
-    SearchPage
+    SearchPage,
+    CartDetail,
+    CheckOut
 }

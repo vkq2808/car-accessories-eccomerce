@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import IconButton from "../../button/IconButton";
-import { formatNumberWithCommas } from "../../../../utils/stringProcess";
+import { formatNumberWithCommas } from "../../../../utils/stringUtils";
 import { getFollowingProducts, PRODUCT_ACTION_TYPES, unfollowProduct } from "../../../../redux/actions/productActions";
 
 

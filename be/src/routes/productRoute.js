@@ -6,7 +6,7 @@ let route = express.Router();
 let productRoute = (app) => {
     route.get("/", handleGetAllProducts);
     route.get("/detail/:path", handleGetProductDetail);
-    route.get("/:query", handleSearch);
+    route.get("/search", handleSearch);
 
     return app.use("/api/v1/product", route);
 }

@@ -1,22 +1,43 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import './Header.css';
 import { IconButton, Cart } from '..';
-import { formatNumberWithCommas } from '../../../utils/stringProcess';
+import { formatNumberWithCommas } from '../../../utils/stringUtils';
 import { getCategories } from '../../../redux/actions/categoryActions';
-import { getProducts } from '../../../redux/actions/productActions';
 import Following from './following/Following';
+import { PRODUCT_ACTION_TYPES, searchProducts } from '../../../redux/actions/productActions';
+import { LoadingSpinner } from '..';
 const Header = ({ setIsSideBarOpen }) => {
 
     const auth = useSelector(state => state.auth);
-    const products = useSelector(state => state.product.list);
     const categories = useSelector(state => state.category.list);
+    const searchResults = useSelector(state => state.product.searchResults);
     const nav = useNavigate();
     const dispatch = useDispatch();
-    const [searchTerm, setSearchTerm] = React.useState('');
-    const [searchResults, setSearchResults] = React.useState([]);
-    const [categoryId, setCategoryId] = React.useState(-1);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [categoryId, setCategoryId] = useState(-1);
+    const [escapePressed, setEscapePressed] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [displayedProducts, setDisplayedProducts] = useState([]);
+
+    useEffect(() => {
+        const renderItemsWithDelay = async () => {
+            setDisplayedProducts([]); // Đặt lại danh sách hiển thị
+            for (let i = 0; i < searchResults.products.length; i++) {
+                await new Promise(resolve => {
+                    setTimeout(() => {
+                        setDisplayedProducts(prev => [...prev, searchResults.products[i]]);
+                        resolve();
+                    }, 50); // Thay đổi thời gian nếu cần
+                });
+            }
+        };
+
+        if (searchResults.products.length > 0) {
+            renderItemsWithDelay();
+        }
+    }, [searchResults.products]);
 
     const handleProfileClick = () => {
         nav('/profile');
@@ -24,11 +45,7 @@ const Header = ({ setIsSideBarOpen }) => {
 
     const onSearchChange = (e) => {
         setSearchTerm(e.target.value);
-
-        if (e.target.value === '') {
-            setSearchResults([]);
-            return;
-        }
+        setEscapePressed(false);
     };
 
     useEffect(() => {
@@ -37,41 +54,32 @@ const Header = ({ setIsSideBarOpen }) => {
         }
     }, [categories, dispatch]);
 
-    useEffect(() => {
-        if (!products) {
-            dispatch(getProducts());
-        }
-    }, [products, dispatch]);
-
     const onFilterCategoryChange = (e) => {
         setCategoryId(e.target.value);
     };
 
     useEffect(() => {
-        if (searchTerm !== '') {
-            let searchProducts = Array.from(products);
-            // Lọc sản phẩm dựa trên searchTerm
-            const filterByCategoryResults = searchProducts.filter(product =>
-                product.path.toLowerCase().includes(searchTerm.toLowerCase())
-            );
-
-            // Lọc tiếp theo categoryId nếu categoryId không phải là -1
-            const results = filterByCategoryResults.filter(product =>
-                product.categoryId === parseInt(categoryId) || parseInt(categoryId) === -1
-            );
-
-            setSearchResults(results);
-        } else {
-            // Nếu searchTerm rỗng, không thực hiện lọc, nhưng giữ nguyên searchResults trước đó hoặc đặt kết quả về rỗng
-            setSearchResults([]); // Hoặc giữ nguyên searchResults nếu muốn
-        }
-    }, [searchTerm, categoryId, products]);
+        setIsLoading(true);
+        setTimeout(() => {
+            if (searchTerm && searchTerm !== '' && (categoryId || categoryId === -1)) {
+                dispatch({ type: PRODUCT_ACTION_TYPES.CLEAR_SEARCH_PRODUCTS });
+                dispatch(searchProducts(searchTerm, categoryId, 1, 6));
+            } else {
+                dispatch({ type: PRODUCT_ACTION_TYPES.CLEAR_SEARCH_PRODUCTS });
+            }
+            setIsLoading(false);
+        }, 300);
+    }, [dispatch, searchTerm, categoryId]);
 
 
 
     const handleSearch = (e) => {
         if (searchTerm === '') {
             return;
+        }
+
+        if (e.key === 'Escape') {
+            setEscapePressed(true);
         }
 
         if (e.key === 'Enter') {
@@ -84,7 +92,7 @@ const Header = ({ setIsSideBarOpen }) => {
     return (
         <div className='flex flex-col w-[100vw] md:w-[80vw] border-none z-10 bg-white md:py-0'>
             <header className="PageHeader flex flex-col md:flex-row justify-between items-center border-b border-b-black">
-                <div className="HomeIcon m-[8px] mb-[20px] md:mb-[8px]">
+                <div className="HomeIcon m-[8px] mb-[10px] md:mb-0">
                     <img
                         className="home-icon w-[250px] cursor-pointer"
                         src="https://file.hstatic.net/200000317829/file/logo-02_9e045ad7d96c45e0ade84fd8ff5e8ca2.png"
@@ -92,7 +100,7 @@ const Header = ({ setIsSideBarOpen }) => {
                         onClick={() => { nav('/'); }}
                     />
                 </div>
-                <div className="search-bar flex-row w-[40%] flex justify-center items-center ">
+                <div className="search-bar w-[40%] justify-center items-center hidden lg:!flex flex-row">
                     <select className="border px-2 py-1 w-[100px] "
                         onChange={(e) => onFilterCategoryChange(e)}
                         value={categoryId}
@@ -112,35 +120,48 @@ const Header = ({ setIsSideBarOpen }) => {
                         value={searchTerm}
                         onChange={onSearchChange}
                         onKeyDown={(e) => handleSearch(e)}
+                        onFocus={() => setEscapePressed(false)}
                     />
-                    {searchResults.length > 0 &&
-                        <div className="search-result absolute bg-white border border-black w-[500px] top-[78px]">
+                    {searchTerm !== '' && !escapePressed &&
+                        <motion.div
+                            className="search-result absolute bg-white border border-black w-[500px] top-[78px]"
+
+                            initial={{ opacity: 0, y: -30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3 }}
+                        >
                             <div className="flex justify-between">
                                 <h6 className="text-center">Kết quả tìm kiếm:</h6>
-                                <h6>{searchResults.length} sản phẩm được tìm thấy</h6>
+                                <h6>{searchResults.total} sản phẩm được tìm thấy</h6>
                             </div>
-                            {searchResults.slice(0, 5).map(product => (
-                                <div key={product.id}
-                                    className="search-item p-2 border-b border-black"
-                                    onClick={() => nav('/product/' + product.path)}>
-                                    <div className="flex p-1 m-1 border items-center">
-                                        <img
-                                            className="w-[70px] h-[70px] cursor-pointer"
-                                            src={product.imageUrl}
-                                            alt="Ảnh"
-                                        />
-                                        <div className="flex flex-col m-2 pr-4">
-                                            <div>{product.name}</div>
-                                            <div
-                                                className='text-blue-500'
-                                            >
-                                                {formatNumberWithCommas(product.price)} {product.currency}
+                            {(isLoading &&
+                                <LoadingSpinner />) ||
+                                displayedProducts.map((product, index) => (
+                                    <motion.div
+                                        key={product.id}
+                                        initial={{ opacity: 0, x: 30 }} // Bắt đầu từ trạng thái ẩn
+                                        animate={{ opacity: 1, x: 0 }}   // Hiện ra với opacity 1
+                                        transition={{ duration: 0.2, delay: index * 0.1 }} // Tăng dần delay để tạo hiệu ứng lần lượt
+                                        className="search-item p-2 border-b border-black "
+                                    >
+                                        <div className="flex p-1 m-1 border items-center"
+                                            onClick={() => nav('/product/' + product.path)}>
+                                            <img
+                                                className="w-[70px] h-[70px] cursor-pointer"
+                                                src={product.imageUrl}
+                                                alt={product.name}
+                                            />
+                                            <div className="flex flex-col m-2 pr-4 cursor-pointer">
+                                                <div>{product.name}</div>
+                                                <div className='text-blue-500'>
+                                                    {formatNumberWithCommas(product.price)} {product.currency}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                                    </motion.div>
+                                ))
+                            }
+                        </motion.div>
                     }
                     <button onClick={handleSearch} className="s-btn block border w-auto py-2">
                         <IconButton iconClassName="fas fa-search"

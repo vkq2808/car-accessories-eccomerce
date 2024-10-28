@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { changePassword } from '../../redux/actions/authActions';
 
 
 const EnterNewPassword = () => {
-
+    const redirecting = useSelector(state => state.auth.redirecting);
+    const [timer, setTimer] = useState(5);
     const dispatch = useDispatch();
     const initialState = { password: "" }
     const [userData, setUserData] = useState(initialState)
@@ -34,6 +35,27 @@ const EnterNewPassword = () => {
         } else {
             setErrors(errors);
         }
+    }
+
+    const redirectTimer = async () => {
+        if (timer === 0) {
+            navigate('/');
+        } else {
+            setTimeout(() => {
+                setTimer((prev) => prev - 1);
+            }, 1000);
+        }
+    };
+
+    if (redirecting) {
+        redirectTimer();
+
+        return (
+            <div className='flex flex-col w-full h-[60dvh] items-center justify-center'>
+                <h1>Đổi mật khẩu thành công</h1>
+                <h4>Bạn sẽ được đưa về trang chủ trong {timer} giây nữa </h4>
+            </div>
+        );
     }
 
     return (

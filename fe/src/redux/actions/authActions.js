@@ -4,10 +4,9 @@ import { GLOBALTYPES } from "./globalTypes";
 import { getFollowingProducts, PRODUCT_ACTION_TYPES } from "./productActions";
 
 export const AUTH_ACTION_TYPES = {
-    AUTH: "AUTH"
+    REDIRECTING: "REDIRECTING",
+    LOGOUT: "LOGOUT",
 }
-
-const REGIST_SUCESS = "Email sent to verify email";
 
 export const login = (data) => async (dispatch) => {
     try {
@@ -53,10 +52,10 @@ export const regist = (data) => async (dispatch) => {
         dispatch({ type: GLOBALTYPES.LOADING, payload: true })
 
         const res = await postDataAPI("auth/regist", data)
-        if (res.data.msg === REGIST_SUCESS) {
-
+        if (res.status === 200) {
             dispatch({ type: GLOBALTYPES.LOADING, payload: false })
             dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.msg })
+            dispatch({ type: AUTH_ACTION_TYPES.REDIRECTING, payload: true })
         } else {
             dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg })
             dispatch({ type: GLOBALTYPES.LOADING, payload: false })
@@ -75,9 +74,10 @@ export const verifyEmail = ({ token, setIsLoading, setResult }) => async (dispat
         setIsLoading(true);
         const res = await getDataAPI(`auth/verify-email/${token}`);
         setResult(res.data.msg);
-        if (res.data.msg === "Email verified successfully") {
+        if (res.status === 200) {
             setIsLoading(false);
             dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.msg });
+            dispatch({ type: AUTH_ACTION_TYPES.REDIRECTING, payload: true });
         } else {
             setIsLoading(false);
             dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg });
@@ -96,6 +96,7 @@ export const logout = () => async (dispatch) => {
         localStorage.removeItem("refreshToken")
         localStorage.removeItem("cart_items")
         localStorage.removeItem("following_items")
+        dispatch({ type: GLOBALTYPES.LOGOUT })
         dispatch({ type: PRODUCT_ACTION_TYPES.GET_FOLLOWING_PRODUCTS_FROM_STORAGE, payload: [] })
         dispatch({ type: CART_ACTION_TYPES.GET_CART_ITEMS_FROM_STORAGE, payload: [] })
         window.location.href = "/"
@@ -171,9 +172,10 @@ export const resetPassword = (data) => async (dispatch) => {
         dispatch({ type: GLOBALTYPES.LOADING, payload: true })
 
         const res = await postDataAPI("auth/reset-password", data, localStorage.getItem("accessToken"))
-        if (res.data.msg === "Email sent to reset password") {
+        if (res.status === 200) {
             dispatch({ type: GLOBALTYPES.LOADING, payload: false })
             dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.msg })
+            dispatch({ type: AUTH_ACTION_TYPES.REDIRECTING, payload: true })
         } else {
             dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg })
             dispatch({ type: GLOBALTYPES.LOADING, payload: false })
@@ -192,10 +194,11 @@ export const changePassword = (data) => async (dispatch) => {
         dispatch({ type: GLOBALTYPES.LOADING, payload: true })
 
         const res = await postDataAPI("auth/change-password", data)
-        if (res.data.msg === "Password changed successfully") {
+        if (res.status === 200) {
             dispatch({ type: GLOBALTYPES.LOADING, payload: false })
             dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.msg })
             dispatch({ type: GLOBALTYPES.AUTH, payload: { user: res.data.user } })
+            dispatch({ type: AUTH_ACTION_TYPES.REDIRECTING, payload: true })
         } else {
             dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg })
             dispatch({ type: GLOBALTYPES.LOADING, payload: false })
