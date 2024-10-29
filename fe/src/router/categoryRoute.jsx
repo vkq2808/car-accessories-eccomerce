@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { HeaderWithSideBar } from '../components/common'
-import ProductsByCategory from '../pages/product/ProductsByCategory';
+import { SearchPage } from '../pages';
 
 
 const CategoryRoute = () => {
@@ -9,7 +9,7 @@ const CategoryRoute = () => {
     <>
       <HeaderWithSideBar />
       <Routes>
-        <Route path='/*' element={<ProductsByCategory />} />
+        <Route path='/*' element={<SearchPage />} />
       </Routes>
     </>
   );

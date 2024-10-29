@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom'
 import { HeaderWithSideBar } from '../components/common'
-import { Home, UserProfile, SearchPage } from '../pages'
+import { UserProfile, SearchPage, NewHome } from '../pages'
 import { useSelector } from 'react-redux';
 
 const HomeRoute = () => {
@@ -12,7 +12,7 @@ const HomeRoute = () => {
         <>
             <HeaderWithSideBar user={auth.user} />
             <Routes>
-                <Route path='' element={<Home />} />
+                <Route path='' element={<NewHome />} />
                 <Route path='profile' element={<UserProfile />} />
                 <Route path='profile/edit' element={<UserProfile isEditing={true} />} />
                 <Route path='search/:searchTerm' element={<SearchPage />} loader />

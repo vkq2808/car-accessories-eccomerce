@@ -4,7 +4,7 @@ const initalState = {
     list: [],
     following: [],
     newProducts: [],
-    popularProducts: [],
+    trendingProducts: [],
     searchResults: {
         products: [],
         total: 0
@@ -28,10 +28,10 @@ const productReducer = (state = initalState, action) => {
                     }
                 })
             }
-        case PRODUCT_ACTION_TYPES.GET_POPULAR_PRODUCTS:
+        case PRODUCT_ACTION_TYPES.GET_TRENDING_PRODUCTS:
             return {
                 ...state,
-                popularProducts: action.payload
+                trendingProducts: action.payload
             }
         case PRODUCT_ACTION_TYPES.SEARCH_PRODUCTS:
             return {

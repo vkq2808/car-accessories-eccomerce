@@ -77,15 +77,21 @@ export const handleSyncCart = async (req, res) => {
 
         const cart_items = req.body.cart_items;
         cart_items.forEach(item => {
+            let itemFound = false;
+
             cart.cart_items.forEach(cartItem => {
                 if (item.product.id === cartItem.product.id) {
                     cartItem.quantity += item.quantity;
                     updateCartItemQuantity(cartItem);
-                } else {
-                    createProductCartItem(cart.id, item.product.id, item.quantity);
+                    itemFound = true;
                 }
             });
+
+            if (!itemFound) {
+                createProductCartItem(cart.id, item.product.id, item.quantity);
+            }
         });
+
         console.log("Sync cart successfully")
         return res.status(200).json({ msg: 'Sync cart successfully', cart: cart });
     } catch (error) {

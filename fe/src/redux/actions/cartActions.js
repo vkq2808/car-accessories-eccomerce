@@ -47,8 +47,8 @@ export const updateCart = ({ token, cart_items }) => async (dispatch) => {
         const res = await putDataAPI('cart/update', { cartItems: cart_items }, token)
         if (res.status === 200) {
             dispatch({
-                type: CART_ACTION_TYPES.GET_CART,
-                payload: cart_items
+                type: CART_ACTION_TYPES.UPDATE_CART,
+                payload: { items: cart_items }
             })
         }
     } catch (err) {

@@ -10,7 +10,7 @@ import Footer from './components/common/footer/Footer.jsx';
 // import SocketClient from './SocketClient'
 import { HomeRoute, CategoryRoute, LoginRoute, ProductRoute, ShopRoute } from './router';
 import { getCategories } from './redux/actions/categoryActions.js';
-import { PRODUCT_ACTION_TYPES, SynCartAndFollowingProducts } from './redux/actions/productActions.js';
+import { PRODUCT_ACTION_TYPES } from './redux/actions/productActions.js';
 import { CART_ACTION_TYPES } from './redux/actions/cartActions.js';
 import { GLOBALTYPES } from './redux/actions/globalTypes.js';
 
@@ -55,12 +55,18 @@ function App() {
 
 
     useEffect(() => {
-        if (!followings)
+        if (!followings) {
             dispatch({ type: PRODUCT_ACTION_TYPES.GET_FOLLOWING_PRODUCTS, payload: [] });
-        localStorage.setItem('following_items', JSON.stringify(followings));
-        if (!cart.items)
+            localStorage.setItem('following_items', JSON.stringify([]));
+        }
+        else {
+            localStorage.setItem('following_items', JSON.stringify(followings));
+        }
+        if (!cart.items) {
             dispatch({ type: CART_ACTION_TYPES.CLEAR_CART });
-        localStorage.setItem('cart_items', JSON.stringify(cart.items));
+            localStorage.setItem('cart_items', JSON.stringify([]));
+        } else
+            localStorage.setItem('cart_items', JSON.stringify(cart.items));
     }, [cart, followings, dispatch]);
 
     useEffect(() => {

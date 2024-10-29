@@ -10,6 +10,7 @@ import ProductDetail from './product/ProductDetail';
 import SearchPage from './search/SearchPage';
 import CartDetail from './cart/CartDetail';
 import CheckOutFirstStep from './checkout/CheckOutStep1';
+import NewHome from './home/NewHome';
 
 export {
     Regist,
@@ -23,5 +24,6 @@ export {
     ProductDetail,
     SearchPage,
     CartDetail,
-    CheckOutFirstStep
+    CheckOutFirstStep,
+    NewHome
 }

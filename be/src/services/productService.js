@@ -98,7 +98,7 @@ export const unfollowProduct = async (user, productId) => {
 export const getProductsByCategoryId = async (categoryId, page, limit) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let products = await db.product.findAll({
+            let result = await db.product.findAndCountAll({
                 where: categoryId !== -1 ? { categoryId: categoryId } : null,
                 include: [db.category],
                 order: [
@@ -107,8 +107,8 @@ export const getProductsByCategoryId = async (categoryId, page, limit) => {
                 limit: limit,
                 offset: (page - 1) * limit
             });
-            if (products) {
-                resolve(products);
+            if (result) {
+                resolve(result);
             } else {
                 resolve(null);
             }
@@ -118,27 +118,23 @@ export const getProductsByCategoryId = async (categoryId, page, limit) => {
     });
 }
 
-export const searchAndCountProducts = async (search, categoryId, page, limit) => {
+export const searchAndCountProducts = async ({ searchTerm, categoryId, category_path, page, limit }) => {
     return new Promise(async (resolve, reject) => {
         try {
             let results = await db.product.findAndCountAll({
-                where: categoryId !== -1 ? {
-                    categoryId: categoryId,
-                    path: {
-                        [db.Sequelize.Op.like]: `%${search}%`
-                    }
-                } : {
-                    path: {
-                        [db.Sequelize.Op.like]: `%${search}%`
-                    }
+                where: {
+                    ...(categoryId && parseInt(categoryId) !== -1 && { categoryId: parseInt(categoryId) }),
+                    ...(searchTerm && { path: { [db.Sequelize.Op.like]: `%${searchTerm}%` } }),
+                    ...(category_path && { '$category.path$': category_path })
                 },
                 include: [db.category],
                 order: [
                     ['createdAt', 'DESC']
                 ],
-                limit: limit,
-                offset: page ? (page - 1) * limit : null
+                limit: parseInt(limit) || 10,
+                offset: page ? ((page - 1) * (limit || 10)) : 0
             });
+
             if (results) {
                 resolve(results);
             } else {

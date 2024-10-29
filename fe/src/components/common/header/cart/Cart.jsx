@@ -52,6 +52,7 @@ const Cart = () => {
 
         if (auth.token) {
             dispatch(updateCart({ token: auth.token, cart_items: updateCartItems }));
+            dispatch({ type: CART_ACTION_TYPES.UPDATE_CART, payload: { deleted_items: updateDeletedItems } });
         } else {
             dispatch({ type: CART_ACTION_TYPES.UPDATE_CART, payload: { items: updateCartItems, deleted_items: updateDeletedItems } });
         }
@@ -62,7 +63,8 @@ const Cart = () => {
         let updateDeletedItems = cart.deleted_items.filter((item, i) => i !== index);
 
         if (auth.token) {
-            dispatch(addProductToCart({ token: auth.token, product: cart.deletedItems[index].product, quantity: cart.deletedItems[index].quantity }));
+            dispatch(addProductToCart({ token: auth.token, product: cart.deleted_items[index].product, quantity: cart.deleted_items[index].quantity }));
+            dispatch({ type: CART_ACTION_TYPES.UPDATE_CART, payload: { deleted_items: updateDeletedItems } });
         } else {
             dispatch({ type: CART_ACTION_TYPES.UPDATE_CART, payload: { items: updateCartItems, deleted_items: updateDeletedItems } });
         }
@@ -104,7 +106,7 @@ const Cart = () => {
                             </thead>
                             <tbody>
                                 {cart.items?.map((item, index) => (
-                                    <tr key={item.product.id} style={{ margin: "5px 0" }}>
+                                    <tr key={item.product.id} style={{ margin: "5px 0" }} className='select-none'>
 
                                         <td className="pl-8 text-center "
                                             onClick={() => nav(item.product.path)}>

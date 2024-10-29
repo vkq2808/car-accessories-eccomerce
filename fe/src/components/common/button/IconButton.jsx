@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const ICON_BUTTON_TAILWIND_CSS = "flex cursor-pointer border-none bg-transparent hover:text-[#002fff] px-2";
@@ -17,15 +18,18 @@ const ICON_BUTTON_TAILWIND_CSS = "flex cursor-pointer border-none bg-transparent
  * @returns {JSX.Element} The rendered IconButton component.
  */
 const IconButton = ({ className, iconClassName, onClick, status, size = 20 }) => {
+    const [hoverBtn, setHoverBtn] = React.useState(false);
 
     if (status) {
         return (
-            <div onClick={onClick} className={`${ICON_BUTTON_TAILWIND_CSS} justify-between ${className}`}>
+            <motion.div initial={{ scale: 1 }} animate={{ scale: hoverBtn ? 1.1 : 1 }} transform={{ duration: 0.5 }}
+                onMouseEnter={() => setHoverBtn(true)} onMouseLeave={() => setHoverBtn(false)}
+                onClick={onClick} className={`${ICON_BUTTON_TAILWIND_CSS} justify-between ${className}`}>
                 <i className={`text-inherit text-[${size}px] ${iconClassName}`} />
                 <div className="flex flex-row-reverse absolute top-[-21px] left-[21px]">
                     <div className="text-[black] text-xs bg-transparent px-[4px] rounded-[50%] border-solid border-[red]">{status.count}</div>
                 </div>
-            </div>
+            </motion.div>
         );
     }
 

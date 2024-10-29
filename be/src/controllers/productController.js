@@ -104,46 +104,28 @@ export const handleSyncFollowProduct = async (req, res) => {
 
         let user_following = await getFollowingProducts(user);
 
-        console.log(following_items)
-        following_items.forEach(item => {
-            let isExist = false;
-            user_following.forEach(following => {
-                if (parseInt(item.product.id) === following.product.id) {
-                    isExist = true;
-                }
-            });
-            if (!isExist) {
-                followProduct(user, item.product);
+        const followingIds = new Set(user_following.map(following => following.product.id));
+
+        for (const item of following_items) {
+
+            if (!followingIds.has(parseInt(item.product.id))) {
+                await followProduct(user, item.product);
             }
-        });
+        }
 
         console.log("Sync follow product successfully\n");
         return res.status(200).send({ msg: "Sync follow product successfully" });
     } catch (error) {
-        console.log(error)
+        console.error(error);
         return res.status(500).send({ msg: "Internal server error" });
     }
-}
+};
 
 export const handleSearch = async (req, res) => {
     try {
-        let search = req.query.searchTerm;
-        let categoryId = parseInt(req.query.categoryId);
-        let page = parseInt(req.query.page) || 1;
-        let limit = parseInt(req.query.limit) || 10;
-
-        if (page < 1) page = 1;
-        if (limit < 1 || limit > 100) limit = 10;
-
-        console.log(search, categoryId, page, limit);
-
-        if (!search) {
-            const products = await getProductsByCategoryId(categoryId, page, limit);
-            return res.status(200).send({ msg: "Get products successfully", products: products });
-        } else {
-            const result = await searchAndCountProducts(search, categoryId, page, limit);
-            return res.status(200).send({ msg: "Get products successfully", result: { products: result.rows, total: result.count } });
-        }
+        console.log(req.query)
+        const result = await searchAndCountProducts(req.query);
+        return res.status(200).send({ msg: "Get products successfully", result: { products: result.rows, total: result.count } });
     } catch (error) {
         console.log(error)
         return res.status(500).send({ msg: "Internal server error" });

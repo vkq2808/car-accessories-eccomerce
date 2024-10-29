@@ -1,7 +1,7 @@
 
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
-import './Home.css';
+// import './Home.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -22,6 +22,7 @@ const Home = () => {
     const [deviceWidth, setDeviceWidth] = useState(window.innerWidth);
 
     const newProducts = useSelector(state => state.product.newProducts);
+    const categories = useSelector(state => state.category.list);
     const [hoveringNewProducts, setHoveringNewProducts] = useState(Array(newProducts.length).fill(false));
 
     const navigate = useNavigate();
@@ -52,170 +53,6 @@ const Home = () => {
         }
     ]
 
-    const categories = [
-        {
-            id: 1,
-            name: "Phụ kiện hot",
-            link: "/category/phu-kien-do-choi-theo-xe",
-            iconSrc: "https://file.hstatic.net/200000265255/file/hlvqhekrnqcqews3r-pjdg78hfaqq3bf_a2b4cf530ad34ad8864ab1128e33137c.png",
-            subCategories: [
-                {
-                    name: "MÀN HÌNH ANDROID",
-                    products: [
-                        {
-                            name: "Màn Hình Android Owince C970 Pro",
-                            link: "/product/man-hinh-android-ownice-c970-pro",
-                        }, {
-                            name: "Màn Hình Android Xe Ô tô Winca",
-                            link: "/product/man-hinh-android-xe-o-to-winca"
-                        }, {
-                            name: "Màn Hình DVD Android Ô tô Kia Cerato",
-                            link: "/product/man-hinh-dvd-android-o-to-kia-cerato"
-                        }, {
-                            name: "Màn Hình Androi Cho Xe Ô tô Toyota Fotuner",
-                            link: "/product/man-hinh-android-cho-xe-o-to-toyota-fortuner"
-                        }
-                    ]
-                }, {
-                    name: "PHIM CÁCH NHIỆT",
-                    products: [
-                        {
-                            name: "Phim Cách Nhiệt Xe Ô tô 3M",
-                            link: "/product/phim-cach-nhiet-xe-o-to-3m"
-                        }, {
-                            name: "Phim Cách Nhiệt Xe Ô tô Llumar",
-                            link: "/product/phim-cach-nhiet-xe-o-to-llumar"
-                        }, {
-                            name: "Phim Cách Nhiệt Xe Ô tô Vkool",
-                            link: "/product/phim-cach-nhiet-xe-o-to-vkool"
-                        }
-                    ]
-                }, {
-                    name: "BỌC GHẾ DA",
-                    products: [
-                        {
-                            name: "Bọc Ghế Da Xe Ô tô",
-                            link: "/product/boc-ghe-da-xe-o-to"
-                        }, {
-                            name: "Bọc Ghế Da Xe Ô tô Toyota",
-                            link: "/product/boc-ghe-da-xe-o-to-toyota"
-                        }, {
-                            name: "Bọc Ghế Da Xe Ô tô Honda",
-                            link: "/product/boc-ghe-da-xe-o-to-honda"
-                        }
-                    ]
-                }, {
-                    name: "CAMERA HÀNH TRÌNH",
-                    products: [
-                        {
-                            name: "Camera Hành Trình Ô tô Xiaomi",
-                            link: "/product/camera-hanh-trinh-o-to-xiaomi"
-                        }, {
-                            name: "Camera Hành Trình Ô tô Vietmap",
-                            link: "/product/camera-hanh-trinh-o-to-vietmap"
-                        }, {
-                            name: "Camera Hành Trình Ô tô Junsun",
-                            link: "/product/camera-hanh-trinh-o-to-junsun"
-                        }
-                    ]
-                }
-            ]
-        }, {
-            id: 2,
-            name: "Phụ kiện - Đồ chơi Xe",
-            link: "/category/phu-kien-do-choi-theo-xe",
-            imgSrc: "https://file.hstatic.net/200000317829/file/1200x790-5_2bf0c22bc71b4e05a3fdc9675a630993.png",
-            iconSrc: "https://file.hstatic.net/200000265255/file/xo5k-ta6oi4cb9cm-xqcytnl6jjl9twu_1fbf86dc3f7d41d2ad8a5326d183ef19.png",
-            subCategories: [
-                {
-                    name: "Nước hoa cho xe",
-                    products: [
-                        {
-                            name: "Nước Hoa Xe GRASSE",
-                            link: "/product/nuoc-hoa-xe-grasse"
-                        }
-                    ]
-                }, {
-                    name: "Body Kits",
-                    products: [
-                        {
-                            name: "Body Kits Toyota Fortuner",
-                            link: "/product/body-kits-toyota-fortuner"
-                        }, {
-                            name: "Body Kits Honda Civic",
-                            link: "/product/body-kits-honda-civic"
-                        }, {
-                            name: "Body Kits Toyota Camry",
-                            link: "/product/body-kits-toyota-camry"
-                        }, {
-                            name: "Body Kits Xpander",
-                            link: "/product/body-kits-xpander"
-                        }
-                    ]
-                }, {
-                    name: "Cách Âm Xe Hơi",
-                    products: [
-                        {
-                            name: "Cách Âm Xe Ô tô",
-                            link: "/product/cach-am-xe-o-to"
-                        }
-                    ]
-                }, {
-                    name: "Cốp điện",
-                    products: [
-                        {
-                            name: "Cốp Điện Perfect Car",
-                            link: "/product/cop-dien-perfect-car"
-                        }, {
-                            name: "Độ Ty Cốp Điện Xe Ô Tô",
-                            link: "/product/do-ty-cop-dien-xe-o-to"
-                        }
-                    ]
-                }
-            ]
-        }, {
-            id: 3,
-            name: "Màn hình Android Ô tô",
-            link: "/category/man-hinh-android-oto",
-            imgSrc: "https://file.hstatic.net/200000317829/file/1200x790-1_8168758d1def49fab8149a4bfdaad88d.png",
-            iconSrc: "https://file.hstatic.net/200000265255/file/dkzffakympllkpnc-cyefc1u1qh0iy_6_c6ef4a3de3654b51a8f7c05aebca2021.png",
-            products: [
-                {
-                    name: "Màn hình Android Xe Ô tô Winca",
-                    link: "/product/man-hinh-android-xe-o-to-winca"
-                }
-            ]
-        }, {
-            id: 4,
-            name: "Phim cách nhiệt Ô tô",
-            link: "/category/phim-cach-nhiet-oto",
-            imgSrc: "https://file.hstatic.net/200000317829/file/1200x790-3_fd8a9d37e3d54f7fb55781beed323b0e.png",
-            iconSrc: "https://file.hstatic.net/200000265255/file/screenshot_24cdb019a18044f1a91520e68528d0a5.png",
-        }, {
-            id: 5,
-            name: "Camera hành trình Ô tô",
-            link: "/category/camera-hanh-trinh-oto",
-            imgSrc: "https://file.hstatic.net/200000317829/file/1200x790-1_8168758d1def49fab8149a4bfdaad88d.png",
-            iconSrc: "https://file.hstatic.net/200000265255/file/e8-60mig4odup7dymtdmedcwee34sgnj_20ce2cc0540a49b7a2f72dac88d07317.png",
-        }, {
-            id: 6,
-            name: "Bọc ghế Da Ô tô",
-            link: "/category/boc-ghe-da-oto",
-            imgSrc: "https://file.hstatic.net/200000317829/file/1200x790-4_e3fc46fa192a4eae8111fcbc9384d134.png",
-            iconSrc: "https://file.hstatic.net/200000265255/file/wpwvowtszoezflm7yqus_aakvajxdbgd_31d998fee8bb4c4e92ba3b68add6a18e.png",
-        }, {
-            id: 7,
-            name: "Bọc đèn Ô tô",
-            link: "/category/boc-den-oto",
-            imgSrc: "https://file.hstatic.net/200000317829/file/1200x790-4_e3fc46fa192a4eae8111fcbc9384d134.png",
-            iconSrc: "https://file.hstatic.net/200000265255/file/xqntuskuqp8s_iorbjrin28exodh8lx7_8ba1b79ff47b4a40b6b02e84c31ad27f.png",
-        }, {
-            id: 8,
-            name: "Phủ Ceramic",
-            link: "/category/phu-ceramic",
-            iconSrc: "https://file.hstatic.net/200000265255/file/xqntuskuqp8s_iorbjrin28exodh8lx7_8ba1b79ff47b4a40b6b02e84c31ad27f.png",
-        }
-    ]
     const filteredCategories = categories.filter(x => x.imgSrc && x.imgSrc.trim() !== "")
 
     const sliderBanners = [
@@ -245,13 +82,13 @@ const Home = () => {
 
     const banners = [
         {
-            link: "category/phu-kien-do-choi-theo-xe",
+            link: "search/q?categoryId=-1",
             imgSrc: "https://file.hstatic.net/200000317829/file/900x500_9f309779edfe4d3692354d124b2cf71c.png"
         }, {
-            link: "category/do-den-o-to",
+            link: "search/q?categoryId=10",
             imgSrc: "https://file.hstatic.net/200000317829/file/900x500-1_739ca159962d4209b1777724da12ddb6.png"
         }, {
-            link: "category/boc-ghe-da-oto",
+            link: "search/q?categoryId=3",
             imgSrc: "https://file.hstatic.net/200000317829/file/900x500-2_cc1b0d6234264862bfbb05a7d7b12428.png"
         }
     ]
@@ -341,13 +178,13 @@ const Home = () => {
                                 >
                                     <div className='flex flex-row  w-full items-center h-[45px] '>
                                         <span className='category-icon pl-2'>
-                                            <img src={cate.iconSrc} alt={cate.name} className='w-[20px] h-[20px]' />
+                                            <img src={cate.imageUrl} alt={cate.name} className='w-[35px] h-[35px]' />
                                         </span>
                                         <div className='category-name pl-2'>{cate.name}</div>
                                     </div>
-                                    {((cate?.subCategories && cate?.subCategories?.length > 0) || (cate?.products && cate?.products?.length)) && (
+                                    {(cate?.products && cate?.products?.length && (
                                         <i className='lni lni-chevron-right' />
-                                    )}
+                                    )) || (<i></i>)}
                                 </div>
 
                             ))}
@@ -393,7 +230,7 @@ const Home = () => {
                                                     <div className="sub-category-title w-full bg-slate-500 text-[--yellow-color] px-2 py-1">
                                                         {subCate.name}
                                                     </div>
-                                                    <div className="sub-category-products flex flex-col items-start">
+                                                    <div className="sub-category-products flex flex-col items-start overflow-auto">
                                                         {subCate.products.map(product => (
                                                             <div
                                                                 key={product.name}
