@@ -52,8 +52,8 @@ const ProductDetail = () => {
     }, [path, dispatch, product]);
 
 
-    const isFollowing = followings?.find(following => following.product.id === product?.id)
-    const followingStyle = isFollowing ? follwedProductStyle : notFollwedProductStyle
+    const currentProductFollow = followings?.find(following => following.product.id === product?.id)
+    const followingStyle = currentProductFollow ? follwedProductStyle : notFollwedProductStyle
 
     const CustomMarkdown = ({ children }) => {
         return (<ReactMarkdown
@@ -122,7 +122,7 @@ const ProductDetail = () => {
     }
 
     const handleFollowProduct = () => {
-        if (!isFollowing) {
+        if (!currentProductFollow) {
             if (auth.token) {
                 dispatch(followProduct({ product, token: auth.token }))
             } else {
@@ -145,7 +145,7 @@ const ProductDetail = () => {
                     (<div className="flex w-full md:w-[80%]">
                         <div className="flex flex-col w-full">
                             <div className="flex flex-col w-full py-4 md:flex-row justify-between">
-                                <img className="w-full md:w-[40%] md:max-h-[300px] object-contain p-2" src={product.imageUrl} alt={product.name} />
+                                <img className="w-full md:w-[40%] md:max-h-[300px] object-contain p-2" src={product.image_url} alt={product.name} />
                                 <div className="flex flex-col p-2">
                                     <h2 className="select-all">{product.name}</h2>
                                     <h4 className="text-[#a50a08]">{formatNumberWithCommas(product.price)} {product.currency}</h4>

@@ -17,10 +17,10 @@ export const CART_ACTION_TYPES = {
 export const getCart = (token) => async (dispatch) => {
     try {
         const res = await getDataAPI('cart', token)
-        if (res.status === 200 && res.data.cart.cart_items) {
+        if (res.status === 200 && res.data.cart_items) {
             dispatch({
                 type: CART_ACTION_TYPES.UPDATE_CART,
-                payload: { items: res.data.cart.cart_items }
+                payload: { items: res.data.cart_items }
             })
         }
     } catch (err) {

@@ -2,11 +2,11 @@ import React from 'react';
 import { useState } from 'react';
 
 import { Header, SideBar } from '../../common';
-import { AdminSideBar } from '../../admin';
+// import { AdminSideBar } from '../../admin';
 
 const HeaderWithSideBar = ({ user }) => {
     const [isSideBarOpen, setIsSideBarOpen] = useState(false);
-    const SideBarLanding = user?.role === "USER" ? SideBar : user?.role === "ADMIN" ? AdminSideBar : SideBar;
+    const SideBarLanding = SideBar;
 
     return (
         <div>

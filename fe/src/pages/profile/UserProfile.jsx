@@ -18,7 +18,7 @@ const UserProfile = () => {
         }
     }, [auth, navigate]);
 
-    const user = auth.user;
+    let user = auth.user;
 
     const categoryList = [
         { name: "Thông tin cơ bản", value: 1 },
@@ -32,7 +32,7 @@ const UserProfile = () => {
             <div className="basic-info-container w-full h-full flex flex-col text-2xl">
                 <div className="info-item flex w-full">
                     <div className="info-title">Họ và tên</div>
-                    <div className="info-content">{user?.firstName + " " + user?.lastName}</div>
+                    <div className="info-content">{user?.first_name + " " + user?.last_name}</div>
                 </div>
                 <div className="info-item flex w-full">
                     <div className="info-title">Email</div>
@@ -74,7 +74,7 @@ const UserProfile = () => {
                         <div className="avatar-container flex justify-center items-center">
                             <img className="mx-20 w-[70%] max-w-[150px] h-auto" src={user?.imgSrc || "https://cdn4.iconfinder.com/data/icons/instagram-ui-twotone/48/Paul-18-512.png"} alt="Avatar" />
                         </div>
-                        <div className="user-name w-full text-center">{user?.firstName + " " + user?.lastName}</div>
+                        <div className="user-name w-full text-center">{user?.first_name + " " + user?.last_name}</div>
                         <div className="category-container flex flex-col w-full items-center mt-2">
                             {
                                 categoryList.map((item, index) => {

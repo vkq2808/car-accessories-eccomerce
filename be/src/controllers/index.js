@@ -1,23 +1,15 @@
-import { handleLogin, handleRegister, handleVerifyEmail, handleForgetPassword, handleResetPassword, handleRefreshToken }
-    from './authController';
-import { handleGetUserInfo }
-    from './userController';
-import { handleSearch, handleSyncFollowProduct, handleUnfollowProduct, handleGetProductDetail, handleGetAllProducts, handleFollowProduct, handleGetFollowingProducts }
-    from './productController'
+import AuthController from "./auth.controller";
+import UserController from "./user.controller";
+import CartController from "./cart.controller";
+import ProductController from "./product.controller";
+import OrderController from "./order.controller";
+import CategoryController from "./category.controller";
 
 export {
-    handleLogin,
-    handleRegister,
-    handleVerifyEmail,
-    handleForgetPassword,
-    handleResetPassword,
-    handleRefreshToken,
-    handleGetUserInfo,
-    handleGetProductDetail,
-    handleGetAllProducts,
-    handleFollowProduct,
-    handleGetFollowingProducts,
-    handleUnfollowProduct,
-    handleSyncFollowProduct,
-    handleSearch
+    AuthController,
+    UserController,
+    CartController,
+    ProductController,
+    OrderController,
+    CategoryController,
 }

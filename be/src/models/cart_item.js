@@ -3,18 +3,17 @@ const {
     Model
 } = require('sequelize');
 
-// cart_item bao gồm: cartId, productId, serviceId, quantity
+// cart_item bao gồm: cart_id, product_id, serviceId, quantity
 module.exports = (sequelize, DataTypes) => {
     class cart_item extends Model {
         static associate(models) {
-            cart_item.belongsTo(models.cart, { foreignKey: 'cartId' });
-            cart_item.belongsTo(models.product, { foreignKey: 'productId', allowNull: true });
-            // cart_item.belongsTo(models.service, { foreignKey: 'serviceId', allowNull: true });
+            cart_item.belongsTo(models.cart, { foreignKey: 'cart_id' });
+            cart_item.belongsTo(models.product, { foreignKey: 'product_id', allowNull: true });
         }
     }
     cart_item.init({
-        cartId: DataTypes.INTEGER,
-        productId: DataTypes.INTEGER,
+        cart_id: DataTypes.INTEGER,
+        product_id: DataTypes.INTEGER,
         // serviceId: DataTypes.INTEGER,
         quantity: DataTypes.INTEGER
     }, {

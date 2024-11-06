@@ -7,12 +7,12 @@ const {
 module.exports = (sequelize, DataTypes) => {
     class cart extends Model {
         static associate(models) {
-            cart.hasMany(models.cart_item, { foreignKey: 'cartId' });
-            cart.belongsTo(models.user, { foreignKey: 'userId' });
+            cart.hasMany(models.cart_item, { foreignKey: 'cart_id' });
+            cart.belongsTo(models.user, { foreignKey: 'user_id' });
         }
     }
     cart.init({
-        userId: {
+        user_id: {
             type: DataTypes.INTEGER,
             allowNull: false
         }

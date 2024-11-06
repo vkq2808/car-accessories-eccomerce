@@ -11,6 +11,7 @@ const CheckOutFirstStep = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [timer, setTimer] = React.useState(5);
+  const [errors, setErrors] = React.useState({});
 
 
 
@@ -72,6 +73,24 @@ const CheckOutFirstStep = () => {
     }
   }
 
+  const handleSubmitCheckout = () => {
+    let errors = {};
+    if (!formData.name) {
+      errors.name = 'Name is required';
+    }
+    if (!formData.email) {
+      errors.email = 'Email is required';
+    }
+    if (!formData.phone) {
+      errors.phone = 'Phone is required';
+    }
+
+    setErrors(errors);
+    if (Object.keys(errors).length === 0) {
+
+    }
+  }
+
   return (
     <div className='check-out-container w-full md:w-[94dvw] lg:w-[80dvw]'>
       <h2 className='underline-title m-2 w-full text-center'>
@@ -84,7 +103,7 @@ const CheckOutFirstStep = () => {
             {cartItems.map((item, index) => (
               <div key={index} className="review-item flex w-full justify-between">
                 <div className="flex">
-                  <img className='h-[65px] w-[65px] m-2' src={item.product.imageUrl} alt={item.product.name} />
+                  <img className='h-[65px] w-[65px] m-2' src={item.product.image_url} alt={item.product.name} />
                   <div className="review-item-info">
                     <h5>{maximizeString(item.product.name, 15)}</h5>
                     <p className='!m-0'>Price: {formatNumberWithCommas(item.product.price)}</p>
@@ -127,6 +146,7 @@ const CheckOutFirstStep = () => {
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               />
+              <p className='text-red-500'>{errors.name}</p>
             </div>
             <div className='flex mb-4 items-center justify-between'>
               <label htmlFor="email">Email</label>
@@ -138,6 +158,7 @@ const CheckOutFirstStep = () => {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
+              <p className='text-red-500'>{errors.email}</p>
             </div>
             <div className='flex mb-4 items-center justify-between'>
               <label htmlFor="phone">Phone</label>
@@ -149,6 +170,7 @@ const CheckOutFirstStep = () => {
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               />
+              <p className='text-red-500'>{errors.phone}</p>
             </div>
             <div className='flex mb-4 items-center justify-between'>
               <label htmlFor="note">Note</label>
@@ -161,7 +183,7 @@ const CheckOutFirstStep = () => {
                 onChange={(e) => setFormData({ ...formData, note: e.target.value })}
               />
             </div>
-            <button type="submit">Check Out</button>
+            <button type="button" onClick={handleSubmitCheckout}>Check Out</button>
           </form>
         </div>
       </div>

@@ -35,7 +35,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      categoryId: {
+      category_id: {
         type: Sequelize.INTEGER,
         references: {
           model: 'categories',
@@ -45,7 +45,7 @@ module.exports = {
         onDelete: 'SET NULL',
         allowNull: true
       },
-      imageUrl: {
+      image_url: {
         type: Sequelize.TEXT,
         allowNull: true
       },

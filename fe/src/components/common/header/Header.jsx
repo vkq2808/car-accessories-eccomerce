@@ -16,9 +16,19 @@ const Header = ({ setIsSideBarOpen }) => {
     const nav = useNavigate();
     const dispatch = useDispatch();
     const [searchTerm, setSearchTerm] = useState('');
-    const [categoryId, setCategoryId] = useState(-1);
+    const [category_id, setcategory_id] = useState(-1);
     const [escapePressed, setEscapePressed] = useState(false);
     const [displayedProducts, setDisplayedProducts] = useState([]);
+    const [loadingUser, setLoadingUser] = useState(false);
+
+    useEffect(() => {
+        setTimeout(() => {
+            if (auth.token) {
+                setLoadingUser(true);
+            }
+        }, 300);
+        setLoadingUser(false);
+    }, [auth]);
 
     useEffect(() => {
         const renderItemsWithDelay = async () => {
@@ -54,17 +64,17 @@ const Header = ({ setIsSideBarOpen }) => {
     }, [categories, dispatch]);
 
     const onFilterCategoryChange = (e) => {
-        setCategoryId(e.target.value);
+        setcategory_id(e.target.value);
     };
 
     useEffect(() => {
         setTimeout(() => {
-            if (searchTerm && searchTerm !== '' && (categoryId || categoryId === -1)) {
+            if (searchTerm && searchTerm !== '' && (category_id || category_id === -1)) {
                 dispatch({ type: PRODUCT_ACTION_TYPES.CLEAR_SEARCH_PRODUCTS })
-                dispatch(searchProducts({ searchTerm, category_id: categoryId, page: 1, limit: 6 }));
+                dispatch(searchProducts({ searchTerm, category_id: category_id, page: 1, limit: 6 }));
             }
         }, 300);
-    }, [dispatch, searchTerm, categoryId]);
+    }, [dispatch, searchTerm, category_id]);
 
 
 
@@ -80,7 +90,7 @@ const Header = ({ setIsSideBarOpen }) => {
         if (e.key === 'Enter' || e.type === 'click') {
             console.log('searching');
             const sanitizedSearchTerm = searchTerm.trim().replace(/[\s/]+/g, '-');
-            nav('/search/q?key=' + sanitizedSearchTerm + '&categoryId=' + categoryId.toString());
+            nav('/search/q?key=' + sanitizedSearchTerm + '&category_id=' + category_id.toString());
             setSearchTerm('');
         }
     };
@@ -97,7 +107,7 @@ const Header = ({ setIsSideBarOpen }) => {
                     <div className="search-bar w-[40%] justify-center items-center hidden lg:!flex flex-row">
                         <select className="border px-2 py-1 w-[100px] "
                             onChange={(e) => onFilterCategoryChange(e)}
-                            value={categoryId}
+                            value={category_id}
                         >
                             <option value={-1}>Tất cả</option>
                             {categories.map(category => (
@@ -140,7 +150,7 @@ const Header = ({ setIsSideBarOpen }) => {
                                             onClick={() => nav('/product/' + product.path)}>
                                             <img
                                                 className="w-[70px] h-[70px] cursor-pointer"
-                                                src={product.imageUrl}
+                                                src={product.image_url}
                                                 alt={product.name}
                                             />
                                             <div className="flex flex-col m-2 pr-4 cursor-pointer">
@@ -170,7 +180,7 @@ const Header = ({ setIsSideBarOpen }) => {
                                 <span className='underline text-[blue] cursor-pointer'>Đăng ký</span>
                             </div>
                         </div>}
-                        {auth.token && <IconButton iconClassName="fas fa-user" onClick={handleProfileClick} />}
+                        {(auth.token || loadingUser) && <IconButton iconClassName="fas fa-user" onClick={handleProfileClick} />}
                         <Following />
                         <Cart />
                         <IconButton iconClassName="fas fa-bars" onClick={() => setIsSideBarOpen(true)} />

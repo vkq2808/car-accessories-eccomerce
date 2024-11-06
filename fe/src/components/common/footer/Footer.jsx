@@ -1,10 +1,9 @@
 import React from "react";
-import "./Footer.css";
 const Footer = () => {
 
     const ContactCol = () => {
         return (
-            <div className="contact-container flex flex-col max-w-[25vw] min-w-[20dw] text-left text-wrap text-md">
+            <div className="contact-container flex-1 flex-col min-w-[300px] text-left text-wrap text-md">
                 <div className="contact-title font-semibold text-lg">
                     Thông tin liên hệ
                 </div>
@@ -30,7 +29,7 @@ const Footer = () => {
 
     const HelpOptionCol = () => {
         return (
-            <div className="help-option-container flex flex-col max-w-[25vw] min-w-[20dw] text-left text-wrap text-md pr-20">
+            <div className="help-option-container flex-1 flex-col min-w-[200px] text-left text-wrap text-md pr-20">
                 <div className="help-option-title font-semibold text-lg">
                     Hỗ trợ
                 </div>
@@ -51,26 +50,27 @@ const Footer = () => {
     }
     const LogoCol = () => {
         return (
-            <div className="logo-container flex flex-col max-w-[25vw] min-w-[20dw] text-left text-wrap text-md">
+            <div className="logo-container flex-1 flex-col min-w-[200px] text-left text-wrap text-md">
                 <div className="logo-title font-semibold text-lg">
                     Logo
                 </div>
-                <div className="logo-content m-2">
-                    <img src="https://via.placeholder.com/125" alt="logo" />
+                <div className="logo-content m-2 text-6xl select-none">
+                    KQUOC
                 </div>
-                <div className="social-link flex m-2">
+                <div className="social-link flex m-2 space-x-2 items-center">
                     <a href="https://www.facebook.com/quoc.vhp"><i className="lni lni-facebook-original"></i></a>
                     <a href="https://www.instagram.com/quoc.vhp"><i className="lni lni-instagram-original text-red-600"></i></a>
+                    <a href="https://www.github.com/vkq28808"><i className="lni lni-github-original"></i></a>
                 </div>
             </div>
         );
     }
 
     return (
-        <footer className="flex w-full pt-4">
+        <div className="flex w-full !bg-[--secondary-background-color] !text-[--secondary-text-color]">
             <div className="flex footer-container w-full justify-center">
                 <div className="footer-content w-full">
-                    <div className="flex flex-row flex-wrap w-full justify-between content-start m-2">
+                    <div className="flex flex-wrap justify-between space-x-10 space-y-4 p-4">
                         <ContactCol />
                         <HelpOptionCol />
                         <LogoCol />
@@ -78,7 +78,7 @@ const Footer = () => {
                     <p>© 2024 All rights reserved</p>
                 </div>
             </div>
-        </footer>
+        </div>
     );
 }
 

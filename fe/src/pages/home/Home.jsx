@@ -82,13 +82,13 @@ const Home = () => {
 
     const banners = [
         {
-            link: "search/q?categoryId=-1",
+            link: "search/q?category_id=-1",
             imgSrc: "https://file.hstatic.net/200000317829/file/900x500_9f309779edfe4d3692354d124b2cf71c.png"
         }, {
-            link: "search/q?categoryId=10",
+            link: "search/q?category_id=10",
             imgSrc: "https://file.hstatic.net/200000317829/file/900x500-1_739ca159962d4209b1777724da12ddb6.png"
         }, {
-            link: "search/q?categoryId=3",
+            link: "search/q?category_id=3",
             imgSrc: "https://file.hstatic.net/200000317829/file/900x500-2_cc1b0d6234264862bfbb05a7d7b12428.png"
         }
     ]
@@ -178,7 +178,7 @@ const Home = () => {
                                 >
                                     <div className='flex flex-row  w-full items-center h-[45px] '>
                                         <span className='category-icon pl-2'>
-                                            <img src={cate.imageUrl} alt={cate.name} className='w-[35px] h-[35px]' />
+                                            <img src={cate.image_url} alt={cate.name} className='w-[35px] h-[35px]' />
                                         </span>
                                         <div className='category-name pl-2'>{cate.name}</div>
                                     </div>
@@ -346,7 +346,7 @@ const Home = () => {
                                         transition={{ duration: 0.4 }}
 
                                         loading='lazy'
-                                        src={product.imageUrl}
+                                        src={product.image_url}
                                         alt={maximizeString(product.name, 20)}
                                         className={`w-full h-[200px] object-cover`}
                                     />

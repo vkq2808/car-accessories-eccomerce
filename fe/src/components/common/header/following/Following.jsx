@@ -74,9 +74,9 @@ const Following = () => {
                                             <img className='w-[50px] h-[50px] cursor-pointer'
                                                 onMouseEnter={() => { setPreviewEnabled(prev => prev.map((_, i) => i === index ? true : false)) }}
                                                 onMouseLeave={() => { setPreviewEnabled(prev => prev.map((_, i) => i === index ? false : false)) }}
-                                                src={item.product.imageUrl} alt="Ảnh" />
+                                                src={item.product.image_url} alt="Ảnh" />
                                             <img className={`w-[500px] absolute top-[100%] left-0 ${previewEnabled[index] ? 'block' : 'hidden'}`}
-                                                src={item.product.imageUrl} alt='Ảnh' />
+                                                src={item.product.image_url} alt='Ảnh' />
 
                                         </td>
                                         <td className="pl-8 text-center cursor-pointer"

@@ -9,7 +9,7 @@ module.exports = {
                 autoIncrement: true,
                 primaryKey: true,
             },
-            userId: {
+            user_id: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 references: {
@@ -18,12 +18,14 @@ module.exports = {
                 }
             },
             createdAt: {
+                allowNull: false,
                 type: Sequelize.DATE,
-                allowNull: false
+                defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
             },
             updatedAt: {
+                allowNull: false,
                 type: Sequelize.DATE,
-                allowNull: false
+                defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
             }
         });
     },

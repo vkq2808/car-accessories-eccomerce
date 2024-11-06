@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-const ICON_BUTTON_TAILWIND_CSS = "flex cursor-pointer border-none bg-transparent hover:text-[#002fff] px-2";
+const ICON_BUTTON_TAILWIND_CSS = "flex cursor-pointer border-none bg-transparent hover:text-[#002fff] px-2 text-inherit";
 
 /**
  * IconButton component renders a button with an icon and optional status indicator.

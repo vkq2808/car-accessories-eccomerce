@@ -1,10 +1,10 @@
 import { Router } from 'express'
-import { getCategories } from '../controllers/categoryController.js'
+import { CategoryController } from '../controllers'
 
 let router = Router()
 
 const categoryRoute = (app) => {
-    router.get('/', getCategories)
+    router.get('/', new CategoryController().getAll)
 
     app.use('/api/v1/category', router)
 }

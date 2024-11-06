@@ -1,40 +1,44 @@
-
-import jwt from 'jsonwebtoken'; //gọi jwt
-import path from 'path';
-import fs from 'fs';
+import jwt from 'jsonwebtoken'; // gọi jwt
 
 const authenticateToken = (req, res, next) => {
-    // Miễn xác thực cho các route cụ thể
+    console.log(req.path);
     const openRoutes = ['/auth', '/product', '/category'];
 
-    // Nếu là một trong các route miễn xác thực, bỏ qua middleware
+    // Kiểm tra nếu route không cần token thì cho qua
     if (openRoutes.some(route => req.path.includes('/api/v1' + route))) {
         return next();
     }
 
-
     try {
-        const token = req.headers['authorization'].split(' ')[1];
-        const secretKey = process.env.ACCESS_TOKEN_SERCET_KEY;
+        const authorization = req.headers['authorization'];
 
-        if (!token) {
-            res.status(401).send({ msg: "Token not found" });
-            return;
-        }
+        if (authorization) {
+            const token = authorization.split(' ')[1];
 
-        // Xác thực token
-        jwt.verify(token, secretKey, (err, user) => {
-            if (err) {
-                console.log(err);
-                res.status(401).send({ msg: "Unauthorized" });
+            if (token) {
+                const secretKey = process.env.ACCESS_TOKEN_SECRET_KEY;
+
+                jwt.verify(token, secretKey, (err, user) => {
+                    if (err) {
+                        console.log("Token invalid");
+                        return res.status(401).send({ msg: "Unauthorized" }); // Token không hợp lệ
+                    }
+
+                    req.user = user;
+                    console.log('Token verified, proceeding to next middleware');
+                    return next();
+                });
+            } else {
+                // Trường hợp token không tồn tại sau "Bearer "
+                return res.status(401).send({ msg: "Unauthorized, token not provided" });
             }
-
-            req.user = user;
-            next();
-        });
-    }
-    catch (error) {
-        console.log(error);
+        } else {
+            // Trường hợp không có authorization header
+            return res.status(401).send({ msg: "Unauthorized, no authorization header" });
+        }
+    } catch (error) {
+        console.log("Authentication error: ", error);
+        return res.status(401).send({ msg: "Unauthorized due to error" });
     }
 };
 

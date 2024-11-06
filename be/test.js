@@ -1,3 +1,3 @@
-const crypto = require('crypto')
-let a = crypto.randomBytes(16).toString('hex')
-console.log(a);
+const bcryptjs = require('bcryptjs');
+admin_hash_password = bcryptjs.hashSync(process.env.ADMIN_PASSWORD, process.env.SALT);
+console.log(admin_hash_password);

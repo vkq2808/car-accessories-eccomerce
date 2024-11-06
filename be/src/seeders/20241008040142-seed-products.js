@@ -72,8 +72,8 @@ Sạc nhanh là tính năng đáng giá đối với xe hơi, khi mà thời gia
         quantity: 10,
         price: 500000,
         currency: "VND",
-        categoryId: 1,
-        imageUrl: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        category_id: 1,
+        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -105,8 +105,8 @@ Phim cách nhiệt 3M do 3M sản xuất, có hai loại chính: 3M crystalline 
         quantity: 20,
         price: 3000000,
         currency: "VND",
-        categoryId: 2,
-        imageUrl: "https://bacnam.vn/wp-content/uploads/2024/03/Dan-phim-cach-nhiet-3m-kinh-lai-2.jpg",
+        category_id: 2,
+        image_url: "https://bacnam.vn/wp-content/uploads/2024/03/Dan-phim-cach-nhiet-3m-kinh-lai-2.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -153,8 +153,8 @@ Ford Territory là dòng xe SUV 7 chỗ với thiết kế hiện đại, tiện
         quantity: 10,
         price: 5000000,
         currency: "VND",
-        categoryId: 5,
-        imageUrl: "https://tpcar.vn/wp-content/uploads/2022/12/cach-am-chong-on-ford-territory-1.jpg",
+        category_id: 5,
+        image_url: "https://tpcar.vn/wp-content/uploads/2022/12/cach-am-chong-on-ford-territory-1.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -200,8 +200,8 @@ Ford Territory là dòng xe SUV 7 chỗ với thiết kế hiện đại, tiện
         quantity: 10,
         price: 5000000,
         currency: "VND",
-        categoryId: 5,
-        imageUrl: "https://www.phathuyauto.com.vn/image/cache/data/cham-soc-xe-hoi/chong-on-chong-nong/cach-am-chong-on-xe-ford/cach-am-chong-on-ford-territory-800x600.jpg",
+        category_id: 5,
+        image_url: "https://www.phathuyauto.com.vn/image/cache/data/cham-soc-xe-hoi/chong-on-chong-nong/cach-am-chong-on-xe-ford/cach-am-chong-on-ford-territory-800x600.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -234,8 +234,8 @@ Body Kits là tập hợp của những phụ kiện ngoại thất xe để tha
         quantity: 15,
         price: 35000000,
         currency: "VND",
-        categoryId: 6,
-        imageUrl: "https://orokingauto.com/wp-content/uploads/2023/05/body-kit-honda-civic-2017-2021-type-r-5.jpg",
+        category_id: 6,
+        image_url: "https://orokingauto.com/wp-content/uploads/2023/05/body-kit-honda-civic-2017-2021-type-r-5.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -315,8 +315,8 @@ Lê Nguyễn Auto cam kết đến quý khách:
         quantity: 15,
         price: 35000000,
         currency: "VND",
-        categoryId: 3,
-        imageUrl: "https://tinphatdochoioto.com/wp-content/uploads/2021/11/Boc-Ghe-Da-Xe-Nissan-Sunny-1024x768.jpg",
+        category_id: 3,
+        image_url: "https://tinphatdochoioto.com/wp-content/uploads/2021/11/Boc-Ghe-Da-Xe-Nissan-Sunny-1024x768.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -364,8 +364,8 @@ Với mức giá cạnh tranh, bạn có thể tiết kiệm chi phí mà vẫn 
         quantity: 20,
         price: 1500000,
         currency: "VND",
-        categoryId: 7,
-        imageUrl: "https://mrchailo.com/wp-content/uploads/2024/02/nuoc-hoa-o-to-2.jpg",
+        category_id: 7,
+        image_url: "https://mrchailo.com/wp-content/uploads/2024/02/nuoc-hoa-o-to-2.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -424,8 +424,8 @@ Tại Lê Nguyễn Auto, chúng tôi là đơn vị cung cấp và trực tiếp
         quantity: 15,
         price: 5000000,
         currency: "VND",
-        categoryId: 3,
-        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSpG_MT8RpELyGfiT5Vpy3TRgXQyHY1Q5pgA&s",
+        category_id: 3,
+        image_url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSpG_MT8RpELyGfiT5Vpy3TRgXQyHY1Q5pgA&s",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -461,8 +461,8 @@ Perfect Car có thể lắp đặt cho nhiều dòng xe với thiết kế zin, 
         "quantity": 5,
         "price": 9000000,
         "currency": "VND",
-        "categoryId": 9,
-        "imageUrl": "https://cdn.chungauto.vn/uploads/cop-dien-mitsubishi-xpander/cop-dien-perfect-car-chungauto.jpg",
+        "category_id": 9,
+        "image_url": "https://cdn.chungauto.vn/uploads/cop-dien-mitsubishi-xpander/cop-dien-perfect-car-chungauto.jpg",
         "createdAt": new Date(),
         "updatedAt": new Date()
       },
@@ -505,8 +505,8 @@ Bi Aozoom Domax và Bi gầm F Light Audi Q7 đều là các phụ kiện ánh s
         quantity: 3,
         price: 12000000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/1_3f9c29aebf1f4007b30a2669a4c47de7_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/1_3f9c29aebf1f4007b30a2669a4c47de7_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -545,8 +545,8 @@ Bi gầm Wasp Led Fog Light là loại bi đèn sương mù trang bị bóng đ�
         quantity: 5,
         price: 15000000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/1_0bbc1fe096304f2b801ea7803730fa18_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/1_0bbc1fe096304f2b801ea7803730fa18_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -576,8 +576,8 @@ Bi gầm Wasp LED Fog Light là một tùy chọn phụ kiện sau-market cho BM
         quantity: 3,
         price: 17000000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://file.hstatic.net/200000317829/file/4_950d1b749a874fae8f4ccb4b8aa3a476.jpg",
+        category_id: 10,
+        image_url: "https://file.hstatic.net/200000317829/file/4_950d1b749a874fae8f4ccb4b8aa3a476.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -617,8 +617,8 @@ Sự phát triển không ngừng trong công nghệ ô tô mang lại không ch
         quantity: 3,
         price: 20000000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://file.hstatic.net/200000317829/file/3_2eabdb3b886740ea9d092270b3955c8c_1024x1024.png",
+        category_id: 10,
+        image_url: "https://file.hstatic.net/200000317829/file/3_2eabdb3b886740ea9d092270b3955c8c_1024x1024.png",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -661,8 +661,8 @@ Chóa đèn xe ô tô trở nên mờ có thể do nhiều nguyên nhân khác n
         quantity: 5,
         price: 1000000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://file.hstatic.net/200000317829/file/3_f212bcdbb9ed4788a5cf3315a940dafe_2048x2048.png",
+        category_id: 10,
+        image_url: "https://file.hstatic.net/200000317829/file/3_f212bcdbb9ed4788a5cf3315a940dafe_2048x2048.png",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -730,8 +730,8 @@ Aozoom cung cấp các mẫu đèn bi LED dành riêng cho dòng xe VF3 của Vi
         quantity: 5,
         price: 2500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://file.hstatic.net/200000317829/file/5_2c8b59ae46a343979cde9ac518cbcb1d.jpg",
+        category_id: 10,
+        image_url: "https://file.hstatic.net/200000317829/file/5_2c8b59ae46a343979cde9ac518cbcb1d.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -776,8 +776,8 @@ Việc lắp đèn LED nội thất V3 cho xe Mazda 6 2023 không chỉ là mộ
         quantity: 10,
         price: 1500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://file.hstatic.net/200000317829/file/6_acba4311063d47a895a83f0b11ff3dd3_1024x1024.png",
+        category_id: 10,
+        image_url: "https://file.hstatic.net/200000317829/file/6_acba4311063d47a895a83f0b11ff3dd3_1024x1024.png",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -817,8 +817,8 @@ Hỗ trợ sau bán hàng: Cung cấp bảo hành và hỗ trợ cho sản phẩ
         quantity: 10,
         price: 8000000,
         currency: "VND",
-        categoryId: 3,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_3ecdaa8000d648c4a7ae0d901e29edc9_master.png",
+        category_id: 3,
+        image_url: "https://product.hstatic.net/200000317829/product/2_3ecdaa8000d648c4a7ae0d901e29edc9_master.png",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -869,8 +869,8 @@ Khi ánh sáng từ đèn xe phản chiếu trên con đường phía trước, 
         quantity: 10,
         price: 9500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_d51ea27f5f5744debfb2d6afca592ea8_master.png",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_d51ea27f5f5744debfb2d6afca592ea8_master.png",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -899,8 +899,8 @@ Với việc đảm bảo những tiêu chí an toàn kể trên, chủ xe hoàn
         quantity: 10,
         price: 4500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_671ed86831c24ecd8ed0b987349d75f5_master.png",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_671ed86831c24ecd8ed0b987349d75f5_master.png",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -958,8 +958,8 @@ Việc độ đèn bi Aozoo Thor cho Kia Sportage 2023 mang đến nhiều lợi
         quantity: 10,
         price: 6000000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/3_cba59933c82f4806a92ccb13da9df2fc_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/3_cba59933c82f4806a92ccb13da9df2fc_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -996,8 +996,8 @@ Hãy cùng Lê Nguyễn Auto khám phá những ưu điểm không thể bỏ qu
         quantity: 10,
         price: 7000000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/3_dc9f27e3fb86417f87f189055a37817b_master.png",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/3_dc9f27e3fb86417f87f189055a37817b_master.png",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -1035,8 +1035,8 @@ Hãy cùng Lê Nguyễn Auto khám phá những ưu điểm không thể bỏ qu
         quantity: 10,
         price: 7500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_f11625f80df946e2a29baa6b5aee89e8_master.png",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_f11625f80df946e2a29baa6b5aee89e8_master.png",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -1093,8 +1093,8 @@ Thời gian lắp đặt phụ thuộc vào độ khó của từng dòng xe và
         quantity: 10,
         price: 8500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_6df44d147e084f2384868b0f61331377_master.png",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_6df44d147e084f2384868b0f61331377_master.png",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -1151,8 +1151,8 @@ Hiện nay, đèn xenon Aozoom ngày càng được ưa chuộng nên dẫn đ�
         quantity: 10,
         price: 8500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/3_dc4f79ffeb094e97a8dbdbaf90e48075_master.png",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/3_dc4f79ffeb094e97a8dbdbaf90e48075_master.png",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -1262,8 +1262,8 @@ Nếu mua tìm sản phẩm đáp ứng yêu cầu thẩm mỹ sang trọng, mà
         quantity: 20,
         price: 8500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_885c848345ce4293a8ca68f50f629807_master.png",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_885c848345ce4293a8ca68f50f629807_master.png",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -1298,8 +1298,8 @@ Bạn đang sở hữu một chiếc Ford Territory và muốn nâng cấp hệ 
         quantity: 10,
         price: 8500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_d62f219e27564eafa9de4daae14ba2e6_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_d62f219e27564eafa9de4daae14ba2e6_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -1349,8 +1349,8 @@ Khi nói đến độ đèn tăng sáng cho xe Hyundai Custin, không chỉ là 
         quantity: 10,
         price: 8500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_36e0e65c51ed4151b0829586356a2c11_master.png",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_36e0e65c51ed4151b0829586356a2c11_master.png",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -1387,8 +1387,8 @@ Xpander Cross là mẫu xe 7 chỗ cỡ nhỏ của hãng Mitsubishi Motors, thu
         quantity: 10,
         price: 8500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_c4981dd256774c5085455f6a9e4093b7_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_c4981dd256774c5085455f6a9e4093b7_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -1433,8 +1433,8 @@ Bi Laser Omega là sản phẩm đèn pha thế hệ mới được thiết kế
         quantity: 10,
         price: 11500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_5d78d03792a8453db3f5e177a73082f5_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_5d78d03792a8453db3f5e177a73082f5_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -1509,8 +1509,8 @@ Lắp đặt và sử dụng Bi LED X-LED Pro Domax và Bi Laser Thor trên Ford
         quantity: 10,
         price: 19500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/13_afa13a192ac7405da73245674d5a325d_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/13_afa13a192ac7405da73245674d5a325d_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -1581,8 +1581,8 @@ Quy trình cơ bản để lắp đặt bi LED Leo Light và bi gầm WASP LED F
         quantity: 10,
         price: 16500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/10_646451984c814646b00dc82578e56eec_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/10_646451984c814646b00dc82578e56eec_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -1627,8 +1627,8 @@ Sau khi lắp đặt đèn, bước cuối cùng là cân chỉnh lại góc chi
         quantity: 10,
         price: 19500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_39d0537019fb4acf91a3f6b6fb8bacea_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_39d0537019fb4acf91a3f6b6fb8bacea_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -1686,8 +1686,8 @@ Người dùng đánh giá cao khả năng chiếu sáng vượt trội, tuổi 
         quantity: 10,
         price: 6500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_61c986fdf943447180310b2943fb4ac4_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_61c986fdf943447180310b2943fb4ac4_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -1738,8 +1738,8 @@ Hệ thống đèn pha LED Bi Laser Thor là một điểm nhấn ấn tượng 
         quantity: 10,
         price: 7500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/3_5220bc50989d4410bc9dbe26d47342a8_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/3_5220bc50989d4410bc9dbe26d47342a8_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -1775,8 +1775,8 @@ Lắp đặt bi LED cho Hyundai Creta mang đến nhiều ưu điểm vượt tr
         quantity: 10,
         price: 6500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_4e589de561bc4ef2b92748ff320d16ed_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_4e589de561bc4ef2b92748ff320d16ed_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -1813,8 +1813,8 @@ Hyundai Custin là một mẫu xe thương mại được ưa chuộng bởi nhi
         quantity: 10,
         price: 4800000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_e2e81551d3a849fab231d8f40fc87ff4_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_e2e81551d3a849fab231d8f40fc87ff4_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -1847,8 +1847,8 @@ Bi Laser Iron Light là một bước tiến mới trong lĩnh vực công ngh�
         quantity: 10,
         price: 7600000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_f5d1a2795f7940648980f56c8772a646_master.png",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_f5d1a2795f7940648980f56c8772a646_master.png",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -1911,8 +1911,8 @@ Việc lắp đặt đèn bi laser Thor Aozoom trên Hyundai Palisade 2024 rất
         quantity: 10,
         price: 8500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_0ddf37d083c54b0e9e48dbe09ae02bbf_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_0ddf37d083c54b0e9e48dbe09ae02bbf_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -1958,8 +1958,8 @@ Bi gầm WASP LED Fog Light không chỉ mang đến hiệu suất chiếu sáng
         quantity: 10,
         price: 3500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/3_879cfd38a2ea4d3eb469e959c848faf9_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/3_879cfd38a2ea4d3eb469e959c848faf9_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -2003,8 +2003,8 @@ Dưới đây là những ưu điểm nổi bật của bi Laser Omega:
         quantity: 10,
         price: 5000000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_97ae994fbb2948f281bf02559ff8029e_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_97ae994fbb2948f281bf02559ff8029e_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -2044,8 +2044,8 @@ Quy trình này đảm bảo rằng việc lắp đặt đèn X-Light F10 cho xe
         quantity: 10,
         price: 3000000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/3_4e48968cc59545cd9284a98b091780c3_master.png",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/3_4e48968cc59545cd9284a98b091780c3_master.png",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -2082,8 +2082,8 @@ Phụ kiện có rất nhiều kiểu dáng và màu sắc khác nhau để phù
         quantity: 20,
         price: 1500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_fc35673cf43d4919b62aa467bd0e9dac_master.png",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_fc35673cf43d4919b62aa467bd0e9dac_master.png",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -2144,8 +2144,8 @@ Việc trang bị Bi Laser Aozoom cho Mazda 3 2023 mang đến nhiều lợi íc
         quantity: 15,
         price: 2500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_673894964ded4b628aa12e4523294851_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_673894964ded4b628aa12e4523294851_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -2208,8 +2208,8 @@ Trong khía cạnh vận hành, Mazda CX-5 2024 được trang bị động cơ 
         quantity: 20,
         price: 3500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_54cf9d22828f4544a09f26a68fa5bcd6_master.png",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_54cf9d22828f4544a09f26a68fa5bcd6_master.png",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -2261,8 +2261,8 @@ Bi Laser Aozoom là công nghệ tiên tiến được đánh giá cao trong lĩ
         quantity: 15,
         price: 5000000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_23dd110185894ea38a2a2c5677ade4ee_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_23dd110185894ea38a2a2c5677ade4ee_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -2299,8 +2299,8 @@ Công nghệ Bi Gầm Wasp LED Fog Light là một tiên tiến trong lĩnh vự
         quantity: 20,
         price: 4500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_786bc8362264452fb27def0e18019301_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_786bc8362264452fb27def0e18019301_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -2338,8 +2338,8 @@ Các bước độ đèn tăng sáng VF3 bao gồm:
         quantity: 20,
         price: 4200000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_40e51c9f746b4d208fd23533e4c7d590_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_40e51c9f746b4d208fd23533e4c7d590_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -2376,8 +2376,8 @@ VinFast VF9 là mẫu SUV điện cỡ E sang trọng được trang bị hệ t
         quantity: 15,
         price: 5500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_376553a119de45bf85ddd007668d194e_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_376553a119de45bf85ddd007668d194e_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -2425,8 +2425,8 @@ Khi lựa chọn độ đèn Square V1 cho VinFast VF3, người dùng sẽ có 
         quantity: 20,
         price: 4000000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_90be6732fdfd4d9d8deaad9828192678_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_90be6732fdfd4d9d8deaad9828192678_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -2464,8 +2464,8 @@ Nâng cấp đèn chiếu sáng trên ô tô lên một hệ thống hiệu qu�
         quantity: 20,
         price: 8500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_42b68441f62c46a7bf4c60240ebf119f_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_42b68441f62c46a7bf4c60240ebf119f_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -2492,8 +2492,8 @@ Việc nâng cấp hệ thống đèn ô tô bằng các sản phẩm chất lư
         quantity: 30,
         price: 7000000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_04348c90c8d2478ea900465b56fd3832_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_04348c90c8d2478ea900465b56fd3832_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -2541,8 +2541,8 @@ Việc độ đèn bi tăng sáng cho xe Trailblazer mang lại nhiều lợi í
         quantity: 30,
         price: 7500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_d56dc8e4b99e4394bebdd76425d7011e_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_d56dc8e4b99e4394bebdd76425d7011e_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -2589,8 +2589,8 @@ Bi Aozoom Thor là một sản phẩm mới của thương hiệu Aozoom, đư�
         quantity: 30,
         price: 6500000,
         currency: "VND",
-        categoryId: 10,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_c2af34a6a47f479cabe717a77b0e8c4e_master.jpg",
+        category_id: 10,
+        image_url: "https://product.hstatic.net/200000317829/product/2_c2af34a6a47f479cabe717a77b0e8c4e_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -2635,8 +2635,8 @@ Sở hữu một chiếc xe BMW luôn là niềm tự hào của mỗi chủ nh�
         quantity: 20,
         price: 15000000,
         currency: "VND",
-        categoryId: 8,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_aff8535cf9564cdc884924cb90591de1_master.jpg",
+        category_id: 8,
+        image_url: "https://product.hstatic.net/200000317829/product/2_aff8535cf9564cdc884924cb90591de1_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -2674,8 +2674,8 @@ Phủ ceramic cho xe Kia Sedona là dịch vụ bảo vệ và làm đẹp bề 
         quantity: 30,
         price: 8000000,
         currency: "VND",
-        categoryId: 8,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_6141eea8867f425eafef4b8d4b0bcac0_master.png",
+        category_id: 8,
+        image_url: "https://product.hstatic.net/200000317829/product/2_6141eea8867f425eafef4b8d4b0bcac0_master.png",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -2713,8 +2713,8 @@ Phủ ceramic xe ô tô là một quá trình chăm sóc và bảo vệ bề m�
         quantity: 30,
         price: 8000000,
         currency: "VND",
-        categoryId: 8,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_6b4c5dbf64424ec4b3f2a452cc78ec32_master.png",
+        category_id: 8,
+        image_url: "https://product.hstatic.net/200000317829/product/2_6b4c5dbf64424ec4b3f2a452cc78ec32_master.png",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -2751,8 +2751,8 @@ Phủ ceramic xe ô tô là một quá trình chăm sóc và bảo vệ bề m�
         quantity: 30,
         price: 9000000,
         currency: "VND",
-        categoryId: 8,
-        imageUrl: "https://product.hstatic.net/200000317829/product/2_38cd06a7c00e4daea74903e594a35934_master.png",
+        category_id: 8,
+        image_url: "https://product.hstatic.net/200000317829/product/2_38cd06a7c00e4daea74903e594a35934_master.png",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -2791,8 +2791,8 @@ Chọn dịch vụ có thương hiệu uy tín, chi phí hợp lý và tay ngh�
         quantity: 30,
         price: 7500000,
         currency: "VND",
-        categoryId: 8,
-        imageUrl: "https://product.hstatic.net/200000317829/product/khong_co_tieu_de__bai_dang_facebook___1__77cf30f1b8ea47819b59ca9da159ecdc_master.jpg",
+        category_id: 8,
+        image_url: "https://product.hstatic.net/200000317829/product/khong_co_tieu_de__bai_dang_facebook___1__77cf30f1b8ea47819b59ca9da159ecdc_master.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -2849,8 +2849,8 @@ Phim cách nhiệt có các mã tối màu có khả năng chống nhìn từ ng
         quantity: 20,
         price: 5000000,
         currency: "VND",
-        categoryId: 2,
-        imageUrl: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        category_id: 2,
+        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -2920,8 +2920,8 @@ Sử dụng phim cách nhiệt kém chất lượng đem lại nhiều hậu qu�
         quantity: 20,
         price: 4500000,
         currency: "VND",
-        categoryId: 2,
-        imageUrl: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        category_id: 2,
+        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3009,8 +3009,8 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         quantity: 10,
         price: 19500000,
         currency: "VND",
-        categoryId: 1,
-        imageUrl: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        category_id: 1,
+        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3098,8 +3098,8 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         quantity: 10,
         price: 14500000,
         currency: "VND",
-        categoryId: 1,
-        imageUrl: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        category_id: 1,
+        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3177,8 +3177,8 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         quantity: 10,
         price: 17500000,
         currency: "VND",
-        categoryId: 1,
-        imageUrl: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        category_id: 1,
+        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3256,8 +3256,8 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         quantity: 15,
         price: 19500000,
         currency: "VND",
-        categoryId: 1,
-        imageUrl: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        category_id: 1,
+        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3335,8 +3335,8 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         quantity: 20,
         price: 14900000,
         currency: "VND",
-        categoryId: 1,
-        imageUrl: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        category_id: 1,
+        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3402,8 +3402,8 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         quantity: 20,
         price: 14500000,
         currency: "VND",
-        categoryId: 1,
-        imageUrl: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        category_id: 1,
+        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3469,8 +3469,8 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         quantity: 20,
         price: 11900000,
         currency: "VND",
-        categoryId: 1,
-        imageUrl: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        category_id: 1,
+        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3536,8 +3536,8 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         quantity: 20,
         price: 8900000,
         currency: "VND",
-        categoryId: 1,
-        imageUrl: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        category_id: 1,
+        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3593,8 +3593,8 @@ Với 72 sắc màu thời thượng trên màn hình, cho bạn tự do thay đ
         quantity: 20,
         price: 20900000,
         currency: "VND",
-        categoryId: 1,
-        imageUrl: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        category_id: 1,
+        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3650,8 +3650,8 @@ Với 72 sắc màu thời thượng trên màn hình, cho bạn tự do thay đ
         quantity: 10,
         price: 14900000,
         currency: "VND",
-        categoryId: 1,
-        imageUrl: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        category_id: 1,
+        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3707,8 +3707,8 @@ Với 72 sắc màu thời thượng trên màn hình, cho bạn tự do thay đ
         quantity: 10,
         price: 14900000,
         currency: "VND",
-        categoryId: 1,
-        imageUrl: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        category_id: 1,
+        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3764,8 +3764,8 @@ Với 72 sắc màu thời thượng trên màn hình, cho bạn tự do thay đ
         quantity: 15,
         price: 11900000,
         currency: "VND",
-        categoryId: 1,
-        imageUrl: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        category_id: 1,
+        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3821,8 +3821,8 @@ Với 72 sắc màu thời thượng trên màn hình, cho bạn tự do thay đ
         quantity: 15,
         price: 8900000,
         currency: "VND",
-        categoryId: 1,
-        imageUrl: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        category_id: 1,
+        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3874,8 +3874,8 @@ Với 72 sắc màu thời thượng trên màn hình, cho bạn tự do thay đ
         quantity: 15,
         price: 11900000,
         currency: "VND",
-        categoryId: 1,
-        imageUrl: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        category_id: 1,
+        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3919,8 +3919,8 @@ Cuối cùng tiến hành kích hoạt bảo hành, hướng dẫn khách sử d
         quantity: 15,
         price: 11500000,
         currency: "VND",
-        categoryId: 1,
-        imageUrl: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        category_id: 1,
+        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3957,8 +3957,8 @@ Phạt nguội là vấn đề nóng hiện nay, đặc biệt khi nhiều ngư�
         quantity: 15,
         price: 5500000,
         currency: "VND",
-        categoryId: 1,
-        imageUrl: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        category_id: 1,
+        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -4011,8 +4011,8 @@ Màn hình ô tô Zestech có khả năng kết nối và hiển thị các thi�
         quantity: 15,
         price: 6900000,
         currency: "VND",
-        categoryId: 1,
-        imageUrl: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        category_id: 1,
+        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -4064,8 +4064,8 @@ ICAR Calendar còn được tích hợp lịch âm của người Việt. Ví d�
         quantity: 10,
         price: 5800000,
         currency: "VND",
-        categoryId: 1,
-        imageUrl: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        category_id: 1,
+        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -4110,8 +4110,8 @@ Thông qua ứng dụng Zestech Tracking bạn có thể biết được chính 
         quantity: 10,
         price: 13900000,
         currency: "VND",
-        categoryId: 1,
-        imageUrl: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        category_id: 1,
+        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
 

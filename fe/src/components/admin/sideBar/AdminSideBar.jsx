@@ -1,5 +1,4 @@
 import React from "react";
-import './AdminSideBar.css'
 import { IconButton, SideBarItem } from "../../common";
 import { useNavigate } from "react-router-dom";
 

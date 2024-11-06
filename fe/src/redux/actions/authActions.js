@@ -14,7 +14,7 @@ export const login = (data) => async (dispatch) => {
 
         const res = await postDataAPI("auth/login", data)
 
-        if (res.data.msg === "Login success") {
+        if (res.status === 200) {
 
             dispatch({
                 type: GLOBALTYPES.AUTH,
@@ -114,10 +114,11 @@ export const getUserInfo = () => async (dispatch) => {
     if (firstLogin) {
         const accessToken = localStorage.getItem("accessToken")
         try {
-            const res = await postDataAPI("auth/get-user-info", null, accessToken)
+            const res = await getDataAPI("user/get-user-info", accessToken)
+
             dispatch({
                 type: GLOBALTYPES.AUTH,
-                payload: { token: accessToken, user: res.data.user }
+                payload: { token: accessToken, user: res.data }
             })
 
             dispatch({
@@ -141,7 +142,7 @@ export const getUserInfo = () => async (dispatch) => {
 const refreshToken = () => async (dispatch) => {
     const refreshToken = localStorage.getItem("refreshToken")
     try {
-        var res = await postDataAPI("auth/refresh-token", null, refreshToken)
+        var res = await postDataAPI("auth/refresh-token", refreshToken, null)
 
         const accessToken = "Bearer " + res.data.accessToken
 
@@ -217,7 +218,7 @@ export const syncCartAndFollowing = (cart_items, following_items, token) => asyn
         try {
             await postDataAPI("cart/sync", { cart_items }, token)
             dispatch(getCart(token))
-            await postDataAPI("follow/sync", { following_items }, token)
+            await postDataAPI("follow/sync-follow", { following_items }, token)
             dispatch(getFollowingProducts(token))
         } catch (err) {
             dispatch({

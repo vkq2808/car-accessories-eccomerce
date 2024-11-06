@@ -9,7 +9,7 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER
             },
-            cartId: {
+            cart_id: {
                 type: Sequelize.INTEGER,
                 references: {
                     model: 'carts',
@@ -19,7 +19,7 @@ module.exports = {
                 onDelete: 'CASCADE',
                 allowNull: false
             },
-            productId: {
+            product_id: {
                 type: Sequelize.INTEGER,
                 references: {
                     model: 'products',
@@ -28,15 +28,6 @@ module.exports = {
                 onUpdate: 'CASCADE',
                 onDelete: 'CASCADE'
             },
-            // serviceId: {
-            //     type: Sequelize.INTEGER,
-            //     references: {
-            //         model: 'services',
-            //         key: 'id'
-            //     },
-            //     onUpdate: 'CASCADE',
-            //     onDelete: 'CASCADE'
-            // },
             quantity: {
                 type: Sequelize.INTEGER,
                 allowNull: false

@@ -19,11 +19,11 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false
             },
-            firstName: {
+            first_name: {
                 type: Sequelize.STRING,
                 allowNull: false
             },
-            lastName: {
+            last_name: {
                 type: Sequelize.STRING,
                 allowNull: false
             },
@@ -43,7 +43,7 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false
             },
-            imageUrl: {
+            image_url: {
                 type: Sequelize.STRING
             },
             createdAt: {

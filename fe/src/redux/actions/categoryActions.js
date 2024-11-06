@@ -18,7 +18,7 @@ export const getCategories = () => async (dispatch) => {
         }
         dispatch({
             type: CATEGORY_ACTION_TYPES.GET_CATEGORIES,
-            payload: res.data.categories
+            payload: res.data
         })
     } catch (err) {
         console.log(err)

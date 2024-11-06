@@ -1,15 +1,17 @@
-import authAPIRoute from "./authRoute";
-import productRoute from "./productRoute";
-import cartAPIRoute from "./cartRoute";
-import categoryRoute from "./categoryRoute";
-import followingRoute from "./followingRoute";
+import authAPIRoute from "./auth.route";
+import productRoute from "./product.route";
+import cartAPIRoute from "./cart.route";
+import categoryRoute from "./category.route";
+import followRoute from "./follow.route";
+import userAPIRoute from "./user.route";
 
 export {
     authAPIRoute,
     productRoute,
     cartAPIRoute,
     categoryRoute,
-    followingRoute
+    followRoute,
+    userAPIRoute
 }
 
 export const applyAllRoutes = (app) => {
@@ -17,5 +19,6 @@ export const applyAllRoutes = (app) => {
     productRoute(app);
     cartAPIRoute(app);
     categoryRoute(app);
-    followingRoute(app);
+    followRoute(app);
+    userAPIRoute(app);
 }

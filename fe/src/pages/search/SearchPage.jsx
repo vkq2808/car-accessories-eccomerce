@@ -19,18 +19,18 @@ const SearchPage = () => {
 
     const query = useQuery();
     const key = query.get('key');
-    const categoryFilterId = query.get('categoryId');
+    const categoryFilterId = query.get('category_id');
     const [searchKey, setSearchKey] = useState(key);
-    const [categoryId, setCategoryId] = useState(categoryFilterId);
+    const [category_id, setcategory_id] = useState(categoryFilterId);
     const [hasMore, setHasMore] = useState(true);
     const [displayedProducts, setDisplayedProducts] = useState([]);
 
     useEffect(() => {
         if (searchKey?.length > 0 || !searchKey) {
             dispatch({ type: PRODUCT_ACTION_TYPES.CLEAR_SEARCH_PRODUCTS })
-            dispatch(searchProducts({ searchTerm: searchKey, category_id: categoryId, page: 1, limit: 12 }));
+            dispatch(searchProducts({ searchTerm: searchKey, category_id: category_id, page: 1, limit: 12 }));
         }
-    }, [searchKey, categoryId, dispatch]);
+    }, [searchKey, category_id, dispatch]);
 
     useEffect(() => {
         const renderItemsWithDelay = async () => {
@@ -57,7 +57,7 @@ const SearchPage = () => {
             return;
         }
         setPage(newPage);
-        dispatch(searchProducts({ searchTerm: searchKey, category_id: categoryId, page: newPage, limit: 12 }));
+        dispatch(searchProducts({ searchTerm: searchKey, category_id: category_id, page: newPage, limit: 12 }));
     }
 
     return (
@@ -89,13 +89,13 @@ const SearchPage = () => {
                         <select
                             id='categoryFilter'
                             className='border p-2 rounded'
-                            value={categoryId}
+                            value={category_id}
                             onChange={(e) => {
-                                const newCategoryId = e.target.value;
+                                const newcategory_id = e.target.value;
                                 const newUrl = new URLSearchParams(window.location.search);
-                                newUrl.set('categoryId', newCategoryId);
+                                newUrl.set('category_id', newcategory_id);
                                 window.history.pushState({}, '', `${window.location.pathname}?${newUrl.toString()}`)
-                                setCategoryId(newCategoryId);
+                                setcategory_id(newcategory_id);
                             }}
                         >
                             <option value='-1'>All</option>
@@ -132,7 +132,7 @@ const SearchPage = () => {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.5 }}
                                     className='bg-white p-4 shadow-md'>
-                                    <img loading='lazy' src={product.imageUrl} alt={product.name} className='w-full h-40 object-cover' />
+                                    <img loading='lazy' src={product.image_url} alt={product.name} className='w-full h-40 object-cover' />
                                     <h1 className='text-lg font-semibold mt-2'>{product.name}</h1>
                                     <p className='text-sm mt-2'>{product.description}</p>
                                     <p className='text-lg font-semibold mt-2'>{formatNumberWithCommas(product.price)} {product.currency}</p>

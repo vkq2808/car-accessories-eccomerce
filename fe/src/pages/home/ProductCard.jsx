@@ -8,10 +8,10 @@ const ProductCard = ({ product, className, ...props }) => {
 
   return (
     <motion.div {...props}
-      className={`flex flex-col items-center justify-center w-60 h-80 p-[10px] bg-white overflow-hidden rounded-lg shadow-lg cursor-pointer ${className}`}
+      className={`flex flex-col items-center justify-center w-60 h-80 p-[10px] overflow-hidden rounded-lg shadow-lg cursor-pointer ${className} bg-[--secondary-background-color] text-[--secondary-text-color]`}
       onClick={() => navigate('/product/' + product.path)}>
-      <div className=" bg-gray-300 rounded-lg mt-2 ">
-        <img className="w-auto h-[160px]" src={product.imageUrl} alt="" />
+      <div className=" rounded-lg mt-2 ">
+        <img className="w-auto h-[160px]" src={product.image_url} alt="" />
       </div>
       <div className="flex flex-col items-center justify-center mt-4">
         <h1 className="text-lg font-semibold">{maximizeString(product.name, 40)}</h1>

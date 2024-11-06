@@ -1,1 +1,19 @@
-import { createNewUser, getAllUsers, updateUser, deleteUser, getUserInfoByEmail, getUserInfoById, updateUserPassword } from './userService';
+import UserService from "./user.service";
+import CategoryService from "./category.service";
+import ProductService from "./product.service";
+import CartService from "./cart.service";
+import CartItemService from "./cart_item.service";
+import OrderService from "./order.service";
+import OrderItemService from "./order_item.service";
+import ProductFollowService from "./product_follow.service";
+
+export {
+  UserService,
+  ProductFollowService,
+  CategoryService,
+  ProductService,
+  CartService,
+  CartItemService,
+  OrderService,
+  OrderItemService
+}

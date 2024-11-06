@@ -81,7 +81,7 @@ const CartDetail = () => {
                   <tr key={index}>
                     <td className='p-[0.75rem] flex'>
                       <div className="flex">
-                        <img className='h-[65px] w-[65px] m-2' src={item.product.imageUrl} alt={item.product.name} />
+                        <img className='h-[65px] w-[65px] m-2' src={item.product.image_url} alt={item.product.name} />
                         <div className="review-item-info">
                           <h5>{maximizeString(item.product.name, 15)}</h5>
                         </div>
@@ -114,7 +114,7 @@ const CartDetail = () => {
                   <tr key={index}>
                     <td className='p-[0.75rem] flex'>
                       <div className="flex opacity-35">
-                        <img className='h-[65px] w-[65px] m-2' src={item.product.imageUrl} alt={item.product.name} />
+                        <img className='h-[65px] w-[65px] m-2' src={item.product.image_url} alt={item.product.name} />
                         <div className="review-item-info">
                           <h5>{maximizeString(item.product.name, 15)}</h5>
                         </div>

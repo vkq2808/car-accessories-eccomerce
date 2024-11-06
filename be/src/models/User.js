@@ -3,24 +3,26 @@ const {
     Model
 } = require('sequelize');
 
-// user bao gồm: email, password, firstName, lastName, address, phone, gender, roleId, positionId
+// user bao gồm: email, password, first_name, last_name, address, phone, gender, roleId, positionId
 module.exports = (sequelize, DataTypes) => {
     class user extends Model {
         static associate(models) {
-            user.hasOne(models.cart, { foreignKey: 'userId' });
+            user.hasOne(models.cart, { foreignKey: 'user_id' });
+            user.hasMany(models.order, { foreignKey: 'user_id' });
+            user.hasMany(models.product_follow, { foreignKey: 'user_id' });
         }
     }
     user.init({
         email: DataTypes.STRING,
         hashed_password: DataTypes.STRING,
-        firstName: DataTypes.STRING,
-        lastName: DataTypes.STRING,
+        first_name: DataTypes.STRING,
+        last_name: DataTypes.STRING,
         address: DataTypes.STRING,
         phone: DataTypes.STRING,
         gender: DataTypes.STRING,
         birth: DataTypes.DATE,
         role: DataTypes.STRING,
-        imageUrl: {
+        image_url: {
             type: DataTypes.STRING,
             allowNull: true
         },

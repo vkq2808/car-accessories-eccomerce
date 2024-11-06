@@ -14,31 +14,50 @@ body {
 }
 
 :root {
+    /* Primary Colors */
     --color-primary: #2d3748;
-    --color-secondary: #2b6cb0;
-    --color-tertiary: #718096;
+    /* Xám đậm cho nền tối */
+    --color-secondary: #3182ce;
+    /* Xanh lam sáng */
+    --color-tertiary: #4a5568;
+    /* Xám trung tính */
     --color-quaternary: #e2e8f0;
-    --color-quinary: #edf2f7;
-    --color-white: #fff;
-    --color-black: #000;
-    --color-gray: #718096;
-    --color-red: #f56565;
-    --color-green: #48bb78;
-    --color-blue: #4299e1;
-    --color-yellow: #ecc94b;
-    --color-indigo: #667eea;
-    --color-purple: #9f7aea;
-    --color-pink: #ed64a6;
+    /* Xám sáng */
+    --color-quinary: #f7fafc;
+    /* Xám sáng cho nền sáng */
 
+    /* Accent Colors */
+    --color-white: #ffffff;
+    --color-black: #1a202c;
+    /* Xám đen cho nền tối */
+    --color-gray: #a0aec0;
+    --color-red: #e53e3e;
+    /* Đỏ nhạt hơn cho lỗi */
+    --color-green: #38a169;
+    /* Xanh lá cây */
+    --color-blue: #3182ce;
+    /* Xanh lam */
+    --color-yellow: #ecc94b;
+    /* Vàng */
+    --color-indigo: #5a67d8;
+    /* Màu chàm */
+    --color-purple: #805ad5;
+    /* Tím */
+    --color-pink: #d53f8c;
+    /* Hồng */
+
+    /* Font Families */
     --font-sans: 'IBM Plex Sans', sans-serif;
     --font-mono: 'IBM Plex Mono', monospace;
 
-    --font-light: 100;
+    /* Font Weights */
+    --font-light: 300;
     --font-normal: 400;
     --font-medium: 500;
     --font-semibold: 600;
     --font-bold: 700;
 
+    /* Font Sizes */
     --font-size-xs: 0.75rem;
     --font-size-sm: 0.875rem;
     --font-size-base: 1rem;
@@ -46,34 +65,76 @@ body {
     --font-size-xl: 1.25rem;
     --font-size-2xl: 1.5rem;
 
-    --dark-primary-background-color: #2d3748;
-    --dark-secondary-background-color: #2b6cb0;
-    --dark-tertiary-background-color: #718096;
-    --dark-quaternary-background-color: #e2e8f0;
+    /* Dark Theme Colors */
+    --dark-primary-background-color: #1a202c;
+    /* Nền xám đen */
+    --dark-secondary-background-color: #2d3748;
+    /* Nền phụ xám đậm */
+    --dark-tertiary-background-color: #4a5568;
+    /* Xám trung tính cho viền */
+    --dark-quaternary-background-color: #718096;
+    /* Xám sáng cho nền phụ */
 
-    --dark-primary-text-color: #e2e8f0;
-    --dark-secondary-text-color: #e2e8f0;
-    --dark-tertiary-text-color: #e2e8f0;
-    --dark-quaternary-text-color: #e2e8f0;
+    --dark-primary-text-color: #ffffff;
+    /* Trắng cho văn bản chính */
+    --dark-secondary-text-color: #cbd5e0;
+    /* Xám nhạt cho văn bản phụ */
+    --dark-tertiary-text-color: #a0aec0;
+    /* Xám trung bình cho văn bản phụ */
+    --dark-quaternary-text-color: #7d8085;
+    /* Xám đậm cho văn bản phụ */
 
-    --light-primary-background-color: #e2e8f0;
-    --light-secondary-background-color: #e2e8f0;
+    /* Light Theme Colors */
+    --light-primary-background-color: #f7fafc;
+    /* Nền sáng xám rất nhạt */
+    --light-secondary-background-color: #edf2f7;
+    /* Nền sáng hơn */
     --light-tertiary-background-color: #e2e8f0;
-    --light-quaternary-background-color: #e2e8f0;
+    /* Xám nhạt cho nền phụ */
+    --light-quaternary-background-color: #cbd5e0;
+    /* Xám nhạt cho viền nhẹ */
 
     --light-primary-text-color: #2d3748;
-    --light-secondary-text-color: #2d3748;
-    --light-tertiary-text-color: #2d3748;
-    --light-quaternary-text-color: #2d3748;
+    /* Xám đậm cho văn bản chính */
+    --light-secondary-text-color: #4a5568;
+    /* Xám trung tính cho văn bản phụ */
+    --light-tertiary-text-color: #718096;
+    /* Xám nhạt cho văn bản không quan trọng */
+    --light-quaternary-text-color: #a0aec0;
+    /* Xám sáng cho chú thích nhỏ */
 
-    --primary-color: #2b6cb0;
-    --secondary-color: #2b6cb0;
-    --tertiary-color: #2b6cb0;
-    --quaternary-color: #2b6cb0;
+    /* Primary and Secondary Colors */
+    --primary-color: #3182ce;
+    /* Xanh lam */
+    --secondary-color: #4a5568;
+    /* Xám trung tính */
+    --tertiary-color: #e53e3e;
+    /* Đỏ nhạt */
+    --quaternary-color: #38a169;
+    /* Xanh lá cây */
+}
 
-    --primary-text-color: #2d3748;
-    --secondary-text-color: #2d3748;
-    --tertiary-text-color: #2d3748;
-    --quaternary-text-color: #2d3748;
+/* Các quy tắc CSS cho dark mode và light mode */
+[data-theme="dark"] {
+    --primary-background-color: var(--dark-primary-background-color);
+    --secondary-background-color: var(--dark-secondary-background-color);
+    --tertiary-background-color: var(--dark-tertiary-background-color);
+    --quaternary-background-color: var(--dark-quaternary-background-color);
 
+    --primary-text-color: var(--dark-primary-text-color);
+    --secondary-text-color: var(--dark-secondary-text-color);
+    --tertiary-text-color: var(--dark-tertiary-text-color);
+    --quaternary-text-color: var(--dark-quaternary-text-color);
+}
+
+[data-theme="light"] {
+    --primary-background-color: var(--light-primary-background-color);
+    --secondary-background-color: var(--light-secondary-background-color);
+    --tertiary-background-color: var(--light-tertiary-background-color);
+    --quaternary-background-color: var(--light-quaternary-background-color);
+
+    --primary-text-color: var(--light-primary-text-color);
+    --secondary-text-color: var(--light-secondary-text-color);
+    --tertiary-text-color: var(--light-tertiary-text-color);
+    --quaternary-text-color: var(--light-quaternary-text-color);
 }

@@ -113,9 +113,9 @@ const Cart = () => {
                                             <img className='w-[50px] h-[50px] cursor-pointer'
                                                 onMouseEnter={() => { setPreviewEnabled(prev => prev.map((_, i) => i === index ? true : false)) }}
                                                 onMouseLeave={() => { setPreviewEnabled(prev => prev.map((_, i) => i === index ? false : false)) }}
-                                                src={item.product.imageUrl} alt="Ảnh" />
+                                                src={item.product.image_url} alt="Ảnh" />
                                             <img className={`w-[500px] absolute top-[100%] left-0 ${previewEnabled[index] ? 'block' : 'hidden'}`}
-                                                src={item.product.imageUrl} alt='Ảnh' />
+                                                src={item.product.image_url} alt='Ảnh' />
 
                                         </td>
                                         <td className="pl-8 text-center cursor-pointer"
@@ -155,7 +155,7 @@ const Cart = () => {
                                         <td className="pl-8 text-center opacity-35"
                                             onClick={() => nav(item.product.path)}>
                                             <img className='w-[50px] h-[50px] cursor-pointer'
-                                                src={item.product.imageUrl} alt="Ảnh" />
+                                                src={item.product.image_url} alt="Ảnh" />
                                         </td>
                                         <td className="pl-8 text-center cursor-pointer opacity-35"
                                             onClick={() => { nav('/product/' + item.product.path); setIsOpen(false) }}>

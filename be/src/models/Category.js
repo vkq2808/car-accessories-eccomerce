@@ -6,7 +6,7 @@ const {
 module.exports = (sequelize, DataTypes) => {
     class category extends Model {
         static associate(models) {
-            category.hasMany(sequelize.models.product, { foreignKey: 'categoryId' });
+            category.hasMany(sequelize.models.product, { foreignKey: 'category_id' });
         }
     }
     category.init({
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
             unique: true,
             allowNull: false
         },
-        imageUrl: {
+        image_url: {
             type: DataTypes.TEXT,
             allowNull: true
         },

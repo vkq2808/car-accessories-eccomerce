@@ -1,4 +1,4 @@
-import { getDataAPI, postDataAPI, deleteDataAPI } from "../../utils/fetchData"
+import { getDataAPI, postDataAPI } from "../../utils/fetchData"
 import { GLOBALTYPES } from './globalTypes';
 import { CART_ACTION_TYPES } from './cartActions';
 
@@ -21,7 +21,7 @@ export const searchProducts = ({ searchTerm = "", category_path, category_id = 0
     try {
         let queriesArr = [];
         queriesArr.push(searchTerm ? 'searchTerm=' + searchTerm + '&' : '');
-        queriesArr.push(category_id ? 'categoryId=' + category_id + '&' : 'category_path=' + category_path + '&');
+        queriesArr.push(category_id ? 'category_id=' + category_id + '&' : 'category_path=' + category_path + '&');
 
         let queries = queriesArr.join('');
 
@@ -40,10 +40,10 @@ export const searchProducts = ({ searchTerm = "", category_path, category_id = 0
     }
 }
 
-export const getProductsByCategoryId = ({ category_id, page = 1, limit = 12 }) => async (dispatch) => {
+export const getProductsBycategory_id = ({ category_id, page = 1, limit = 12 }) => async (dispatch) => {
     try {
         let queriesArr = [];
-        queriesArr.push(category_id ? 'categoryId=' + category_id + '&' : '');
+        queriesArr.push(category_id ? 'category_id=' + category_id + '&' : '');
 
         let queries = queriesArr.join('');
 
@@ -81,10 +81,10 @@ export const getProducts = () => async (dispatch) => {
 export const getNewProducts = () => async (dispatch) => {
     try {
         const searchTerm = ''
-        const categoryId = -1
+        const category_id = -1
         const page = 1
         const limit = 6
-        const res = await getDataAPI(`product/search?searchTerm=${searchTerm}&categoryId=${categoryId}&page=${page}&limit=${limit}`)
+        const res = await getDataAPI(`product/search?searchTerm=${searchTerm}&category_id=${category_id}&page=${page}&limit=${limit}`)
         if (res.status !== 200) {
             dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: res.data.msg } })
             return;
@@ -101,10 +101,10 @@ export const getNewProducts = () => async (dispatch) => {
 export const getTrendingProducts = () => async (dispatch) => {
     try {
         const searchTerm = ''
-        const categoryId = -1
+        const category_id = -1
         const page = 1
         const limit = 4
-        const res = await getDataAPI(`product/search?searchTerm=${searchTerm}&categoryId=${categoryId}&page=${page}&limit=${limit}`)
+        const res = await getDataAPI(`product/search?searchTerm=${searchTerm}&category_id=${category_id}&page=${page}&limit=${limit}`)
         if (res.status !== 200) {
             dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: res.data.msg } })
             return;
@@ -113,20 +113,6 @@ export const getTrendingProducts = () => async (dispatch) => {
             type: PRODUCT_ACTION_TYPES.GET_TRENDING_PRODUCTS,
             payload: res.data.result.products
         })
-    } catch (err) {
-        console.log(err)
-    }
-}
-
-export const followProduct = ({ token, product }) => async (dispatch) => {
-    try {
-        const res = await postDataAPI('follow', { product }, token)
-        if (res.status !== 200) {
-            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg })
-            return;
-        }
-        dispatch(getFollowingProducts(token))
-        dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.msg })
     } catch (err) {
         console.log(err)
     }
@@ -148,9 +134,23 @@ export const getFollowingProducts = (token) => async (dispatch) => {
     }
 }
 
+export const followProduct = ({ token, product }) => async (dispatch) => {
+    try {
+        const res = await postDataAPI('follow/follow', { product }, token)
+        if (res.status !== 200) {
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg })
+            return;
+        }
+        dispatch(getFollowingProducts(token))
+        dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.msg })
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 export const unfollowProduct = ({ token, product }) => async (dispatch) => {
     try {
-        const res = await deleteDataAPI(`follow/${product.id}`, token)
+        const res = await postDataAPI(`follow/unfollow`, { product }, token)
         if (res.status !== 200) {
             dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg })
             return;
@@ -161,7 +161,7 @@ export const unfollowProduct = ({ token, product }) => async (dispatch) => {
     }
 }
 
-export const SynCartAndFollowingProducts = ({ cart_items, followings }) => async (dispatch) => {
+export const SyncLocalCartAndFollowingProductDetail = ({ cart_items, followings }) => async (dispatch) => {
     let updatedCartItems = [];
     cart_items.forEach(item => async () => {
         const productDetail = await getDataAPI(`product/detail/${item.product.path}`)

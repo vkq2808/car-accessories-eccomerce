@@ -9,9 +9,9 @@ const Regist = () => {
     const navigate = useNavigate();
     const redirecting = useSelector(state => state.auth.redirecting);
     const dispatch = useDispatch();
-    const initialState = { email: "", password: "", firstName: "", lastName: "", phone: "", birth: "" }
+    const initialState = { email: "", password: "", first_name: "", last_name: "", phone: "", birth: "" }
     const [userData, setUserData] = useState(initialState)
-    const { email, password, firstName, lastName, phone, birth } = userData
+    const { email, password, first_name, last_name, phone, birth } = userData
     const [errors, setErrors] = useState({});
     const [timer, setTimer] = useState(5);
 
@@ -37,12 +37,12 @@ const Regist = () => {
             errors.password = "Mật khẩu phải chứa ít nhất 6 ký tự";
         }
 
-        if (!firstName) {
-            errors.firstName = "Vui lòng nhập họ của bạn";
+        if (!first_name) {
+            errors.first_name = "Vui lòng nhập họ của bạn";
         }
 
-        if (!lastName) {
-            errors.lastName = "Vui lòng nhập tên của bạn";
+        if (!last_name) {
+            errors.last_name = "Vui lòng nhập tên của bạn";
         }
 
         if (!phone) {
@@ -58,7 +58,7 @@ const Regist = () => {
         }
 
         if (Object.keys(errors).length === 0) {
-            dispatch(regist({ email: userData.email, password: userData.password, firstName: userData.firstName, lastName: userData.lastName, phone: userData.phone, birth: userData.birth }));
+            dispatch(regist({ email: userData.email, password: userData.password, first_name: userData.first_name, last_name: userData.last_name, phone: userData.phone, birth: userData.birth }));
         } else {
             setErrors(errors);
         }
@@ -109,17 +109,17 @@ const Regist = () => {
                             </div>
 
                             <div className="form-outline mb-4">
-                                <label className="form-label" htmlFor="InputFirstName" style={{ fontWeight: "bold", color: "#2F56A6" }}>Họ</label>
-                                <input type="text" id="InputFirstName" onChange={handleChangeInput} value={firstName} name="firstName" className="form-control form-control-lg"
+                                <label className="form-label" htmlFor="Inputfirst_name" style={{ fontWeight: "bold", color: "#2F56A6" }}>Họ</label>
+                                <input type="text" id="Inputfirst_name" onChange={handleChangeInput} value={first_name} name="first_name" className="form-control form-control-lg"
                                     placeholder="Nhập họ của bạn" />
-                                {errors.firstName && <small style={{ fontWeight: "bold" }} className="text-danger">{errors.firstName}</small>}
+                                {errors.first_name && <small style={{ fontWeight: "bold" }} className="text-danger">{errors.first_name}</small>}
                             </div>
 
                             <div className="form-outline mb-4">
-                                <label className="form-label" htmlFor="InputLastName" style={{ fontWeight: "bold", color: "#2F56A6" }}>Tên</label>
-                                <input type="text" id="InputLastName" onChange={handleChangeInput} value={lastName} name="lastName" className="form-control form-control-lg"
+                                <label className="form-label" htmlFor="Inputlast_name" style={{ fontWeight: "bold", color: "#2F56A6" }}>Tên</label>
+                                <input type="text" id="Inputlast_name" onChange={handleChangeInput} value={last_name} name="last_name" className="form-control form-control-lg"
                                     placeholder="Nhập tên của bạn" />
-                                {errors.lastName && <small style={{ fontWeight: "bold" }} className="text-danger">{errors.lastName}</small>}
+                                {errors.last_name && <small style={{ fontWeight: "bold" }} className="text-danger">{errors.last_name}</small>}
                             </div>
                         </div>
                         <div className="second-col flex flex-col w-[45%]">

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getNewProducts, getProductsByCategoryId, getTrendingProducts, PRODUCT_ACTION_TYPES } from "../../redux/actions/productActions";
+import { getNewProducts, getProductsBycategory_id, getTrendingProducts, PRODUCT_ACTION_TYPES } from "../../redux/actions/productActions";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -18,7 +18,7 @@ const NewHome = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [activeCategoryId, setActiveCategoryId] = React.useState(1);
+  const [activecategory_id, setActivecategory_id] = React.useState(1);
 
   const handleNavigate = (e) => {
     const link = e.target.link;
@@ -27,8 +27,8 @@ const NewHome = () => {
 
   useEffect(() => {
     dispatch({ type: PRODUCT_ACTION_TYPES.CLEAR_SEARCH_PRODUCTS });
-    dispatch(getProductsByCategoryId({ category_id: activeCategoryId }));
-  }, [dispatch, activeCategoryId]);
+    dispatch(getProductsBycategory_id({ category_id: activecategory_id }));
+  }, [dispatch, activecategory_id]);
 
   useEffect(() => {
     dispatch(getNewProducts());
@@ -72,8 +72,8 @@ const NewHome = () => {
 
 
   return (
-    <div className="flex w-full flex-col">
-      <div className="slider-part select-none bg-[#F0F8FF]">
+    <div className="flex w-full flex-col bg-[--primary-background-color] text-[--primary-text-color]">
+      <div className="slider-part select-none ">
         <Swiper
           modules={[Navigation, Pagination, Autoplay, EffectFade]}
           spaceBetween={50}
@@ -89,8 +89,8 @@ const NewHome = () => {
               <div className=" flex lg:h-[600px] relative w-full" onClick={handleNavigate} link={promotion.link}>
                 <div className="promotion-detail flex flex-col sticky w-full">
                   <div className="pl-[100px] pt-[60px] absolute">
-                    <h6 className="text-[#555] opacity-65">Best Furniture For Your Car....</h6>
-                    <div className="text-[53px] font-sans max-w-[700px]">New Car Furniture Collection
+                    <h6 className="text-[--secondary-text-color] opacity-65">Best Furniture For Your Car....</h6>
+                    <div className="text-[--primary-text-color] text-[53px] font-sans max-w-[700px]">New Car Furniture Collection
                       Trends in 2024</div>
                     <div className="view-detail-button">
                       <button className="bg-[#AAAAAA] border-none rounded-[4px] hover:bg-blue-500 text-white px-4 py-2 mt-4">View Detail</button>
@@ -121,8 +121,8 @@ const NewHome = () => {
         <div className="categories-container flex flex-wrap px-32">
           {categories.length > 0 && categories.map((category, index) => (
             <div className={`category-card hover:scale-[1.2] duration-500 flex flex-col items-center justify-center px-2 mr-3 pr-5 
-            ${activeCategoryId === category.id ? 'bg-[#63c9f5] text-[#000000] border-none rounded-lg select-none' : 'hover:bg-[#222] hover:text-[white] hover:rounded-lg cursor-pointer'}`}
-              onClick={() => setActiveCategoryId(category.id)} key={index}>
+            ${activecategory_id === category.id ? 'bg-[#63c9f5] text-[#000000] border-none rounded-lg select-none' : 'hover:bg-[#222] hover:text-[white] hover:rounded-lg cursor-pointer'}`}
+              onClick={() => setActivecategory_id(category.id)} key={index}>
               <div className="category-name text-lg font-thin">
                 {category.name}
               </div>
@@ -143,10 +143,10 @@ const NewHome = () => {
         <div className="policies flex">
           {policies.map((policy, index) => (
             <div className="policy-card hover:scale-125 duration-500 flex items-center justify-center w-1/4 p-4 select-none" key={index}>
-              <img className="w-16 h-16" src={policy.imgSrc} alt={policy.title} />
+              <img className="w-16 h-16 bg-[white] rounded-lg" src={policy.imgSrc} alt={policy.title} />
               <div className="flex flex-col px-2">
                 <h3 className="text-lg font-semibold">{policy.title}</h3>
-                <h5 className="text-sm text-gray-500">{policy.content}</h5>
+                <h5 className="text-sm ">{policy.content}</h5>
               </div>
             </div>
           ))}

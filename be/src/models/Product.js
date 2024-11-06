@@ -6,7 +6,8 @@ const {
 module.exports = (sequelize, DataTypes) => {
     class product extends Model {
         static associate(models) {
-            product.belongsTo(models.category, { foreignKey: 'categoryId' });
+            product.belongsTo(models.category, { foreignKey: 'category_id' });
+            product.hasMany(models.order_item, { foreignKey: 'product_id' });
         }
     }
     product.init({
@@ -20,8 +21,8 @@ module.exports = (sequelize, DataTypes) => {
         quantity: DataTypes.INTEGER,
         price: DataTypes.DOUBLE,
         currency: DataTypes.STRING,
-        categoryId: DataTypes.TEXT,
-        imageUrl: {
+        category_id: DataTypes.TEXT,
+        image_url: {
             type: DataTypes.STRING,
             allowNull: true
         },
