@@ -93,7 +93,7 @@ const NewHome = () => {
                     <div className="text-[--primary-text-color] text-[53px] font-sans max-w-[700px]">New Car Furniture Collection
                       Trends in 2024</div>
                     <div className="view-detail-button">
-                      <button className="bg-[#AAAAAA] border-none rounded-[4px] hover:bg-blue-500 text-white px-4 py-2 mt-4">View Detail</button>
+                      <button className="bg-[#AAAAAA] cursor-pointer border-none rounded-[4px] hover:bg-blue-500 text-white px-4 py-2 mt-4">View Detail</button>
                     </div>
                   </div>
                   <div className="spacer h-[100px]">&nbsp;</div>
@@ -116,8 +116,8 @@ const NewHome = () => {
           </div>
         </div>
       </div>
-      <div className="products-by-categories flex flex-col w-full items-center pt-10">
-        <h2 className="text-2xl font-bold mb-5">Products</h2>
+      <div className="products-by-categories flex flex-col w-full items-center mt-10">
+        <h2 className="text-2xl font-bold">Products</h2>
         <div className="categories-container flex flex-wrap px-32">
           {categories.length > 0 && categories.map((category, index) => (
             <div className={`category-card hover:scale-[1.2] duration-500 flex flex-col items-center justify-center px-2 mr-3 pr-5 
@@ -129,8 +129,8 @@ const NewHome = () => {
             </div>
           ))}
         </div>
-        <div className="flex w-full justify-end px-32 mt-10">
-          <div className="text-end rounded-xl p-[6px] duration-500 hover:bg-blue-500">Xem tất cả</div>
+        <div className="flex w-full justify-end px-32 mt-10 mb-4">
+          <div className="text-end rounded-xl py-2 px-4 duration-500 bg-[--secondary-background-color] hover:bg-[--tertiary-background-color] cursor-pointer">Xem tất cả</div>
         </div>
         <div className="products-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 mt-4">
           {searchResults.products.length > 0 && searchResults.products.map((product, index) => (
@@ -138,7 +138,7 @@ const NewHome = () => {
           ))}
         </div>
       </div>
-      <div className="policies-container flex flex-col w-full items-center mt-10">
+      <div className="policies-container flex flex-col w-full items-center my-10">
         <h2 className="text-2xl font-bold">What we offer</h2>
         <div className="policies flex">
           {policies.map((policy, index) => (

@@ -7,3 +7,5 @@ const CheckOutSecondStep = () => {
     </div>
   );
 }
+
+export default CheckOutSecondStep;

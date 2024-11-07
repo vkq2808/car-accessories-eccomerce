@@ -13,6 +13,13 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+    box-sizing: border-box;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
 :root {
     /* Primary Colors */
     --color-primary: #2d3748;

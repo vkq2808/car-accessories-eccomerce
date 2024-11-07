@@ -1,100 +1,189 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../redux/actions/authActions';
+import { useEffect, useState } from "react";
+import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { login } from "../../redux/actions/authActions";
 
-import './Login.css';
-import { useNavigate } from 'react-router-dom';
-
-const Login = () => {
-
-    const initialState = { email: "", password: "" }
-
-    const [userData, setUserData] = useState(initialState)
-    const { email, password } = userData
-    const [errors, setErrors] = useState({});
-    const dispatch = useDispatch();
+const LoginPage = () => {
     const auth = useSelector(state => state.auth);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState({ email: "", password: "" });
+    const [emailSuggestions, setEmailSuggestions] = useState([]);
 
-    const handleChangeInput = (e) => {
-        const { name, value } = e.target
-        setUserData({ ...userData, [name]: value })
-        setErrors({ ...errors, [name]: "" });
-    }
+    useEffect(() => {
+        if (auth.token) {
+            navigate("/");
+        }
+    }, [auth, navigate]);
+
+    const commonDomains = ["@gmail.com", "@yahoo.com", "@outlook.com", "@hotmail.com"];
+
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
+    const handleEmailChange = (e) => {
+        const value = e.target.value;
+        setEmail(value);
+
+        if (!value.includes("@")) {
+            const suggestions = commonDomains.map((domain) => value + domain);
+            setEmailSuggestions(suggestions);
+        } else {
+            setEmailSuggestions([]);
+        }
+
+        if (!validateEmail(value) && value) {
+            setErrors((prev) => ({ ...prev, email: "Invalid email format" }));
+        } else {
+            setErrors((prev) => ({ ...prev, email: "" }));
+        }
+    };
+
+    const handlePasswordChange = (e) => {
+        const value = e.target.value;
+        setPassword(value);
+
+        if (value.length < 8 && value) {
+            setErrors((prev) => ({ ...prev, password: "Password must be at least 8 characters" }));
+        } else {
+            setErrors((prev) => ({ ...prev, password: "" }));
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!validateEmail(email) || password.length < 8) return;
 
-        // Kiểm tra validation
-        let errors = {};
-        if (!email) {
-            errors.email = "Vui lòng nhập email của bạn";
-        } else if (!/\S+@\S+\.\S+/.test(email)) {
-            errors.email = "Email không hợp lệ";
-        }
-
-        if (!password) {
-            errors.password = "Vui lòng nhập mật khẩu của bạn";
-        } else if (password.length < 6) {
-            errors.password = "Mật khẩu phải chứa ít nhất 6 ký tự";
-        }
-
-        if (Object.keys(errors).length === 0) {
-            dispatch(login({ email: userData.email, password: userData.password }));
-        }
-        else {
-            setErrors(errors);
-        }
-    }
-
-    React.useEffect(() => {
-        if (auth.token)
-            navigate("/")
-        else {
-            localStorage.removeItem("firstLogin")
-            localStorage.removeItem("accessToken")
-            localStorage.removeItem("refreshToken")
-        }
-    }, [auth.token, navigate])
-
+        setLoading(true);
+        // Simulate API call
+        dispatch(login({ email, password }));
+        setLoading(false);
+    };
 
     return (
-        <div className='flex flex-col w-full h-auto items-center text-[#212529]'>
-            <div className="body-box flex flex-row w-full justify-center items-center">
-                <div className="regist-form-container flex flex-col p-4 mt-4 items-center w-[30%] mx-10">
-                    <h2 className='form-title'>Đăng nhập</h2>
-
-                    <form className='w-full flex justify-between mt-5' onSubmit={handleSubmit}>
-                        <div className="first-col flex flex-col w-full">
-                            <div className="form-outline mb-4 w-full">
-                                <label className="form-label" htmlFor="InputEmail" style={{ fontWeight: "bold", color: "#2F56A6" }}>Email</label>
-                                <input type="text" id="InputEmail" onChange={handleChangeInput} value={email} name="email" className="form-control form-control-lg"
-                                    placeholder="Nhập email của bạn" />
-                                {errors.email && <small style={{ fontWeight: "bold" }} className="text-danger">{errors.email}</small>}
-                            </div>
-
-                            <div className="form-outline mb-4">
-                                <label className="form-label" htmlFor="InputPassword" style={{ fontWeight: "bold", color: "#2F56A6" }}>Mật khẩu</label>
-                                <input type="password" id="InputPassword" onChange={handleChangeInput} value={password} name="password" className="form-control form-control-lg"
-                                    placeholder="Nhập mật khẩu" />
-                                {errors.password && <small style={{ fontWeight: "bold" }} className="text-danger">{errors.password}</small>}
-                            </div>
-
-                            <div className="text-center mt-4 mb-4 pt-2">
-                                <button type="submit" className="btn btn-primary btn-lg"
-                                    style={{ width: "60%" }} >Đăng nhập</button>
-                            </div>
-                            <p className="small fw-bold mt-2 pt-1 mb-0">Bạn chưa có tài khoản? <a href="/auth/regist"
-                                className="link-danger">Đăng ký ngay</a></p>
-
-                            <p className="small fw-bold mt-2 pt-1 mb-0">Quên mật khẩu? <a href="/auth/forgot-password"
-                                className="link-danger">Tại đây</a></p>
+        <div className="min-h-[70vh] w-full flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-100 p-4">
+            <div className="w-full max-w-4xl flex flex-col-reverse md:flex-row bg-[--primary-background-color] rounded-2xl shadow-2xl overflow-hidden">
+                <div className="w-full md:w-1/2 p-8">
+                    <h2 className="text-3xl font-bold mb-6 text-gray-800">Welcome Back</h2>
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div className="relative">
+                            <label
+                                htmlFor="email"
+                                className="block text-sm font-medium text-gray-700 mb-1"
+                            >
+                                Email Address
+                            </label>
+                            <input
+                                type="email"
+                                id="email"
+                                value={email}
+                                onChange={handleEmailChange}
+                                className={`w-full px-4 py-3 rounded-lg border ${errors.email ? "border-red-500" : "border-gray-300"} focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 outline-none`}
+                                placeholder="Enter your email"
+                                aria-label="Email Address"
+                                aria-invalid={errors.email ? "true" : "false"}
+                                autoComplete="email"
+                            />
+                            {errors.email && (
+                                <p className="text-red-500 text-sm mt-1" role="alert">
+                                    {errors.email}
+                                </p>
+                            )}
+                            {emailSuggestions.length > 0 && (
+                                <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded-lg mt-1 shadow-lg">
+                                    {emailSuggestions.map((suggestion, index) => (
+                                        <li
+                                            key={index}
+                                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                            onClick={() => {
+                                                setEmail(suggestion);
+                                                setEmailSuggestions([]);
+                                            }}
+                                        >
+                                            {suggestion}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
                         </div>
+
+                        <div className="relative">
+                            <label
+                                htmlFor="password"
+                                className="block text-sm font-medium text-gray-700 mb-1"
+                            >
+                                Password
+                            </label>
+                            <div className="relative">
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    id="password"
+                                    value={password}
+                                    onChange={handlePasswordChange}
+                                    className={`w-full px-4 py-3 rounded-lg border ${errors.password ? "border-red-500" : "border-gray-300"} focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 outline-none`}
+                                    placeholder="Enter your password"
+                                    aria-label="Password"
+                                    aria-invalid={errors.password ? "true" : "false"}
+                                    autoComplete="current-password"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute flex items-center px-[1px] border-none right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                                    aria-label={showPassword ? "Hide password" : "Show password"}
+                                >
+                                    {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                                </button>
+                            </div>
+                            {errors.password && (
+                                <p className="text-red-500 text-sm mt-1" role="alert">
+                                    {errors.password}
+                                </p>
+                            )}
+                        </div>
+
+                        <button
+                            type="submit"
+                            disabled={loading || Object.values(errors).some((error) => error)}
+                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transform transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                        >
+                            {loading ? (
+                                <FaSpinner className="animate-spin mr-2" />
+                            ) : (
+                                "Login"
+                            )}
+                        </button>
                     </form>
+
+                    <div className="mt-6 flex flex-col sm:flex-row items-center justify-between space-y-3 sm:space-y-0">
+                        <button className="text-blue-600 cursor-pointer border-none hover:text-blue-800 text-sm font-medium transition-colors"
+                            onClick={() => navigate("/auth/forgot-password")}
+                        >
+                            Forgot Password?
+                        </button>
+                        <button className="text-blue-600 cursor-pointer border-none hover:text-blue-800 text-sm font-medium transition-colors">
+                            Create an Account
+                        </button>
+                    </div>
+                </div>
+
+                <div className="w-full md:w-1/2 bg-blue-600 p-8 flex items-center justify-center">
+                    <img
+                        src="images.unsplash.com/photo-1496096265110-f83ad7f96608?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
+                        alt="Login illustration"
+                        className="max-w-[80%] h-auto rounded-lg shadow-lg"
+                    />
                 </div>
             </div>
-        </div >
+        </div>
     );
 };
 
-export default Login;
+export default LoginPage;

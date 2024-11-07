@@ -56,7 +56,7 @@ export default class CartController {
                     cartItem.quantity += item.quantity;
                     await new CartItemService().updateCartItemQuantity(cartItem);
                 } else {
-                    await new CartItemService().createProductCartItem(cart.id, item.product.id, item.quantity);
+                    await new CartItemService().createCartItem(cart.id, item.product.id, item.quantity);
                 }
             }
 

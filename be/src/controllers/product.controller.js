@@ -29,7 +29,7 @@ export default class ProductController {
                 limit
             });
 
-            return res.status(200).json({ result: { products: rows, count: count } });
+            return res.status(200).json({ result: { products: rows, total: count } });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ message: error.message });

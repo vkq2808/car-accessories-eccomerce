@@ -105,7 +105,7 @@ const Header = ({ setIsSideBarOpen }) => {
                         <div className='text-5xl select-none'>KQUOC</div>
                     </div>
                     <div className="search-bar w-[40%] justify-center items-center hidden lg:!flex flex-row">
-                        <select className="border px-2 py-1 w-[100px] "
+                        <select className="border-none p-2 w-[100px] "
                             onChange={(e) => onFilterCategoryChange(e)}
                             value={category_id}
                         >
@@ -118,7 +118,7 @@ const Header = ({ setIsSideBarOpen }) => {
                             ))}
                         </select>
                         <input
-                            className="border px-2 py-1 w-full md:w-[70%] lg:w-[80%]"
+                            className="border-none p-2 px-4 w-full md:w-[70%] lg:w-[80%] bg-[--secondary-background-color] rounded-3xl"
                             type="text"
                             placeholder="Search"
                             value={searchTerm}
@@ -165,9 +165,9 @@ const Header = ({ setIsSideBarOpen }) => {
                                 }
                             </motion.div>
                         }
-                        <button onClick={(e) => handleSearch(e)} className="s-btn block border w-auto py-2">
+                        <button onClick={(e) => handleSearch(e)} className="border-none bg-transparent block w-auto">
                             <IconButton iconClassName="fas fa-search"
-                                className={"h-auto p-[0px] m-[0px]"} />
+                                className={"h-auto p-2"} />
                         </button>
                     </div>
                     <div className="flex flex-row justify-start space-x-4 mt-2 md:mt-0 items-center mr-2">
