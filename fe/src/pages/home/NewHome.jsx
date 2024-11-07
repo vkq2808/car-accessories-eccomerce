@@ -89,7 +89,7 @@ const NewHome = () => {
               <div className=" flex lg:h-[600px] relative w-full" onClick={handleNavigate} link={promotion.link}>
                 <div className="promotion-detail flex flex-col sticky w-full">
                   <div className="pl-[100px] pt-[60px] absolute">
-                    <h6 className="text-[--secondary-text-color] opacity-65">Best Furniture For Your Car....</h6>
+                    <h4 className="text-[--secondary-text-color] opacity-65">Best Furniture For Your Car....</h4>
                     <div className="text-[--primary-text-color] text-[53px] font-sans max-w-[700px]">New Car Furniture Collection
                       Trends in 2024</div>
                     <div className="view-detail-button">

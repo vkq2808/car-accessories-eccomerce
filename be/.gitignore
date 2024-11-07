@@ -1,4 +1,5 @@
-src/config/config.json
+# Configs
+src/config/*
 # Logs
 logs
 *.log

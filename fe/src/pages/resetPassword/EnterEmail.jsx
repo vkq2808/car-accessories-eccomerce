@@ -1,94 +1,188 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { resetPassword } from '../../redux/actions/authActions';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { BsEnvelope } from "react-icons/bs";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { resetPassword } from "../../redux/actions/authActions";
+import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 
+const commonDomains = ["@gmail.com", "@yahoo.com", "@outlook.com", "@student.hcmute.edu.vn"];
 
-const EnterEmail = () => {
+const PasswordResetPage = () => {
+    const [email, setEmail] = useState("");
+    const [error, setError] = useState("");
     const navigate = useNavigate();
-    const [timer, setTimer] = useState(5);
-    const redirecting = useSelector(state => state.auth.redirecting);
+    const [suggestions, setSuggestions] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [showSuggestions, setShowSuggestions] = useState(false);
     const dispatch = useDispatch();
-    const initialState = { email: "" }
-    const [userData, setUserData] = useState(initialState)
-    const { email } = userData
-    const [errors, setErrors] = useState({});
+    const redirecting = useSelector((state) => state.auth.redirecting);
+    const [timer, setTimer] = useState(5);
+    const [result, setResult] = useState("");
 
-    const handleChangeInput = (e) => {
-        const { name, value } = e.target
-        setUserData({ ...userData, [name]: value })
-        setErrors({ ...errors, [name]: "" });
-    }
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const validateEmail = (email) => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    };
 
-        // Kiểm tra validation
-        let errors = {};
-        if (!email) {
-            errors.email = "Vui lòng nhập email của bạn";
-        } else if (!/\S+@\S+\.\S+/.test(email)) {
-            errors.email = "Email không hợp lệ";
+    const handleEmailChange = (e) => {
+        const value = e.target.value;
+        setEmail(value);
+
+        if (value.includes("@")) {
+            setError("");
+            return;
         }
 
-        if (Object.keys(errors).length === 0) {
-            dispatch(resetPassword({ email: userData.email }));
-        } else {
-            setErrors(errors);
-        }
-    }
+        const filtered = commonDomains.map((domain) => value + domain);
+        setSuggestions(filtered);
+        setShowSuggestions(true);
 
-    const redirectTimer = async () => {
-        if (timer === 0) {
-            navigate('/');
-        } else {
-            setTimeout(() => {
-                setTimer((prev) => prev - 1);
-            }, 1000);
+        if (!value) {
+            setError("");
+            setShowSuggestions(false);
         }
     };
 
-    if (redirecting) {
-        redirectTimer();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!email) {
+            setError("Email is required");
+            return;
+        }
 
+        if (!validateEmail(email)) {
+            setError("Please enter a valid email address");
+            return;
+        }
+
+        setIsLoading(true);
+        try {
+            dispatch(resetPassword({ email }, setResult));
+        } catch (error) {
+            setError("An error occurred. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleSuggestionClick = (suggestion) => {
+        setEmail(suggestion);
+        setShowSuggestions(false);
+    };
+
+    useEffect(() => {
+        if (!redirecting) return;
+
+        const countdown = setInterval(() => {
+            setTimer(prev => {
+                if (prev === 1) {
+                    clearInterval(countdown);
+                    dispatch({ type: GLOBALTYPES.REDIRECTING, payload: false });
+                    navigate('/');
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+
+        return () => clearInterval(countdown);
+    }, [redirecting, dispatch, navigate]);
+
+    // Kiểm tra khi đang chuyển hướng
+    if (redirecting) {
         return (
             <div className='flex flex-col w-full h-[60dvh] items-center justify-center'>
-                <h1>Đăng ký thành công</h1>
-                <h4>Hãy kiểm tra email của bạn để xác thực tài khoản</h4>
+                <h1>{result}</h1>
                 <h4>Bạn sẽ được đưa về trang chủ trong {timer} giây nữa </h4>
             </div>
         );
     }
 
     return (
-        <div className='flex flex-col w-full h-auto items-center text-[#212529]'>
-            <div className="body-box flex flex-row w-full justify-center items-center">
-                <div className="regist-form-container flex flex-col p-4 mt-4 items-center w-[30%] mx-10">
-                    <h2 className='form-title'>Đăng nhập</h2>
+        <div className="min-h-[60vh] w-full flex items-center justify-center bg-gradient-to-br from-[--primary-background-color] to-[--tertiary-background-color] p-4">
+            <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
+                <div className="text-center">
+                    <h2 className="text-3xl font-bold text-gray-900 mb-2">Reset Password</h2>
+                    <p className="text-gray-600">Enter your email to reset your password</p>
+                </div>
 
-                    <form className='w-full flex justify-between mt-5' onSubmit={handleSubmit}>
-                        <div className="first-col flex flex-col w-full">
-                            <div className="form-outline mb-4 w-full">
-                                <label className="form-label" htmlFor="InputEmail" style={{ fontWeight: "bold", color: "#2F56A6" }}>Email</label>
-                                <input type="text" id="InputEmail" onChange={handleChangeInput} value={email} name="email" className="form-control form-control-lg"
-                                    placeholder="Nhập email của bạn" />
-                                {errors.email && <small style={{ fontWeight: "bold" }} className="text-danger">{errors.email}</small>}
+                <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+                    <div className="relative">
+                        <label
+                            htmlFor="email"
+                            className="block text-sm font-medium text-gray-700"
+                        >
+                            Email Address
+                        </label>
+                        <div className="mt-1 relative rounded-md shadow-sm">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <BsEnvelope className="h-5 w-5 text-gray-400" />
                             </div>
-
-                            <div className="text-center mt-4 mb-4 pt-2">
-                                <button type="submit" className="btn btn-primary btn-lg"
-                                    style={{ width: "60%" }} >Quên mật khẩu</button>
-                            </div>
-                            <p className="small fw-bold mt-2 pt-1 mb-0">Bạn chưa có tài khoản? <a href="/auth/regist"
-                                className="link-danger">Đăng ký ngay</a></p>
-
-                            <p className="small fw-bold mt-2 pt-1 mb-0">Quay lại trang đăng nhập? <a href="/auth/login"
-                                className="link-danger">Tại đây</a></p>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={email}
+                                onChange={handleEmailChange}
+                                className={`block w-full pl-10 pr-3 py-3 border ${error ? "border-red-500" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ease-in-out`}
+                                placeholder="Enter your email"
+                                aria-label="Email address for password reset"
+                                aria-invalid={error ? "true" : "false"}
+                                aria-describedby={error ? "email-error" : undefined}
+                            />
                         </div>
-                    </form>
+                        {error && (
+                            <p
+                                className="mt-2 text-sm text-red-600"
+                                id="email-error"
+                                role="alert"
+                            >
+                                {error}
+                            </p>
+                        )}
+                        {showSuggestions && suggestions.length > 0 && (
+                            <div className="absolute z-10 w-full mt-1 bg-white rounded-md shadow-lg">
+                                <ul className="max-h-48 overflow-auto rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                                    {suggestions.map((suggestion, index) => (
+                                        <li
+                                            key={index}
+                                            onClick={() => handleSuggestionClick(suggestion)}
+                                            className="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-blue-50 transition-colors duration-200"
+                                        >
+                                            {suggestion}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
+
+                    <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        {isLoading ? (
+                            <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
+                        ) : (
+                            "Reset Password"
+                        )}
+                    </button>
+                </form>
+
+                <div className="text-center mt-4 cursor-pointer"
+                    onClick={() => navigate("/auth/login")}
+                >
+                    <span
+                        className="font-medium text-blue-600 hover:text-blue-500 transition-colors duration-200"
+                    >
+                        Back to Login
+                    </span>
                 </div>
             </div>
-        </div >
+        </div>
     );
 };
 
-export default EnterEmail;
+export default PasswordResetPage;

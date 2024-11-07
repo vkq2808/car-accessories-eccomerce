@@ -17,10 +17,10 @@ export const CART_ACTION_TYPES = {
 export const getCart = (token) => async (dispatch) => {
     try {
         const res = await getDataAPI('cart', token)
-        if (res.status === 200 && res.data.cart_items) {
+        if (res.status === 200) {
             dispatch({
                 type: CART_ACTION_TYPES.UPDATE_CART,
-                payload: { items: res.data.cart_items }
+                payload: res.data
             })
         }
     } catch (err) {
@@ -60,4 +60,12 @@ export const removeFromCart = () => async (dispatch) => {
 }
 
 export const clearCart = () => async (dispatch) => {
+}
+
+export const checkOutCart = ({ cart, token }) => async (dispatch) => {
+    try {
+        const res = postDataAPI('cart/checkout', cart, token)
+    } catch (err) {
+
+    }
 }

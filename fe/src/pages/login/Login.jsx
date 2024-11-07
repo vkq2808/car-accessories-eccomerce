@@ -68,15 +68,15 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="min-h-[70vh] w-full flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-100 p-4">
+        <div className="min-h-[70vh] w-full flex items-center justify-center text-[--primary-text-color] bg-gradient-to-br from-[--secondary-background-color] to-[--tertiary-background-color] p-4">
             <div className="w-full max-w-4xl flex flex-col-reverse md:flex-row bg-[--primary-background-color] rounded-2xl shadow-2xl overflow-hidden">
                 <div className="w-full md:w-1/2 p-8">
-                    <h2 className="text-3xl font-bold mb-6 text-gray-800">Welcome Back</h2>
+                    <h2 className="text-3xl font-bold mb-6">Welcome Back</h2>
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="relative">
                             <label
                                 htmlFor="email"
-                                className="block text-sm font-medium text-gray-700 mb-1"
+                                className="block text-sm font-medium mb-1"
                             >
                                 Email Address
                             </label>
@@ -117,7 +117,7 @@ const LoginPage = () => {
                         <div className="relative">
                             <label
                                 htmlFor="password"
-                                className="block text-sm font-medium text-gray-700 mb-1"
+                                className="block text-sm font-medium mb-1"
                             >
                                 Password
                             </label>
@@ -136,7 +136,7 @@ const LoginPage = () => {
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute flex items-center px-[1px] border-none right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                                    className="absolute flex items-center px-[1px] bg-inherit border-none right-3 top-1/2 -translate-y-1/2 "
                                     aria-label={showPassword ? "Hide password" : "Show password"}
                                 >
                                     {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
@@ -174,7 +174,7 @@ const LoginPage = () => {
                     </div>
                 </div>
 
-                <div className="w-full md:w-1/2 bg-blue-600 p-8 flex items-center justify-center">
+                <div className="w-full md:w-1/2 bg-[--primary-background-color] p-8 flex items-center justify-center">
                     <img
                         src="images.unsplash.com/photo-1496096265110-f83ad7f96608?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
                         alt="Login illustration"

@@ -6,6 +6,20 @@ export default class OrderController {
   constructor() {
   }
 
+  checkOut = async (req, res) => {
+    try {
+      const { user } = req;
+      const { cart, formData: { name, email, phone, note } } = req.body;
+
+      const order = await new OrderService().createOrder(user.id, cart, name, email, phone, note);
+
+      return res.status(200).json(order);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  }
+
   async getAll(req, res) {
     try {
       const data = await new OrderService().getAll();

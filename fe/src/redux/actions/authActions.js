@@ -4,7 +4,6 @@ import { GLOBALTYPES } from "./globalTypes";
 import { getFollowingProducts, PRODUCT_ACTION_TYPES } from "./productActions";
 
 export const AUTH_ACTION_TYPES = {
-    REDIRECTING: "REDIRECTING",
     LOGOUT: "LOGOUT",
 }
 
@@ -47,7 +46,7 @@ export const login = (data) => async (dispatch) => {
     }
 }
 
-export const regist = (data) => async (dispatch) => {
+export const regist = (data, setResult) => async (dispatch) => {
     try {
         dispatch({ type: GLOBALTYPES.LOADING, payload: true })
 
@@ -55,12 +54,14 @@ export const regist = (data) => async (dispatch) => {
         if (res.status === 200) {
             dispatch({ type: GLOBALTYPES.LOADING, payload: false })
             dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.msg })
-            dispatch({ type: AUTH_ACTION_TYPES.REDIRECTING, payload: true })
+            dispatch({ type: GLOBALTYPES.REDIRECTING, payload: true })
         } else {
             dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg })
             dispatch({ type: GLOBALTYPES.LOADING, payload: false })
         }
+        setResult(res.data.msg)
     } catch (err) {
+        setResult(err.response.data.msg)
         dispatch({
             type: GLOBALTYPES.ERROR_ALERT,
             payload: err.response.data.msg
@@ -73,19 +74,22 @@ export const verifyEmail = ({ token, setIsLoading, setResult }) => async (dispat
     try {
         setIsLoading(true);
         const res = await getDataAPI(`auth/verify-email/${token}`);
+        console.log(res)
         setResult(res.data.msg);
-        if (res.status === 200) {
+        if (res.status === 201) {
             setIsLoading(false);
             dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.msg });
-            dispatch({ type: AUTH_ACTION_TYPES.REDIRECTING, payload: true });
+            dispatch({ type: GLOBALTYPES.REDIRECTING, payload: true });
         } else {
             setIsLoading(false);
             dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg });
         }
     } catch (err) {
+        console.log(err)
+        dispatch({ type: GLOBALTYPES.REDIRECTING, payload: true });
+        dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.msg });
         setResult(err.response.data.msg);
         setIsLoading(false);
-        dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.msg });
     }
 }
 
@@ -174,12 +178,10 @@ export const resetPassword = (data) => async (dispatch) => {
 
         const res = await postDataAPI("auth/reset-password", data, localStorage.getItem("accessToken"))
         if (res.status === 200) {
-            dispatch({ type: GLOBALTYPES.LOADING, payload: false })
             dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.msg })
-            dispatch({ type: AUTH_ACTION_TYPES.REDIRECTING, payload: true })
+            dispatch({ type: GLOBALTYPES.REDIRECTING, payload: true })
         } else {
             dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg })
-            dispatch({ type: GLOBALTYPES.LOADING, payload: false })
         }
     } catch (err) {
         dispatch({
@@ -199,7 +201,7 @@ export const changePassword = (data) => async (dispatch) => {
             dispatch({ type: GLOBALTYPES.LOADING, payload: false })
             dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.msg })
             dispatch({ type: GLOBALTYPES.AUTH, payload: { user: res.data.user } })
-            dispatch({ type: AUTH_ACTION_TYPES.REDIRECTING, payload: true })
+            dispatch({ type: GLOBALTYPES.REDIRECTING, payload: true })
         } else {
             dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg })
             dispatch({ type: GLOBALTYPES.LOADING, payload: false })

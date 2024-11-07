@@ -58,7 +58,7 @@ const Header = ({ setIsSideBarOpen }) => {
     };
 
     useEffect(() => {
-        if (!categories) {
+        if (!categories || categories.length === 0) {
             dispatch(getCategories());
         }
     }, [categories, dispatch]);
@@ -73,7 +73,7 @@ const Header = ({ setIsSideBarOpen }) => {
                 dispatch({ type: PRODUCT_ACTION_TYPES.CLEAR_SEARCH_PRODUCTS })
                 dispatch(searchProducts({ searchTerm, category_id: category_id, page: 1, limit: 6 }));
             }
-        }, 300);
+        }, 100);
     }, [dispatch, searchTerm, category_id]);
 
 
@@ -118,7 +118,7 @@ const Header = ({ setIsSideBarOpen }) => {
                             ))}
                         </select>
                         <input
-                            className="border-none p-2 px-4 w-full md:w-[70%] lg:w-[80%] bg-[--secondary-background-color] rounded-3xl"
+                            className="border-none p-2 px-4 w-full md:w-[70%] lg:w-[80%] bg-white rounded-3xl"
                             type="text"
                             placeholder="Search"
                             value={searchTerm}
@@ -128,13 +128,13 @@ const Header = ({ setIsSideBarOpen }) => {
                         />
                         {searchTerm !== '' && !escapePressed &&
                             <motion.div
-                                className="search-result absolute bg-white border border-black w-[500px] top-[78px]"
+                                className="search-result absolute bg-[--primary-background-color] text-[--primary-text-color] border border-black w-[500px] top-[78px] p-4"
 
                                 initial={{ opacity: 0, y: -30 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.3 }}
                             >
-                                <div className="flex justify-between">
+                                <div className="flex justify-between p-4">
                                     <h6 className="text-center">Kết quả tìm kiếm:</h6>
                                     <h6>{searchResults.total} sản phẩm được tìm thấy</h6>
                                 </div>

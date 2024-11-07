@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { UserService } from "../services";
 import sendEmail from "../utils/sendEmail";
+import EmailService from '../services/email.service';
 
 export default class AuthController {
 
@@ -21,18 +22,12 @@ export default class AuthController {
             }
 
             const token = jwt.sign(
-                { email, password, first_name: first_name.trim(), last_name: last_name.trim(), phone, birth, role: process.env.USER_ROLE },
+                { email, password, first_name: first_name.trim(), last_name: last_name.trim(), phone, birth, role: process.env.USER_ROLE || 'USER' },
                 process.env.REGISTER_SECRET_KEY,
-                { expiresIn: '20m' }
+                { expiresIn: '24h' }
             );
 
-            const registerLink = `${process.env.CLIENT_URL}/auth/verify-email/${token}`;
-            await sendEmail({
-                from: process.env.SMTP_EMAIL || 'example@example.com',
-                to: email,
-                subject: 'Xác thực Email',
-                html: `<a href="${registerLink}">Bấm vào đây để xác thực email</a>`
-            });
+            await new EmailService().sendRegisterEmail({ email, token });
 
             return res.status(200).json({ msg: "Email xác thực đã được gửi" });
         } catch (err) {
@@ -86,10 +81,10 @@ export default class AuthController {
 
             if (userExists) {
                 console.log("Email đã được xác thực");
-                return res.status(400).json({ msg: "Email đã được xác thực" });
+                return res.status(400).json({ msg: "Email đã được xác thực, đường dẫn này đã hết hạn" });
             }
 
-            const newUser = await new UserService().createNewUser({
+            const newUser = await new UserService().createUser({
                 email: decoded.email,
                 password: decoded.password,
                 first_name: decoded.first_name,
@@ -117,14 +112,7 @@ export default class AuthController {
         }
 
         const token = jwt.sign({ email }, process.env.RESET_PASSWORD_SECRET_KEY, { expiresIn: '5m' });
-        const resetPasswordLink = `${process.env.CLIENT_URL}/auth/reset-password/${token}`;
-
-        await sendEmail({
-            from: process.env.SMTP_EMAIL,
-            to: email,
-            subject: 'Yêu cầu đặt lại mật khẩu',
-            html: `<a href="${resetPasswordLink}">Bấm vào đây để đặt lại mật khẩu</a>`
-        });
+        await new EmailService().sendResetPasswordEmail({ email, token });
 
         return res.status(200).json({ msg: "Email đặt lại mật khẩu đã được gửi" });
     }

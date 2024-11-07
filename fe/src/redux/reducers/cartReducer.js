@@ -1,8 +1,10 @@
 import { CART_ACTION_TYPES } from '../actions/cartActions'
 
 const initialState = {
-    items: [],
-    deleted_items: []
+    id: -1,
+    cart_items: [],
+    deleted_items: [],
+    createdAt: new Date().toLocaleDateString('en-US'),
 }
 
 const cartReducer = (state = initialState, action) => {
@@ -29,7 +31,8 @@ const cartReducer = (state = initialState, action) => {
             }
         case CART_ACTION_TYPES.GET_CART:
             return {
-                items: action.payload
+                ...state,
+                ...action.payload
             }
         case CART_ACTION_TYPES.UPDATE_CART:
             return {

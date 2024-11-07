@@ -6,11 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 import { addProductToCart, CART_ACTION_TYPES, getCart } from "../../redux/actions/cartActions";
 import { formatNumberWithCommas } from "../../utils/stringUtils";
-import { IconButton } from "../../components/common";
 import { followProduct, getFollowingProducts, PRODUCT_ACTION_TYPES, unfollowProduct } from "../../redux/actions/productActions";
 
-const follwedProductStyle = "text-[#ff0000] hover:text-[#ff0000]"
-const notFollwedProductStyle = "text-[#000000] hover:text-[#000000]"
+const follwedProductStyle = "text-[#ff0000] hover:text-inherit"
+const notFollwedProductStyle = "text-inherit hover:text-[--secondary-text-color]"
 
 const ProductDetail = () => {
 
@@ -57,23 +56,23 @@ const ProductDetail = () => {
 
     const CustomMarkdown = ({ children }) => {
         return (<ReactMarkdown
-            className='markdown p-[20px] bg-[#f5f8fd] text-[#777] overflow-y-auto outline-none text-[1rem]'
+            className='markdown p-[20px] bg-[--secondary-background-color] text-[--primary-text-color] overflow-y-auto outline-none text-[1rem]'
             children={children}
             components={{
                 img: ({ node, ...props }) => {
                     return (<img {...props} style={{ maxWidth: '100%' }} alt={props.alt} />)
                 },
                 h2: ({ node, ...props }) => {
-                    return (<h2 {...props} style={{ color: '#4d0406', fontWeight: 700 }} children={props.children} />)
+                    return (<h2 {...props} style={{ color: 'var(--primary-text-color)', fontWeight: 700 }} children={props.children} />)
                 },
                 h3: ({ node, ...props }) => {
-                    return (<h3 {...props} style={{ color: '#4d0406', fontWeight: 700 }} children={props.children} />)
+                    return (<h3 {...props} style={{ color: 'var(--primary-text-color)', fontWeight: 700 }} children={props.children} />)
                 },
                 li: ({ node, ...props }) => {
                     return (<li {...props} style={{ userSelect: 'all' }} />)
                 },
                 p: ({ node, ...props }) => {
-                    return (<p {...props} style={{}} />)
+                    return (<p {...props} style={{ color: 'var(--secondary-text-color)' }} />)
                 },
             }}
         />)
@@ -138,27 +137,24 @@ const ProductDetail = () => {
     }
 
     return (
-        <div className="flex flex-col justify-center items-center w-full">
+        <div className="flex flex-col justify-center items-center w-full bg-[--primary-background-color] text-[--primary-text-color]">
             {
                 (isLoading && <Loading />) ||
                 (product &&
-                    (<div className="flex w-full md:w-[80%]">
+                    (<div className="flex w-full md:w-[80%] bg-[--primary-background-color] text-[--primary-text-color]">
                         <div className="flex flex-col w-full">
                             <div className="flex flex-col w-full py-4 md:flex-row justify-between">
                                 <img className="w-full md:w-[40%] md:max-h-[300px] object-contain p-2" src={product.image_url} alt={product.name} />
                                 <div className="flex flex-col p-2">
                                     <h2 className="select-all">{product.name}</h2>
-                                    <h4 className="text-[#a50a08]">{formatNumberWithCommas(product.price)} {product.currency}</h4>
+                                    <h4 className="text-[--color-red]">{formatNumberWithCommas(product.price)} {product.currency}</h4>
                                     <p>{formatNumberWithCommas(product.quantity)} sản phẩm có sẵn</p>
 
                                     <div className="flex">
                                         <div className={"mb-2 flex p-2 cursor-pointer"}
                                             onClick={handleFollowProduct}
                                         >
-                                            <IconButton
-                                                iconClassName="fas fa-heart"
-                                                className={followingStyle}
-                                            />
+                                            <i className={`fas fa-heart ${followingStyle}`}></i>
                                         </div>
                                     </div>
 
@@ -186,7 +182,7 @@ const ProductDetail = () => {
                                 </div>
                             </div>
 
-                            <div className="flex w-auto mr-auto px-2 bg-[#f5f8fd]"> Mô tả </div>
+                            <div className="flex w-auto mr-auto px-2 bg-[--secondary-background-color]"> Mô tả </div>
                             <CustomMarkdown children={product?.detail} />
                         </div>
                     </div>

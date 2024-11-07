@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { addProductToCart, CART_ACTION_TYPES, getCart, updateCart } from '../../../../redux/actions/cartActions';
@@ -24,10 +24,10 @@ const Cart = () => {
     useEffect(() => {
         setPreviewEnabled(Array(cart.items?.length).fill(false));
     }, [cart]);
+
     const toggleCart = () => {
         setIsOpen(!isOpen);
     };
-
     const handleIncreaseQuantity = (index) => {
         let updateCartItems = cart.items.map((ci, i) => i === index ? { ...ci, quantity: ci.quantity + 1 } : ci);
         if (auth.token) {

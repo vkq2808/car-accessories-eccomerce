@@ -36,6 +36,10 @@ export default class CartController {
                 cart = await new CartService().createCart(user.id);
             }
 
+            if (!cart.cart_items) {
+                cart.cart_items = [];
+            }
+
             return res.status(200).json(cart);
         } catch (error) {
             console.error(error);
@@ -65,10 +69,6 @@ export default class CartController {
             console.error(error);
             return res.status(500).json({ message: "Internal server error" });
         }
-    }
-
-    checkout = async (req, res) => {
-        // Xử lý logic checkout ở đây
     }
 
     getCartByuser_id = async (user_id) => {

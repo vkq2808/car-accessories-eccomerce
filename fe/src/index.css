@@ -1,9 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap');
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -18,6 +12,10 @@ body {
     border: none;
     padding: 0;
     margin: 0;
+}
+
+button {
+    cursor: pointer;
 }
 
 :root {
@@ -52,6 +50,7 @@ body {
     /* Tím */
     --color-pink: #d53f8c;
     /* Hồng */
+    --color-orange: #dd6b20;
 
     /* Font Families */
     --font-sans: 'IBM Plex Sans', sans-serif;
@@ -145,3 +144,10 @@ body {
     --tertiary-text-color: var(--light-tertiary-text-color);
     --quaternary-text-color: var(--light-quaternary-text-color);
 }
+
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

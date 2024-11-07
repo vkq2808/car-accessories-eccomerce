@@ -16,7 +16,8 @@ const Alert = () => {
                     msg={{ title: "Ôi không!", body: alert.error }}
                     handleShow={() => dispatch({ type: GLOBALTYPES.RESET_ALERT })}
                     icon="fa-solid fa-circle-xmark"
-                    textColor="text-danger"
+                    textColor="text-[--color-red]"
+                    borderColor="border-[--color-red]"
                 />
             )}
 
@@ -25,7 +26,8 @@ const Alert = () => {
                     msg={{ title: "Thành công!", body: alert.success }}
                     handleShow={() => dispatch({ type: GLOBALTYPES.RESET_ALERT })}
                     icon="fa-solid fa-check"
-                    textColor="text-success"
+                    textColor="text-[--color-green]"
+                    borderColor="border-[--color-green]"
                 />
             )}
 
@@ -34,7 +36,8 @@ const Alert = () => {
                     msg={{ title: "Bạn có một thông báo mới!", body: alert.notify }}
                     handleShow={() => dispatch({ type: GLOBALTYPES.RESET_ALERT })}
                     icon="fa-solid fa-bell"
-                    textColor="text-primary"
+                    textColor="text-[--color-blue]"
+                    borderColor="border-[--color-blue]"
                 />
             )}
         </div>

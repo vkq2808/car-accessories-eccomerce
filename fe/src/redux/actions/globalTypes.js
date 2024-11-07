@@ -11,6 +11,7 @@ export const GLOBALTYPES = {
     USER_ROLE: "USER_ROLE",
     SOCKET: "SOCKET",
     DIALOG: "DIALOG",
+    REDIRECTING: "REDIRECTING",
 }
 
 export const EditData = (data, id, newItem) => {

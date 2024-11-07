@@ -10,7 +10,6 @@ let cartAPIRoute = (app) => {
     cartAPI.post("/add-product", new CartController().addProduct);
     cartAPI.put("/update", new CartController().update);
     cartAPI.post("/sync", new CartController().sync);
-    cartAPI.post("checkout", new CartController().checkout);
 
     return app.use("/api/v1/cart", cartAPI);
 }
