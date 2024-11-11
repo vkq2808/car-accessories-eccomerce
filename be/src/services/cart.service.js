@@ -5,30 +5,16 @@ export default class CartService {
         this.model = db.cart;
     }
 
-    async getCartByuser_id(user_id) {
+    async getByUserId(user_id) {
         try {
             const cart = await this.model.findOne({
                 where: { user_id },
                 include: [{
                     model: db.cart_item,
-                    include: [{
-                        model: db.product
-                    }]
+                    include: [db.product_option, { model: db.product, include: [db.product_option] }]
                 }]
             });
             return cart || null;
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
-    }
-
-    async createCart(user_id) {
-        try {
-            const cart = await this.model.create({
-                user_id
-            });
-            return cart;
         } catch (error) {
             console.error(error);
             throw error;
@@ -47,7 +33,6 @@ export default class CartService {
 
     async update(data) {
         try {
-            console.log("data: ", data);
             const result = await this.model.update(data, { where: { id: data.id } });
             return result;
         } catch (error) {

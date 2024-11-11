@@ -37,21 +37,21 @@ const SideBar = ({ setIsSideBarOpen }) => {
 
     return (
         <div className="flex flex-col w-auto h-full overflow-y-auto bg-[--primary-background-color] text-[--primary-text-color] z-1">
-            <SideBarItem styles={{ color: 'inherit' }} text="Close" iconClassName="fa-times" handleClick={() => setIsSideBarOpen(false)} />
+            <SideBarItem className="hover:translate-x-5 ` duration-300" styles={{ color: 'inherit' }} text="Close" iconClassName="fa-times" handleClick={() => setIsSideBarOpen(false)} />
             <div className="search-container flex flex-row items-center w-auto h-auto mx-2 mt-2">
                 <input
                     type="text"
-                    className="SearchBar p-2 pl-10 pr-4 w-full max-w-md bg-gray-100 text-gray-700 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                    className="p-2 pl-10 pr-4 w-full max-w-md bg-gray-100 text-gray-700  hover:scale-105 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
                     placeholder="Search..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <IconButton iconClassName={"fas fa-search hover:text-blue"} onClick={handleSearch} />
+                <IconButton className="hover:scale-110 duration-300" iconClassName={"fas fa-search hover:text-blue"} onClick={handleSearch} />
             </div >
             {sideBarItems.map((item, index) => (
-                <SideBarItem styles={{ color: 'inherit' }} key={index} handleClick={() => handleClick(item.link)} text={item.name} iconClassName={item.iconClassName} />
+                <SideBarItem className="hover:translate-x-5 ` duration-300" styles={{ color: 'inherit' }} key={index} handleClick={() => handleClick(item.link)} text={item.name} iconClassName={item.iconClassName} />
             ))}
-            <SideBarItem styles={{ color: 'inherit' }} text="Change Theme" iconClassName="fa-adjust" handleClick={handleChangeTheme} />
+            <SideBarItem className="hover:translate-x-5 ` duration-300" styles={{ color: 'inherit' }} text="Change Theme" iconClassName="fa-adjust" handleClick={handleChangeTheme} />
         </div >
     )
 }

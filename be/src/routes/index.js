@@ -4,6 +4,7 @@ import cartAPIRoute from "./cart.route";
 import categoryRoute from "./category.route";
 import followRoute from "./follow.route";
 import userAPIRoute from "./user.route";
+import orderRoute from "./order.route";
 
 export {
     authAPIRoute,
@@ -11,7 +12,8 @@ export {
     cartAPIRoute,
     categoryRoute,
     followRoute,
-    userAPIRoute
+    userAPIRoute,
+    orderRoute
 }
 
 export const applyAllRoutes = (app) => {
@@ -21,4 +23,5 @@ export const applyAllRoutes = (app) => {
     categoryRoute(app);
     followRoute(app);
     userAPIRoute(app);
+    orderRoute(app);
 }

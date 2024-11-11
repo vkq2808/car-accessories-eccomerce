@@ -7,7 +7,6 @@ import { Header, SideBar } from '../../common';
 const HeaderWithSideBar = ({ user }) => {
     const [isSideBarOpen, setIsSideBarOpen] = useState(false);
     const SideBarLanding = SideBar;
-
     return (
         <div>
             <div

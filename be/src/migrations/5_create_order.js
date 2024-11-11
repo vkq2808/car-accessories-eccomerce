@@ -7,11 +7,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
         autoIncrement: true,
-        primaryKey: true,
+        primaryKey: true
       },
       user_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: 'users',
           key: 'id'
@@ -21,20 +21,30 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      total: {
+      total_amount: {
         type: Sequelize.DECIMAL,
-        allowNull: false
+        allowNull: true,
+        defaultValue: 0
       },
       currency: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true,
+        defaultValue: 'VND'
       },
       discount: {
         type: Sequelize.DECIMAL,
         allowNull: true
       },
-      note: {
-        type: Sequelize.TEXT,
+      info: {
+        type: Sequelize.JSON,
+        allowNull: true
+      },
+      payment_method: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      payment_bank_code: {
+        type: Sequelize.STRING,
         allowNull: true
       },
       createdAt: {
@@ -48,6 +58,7 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     });
+    await queryInterface.sequelize.query(`ALTER TABLE orders AUTO_INCREMENT = 100`);
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('orders');

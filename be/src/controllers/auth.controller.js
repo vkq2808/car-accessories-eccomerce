@@ -111,7 +111,7 @@ export default class AuthController {
             return res.status(404).json({ msg: "Không tìm thấy email" });
         }
 
-        const token = jwt.sign({ email }, process.env.RESET_PASSWORD_SECRET_KEY, { expiresIn: '5m' });
+        const token = jwt.sign({ email, old_password: user.hashed_password }, process.env.RESET_PASSWORD_SECRET_KEY, { expiresIn: '5m' });
         await new EmailService().sendResetPasswordEmail({ email, token });
 
         return res.status(200).json({ msg: "Email đặt lại mật khẩu đã được gửi" });
@@ -131,7 +131,11 @@ export default class AuthController {
                 return res.status(404).json({ msg: "Không tìm thấy email" });
             }
 
-            const updatedUser = await new UserService().updateUserPassword(decoded.email, password);
+            if (decoded.old_password !== user.hashed_password) {
+                return res.status(400).json({ msg: "Token không hợp lệ" });
+            }
+
+            const updatedUser = await new UserService().updateUserPassword({ email: decoded.email, password });
             return res.status(200).json({ msg: "Mật khẩu đã được thay đổi thành công", user: updatedUser });
         } catch (error) {
             console.log(error);

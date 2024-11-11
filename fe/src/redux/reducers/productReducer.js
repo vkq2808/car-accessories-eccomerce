@@ -2,7 +2,7 @@ import { PRODUCT_ACTION_TYPES } from "../actions/productActions";
 
 const initalState = {
     list: [],
-    following: [],
+    following: localStorage.getItem('following_items') ? JSON.parse(localStorage.getItem('following_items')) : [],
     newProducts: [],
     trendingProducts: [],
     searchResults: {

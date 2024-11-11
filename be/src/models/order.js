@@ -7,34 +7,43 @@ module.exports = (sequelize, DataTypes) => {
   class order extends Model {
     static associate(models) {
       order.hasMany(models.order_item, { foreignKey: 'order_id' });
-      order.belongsTo(models.user, { foreignKey: 'user_id' });
+      order.belongsTo(models.user, { foreignKey: 'user_id', allowNull: true });
+      order.hasOne(models.payment, { foreignKey: 'order_id' });
     }
   }
   order.init({
     user_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true
     },
     status: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    total: {
+    total_amount: {
       type: DataTypes.DECIMAL,
-      allowNull: false
+      allowNull: true
     },
     currency: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     discount: {
       type: DataTypes.DECIMAL,
       allowNull: true
     },
-    note: {
-      type: DataTypes.TEXT,
+    info: {
+      type: DataTypes.JSON,
       allowNull: true
-    }
+    },
+    payment_method: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    payment_bank_code: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
   }, {
     sequelize,
     modelName: 'order',

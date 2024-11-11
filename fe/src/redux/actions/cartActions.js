@@ -1,54 +1,128 @@
-import { postDataAPI, getDataAPI, putDataAPI } from '../../utils/fetchData'
-import { useNavigate } from 'react-router-dom'
+import { postDataAPI, getDataAPI, putDataAPI, deleteDataAPI } from '../../utils/fetchData'
 
 export const CART_ACTION_TYPES = {
     ADD_TO_CART: "ADD_TO_CART",
-    REMOVE_FROM_CART: "REMOVE_FROM_CART",
     CLEAR_CART: "CLEAR_CART",
     GET_CART_ITEMS_FROM_STORAGE: "GET_CART_ITEMS_FROM_STORAGE",
     GET_CART: "GET_CART",
     UPDATE_CART: "UPDATE_CART",
-    SYNC_CART: "SYNC_CART",
-    NOT_SYNC_CART: "NOT_SYNC_CART",
-    INIT_CART_ITEMS: "INIT_CART_ITEMS",
-    REMOVE_CART_ITEM: "REMOVE_CART_ITEM"
+    UPDATE_CART_ITEM: "UPDATE_CART_ITEM",
+    REMOVE_CART_ITEM: "REMOVE_CART_ITEM",
+    RETRIEVE_CART_ITEM: "RETRIEVE_CART_ITEM"
 }
 
 export const getCart = (token) => async (dispatch) => {
     try {
-        const res = await getDataAPI('cart', token)
+        const res = await getDataAPI('cart')
         if (res.status === 200) {
             dispatch({
-                type: CART_ACTION_TYPES.UPDATE_CART,
+                type: CART_ACTION_TYPES.GET_CART,
                 payload: res.data
             })
         }
     } catch (err) {
-        if (err?.res?.status === 401) {
-            const nav = useNavigate()
-            nav('/auth/login')
-        }
         console.log(err)
     }
 }
-export const addProductToCart = (product, quantity, token) => async (dispatch) => {
+
+export const addProductAPI = ({ product, quantity, product_option }) => async (dispatch) => {
     try {
-        const res = await postDataAPI('cart/add-product', { product, quantity }, token)
+        const res = await postDataAPI('cart/add', { product, quantity, product_option })
         if (res.status === 200) {
-            dispatch(getCart(token))
+            dispatch({ type: CART_ACTION_TYPES.GET_CART, payload: res.data })
         }
     } catch (err) {
         console.log(err)
+    }
+}
+
+export const addProduct = ({ product, quantity, token, product_option }) => async (dispatch) => {
+    try {
+        if (token) {
+            dispatch(addProductAPI({ product, quantity, product_option }))
+        } else {
+            dispatch({
+                type: CART_ACTION_TYPES.ADD_TO_CART,
+                payload: { product: product, quantity: quantity, product_option: product_option }
+            })
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+
+export const updateCartItemAPI = ({ cart_item, quantity, product_option }) => async (dispatch) => {
+    try {
+        const res = await putDataAPI(`cart/cart-item/update/${cart_item.id}`, { quantity, product_option })
+        if (res.status === 200) {
+            dispatch({ type: CART_ACTION_TYPES.GET_CART, payload: res.data })
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const updateCartItem = ({ cart_item, quantity, token, product_option, new_product_option }) => async (dispatch) => {
+    try {
+        if (token) {
+            dispatch(updateCartItemAPI({ cart_item, quantity, token, product_option: new_product_option || product_option }))
+        } else {
+            dispatch({
+                type: CART_ACTION_TYPES.UPDATE_CART_ITEM,
+                payload: { cart_item: cart_item, quantity: quantity, product_option: product_option, new_product_option: new_product_option }
+            })
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+export const removeCartItemAPI = ({ cart_item }) => async (dispatch) => {
+    try {
+        const res = await deleteDataAPI(`cart/cart-item/delete/${cart_item.id}`)
+        dispatch({ type: CART_ACTION_TYPES.GET_CART, payload: res.data })
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const removeCartItem = ({ cart_item, token }) => async (dispatch) => {
+    try {
+        if (token) {
+            dispatch(removeCartItemAPI({ cart_item }))
+        }
+        dispatch({
+            type: CART_ACTION_TYPES.REMOVE_CART_ITEM,
+            payload: { cart_item: cart_item }
+        })
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const retrieveCartItem = ({ cart_item, token }) => async (dispatch) => {
+    if (token) {
+        dispatch({
+            type: CART_ACTION_TYPES.RETRIEVE_CART_ITEM,
+            payload: { cart_item: cart_item }
+        })
+        dispatch(addProductAPI({ product: cart_item.product, quantity: cart_item.quantity, product_option: cart_item.product_option }))
+
+    } else {
+        dispatch({
+            type: CART_ACTION_TYPES.RETRIEVE_CART_ITEM,
+            payload: { cart_item: cart_item }
+        })
     }
 }
 
 export const updateCart = ({ token, cart_items }) => async (dispatch) => {
     try {
-        const res = await putDataAPI('cart/update', { cartItems: cart_items }, token)
+        const res = await putDataAPI('cart/update', { cartItems: cart_items })
         if (res.status === 200) {
             dispatch({
                 type: CART_ACTION_TYPES.UPDATE_CART,
-                payload: { items: cart_items }
+                payload: { cart_items: cart_items }
             })
         }
     } catch (err) {
@@ -60,12 +134,4 @@ export const removeFromCart = () => async (dispatch) => {
 }
 
 export const clearCart = () => async (dispatch) => {
-}
-
-export const checkOutCart = ({ cart, token }) => async (dispatch) => {
-    try {
-        const res = postDataAPI('cart/checkout', cart, token)
-    } catch (err) {
-
-    }
 }

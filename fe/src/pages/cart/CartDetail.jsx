@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { formatNumberWithCommas, maximizeString } from '../../utils/stringUtils';
 import { useNavigate } from 'react-router-dom';
 import { IconButton } from '../../components/common';
-import { addProductToCart, CART_ACTION_TYPES, updateCart } from '../../redux/actions/cartActions';
+import { removeCartItem, retrieveCartItem, updateCartItem } from '../../redux/actions/cartActions';
 
 const CartDetail = () => {
   const cart = useSelector(state => state.cart);
@@ -12,7 +12,7 @@ const CartDetail = () => {
   const naviagte = useNavigate();
 
   const handleCheckout = () => {
-    if (cart.items.length === 0) {
+    if (cart.cart_items.length === 0) {
       alert('Cart is empty');
     }
     else {
@@ -22,44 +22,34 @@ const CartDetail = () => {
 
 
 
-  const handleDeleteItem = (index) => {
-    let updateCartItems = cart.items.filter((item, i) => i !== index);
-    let updateDeletedItems = [...cart.deleted_items, cart.items[index]];
-
-    if (auth.token) {
-      dispatch(updateCart({ token: auth.token, cart_items: updateCartItems }));
-    } else {
-      dispatch({ type: CART_ACTION_TYPES.UPDATE_CART, payload: { items: updateCartItems, deleted_items: updateDeletedItems } });
-    }
-  }
-
   const handleIncreaseQuantity = (index) => {
-    let updateCartItems = cart.items.map((ci, i) => i === index ? { ...ci, quantity: ci.quantity + 1 } : ci);
-    if (auth.token) {
-      dispatch(updateCart({ token: auth.token, cart_items: updateCartItems }));
-    } else {
-      dispatch({ type: CART_ACTION_TYPES.UPDATE_CART, payload: { items: updateCartItems } });
-    }
+    let cartItem = cart.cart_items[index];
+    let quantity = cartItem.quantity + 1;
+
+    dispatch(updateCartItem({ token: auth.token, cart_item: cartItem, quantity }));
   }
 
   const handleDecreaseQuantity = (index) => {
-    let updateCartItems = cart.items.map((ci, i) => i === index ? { ...ci, quantity: ci.quantity - 1 >= 0 ? ci.quantity -= 1 : ci.quantity } : ci);
-    if (auth.token) {
-      dispatch(updateCart({ token: auth.token, cart_items: updateCartItems }));
+    let cartItem = cart.cart_items[index];
+    let quantity = cartItem.quantity - 1;
+
+    if (quantity === 0) {
+      handleDeleteItem(index);
     } else {
-      dispatch({ type: CART_ACTION_TYPES.UPDATE_CART, payload: { items: updateCartItems } });
+      dispatch(updateCartItem({ token: auth.token, cart_item: cartItem, quantity }));
     }
   }
 
-  const handleRetreiveItem = (index) => {
-    let updateCartItems = [...cart.items, cart.deleted_items[index]];
-    let updateDeletedItems = cart.deleted_items.filter((item, i) => i !== index);
+  const handleDeleteItem = (index) => {
+    let cartItem = cart.cart_items[index];
 
-    if (auth.token) {
-      dispatch(addProductToCart({ token: auth.token, product: cart.deletedItems[index].product, quantity: cart.deletedItems[index].quantity }));
-    } else {
-      dispatch({ type: CART_ACTION_TYPES.UPDATE_CART, payload: { items: updateCartItems, deleted_items: updateDeletedItems } });
-    }
+    dispatch(removeCartItem({ token: auth.token, cart_item: cartItem }));
+  }
+
+  const handleRetreiveItem = (index) => {
+    let cartItem = cart.deleted_items[index];
+
+    dispatch(retrieveCartItem({ token: auth.token, cart_item: cartItem }));
   }
 
   return (
@@ -77,7 +67,7 @@ const CartDetail = () => {
                 </tr>
               </thead>
               <tbody>
-                {cart.items.map((item, index) => (
+                {cart.cart_items.map((item, index) => (
                   <tr key={index}>
                     <td className='p-[0.75rem] flex'>
                       <div className="flex">
@@ -145,7 +135,7 @@ const CartDetail = () => {
               </tbody>
             </table>
           </div>
-          {cart.items.length > 0 && <div className="interactive-buttons-container flex justify-end p-4 w-full">
+          {cart.cart_items.length > 0 && <div className="interactive-buttons-container flex justify-end p-4 w-full">
             <button className="btn btn-primary">Clear cart</button>
           </div>}
         </div>
@@ -156,11 +146,11 @@ const CartDetail = () => {
             <div className="total-cost-details flex flex-col w-full">
               <div className="total-cost-detail flex justify-between w-full">
                 <p className="text-sm">Subtotal</p>
-                <p className="text-sm">{formatNumberWithCommas(cart.items.reduce((acc, item) => acc + item.product.price * item.quantity, 0))} VND</p>
+                <p className="text-sm">{formatNumberWithCommas(cart.cart_items.reduce((acc, item) => acc + item.product.price * item.quantity, 0))} VND</p>
               </div>
               <div className="total-cost-detail flex justify-between">
                 <p className="text-sm">Total</p>
-                <p className="text-sm">{formatNumberWithCommas(cart.items.reduce((acc, item) => acc + item.product.price * item.quantity, 0))} VND</p>
+                <p className="text-sm">{formatNumberWithCommas(cart.cart_items.reduce((acc, item) => acc + item.product.price * item.quantity, 0))} VND</p>
               </div>
             </div>
           </div>

@@ -9,6 +9,7 @@ import 'swiper/css/pagination';
 import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper';
 import Promotion from '../../images/promotion1.png';
 import ProductCard from "./ProductCard";
+import { Helmet } from "react-helmet";
 
 const NewHome = () => {
   const searchResults = useSelector((state) => state.product.searchResults);
@@ -73,6 +74,18 @@ const NewHome = () => {
 
   return (
     <div className="flex w-full flex-col bg-[--primary-background-color] text-[--primary-text-color]">
+      <Helmet>
+        <title>Phụ Tùng Xe Hơi - Trang Chủ</title>
+        <meta name="description" content="Khám phá các sản phẩm phụ tùng xe hơi mới nhất, các sản phẩm nổi bật và xu hướng năm 2024. Chúng tôi cung cấp phụ tùng chính hãng, lắp đặt miễn phí tại TP.HCM." />
+        <meta name="keywords" content="phụ tùng xe hơi, đồ nội thất xe hơi, phụ kiện ô tô, sản phẩm xe hơi, xu hướng nội thất xe hơi 2024" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://www.example.com" />
+        <meta property="og:title" content="Phụ Tùng Xe Hơi - Trang Chủ" />
+        <meta property="og:description" content="Khám phá các sản phẩm phụ tùng xe hơi mới nhất và các sản phẩm nổi bật năm 2024. Chúng tôi cung cấp các sản phẩm chính hãng và dịch vụ hỗ trợ tốt nhất." />
+        <meta property="og:image" content="https://www.example.com/path/to/image.jpg" />
+        <meta property="og:url" content="https://www.example.com" />
+        <meta property="og:type" content="website" />
+      </Helmet>
       <div className="slider-part select-none ">
         <Swiper
           modules={[Navigation, Pagination, Autoplay, EffectFade]}

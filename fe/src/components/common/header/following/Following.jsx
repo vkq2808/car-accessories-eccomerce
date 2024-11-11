@@ -32,6 +32,9 @@ const Following = () => {
             dispatch({ type: PRODUCT_ACTION_TYPES.UNFOLLOW_PRODUCT, payload: { product: followings[index].product } });
         }
     }
+    useEffect(() => {
+        localStorage.setItem('following_items', JSON.stringify(followings));
+    }, [followings]);
 
     return (
         <div className="cart-container relative inline-flex">

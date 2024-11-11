@@ -6,12 +6,10 @@ const Loading = () => {
     return (
         <div
             style={{ background: "white", top: 0, left: 0, zIndex: 101, opacity: .7 }}
-            className="position-fixed vh-100 w-100 d-flex justify-content-center align-items-center">
-            <div className="d-flex justify-content-center align-items-center gap-4">
+            className="fixed h-screen w-screen flex justify-center items-center">
+            <div className="flex justify-center items-center gap-4">
                 <LoadingSpinner />
-                <h4
-                    style={{ fontSize: "3rem", color: "#2F55A6" }}
-                >Loading....</h4>
+                <h4 className="text-lg font-semibold text-[#2F55A6]">Loading...</h4>
             </div>
         </div>
     )

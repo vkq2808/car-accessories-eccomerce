@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { login } from "../../redux/actions/authActions";
 
 const LoginPage = () => {
     const auth = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -17,9 +18,10 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (auth.token) {
-            navigate("/");
+            const redirect = location.state?.from || "/";
+            navigate(redirect);
         }
-    }, [auth, navigate]);
+    }, [auth, location, navigate]);
 
     const commonDomains = ["@gmail.com", "@yahoo.com", "@outlook.com", "@hotmail.com"];
 

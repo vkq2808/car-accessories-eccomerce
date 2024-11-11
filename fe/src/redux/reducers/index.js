@@ -5,6 +5,7 @@ import product from './productReducer'
 import cart from './cartReducer'
 import category from './categoryReducer'
 import theme from "./themeReducer";
+import order from "./orderReducer";
 
 export default combineReducers({
     alert,
@@ -12,6 +13,7 @@ export default combineReducers({
     product,
     cart,
     category,
-    theme
+    theme,
+    order
 })
 

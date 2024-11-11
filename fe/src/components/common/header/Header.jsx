@@ -96,16 +96,17 @@ const Header = ({ setIsSideBarOpen }) => {
     };
 
     return (
-        <div className='flex flex-col w-[98dvw] border-none z-10 bg-white md:py-0'>
-            <Headroom className="Headroom w-full z-[101]" style={{ display: 'flex', justifyContent: 'center', justifyItems: 'center' }} >
-                <header className="PageHeader w-full flex flex-col md:flex-row justify-between items-center border-b border-b-black bg-white">
-                    <div className="HomeIcon ml-[100px] cursor-pointer"
+        <div className='flex flex-col w-[98dvw] border-none z-10 md:py-0'>
+            <Headroom className="w-full z-[101] bg-[--primary-background-color] text-[--primary-text-color] border-0 border-b-2 border-solid border-[--primary-text-color]"
+                style={{ display: 'flex', justifyContent: 'center', justifyItems: 'center' }} >
+                <header className="w-full flex flex-col md:flex-row justify-between items-center border-b border-b-black bg-[--primary-background-color] text-[--primary-text-color]">
+                    <div className="ml-[100px] cursor-pointer"
                         onClick={() => nav('/')}
                     >
                         <div className='text-5xl select-none'>KQUOC</div>
                     </div>
                     <div className="search-bar w-[40%] justify-center items-center hidden lg:!flex flex-row">
-                        <select className="border-none p-2 w-[100px] "
+                        <select className="border-none p-2 w-[100px] bg-inherit text-inherit"
                             onChange={(e) => onFilterCategoryChange(e)}
                             value={category_id}
                         >
@@ -118,7 +119,7 @@ const Header = ({ setIsSideBarOpen }) => {
                             ))}
                         </select>
                         <input
-                            className="border-none p-2 px-4 w-full md:w-[70%] lg:w-[80%] bg-white rounded-3xl"
+                            className="border-none p-2 px-4 w-full md:w-[70%] lg:w-[80%] rounded-3xl bg-inherit text-inherit"
                             type="text"
                             placeholder="Search"
                             value={searchTerm}
@@ -165,9 +166,9 @@ const Header = ({ setIsSideBarOpen }) => {
                                 }
                             </motion.div>
                         }
-                        <button onClick={(e) => handleSearch(e)} className="border-none bg-transparent block w-auto">
+                        <button onClick={(e) => handleSearch(e)} className="border-none bg-transparent block w-auto text-inherit">
                             <IconButton iconClassName="fas fa-search"
-                                className={"h-auto p-2"} />
+                                className={"h-auto p-2 "} />
                         </button>
                     </div>
                     <div className="flex flex-row justify-start space-x-4 mt-2 md:mt-0 items-center mr-2">

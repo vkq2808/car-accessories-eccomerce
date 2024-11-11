@@ -1,4 +1,3 @@
-import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
@@ -9,21 +8,18 @@ import Footer from './components/common/footer/Footer.jsx';
 
 // import SocketClient from './SocketClient'
 import { HomeRoute, CategoryRoute, LoginRoute, ProductRoute, ShopRoute } from './router';
-import { PRODUCT_ACTION_TYPES } from './redux/actions/productActions.js';
-import { CART_ACTION_TYPES } from './redux/actions/cartActions.js';
 import { GLOBALTYPES } from './redux/actions/globalTypes.js';
 import { getUserInfo } from './redux/actions/authActions.js';
 
 function App() {
 
     const auth = useSelector(state => state.auth);
-    const cart = useSelector(state => state.cart);
     const theme = useSelector((state) => state.theme.theme);
-    const followings = useSelector(state => state.product.following);
     const dispatch = useDispatch();
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
     }, [theme]);
 
     useEffect(() => {
@@ -45,22 +41,6 @@ function App() {
             }
         }
     }, [auth, dispatch]);
-
-    useEffect(() => {
-        if (!followings) {
-            dispatch({ type: PRODUCT_ACTION_TYPES.GET_FOLLOWING_PRODUCTS, payload: [] });
-            localStorage.setItem('following_items', JSON.stringify([]));
-        }
-        else {
-            localStorage.setItem('following_items', JSON.stringify(followings));
-        }
-        if (!cart.items) {
-            dispatch({ type: CART_ACTION_TYPES.CLEAR_CART });
-            localStorage.setItem('cart_items', JSON.stringify([]));
-        } else {
-            localStorage.setItem('cart_items', JSON.stringify(cart.items));
-        }
-    }, [cart, followings, dispatch]);
 
     useEffect(() => {
         dispatch(getUserInfo());

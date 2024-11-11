@@ -6,9 +6,12 @@ import {
 
 let cartAPI = e.Router();
 let cartAPIRoute = (app) => {
-    cartAPI.get("/", new CartController().getByuser_id);
-    cartAPI.post("/add-product", new CartController().addProduct);
-    cartAPI.put("/update", new CartController().update);
+    cartAPI.get("/", new CartController().getByUserId);
+    cartAPI.delete("/:id", new CartController().delete);
+    cartAPI.post("/add", new CartController().addProduct);
+    cartAPI.put("/update/:id", new CartController().update);
+    cartAPI.put("/cart-item/update/:id", new CartController().updateCartItem);
+    cartAPI.delete("/cart-item/delete/:id", new CartController().deleteCartItem);
     cartAPI.post("/sync", new CartController().sync);
 
     return app.use("/api/v1/cart", cartAPI);

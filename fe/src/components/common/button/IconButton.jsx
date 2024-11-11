@@ -27,7 +27,7 @@ const IconButton = ({ className, iconClassName, onClick, status, size = 20 }) =>
                 onClick={onClick} className={`${ICON_BUTTON_TAILWIND_CSS} justify-between ${className}`}>
                 <i className={`text-inherit text-[${size}px] ${iconClassName}`} />
                 <div className="flex flex-row-reverse absolute top-[-21px] left-[21px]">
-                    <div className="text-[black] text-xs bg-transparent px-[4px] rounded-[50%] border-solid border-[red]">{status.count}</div>
+                    <div className=" text-xs bg-transparent px-[4px] rounded-[50%] border-solid border-[red]">{status.count}</div>
                 </div>
             </motion.div>
         );

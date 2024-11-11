@@ -8,30 +8,17 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       order_item.belongsTo(models.order, { foreignKey: 'order_id' });
       order_item.belongsTo(models.product, { foreignKey: 'product_id' });
+      order_item.belongsTo(models.product_option, { foreignKey: 'product_option_id' });
     }
   }
   order_item.init({
-    order_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    product_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    quantity: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    }, price: {
-      type: DataTypes.DECIMAL,
-      allowNull: false
-    }, currency: {
-      type: DataTypes.STRING,
-      allowNull: false
-    }, note: {
-      type: DataTypes.TEXT,
-      allowNull: true
-    }
+    order_id: { type: DataTypes.INTEGER },
+    product_id: { type: DataTypes.INTEGER },
+    product_option_id: { type: DataTypes.INTEGER },
+    quantity: { type: DataTypes.INTEGER },
+    price: { type: DataTypes.DECIMAL },
+    currency: { type: DataTypes.STRING },
+    note: { type: DataTypes.TEXT }
   }, {
     sequelize,
     modelName: 'order_item',

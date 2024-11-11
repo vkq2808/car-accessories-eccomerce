@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
 require('dotenv').config();
 
-const sequelize = new Sequelize(process.env.DB_NAME || 'db', process.env.DB_USERNAME || 'root', process.env.DB_PASSWORD || '@123', {
+const sequelize = new Sequelize(process.env.DB_NAME || 'db', process.env.DB_USER || 'root', process.env.DB_PASSWORD || '@123', {
     host: 'localhost',
     dialect: 'mysql',
     port: process.env.DB_PORT || 3306,

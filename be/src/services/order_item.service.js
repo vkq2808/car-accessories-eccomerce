@@ -1,4 +1,4 @@
-
+import db from '../models';
 
 export default class OrderItemService {
     constructor() {
@@ -8,7 +8,7 @@ export default class OrderItemService {
         try {
             const orderItem = await this.model.findAll({
                 where: { order_id },
-                include: [db.product]
+                include: [{ model: db.product, include: [db.product_option] }]
             });
             return orderItem || null;
         } catch (error) {

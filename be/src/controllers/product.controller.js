@@ -7,7 +7,8 @@ export default class ProductController {
             const { path } = req.params;
 
             const product = await new ProductService().getOne({
-                where: { path }
+                where: { path },
+                include: [db.product_option]
             });
 
             return res.status(200).json({ product });
@@ -44,9 +45,7 @@ export default class ProductController {
                 where: {
                     user_id: user.id
                 },
-                include: [{
-                    model: db.product
-                }]
+                include: [{ model: db.product, include: [db.product_option] }]
             });
             return res.status(200).json({ products: products });
         } catch (error) {

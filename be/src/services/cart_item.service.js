@@ -5,11 +5,11 @@ export default class CartItemService {
         this.model = db.cart_item;
     }
 
-    async getCartItemBycart_id(cart_id) {
+    async getCartItemByCartId(cart_id) {
         try {
             const cartItem = await this.model.findAll({
                 where: { cart_id },
-                include: [db.product]
+                include: [{ model: db.product, include: [db.product_option] }]
             });
             return cartItem || null;
         } catch (error) {
@@ -18,12 +18,13 @@ export default class CartItemService {
         }
     }
 
-    async createCartItem(cart_id, product_id, quantity) {
+    async createCartItem(cart_id, product_id, quantity, product_option_id) {
         try {
             const cartItem = await this.model.create({
                 cart_id,
                 product_id,
-                quantity
+                quantity,
+                product_option_id
             });
             return cartItem;
         } catch (error) {
@@ -32,12 +33,12 @@ export default class CartItemService {
         }
     }
 
-    async updateCartItem(cartItemId, quantity) {
+    async updateCartItem(cartItem) {
         try {
             const cartItem = await this.model.update({
-                quantity
+                quantity: cartItem.quantity,
             }, {
-                where: { id: cartItemId }
+                where: { id: cartItem.id }
             });
             return cartItem;
         } catch (error) {

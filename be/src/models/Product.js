@@ -7,7 +7,9 @@ module.exports = (sequelize, DataTypes) => {
     class product extends Model {
         static associate(models) {
             product.belongsTo(models.category, { foreignKey: 'category_id' });
+            product.hasMany(models.cart_item, { foreignKey: 'product_id' });
             product.hasMany(models.order_item, { foreignKey: 'product_id' });
+            product.hasMany(models.product_option, { foreignKey: 'product_id' });
         }
     }
     product.init({
@@ -18,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         detail: DataTypes.TEXT,
-        quantity: DataTypes.INTEGER,
+        stock: DataTypes.INTEGER,
         price: DataTypes.DOUBLE,
         currency: DataTypes.STRING,
         category_id: DataTypes.TEXT,

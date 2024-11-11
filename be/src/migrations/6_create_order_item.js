@@ -1,5 +1,7 @@
 'use-strict'
 
+const product = require("../models/product");
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('order_items', {
@@ -22,6 +24,10 @@ module.exports = {
       product_id: {
         type: Sequelize.INTEGER,
         allowNull: false
+      },
+      product_option_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true
       },
       quantity: {
         type: Sequelize.INTEGER,

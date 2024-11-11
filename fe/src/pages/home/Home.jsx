@@ -1,7 +1,6 @@
 
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
-// import './Home.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';

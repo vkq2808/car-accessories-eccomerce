@@ -2,14 +2,15 @@ import { legacy_createStore as createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { thunk } from 'redux-thunk';
 import rootReducer from './reducers/index';
+import { setDispatch } from '../utils/fetchData';
 
-// Tạo store với state từ localStorage
 const store = createStore(
     rootReducer,
-    applyMiddleware(thunk) // Kết hợp middleware
+    applyMiddleware(thunk)
 );
 
 const DataProvider = ({ children }) => {
+    setDispatch(store.dispatch);
     return (
         <Provider store={store}>
             {children}

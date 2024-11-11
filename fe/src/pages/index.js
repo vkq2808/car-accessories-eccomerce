@@ -4,13 +4,15 @@ import Logout from './login/Logout';
 import Home from './home/Home';
 import UserProfile from './profile/UserProfile';
 import VerifyEmail from './regist/VerifyEmail';
-import EnterEmail from './resetPassword/EnterEmail';
+import PasswordResetPage from './resetPassword/PasswordResetPage';
 import EnterNewPassword from './resetPassword/EnterNewPassword';
 import ProductDetail from './product/ProductDetail';
 import SearchPage from './search/SearchPage';
 import CartDetail from './cart/CartDetail';
-import CheckOutFirstStep from './checkout/CheckOutStep1';
+import OrderInfoConfirmationPage from './checkout/InfoConfirmation';
 import NewHome from './home/NewHome';
+import PaymentMethodSelector from './checkout/PaymentMethodSelector';
+import PaymentResultPage from './checkout/PaymentResult';
 
 export {
     Regist,
@@ -19,11 +21,13 @@ export {
     Home,
     UserProfile,
     VerifyEmail,
-    EnterEmail,
+    PasswordResetPage,
     EnterNewPassword,
     ProductDetail,
     SearchPage,
     CartDetail,
-    CheckOutFirstStep,
-    NewHome
+    OrderInfoConfirmationPage,
+    NewHome,
+    PaymentMethodSelector,
+    PaymentResultPage
 }

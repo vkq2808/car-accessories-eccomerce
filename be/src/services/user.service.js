@@ -46,15 +46,16 @@ class UserService {
                 include: [{
                     model: db.cart,
                     include: [{
-                        model: db.cart_item
+                        model: db.cart_item,
+                        include: [db.product_option, { model: db.product, include: [db.product_option] }]
                     }]
                 }, {
                     model: db.order,
                     include: [{
                         model: db.order_item,
-                        include: [{
-                            model: db.product
-                        }]
+                        include: [{ model: db.product, include: [db.product_option] }, db.product_option]
+                    }, {
+                        model: db.payment
                     }]
                 }, {
                     model: db.product_follow

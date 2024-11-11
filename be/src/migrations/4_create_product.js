@@ -22,7 +22,7 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true
       },
-      quantity: {
+      stock: {
         type: Sequelize.INTEGER,
         allowNull: false,
         defaultValue: 0

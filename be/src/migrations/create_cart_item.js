@@ -28,6 +28,10 @@ module.exports = {
                 onUpdate: 'CASCADE',
                 onDelete: 'CASCADE'
             },
+            product_option_id: {
+                type: Sequelize.INTEGER,
+                allowNull: true
+            },
             quantity: {
                 type: Sequelize.INTEGER,
                 allowNull: false

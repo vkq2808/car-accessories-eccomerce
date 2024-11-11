@@ -10,8 +10,8 @@ let authAPIRoute = (app) => {
     authAPI.post("/login", new AuthController().loginUser);
     authAPI.post("/regist", new AuthController().registerUser);
     authAPI.get("/verify-email/:token", new AuthController().verifyEmail);
-    authAPI.post("/reset-password", new AuthController().requestPasswordReset);
-    authAPI.post("/change-password", new AuthController().resetPassword);
+    authAPI.post("/request-reset-password", new AuthController().requestPasswordReset);
+    authAPI.post("/reset-password", new AuthController().resetPassword);
 
     authAPI.post("refresh-token", new AuthController().refreshAccessToken);
 

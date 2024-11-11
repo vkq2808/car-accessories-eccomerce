@@ -6,7 +6,7 @@ import {
     Regist,
     VerifyEmail,
     Logout,
-    EnterEmail,
+    PasswordResetPage,
     EnterNewPassword
 } from '../pages';
 
@@ -19,7 +19,7 @@ const LoginRoute = () => {
                 <Route path='regist' element={<Regist />} />
                 <Route path='verify-email/*' element={<VerifyEmail />} />
                 <Route path='logout' element={<Logout />} />
-                <Route path='forgot-password' element={<EnterEmail />} />
+                <Route path='forgot-password' element={<PasswordResetPage />} />
                 <Route path='reset-password/*' element={<EnterNewPassword />} />
             </Routes>
         </>

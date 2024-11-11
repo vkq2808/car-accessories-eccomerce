@@ -11,8 +11,7 @@ const authReducer = (state = initialState, action) => {
         case GLOBALTYPES.AUTH:
             return {
                 ...state,
-                token: action.payload.token,
-                user: action.payload.user
+                ...action.payload
             }
         case GLOBALTYPES.REDIRECTING:
             return {

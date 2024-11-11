@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'; // gọi jwt
 
 const authenticateToken = (req, res, next) => {
     console.log(req.path);
-    const openRoutes = ['/auth', '/product', '/category'];
+    const openRoutes = ['/auth', '/product', '/category', '/order'];
 
     // Kiểm tra nếu route không cần token thì cho qua
     if (openRoutes.some(route => req.path.includes('/api/v1' + route))) {
@@ -30,15 +30,15 @@ const authenticateToken = (req, res, next) => {
                 });
             } else {
                 // Trường hợp token không tồn tại sau "Bearer "
-                return res.status(401).send({ msg: "Unauthorized, token not provided" });
+                return res.status(403).send({ msg: "Unauthorized, token not provided" });
             }
         } else {
             // Trường hợp không có authorization header
-            return res.status(401).send({ msg: "Unauthorized, no authorization header" });
+            return res.status(403).send({ msg: "Unauthorized, no authorization header" });
         }
     } catch (error) {
         console.log("Authentication error: ", error);
-        return res.status(401).send({ msg: "Unauthorized due to error" });
+        return res.status(500).send({ msg: "Unauthorized due to error" });
     }
 };
 
