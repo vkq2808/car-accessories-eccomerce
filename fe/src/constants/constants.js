@@ -34,11 +34,11 @@ export const payment_methods = [
         name: "Ngan hang Vietcombank",
         logo: "https://saca.com.vn/vnt_upload/partner/Vietcombank.jpg"
       },
-      {
-        code: "VNPAYQR",
-        name: "Thanh toan qua VNPAYQR",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1UA-RNBzfbFgVg3sWZWoZoJwkEAc6jy5OtA&s"
-      }
+      // {
+      //   code: "VNPAYQR",
+      //   name: "Thanh toan qua VNPAYQR",
+      //   logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1UA-RNBzfbFgVg3sWZWoZoJwkEAc6jy5OtA&s"
+      // }
     ]
   },
   {
@@ -48,3 +48,34 @@ export const payment_methods = [
     description: "Pay when you receive"
   }
 ];
+
+export const admin_table_field_types = {
+  NO_FORM_DATA: "no-form-data",
+  NO_SHOW_DATA: "no-show-data",
+  REQUIRED: "required",
+  NO_EDIT_REQUIRED: "NO_EDIT_REQUIRED",
+  TEXT: "text",
+  EMAIL: "email",
+  SELECT: "select",
+  NUMBER: "number",
+  BADGE: "badge",
+  IMAGE: "image",
+  DATE: "date",
+  DATE_TIME: "date-time",
+}
+
+export const account_roles = {
+  USER: 'USER',
+  ADMIN: 'ADMIN',
+  SUPER_ADMIN: 'SUPER_ADMIN',
+  EMPLOYEE: 'EMPLOYEE'
+}
+export const account_statuses = {
+  Active: "Active",
+  Inactive: "Inactive"
+}
+
+export const account_gender = {
+  MALE: "male",
+  FEMALE: "female"
+}

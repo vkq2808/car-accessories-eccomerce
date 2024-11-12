@@ -103,17 +103,17 @@ const Header = ({ setIsSideBarOpen }) => {
                     <div className="ml-[100px] cursor-pointer"
                         onClick={() => nav('/')}
                     >
-                        <div className='text-5xl select-none'>KQUOC</div>
+                        <div className='text-5xl select-none'>HAQ</div>
                     </div>
                     <div className="search-bar w-[40%] justify-center items-center hidden lg:!flex flex-row">
                         <select className="border-none p-2 w-[100px] bg-inherit text-inherit"
                             onChange={(e) => onFilterCategoryChange(e)}
                             value={category_id}
                         >
-                            <option value={-1}>Tất cả</option>
+                            <option className='bg-inherit text-inherit' value={-1}>Tất cả</option>
                             {categories.map(category => (
                                 <option key={category.id}
-                                    value={category.id}>
+                                    value={category.id} >
                                     {category.name}
                                 </option>
                             ))}

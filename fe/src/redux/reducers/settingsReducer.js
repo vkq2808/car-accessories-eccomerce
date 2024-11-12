@@ -4,16 +4,16 @@ const initialState = {
   theme: localStorage.getItem('theme') || 'light',  // Lấy theme từ localStorage nếu có
 };
 
-const themeReducer = (state = initialState, action) => {
+const settingsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GLOBALTYPES.THEME:
       return {
         ...state,
-        theme: action.payload
+        theme: !state.theme || state.theme === 'light' ? 'dark' : 'light',
       }
     default:
       return state
   }
 }
 
-export default themeReducer;
+export default settingsReducer;

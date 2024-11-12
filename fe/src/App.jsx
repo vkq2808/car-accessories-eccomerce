@@ -7,14 +7,14 @@ import Dialog, { SyncCartAndFollowingTemplate } from './components/common/alert/
 import Footer from './components/common/footer/Footer.jsx';
 
 // import SocketClient from './SocketClient'
-import { HomeRoute, CategoryRoute, LoginRoute, ProductRoute, ShopRoute } from './router';
+import { HomeRoute, CategoryRoute, LoginRoute, ProductRoute, ShopRoute, AdminRoute } from './router';
 import { GLOBALTYPES } from './redux/actions/globalTypes.js';
 import { getUserInfo } from './redux/actions/authActions.js';
 
 function App() {
 
     const auth = useSelector(state => state.auth);
-    const theme = useSelector((state) => state.theme.theme);
+    const theme = useSelector((state) => state.settings.theme);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -58,6 +58,7 @@ function App() {
                     <Route path='/product/*' element={<ProductRoute />} />
                     <Route path='/category/*' element={<CategoryRoute />} />
                     <Route path='/cart/*' element={<ShopRoute />} />
+                    <Route path='/admin/*' element={<AdminRoute />} />
                     <Route path='/*' element={<HomeRoute />} />
                 </Routes>
                 <Footer />

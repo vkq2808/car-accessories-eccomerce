@@ -22,3 +22,10 @@ export const contact_information = {
   phone: '0919309031',
   name: 'Vũ Khánh Quốc'
 }
+
+export const account_roles = {
+  USER: 'USER',
+  ADMIN: 'ADMIN',
+  SUPER_ADMIN: 'SUPER_ADMIN',
+  EMPLOYEE: 'EMPLOYEE'
+}

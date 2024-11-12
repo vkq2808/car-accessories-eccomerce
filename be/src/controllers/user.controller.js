@@ -5,6 +5,10 @@ import { UserService } from '../services';
 
 export default class UserController {
 
+    getAccount(req, res) {
+        return res.status(200).json({ message: "Account management" });
+    }
+
     async getUserByToken(req, res) {
         try {
             const token = req.headers.authorization.split(' ')[1];

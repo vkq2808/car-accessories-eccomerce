@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { PRODUCT_ACTION_TYPES, searchProducts } from '../../redux/actions/productActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { formatNumberWithCommas } from '../../utils/stringUtils';
@@ -16,6 +16,7 @@ const SearchPage = () => {
     const categories = useSelector(state => state.category.list);
     const [page, setPage] = useState(1);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const query = useQuery();
     const key = query.get('key');
@@ -131,7 +132,8 @@ const SearchPage = () => {
                                     initial={{ opacity: 0, y: 30 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.5 }}
-                                    className='bg-white p-4 shadow-md'>
+                                    onClick={() => navigate(`/product/${product.path}`)}
+                                    className='bg-inherit p-4 shadow-md shadow-[--primary-text-color] cursor-pointer'>
                                     <img loading='lazy' src={product.image_url} alt={product.name} className='w-full h-40 object-cover' />
                                     <h1 className='text-lg font-semibold mt-2'>{product.name}</h1>
                                     <p className='text-sm mt-2'>{product.description}</p>

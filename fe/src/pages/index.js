@@ -13,6 +13,7 @@ import OrderInfoConfirmationPage from './checkout/InfoConfirmation';
 import NewHome from './home/NewHome';
 import PaymentMethodSelector from './checkout/PaymentMethodSelector';
 import PaymentResultPage from './checkout/PaymentResult';
+import { AccountManagement } from './admin';
 
 export {
     Regist,
@@ -29,5 +30,6 @@ export {
     OrderInfoConfirmationPage,
     NewHome,
     PaymentMethodSelector,
-    PaymentResultPage
+    PaymentResultPage,
+    AccountManagement
 }

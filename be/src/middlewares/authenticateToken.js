@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'; // gọi jwt
 const authenticateToken = (req, res, next) => {
     console.log(req.path);
     const openRoutes = ['/auth', '/product', '/category', '/order'];
-
+    const adminRoutes = '/admin';
     // Kiểm tra nếu route không cần token thì cho qua
     if (openRoutes.some(route => req.path.includes('/api/v1' + route))) {
         return next();
@@ -23,7 +23,9 @@ const authenticateToken = (req, res, next) => {
                         console.log("Token invalid");
                         return res.status(401).send({ msg: "Unauthorized" }); // Token không hợp lệ
                     }
-
+                    if (req.path.includes('/api/v1' + adminRoutes) && user.role !== 'ADMIN') {
+                        return res.status(403).send({ msg: "Unauthorized, admin only" });
+                    }
                     req.user = user;
                     console.log('Token verified, proceeding to next middleware');
                     return next();

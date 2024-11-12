@@ -22,17 +22,25 @@ axiosInstance.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
-        if (error.response.status === 401 && !originalRequest._retry) {
+        if ((error.response.status === 401 || error.response.status === 403) && !originalRequest._retry) {
             originalRequest._retry = true;
 
             try {
-                console.log('Refreshing token...');
                 const refreshToken = localStorage.getItem('refreshToken');
-                if (!refreshToken)
-                    return Promise.reject("No refresh token provided");
-                else
-                    console.log(refreshToken);
+                if (!refreshToken) {
+                    console.log('no refresh token');
+                    localStorage.removeItem('accessToken');
+                    localStorage.removeItem('refreshToken');
+                    return Promise.reject(error);
+                }
+
                 const response = await axios.post(`${server_url}/auth/refresh-token`, { refreshToken });
+
+                if (response.status !== 200) {
+                    localStorage.removeItem('accessToken');
+                    localStorage.removeItem('refreshToken');
+                    return Promise.reject(error);
+                }
 
                 const newToken = response.data.token;
                 localStorage.setItem('accessToken', `Bearer ${newToken}`);
@@ -47,11 +55,11 @@ axiosInstance.interceptors.response.use(
 
                 return axiosInstance(originalRequest);
             } catch (err) {
-                console.error('Failed to refresh token', err);
-                // Tùy chọn: có thể điều hướng đến trang login nếu refresh token thất bại
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
+                return Promise.reject(error);
             }
         }
-
         return Promise.reject(error);
     }
 );

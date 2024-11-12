@@ -55,7 +55,7 @@ const Footer = () => {
                     Logo
                 </div>
                 <div className="logo-content m-2 text-6xl select-none">
-                    KQUOC
+                    HAQ
                 </div>
                 <div className="social-link flex m-2 space-x-2 items-center">
                     <a href="https://www.facebook.com/quoc.vhp"><i className="lni lni-facebook-original"></i></a>

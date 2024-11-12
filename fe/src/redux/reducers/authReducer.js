@@ -3,7 +3,8 @@ import { GLOBALTYPES } from "../actions/globalTypes";
 const initialState = {
     token: '',
     user: null,
-    redirecting: false
+    redirecting: false,
+    role: ''
 }
 
 const authReducer = (state = initialState, action) => {

@@ -24,12 +24,7 @@ export const login = (data) => async (dispatch) => {
 
             dispatch({
                 type: GLOBALTYPES.AUTH,
-                payload: { token: "Bearer " + res.data.accessToken, user: res.data.user }
-            })
-
-            dispatch({
-                type: GLOBALTYPES.USER_ROLE,
-                payload: res.data.user.role
+                payload: { token: "Bearer " + res.data.accessToken, user: res.data.user, role: res.data.user.role }
             })
 
             dispatch({ type: GLOBALTYPES.LOADING, payload: false })
@@ -129,53 +124,11 @@ export const getUserInfo = () => async (dispatch) => {
 
             dispatch({
                 type: GLOBALTYPES.AUTH,
-                payload: { token: accessToken, user: res.data }
-            })
-
-            dispatch({
-                type: GLOBALTYPES.USER_TYPE,
-                payload: res.data.user.role
+                payload: { token: accessToken, user: res.data, role: res.data.role }
             })
 
         } catch (err) {
-            if (err?.response?.status === 401) {
-                dispatch(refreshToken())
-            } else {
-                dispatch({
-                    type: GLOBALTYPES.ERROR_ALERT,
-                    payload: err?.response?.data?.msg
-                })
-            }
         }
-    }
-}
-
-const refreshToken = () => async (dispatch) => {
-    const refreshToken = localStorage.getItem("refreshToken")
-    try {
-        var res = await postDataAPI("auth/refresh-token", refreshToken, null)
-
-        const accessToken = "Bearer " + res.data.accessToken
-
-        localStorage.setItem("accessToken", accessToken)
-
-        res = await postDataAPI("auth/get-user-info", null, accessToken)
-
-        dispatch({
-            type: GLOBALTYPES.AUTH,
-            payload: { token: accessToken, user: res.data.user }
-        })
-
-        dispatch({
-            type: GLOBALTYPES.USER_TYPE,
-            payload: res.data.user.role
-        })
-
-    } catch (err) {
-        dispatch({
-            type: GLOBALTYPES.ERROR_ALERT,
-            payload: err.response.data.msg
-        })
     }
 }
 

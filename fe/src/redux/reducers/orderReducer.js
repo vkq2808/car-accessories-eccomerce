@@ -30,7 +30,7 @@ const orderReducer = (state = initialState, action) => {
       return {
         ...state,
         order_items: [...state.order_items, action.payload],
-        total_amount: state.total_amount + action.payload.product.price * action.payload.quantity,
+        total_amount: state.total_amount + action.payload.product_option.price * action.payload.quantity,
         status: ORDER_STATUS.PENDING,
       }
     case ORDER_ACTION_TYPES.CANCEL_ORDER:
@@ -56,7 +56,7 @@ const orderReducer = (state = initialState, action) => {
       return {
         ...state,
         order_items: action.payload.cart.cart_items,
-        total_amount: action.payload.cart.cart_items.reduce((acc, item) => acc + item.product.price * item.quantity, 0),
+        total_amount: action.payload.cart.cart_items.reduce((acc, item) => acc + item.product_option.price * item.quantity, 0),
         status: ORDER_STATUS.PENDING,
         createdAt: action.payload.cart.createdAt,
         is_cart: true,
@@ -65,7 +65,7 @@ const orderReducer = (state = initialState, action) => {
       return {
         ...state,
         order_items: state.order_items.filter(item => item.id !== action.payload.id),
-        total_amount: state.total_amount - action.payload.product.price * action.payload.quantity,
+        total_amount: state.total_amount - action.payload.product_option.price * action.payload.quantity,
       }
     case ORDER_ACTION_TYPES.FINISH_ORDER:
       return {

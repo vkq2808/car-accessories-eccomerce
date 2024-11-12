@@ -52,12 +52,12 @@ export default class AuthController {
             }
 
             const accessToken = jwt.sign(
-                { email: user.email, id: user.id },
+                { email: user.email, id: user.id, role: user.role },
                 process.env.ACCESS_TOKEN_SECRET_KEY,
                 { expiresIn: '1h' }
             );
             const refreshToken = jwt.sign(
-                { email: user.email, id: user.id },
+                { email: user.email, id: user.id, role: user.role },
                 process.env.REFRESH_TOKEN_SECRET_KEY,
                 { expiresIn: '1d' }
             );
@@ -157,10 +157,9 @@ export default class AuthController {
                 return res.status(404).json({ msg: "Không tìm thấy người dùng" });
             }
 
-            const accessToken = jwt.sign({ email: user.email, id: user.id }, process.env.ACCESS_TOKEN_SECRET_KEY, { expiresIn: '1h' });
+            const accessToken = jwt.sign({ email: user.email, id: user.id, role: user.role }, process.env.ACCESS_TOKEN_SECRET_KEY, { expiresIn: '1h' });
             return res.json({ msg: "Refresh token thành công", user, accessToken });
         } catch (error) {
-            console.log(error);
             return res.status(400).json({ msg: "Token không hợp lệ hoặc đã hết hạn" });
         }
     }
