@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import IconButton from "../button/IconButton";
 import { syncCartAndFollowing } from '../../../redux/actions/authActions'
 import { GLOBALTYPES } from '../../../redux/actions/globalTypes'
-import { useDispatch } from 'react-redux'
 
 export const SyncCartAndFollowingTemplate = (cartItemsRef, followingItemsRef, token, dispatch) => {
 

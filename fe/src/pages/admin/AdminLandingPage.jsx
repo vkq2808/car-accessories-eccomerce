@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineDashboard, AiOutlineUser, AiOutlineSetting, AiOutlineBarChart, AiOutlineProduct } from "react-icons/ai";
+import { PiReadCvLogo } from "react-icons/pi";
 import AdminSideBar from "../../components/admin/sideBar/AdminSideBar";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { account_roles } from "../../constants/constants";
+import { BiCategory } from "react-icons/bi";
 
-const AdminLandingPage = ({ child, menuId }) => {
+const AdminLandingPage = ({ child }) => {
   const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,7 +27,7 @@ const AdminLandingPage = ({ child, menuId }) => {
 
 
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [activeMenu, setActiveMenu] = useState(menuId);
+  const [activeMenu, setActiveMenu] = useState("");
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
@@ -47,11 +49,12 @@ const AdminLandingPage = ({ child, menuId }) => {
     },
     {
       id: "manage",
-      title: "User Management",
-      icon: <AiOutlineSetting className="w-5 h-5" />,
+      title: "Management",
+      icon: <PiReadCvLogo className="w-5 h-5" />,
       submenu: [
         { id: "manage/user", title: "Users", icon: <AiOutlineUser className="w-4 h-4" /> },
-        { id: "manage/product", title: "Products", icon: <AiOutlineProduct className="w-4 h-4" /> }
+        { id: "manage/product", title: "Products", icon: <AiOutlineProduct className="w-4 h-4" /> },
+        { id: "manage/category", title: "Categories", icon: <BiCategory className="w-4 h-4" /> },
       ]
     },
     {

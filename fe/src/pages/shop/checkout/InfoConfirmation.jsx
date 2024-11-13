@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { formatNumberWithCommas } from '../../utils/stringUtils';
+import { formatNumberWithCommas } from '../../../utils/stringUtils';
 // import { useNavigate } from 'react-router-dom';
 import { FaSpinner } from "react-icons/fa";
-import { ORDER_ACTION_TYPES } from '../../redux/actions/orderActions';
+import { ORDER_ACTION_TYPES } from '../../../redux/actions/orderActions';
 import { useNavigate } from 'react-router-dom';
 
 const OrderInfoConfirmationPage = () => {
@@ -19,6 +19,7 @@ const OrderInfoConfirmationPage = () => {
     name: user ? (user?.first_name + ' ' + user?.last_name) : '',
     email: user?.email || '',
     phone: user?.phone || '',
+    shipping_address: user?.address || '',
     note: '',
   });
 
@@ -56,6 +57,15 @@ const OrderInfoConfirmationPage = () => {
           newErrors.phone = "Invalid phone number";
         } else {
           delete newErrors.phone;
+        }
+        break;
+      case "shipping_address":
+        if (!value.trim()) {
+          newErrors.shipping_address = "Shipping address is required";
+        } else if (value.length < 10) {
+          newErrors.shipping_address = "Shipping address must be at least 10 characters";
+        } else {
+          delete newErrors.shipping_address;
         }
         break;
 
@@ -202,6 +212,16 @@ const OrderInfoConfirmationPage = () => {
                   onBlur={handleBlur}
                   error={errors.phone}
                   placeholder="123-456-7890"
+                />
+
+                {/* Shipping Address Field */}
+                <InputField
+                  id="shipping_address"
+                  label="Shipping Address"
+                  value={form.shipping_address}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={errors.shipping_address}
                 />
 
                 {/* Note Field */}

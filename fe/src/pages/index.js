@@ -1,19 +1,20 @@
-import Regist from './regist/Regist';
-import Login from './login/Login';
-import Logout from './login/Logout';
+import Regist from './auth/regist/Regist';
+import Login from './auth/login/Login';
+import Logout from './auth/login/Logout';
 import Home from './home/Home';
-import UserProfile from './profile/UserProfile';
-import VerifyEmail from './regist/VerifyEmail';
-import PasswordResetPage from './resetPassword/PasswordResetPage';
-import EnterNewPassword from './resetPassword/EnterNewPassword';
+import UserProfile from './home/UserProfile';
+import VerifyEmail from './auth/regist/VerifyEmail';
+import PasswordResetPage from './auth/resetPassword/PasswordResetPage';
+import EnterNewPassword from './auth/resetPassword/EnterNewPassword';
 import ProductDetail from './product/ProductDetail';
-import SearchPage from './search/SearchPage';
-import CartDetail from './cart/CartDetail';
-import OrderInfoConfirmationPage from './checkout/InfoConfirmation';
-import NewHome from './home/NewHome';
-import PaymentMethodSelector from './checkout/PaymentMethodSelector';
-import PaymentResultPage from './checkout/PaymentResult';
-import { AccountManagement } from './admin';
+import SearchPage from './home/SearchPage';
+import CartDetail from './shop/cart/CartDetail';
+import OrderInfoConfirmationPage from './shop/checkout/InfoConfirmation';
+import PaymentMethodSelector from './shop/checkout/PaymentMethodSelector';
+import PaymentResultPage from './shop/checkout/PaymentResultPage';
+import NotFound from './common/NotFound';
+export * from './admin';
+
 
 export {
     Regist,
@@ -28,8 +29,7 @@ export {
     SearchPage,
     CartDetail,
     OrderInfoConfirmationPage,
-    NewHome,
     PaymentMethodSelector,
     PaymentResultPage,
-    AccountManagement
+    NotFound
 }

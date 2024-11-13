@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { postDataAPI } from '../../utils/fetchData';
+import { postDataAPI } from '../../../utils/fetchData';
 import { useDispatch } from 'react-redux';
-import { GLOBALTYPES } from '../../redux/actions/globalTypes';
-import { payment_method_codes } from '../../constants/constants';
+import { GLOBALTYPES } from '../../../redux/actions/globalTypes';
+import { payment_method_codes } from '../../../constants/constants';
 
 const PaymentResultPage = ({ method_code }) => {
   const location = useLocation();

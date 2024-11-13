@@ -49,6 +49,11 @@ export const payment_methods = [
   }
 ];
 
+export const contact_constants = {
+  company_logo: "https://hips.hearstapps.com/hmg-prod/images/2023-mercedes-amg-c63-s-e-performance-109-65d79697e865a.jpg?crop=0.651xw:0.549xh;0.0897xw,0.326xh&resize=2048:*",
+  company_name: "Company Name"
+}
+
 export const admin_table_field_types = {
   NO_FORM_DATA: "no-form-data",
   NO_SHOW_DATA: "no-show-data",

@@ -3,8 +3,8 @@ import { BsEnvelope } from "react-icons/bs";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { requestResetPassword } from "../../redux/actions/authActions";
-import { GLOBALTYPES } from "../../redux/actions/globalTypes";
+import { requestResetPassword } from "../../../redux/actions/authActions";
+import { GLOBALTYPES } from "../../../redux/actions/globalTypes";
 
 const commonDomains = ["@gmail.com", "@yahoo.com", "@outlook.com", "@student.hcmute.edu.vn"];
 

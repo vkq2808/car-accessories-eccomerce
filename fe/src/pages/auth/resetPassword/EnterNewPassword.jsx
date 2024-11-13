@@ -3,8 +3,8 @@ import { FaEye, FaEyeSlash, FaCheck, FaTimes } from "react-icons/fa";
 import { BiLoaderAlt } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { GLOBALTYPES } from "../../redux/actions/globalTypes";
-import { resetPassword } from "../../redux/actions/authActions";
+import { GLOBALTYPES } from "../../../redux/actions/globalTypes";
+import { resetPassword } from "../../../redux/actions/authActions";
 
 const EnterNewPassword = () => {
 
@@ -84,7 +84,7 @@ const EnterNewPassword = () => {
                 if (prev === 1) {
                     clearInterval(countdown);
                     dispatch({ type: GLOBALTYPES.REDIRECTING, payload: false });
-                    navigate('/');
+                    navigate('/auth/login');
                     return 0;
                 }
                 return prev - 1;

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { formatNumberWithCommas, maximizeString } from '../../utils/stringUtils';
+import { formatNumberWithCommas, maximizeString } from '../../../utils/stringUtils';
 import { useNavigate } from 'react-router-dom';
-import { IconButton } from '../../components/common';
-import { removeCartItem, retrieveCartItem, updateCartItem } from '../../redux/actions/cartActions';
+import { IconButton } from '../../../components/common';
+import { removeCartItem, retrieveCartItem, updateCartItem } from '../../../redux/actions/cartActions';
 
 const CartDetail = () => {
   const cart = useSelector(state => state.cart);

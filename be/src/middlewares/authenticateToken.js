@@ -39,7 +39,7 @@ const authenticateToken = (req, res, next) => {
             return res.status(401).send({ message: "Unauthorized, no authorization header" });
         }
     } catch (error) {
-        console.log("Authentication error: ", error);
+        console.log("Authentication error: ", error.getMessage());
         return res.status(500).send({ message: "Unauthorized due to error" });
     }
 };

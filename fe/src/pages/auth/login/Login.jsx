@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { login } from "../../redux/actions/authActions";
+import { login } from "../../../redux/actions/authActions";
 
 const LoginPage = () => {
     const auth = useSelector(state => state.auth);

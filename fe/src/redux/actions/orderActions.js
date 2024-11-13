@@ -76,7 +76,7 @@ export const getOrderAPI = (token, order_id) => async (dispatch) => {
   }
 }
 
-export const finishOrder = ({ is_cart, cart_id }) => async (dispatch) => {
+export const finishInformation = ({ is_cart, cart_id }) => async (dispatch) => {
   if (cart_id) {
     try {
       await deleteDataAPI(`cart/${cart_id}`)

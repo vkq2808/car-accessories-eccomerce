@@ -7,7 +7,8 @@ import {
     VerifyEmail,
     Logout,
     PasswordResetPage,
-    EnterNewPassword
+    EnterNewPassword,
+    NotFound
 } from '../pages';
 
 const LoginRoute = () => {
@@ -21,6 +22,7 @@ const LoginRoute = () => {
                 <Route path='logout' element={<Logout />} />
                 <Route path='forgot-password' element={<PasswordResetPage />} />
                 <Route path='reset-password/*' element={<EnterNewPassword />} />
+                <Route path='*' element={<NotFound />} />
             </Routes>
             <Footer />
         </>

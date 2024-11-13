@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { BiSolidChevronDown, BiSolidChevronUp } from "react-icons/bi";
+import { RiMenuFoldLine, RiMenuUnfoldLine } from "react-icons/ri";
 
 
 
@@ -15,20 +16,22 @@ const AdminSideBar = ({ isCollapsed, menuItems, handleMenuClick, activeMenu, tog
 
     return (
         <nav
-            className={`fixed left-0 top-0 h-screen pt-[80px] md:pt-[40px] bg-gray-900 text-white transition-all duration-300 ease-in-out ${isCollapsed ? "w-20" : "w-64"
+            className={`fixed left-0 top-0 h-screen pt-[80px] md:pt-[40px] transition-all duration-300 ease-in-out ${isCollapsed ? "w-20" : "w-64"
                 } shadow-xl z-50`}
             aria-label="Main navigation"
         >
             <div className="flex flex-col h-full">
-                <div className="p-5 border-b border-gray-700 flex items-center justify-end">
+                <div className="p-5 border-b border-gray-500 flex items-center justify-end">
                     <button
                         onClick={toggleSidebar}
-                        className="p-2 rounded-lg hover:bg-gray-700 transition-colors duration-200"
+                        className="p-2 rounded-lg hover:bg-gray-500 transition-colors duration-200"
                         aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
                     >
-                        <div className="w-6 h-0.5 bg-white mb-1"></div>
-                        <div className="w-6 h-0.5 bg-white mb-1"></div>
-                        <div className="w-6 h-0.5 bg-white"></div>
+                        {isCollapsed ? (
+                            <RiMenuUnfoldLine className="w-6 h-6" />
+                        ) : (
+                            <RiMenuFoldLine className="w-6 h-6" />
+                        )}
                     </button>
                 </div>
 
@@ -46,7 +49,7 @@ const AdminSideBar = ({ isCollapsed, menuItems, handleMenuClick, activeMenu, tog
                                         }}
                                         className={`w-full flex items-center py-3 px-2 rounded-lg transition-colors duration-200 ${activeMenu === item.id
                                             ? "bg-blue-600"
-                                            : "hover:bg-gray-700"
+                                            : "hover:bg-gray-500"
                                             }`}
                                         aria-expanded={expandedSubmenus.includes(item.id)}
                                     >
@@ -83,7 +86,7 @@ const AdminSideBar = ({ isCollapsed, menuItems, handleMenuClick, activeMenu, tog
                                                             onClick={() => handleMenuClick(subItem.id)}
                                                             className={`w-full text-left py-2 px-3 flex items-center rounded-lg transition-colors duration-200 ${activeMenu === subItem.id
                                                                 ? "bg-blue-600"
-                                                                : "hover:bg-gray-700"
+                                                                : "hover:bg-gray-500"
                                                                 }`}
                                                             role="menuitem"
                                                         >
@@ -100,13 +103,13 @@ const AdminSideBar = ({ isCollapsed, menuItems, handleMenuClick, activeMenu, tog
                     </ul>
                 </div>
 
-                <div className="p-4 border-t border-gray-700">
+                <div className="p-4 border-t border-gray-500">
                     <div className="flex items-center space-x-3">
                         <img className={`w-8 h-8 rounded-full`} src={admin_avatar_url} alt=""></img>
                         {!isCollapsed && (
                             <div>
                                 <p className="text-sm font-medium">{admin_name || "John Doe"}</p>
-                                <p className="text-xs text-gray-400">{admin_role || "Administrator"}</p>
+                                <p className="text-xs text-[--tertiary-text-color]">{admin_role || "Administrator"}</p>
                             </div>
                         )}
                     </div>

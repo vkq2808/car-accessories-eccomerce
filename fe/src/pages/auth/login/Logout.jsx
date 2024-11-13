@@ -1,7 +1,7 @@
 import React from "react";
-import Loading from "../../components/common/alert/Loading";
+import Loading from "../../../components/common/alert/Loading";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../redux/actions/authActions";
+import { logout } from "../../../redux/actions/authActions";
 import { useNavigate } from "react-router-dom";
 
 const Logout = () => {

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { postDataAPI } from "../../utils/fetchData";
-import { GLOBALTYPES } from "../../redux/actions/globalTypes";
+import { postDataAPI } from "../../../utils/fetchData";
+import { GLOBALTYPES } from "../../../redux/actions/globalTypes";
 import { useNavigate } from "react-router-dom";
-import { payment_method_codes, payment_methods } from "../../constants/constants";
-import { finishOrder } from "../../redux/actions/orderActions";
+import { payment_method_codes, payment_methods } from "../../../constants/constants";
+import { finishInformation } from "../../../redux/actions/orderActions";
 
 const PaymentMethodSelector = () => {
   const dispatch = useDispatch();
@@ -57,7 +57,7 @@ const PaymentMethodSelector = () => {
 
       postDataAPI("order", { order_items: order.order_items, info: order.info, payment_method: selectedMethod?.id, bank_code: bankCode?.code || null, total_amount: order.total_amount }, auth.token)
         .then((res) => {
-          dispatch(finishOrder({ is_cart: order.is_cart, cart_id: cart.id }));
+          dispatch(finishInformation({ is_cart: order.is_cart, cart_id: cart.id }));
           switch (selectedMethod.id) {
             case payment_method_codes.MOMO:
               dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: "Momo payment is not supported yet" });

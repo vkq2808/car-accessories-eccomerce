@@ -101,7 +101,10 @@ const Header = ({ setIsSideBarOpen }) => {
                 style={{ display: 'flex', justifyContent: 'center', justifyItems: 'center' }} >
                 <header className="w-full flex flex-col md:flex-row justify-between items-center border-b border-b-black bg-[--primary-background-color] text-[--primary-text-color]">
                     <div className="ml-[100px] cursor-pointer"
-                        onClick={() => nav('/')}
+                        onClick={() => {
+                            nav('/');
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
                     >
                         <div className='text-5xl select-none'>HAQ</div>
                     </div>

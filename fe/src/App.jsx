@@ -4,7 +4,6 @@ import { useEffect } from 'react'
 
 import Alert from './components/common/alert/Alert';
 import Dialog, { SyncCartAndFollowingTemplate } from './components/common/alert/Dialog';
-import Footer from './components/common/footer/Footer.jsx';
 
 // import SocketClient from './SocketClient'
 import { HomeRoute, CategoryRoute, LoginRoute, ProductRoute, ShopRoute, AdminRoute } from './router';
@@ -52,7 +51,7 @@ function App() {
             {/* <SocketClient>*/}
             <Dialog />
             <Alert />
-            <div className='main w-full flex flex-col items-center justify-center'>
+            <div className='main w-full min-h-screen flex flex-col justify-start items-stretch bg-[--primary-background-color] text-[--primary-text-color]'>
                 <Routes>
                     <Route path='/auth/*' element={<LoginRoute />} />
                     <Route path='/product/*' element={<ProductRoute />} />

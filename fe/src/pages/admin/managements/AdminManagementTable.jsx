@@ -4,7 +4,7 @@ import { IoIosSearch, IoMdClose } from "react-icons/io";
 import { BiLoaderAlt } from "react-icons/bi";
 import { account_statuses, admin_table_field_types } from "../../../constants/constants";
 
-const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRow, handleDeleteRow, rowsPerPage = 10 }) => {
+const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRow, handleDeleteRow, rowsPerPage = 10, table_key = "1" }) => {
   const [data, setData] = useState(input_data);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const [isLoading, setIsLoading] = useState(false);
@@ -244,7 +244,7 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
               )
                 .concat("Actions").map((header) => (
                   <th
-                    key={'header-' + header}
+                    key={table_key + 'header-' + header}
                     className="px-2 py-3 select-none text-left font-medium text-[--primary-text-color] bg-inherit uppercase tracking-wider cursor-pointer hover:bg-blue-400 transition-colors duration-200 text-sm"
                     onClick={() => header !== "Actions" && handleSort(header.toLowerCase())}
                   >
@@ -271,7 +271,7 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
           <tbody>
             {filteredData?.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage).map((item) => (
               <tr
-                key={'item' + item.id.value}
+                key={table_key + 'item' + item.id.value}
                 className="hover:bg-[--secondary-background-color] transition-colors duration-200 group"
               >
                 {
@@ -279,7 +279,7 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
                     .concat("Actions")
                     .map((field) => (
                       !fields[field]?.type.includes(admin_table_field_types.NO_SHOW_DATA) &&
-                      <td key={field + '-' + item.id.value} className="px-3 py-2 text-xs whitespace-nowrap select-none">
+                      <td key={table_key + field + '-' + item.id.value} className="px-3 py-2 text-xs whitespace-nowrap select-none">
                         {
                           field !== "Actions" ? (
                             fields[field]?.type.includes(admin_table_field_types.IMAGE) ? (
@@ -385,7 +385,7 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
                 )
                 &&
                 (
-                  <div key={'field' + field}>
+                  <div key={table_key + 'field' + field}>
                     <label
                       htmlFor={field}
                       className="block text-sm font-medium text-[--primary-text-color]"
@@ -404,7 +404,7 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
                         >
                           <option value={""}>Select {field}</option>
                           {fields[field]?.options?.map((option) => (
-                            <option key={'option-' + field + '-' + option.id} value={option.id}>
+                            <option key={table_key + 'option-' + field + '-' + option.id} value={option.id}>
                               {option.display}
                             </option>
                           ))}

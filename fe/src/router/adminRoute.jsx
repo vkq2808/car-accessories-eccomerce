@@ -1,8 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { HeaderWithSideBar } from '../components/common'
-import { AccountManagement } from '../pages';
-import { AdminLandingPage, ProductManagement } from '../pages/admin';
+import { AdminLandingPage, AccountManagement, ProductManagement, NotFound, CategoryManagement } from '../pages';
 
 
 const AdminRoute = () => {
@@ -12,6 +11,8 @@ const AdminRoute = () => {
       <Routes>
         <Route path='/' element={<AdminLandingPage />} />
         <Route path='/dashboard' element={<AdminLandingPage />} />
+
+
         <Route path='/manage' element={<AdminLandingPage />} />
         <Route
           path='/manage/user'
@@ -21,6 +22,15 @@ const AdminRoute = () => {
           path='/manage/product'
           element={<AdminLandingPage child={<ProductManagement />} />}
         />
+        <Route path='/manage/category'
+          element={<AdminLandingPage child={<CategoryManagement />} />}
+        />
+
+
+        <Route path='/analytics' element={<AdminLandingPage />} />
+        <Route path='/settings' element={<AdminLandingPage />} />
+
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </>
   );

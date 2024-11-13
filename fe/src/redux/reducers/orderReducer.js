@@ -4,7 +4,7 @@ export const ORDER_STATUS = {
   EMPTY: "EMPTY",
   PENDING: "PENDING",
   CANCELLED: "CANCELLED",
-  FINISHED: "FINISHED",
+  PROCESSING: "PROCESSING",
   NONE: "NONE",
 }
 const initialState = {
@@ -70,7 +70,7 @@ const orderReducer = (state = initialState, action) => {
     case ORDER_ACTION_TYPES.FINISH_ORDER:
       return {
         ...state,
-        status: ORDER_STATUS.FINISHED
+        status: ORDER_STATUS.PENDING
       }
     case ORDER_ACTION_TYPES.UPDATE_ORDER_INFO:
       return {

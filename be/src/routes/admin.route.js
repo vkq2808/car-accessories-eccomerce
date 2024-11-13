@@ -19,6 +19,9 @@ let adminApiRoute = (app) => {
   adminApi.delete("/product/:id", new ProductController().delete);
 
   adminApi.get("/category", new CategoryController().getAll);
+  adminApi.post("/category", new CategoryController().create);
+  adminApi.put("/category/:id", new CategoryController().update);
+  adminApi.delete("/category/:id", new CategoryController().delete);
 
   return app.use("/api/v1/admin", adminApi);
 }

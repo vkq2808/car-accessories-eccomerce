@@ -30,3 +30,12 @@ export const account_roles = {
   SUPER_ADMIN: 'SUPER_ADMIN',
   EMPLOYEE: 'EMPLOYEE'
 }
+
+export const order_status = {
+  EMPTY: 'EMPTY',
+  PENDING: 'PENDING',
+  CANCELLED: 'CANCELLED',
+  PROCESSING: 'PROCESSING',
+  FINISHED: 'FINISHED',
+  NONE: 'NONE'
+}

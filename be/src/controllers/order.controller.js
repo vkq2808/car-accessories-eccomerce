@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import db from "../models";
 import moment from "moment";
 import { info } from "console";
-import { payment_method_codes } from "../constants/constants";
+import { order_status, payment_method_codes } from "../constants/constants";
 import EmailService from "../services/email.service";
 
 require("dotenv").config();
@@ -200,7 +200,7 @@ export default class OrderController {
       const { order_items, info, bank_code, payment_method, total_amount } = req.body;
       const user = await this.getUserByToken(req, res);
 
-      let order = await new OrderService().create({ userId: user?.id, status: 'pending', info: info, payment_method: payment_method, payment_bank_code: bank_code, total_amount });
+      let order = await new OrderService().create({ userId: user?.id, status: order_status.PENDING, info: info, payment_method: payment_method, payment_bank_code: bank_code, total_amount });
 
       let new_order_items = order_items.map(item => {
         return {
@@ -244,14 +244,17 @@ export default class OrderController {
         return res.status(204).send();
       }
       const data = await new OrderService().findOne({
-        where: { userId: user.id, status: 'empty' },
+        where: { userId: user.id, status: order_status.EMPTY },
         include: [{
           model: db.order_item,
-          as: 'order_items',
+          include: [{
+            model: db.product,
+            include: [db.product_option]
+          }]
         }]
       });
       if (!data) {
-        data = await new OrderService().create({ userId: user.id, status: 'empty' });
+        data = await new OrderService().create({ userId: user.id, status: order_status.EMPTY });
       }
       return res.status(200).json(data);
     } catch (error) {

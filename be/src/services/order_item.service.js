@@ -66,8 +66,13 @@ export default class OrderItemService {
 
     async update(data) {
         try {
-            const result = await this.model.update(data, { where: { id: data.id } });
-            return result;
+            const { id, ...filteredData } = data;
+            const result = await this.model.update(filteredData, { where: { id: id } });
+            if (result[0] === 0) {
+                return null;
+            }
+            let product = await this.model.findOne({ where: { id: id } });
+            return product;
         } catch (error) {
             console.error(error);
             return null;

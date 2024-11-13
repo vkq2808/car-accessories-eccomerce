@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { verifyEmail } from '../../redux/actions/authActions';
-import Loading from '../../components/common/alert/Loading';
+import { verifyEmail } from '../../../redux/actions/authActions';
+import Loading from '../../../components/common/alert/Loading';
 import { useNavigate } from 'react-router-dom';
-import { GLOBALTYPES } from '../../redux/actions/globalTypes';
+import { GLOBALTYPES } from '../../../redux/actions/globalTypes';
 
 const VerifyEmail = () => {
     const navigate = useNavigate();

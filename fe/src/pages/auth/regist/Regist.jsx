@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { regist } from "../../redux/actions/authActions";
+import { regist } from "../../../redux/actions/authActions";
 import { useNavigate } from "react-router-dom";
-import { GLOBALTYPES } from "../../redux/actions/globalTypes";
+import { GLOBALTYPES } from "../../../redux/actions/globalTypes";
 
 const RegistrationForm = () => {
     const dispatch = useDispatch();
