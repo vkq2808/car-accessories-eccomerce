@@ -13,7 +13,7 @@ const Alert = () => {
 
             {alert.error && (
                 <Toast
-                    msg={{ title: "Ôi không!", body: alert.error }}
+                    message={{ title: "Ôi không!", body: alert.error }}
                     handleShow={() => dispatch({ type: GLOBALTYPES.RESET_ALERT })}
                     icon="fa-solid fa-circle-xmark"
                     textColor="text-[--color-red]"
@@ -23,7 +23,7 @@ const Alert = () => {
 
             {alert.success && (
                 <Toast
-                    msg={{ title: "Thành công!", body: alert.success }}
+                    message={{ title: "Thành công!", body: alert.success }}
                     handleShow={() => dispatch({ type: GLOBALTYPES.RESET_ALERT })}
                     icon="fa-solid fa-check"
                     textColor="text-[--color-green]"
@@ -33,7 +33,7 @@ const Alert = () => {
 
             {alert.notify && (
                 <Toast
-                    msg={{ title: "Bạn có một thông báo mới!", body: alert.notify }}
+                    message={{ title: "Bạn có một thông báo mới!", body: alert.notify }}
                     handleShow={() => dispatch({ type: GLOBALTYPES.RESET_ALERT })}
                     icon="fa-solid fa-bell"
                     textColor="text-[--color-blue]"

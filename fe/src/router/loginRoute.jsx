@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { HeaderWithSideBar } from '../components/common';
+import { Footer, HeaderWithSideBar } from '../components/common';
 import {
     Login,
     Regist,
@@ -22,6 +22,7 @@ const LoginRoute = () => {
                 <Route path='forgot-password' element={<PasswordResetPage />} />
                 <Route path='reset-password/*' element={<EnterNewPassword />} />
             </Routes>
+            <Footer />
         </>
     )
 };

@@ -30,13 +30,13 @@ const PaymentResultPage = ({ method_code }) => {
               setResult("Thanh toán thành công qua VNPay");
               setRedirecting(true);
             } else {
-              dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg });
+              dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message });
               setResult("Thanh toán thất bại");
               setRedirecting(true);
             }
           })
           .catch((err) => {
-            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.msg });
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.message });
             setResult("Thanh toán thất bại");
             setRedirecting(true);
           });

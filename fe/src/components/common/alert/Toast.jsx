@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-const Toast = ({ msg, handleShow, icon, borderColor, textColor }) => {
+const Toast = ({ message, handleShow, icon, borderColor, textColor }) => {
     useEffect(() => {
         const timeout = setTimeout(() => {
             handleShow()
@@ -13,7 +13,7 @@ const Toast = ({ msg, handleShow, icon, borderColor, textColor }) => {
             <div className="flex flex-col w-full">
                 <div className={`toast-header flex justify-content-between`}>
                     <strong className={`mr-auto ${textColor}`}>
-                        <p style={{ fontSize: "1.2rem" }}> {msg.title}</p>
+                        <p className="text-[1.2rem]"> {typeof message?.title === 'string' ? message.title : JSON.stringify(message.title)}</p>
                     </strong>
                     <button
                         className="ml-auto mb-1 close focus:border-0"
@@ -24,7 +24,7 @@ const Toast = ({ msg, handleShow, icon, borderColor, textColor }) => {
                     </button>
                 </div>
                 <div className="toast-body">
-                    <p style={{ fontSize: "1rem" }}>{msg.body}</p>
+                    <p className="text-[1rem]">{typeof message?.body === 'string' ? message.body : JSON.stringify(message.body)}</p>
                 </div>
             </div>
         </div>

@@ -169,7 +169,7 @@ export default class CartController {
                 return res.status(404).json({ message: "Not found" });
             }
             if (cart.id !== parseInt(req.params.id)) {
-                return res.status(403).json({ message: "Forbidden" });
+                return res.status(401).json({ message: "Forbidden" });
             }
             await new CartService().delete(req.params.id);
             return res.status(204).json();

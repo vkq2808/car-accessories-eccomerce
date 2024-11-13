@@ -22,7 +22,7 @@ axiosInstance.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
-        if ((error.response.status === 401 || error.response.status === 403) && !originalRequest._retry) {
+        if ((error.response.status === 401) && !originalRequest._retry) {
             originalRequest._retry = true;
 
             try {
@@ -44,6 +44,7 @@ axiosInstance.interceptors.response.use(
 
                 const newToken = response.data.token;
                 localStorage.setItem('accessToken', `Bearer ${newToken}`);
+                localStorage.setItem('refreshToken', `Bearer ${response.data.refreshToken}`);
 
                 // Sử dụng dispatch để cập nhật token vào Redux
                 if (dispatch) {

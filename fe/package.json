@@ -66,6 +66,7 @@
     "redux-thunk": "^3.1.0",
     "stompjs": "^2.3.3",
     "swiper": "^9.3.2",
+    "tailwind-scrollbar-hide": "^1.1.7",
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {

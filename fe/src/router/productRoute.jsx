@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import { ProductDetail } from '../pages';
-import { HeaderWithSideBar } from '../components/common'
+import { Footer, HeaderWithSideBar } from '../components/common'
 
 const ProductRoute = () => {
     return (
@@ -11,6 +11,7 @@ const ProductRoute = () => {
             <Routes>
                 <Route path='/*' element={<ProductDetail />} />
             </Routes>
+            <Footer />
         </>
     );
 };

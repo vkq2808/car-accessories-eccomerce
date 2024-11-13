@@ -133,7 +133,7 @@ export default class OrderController {
           };
           await new OrderService().update(updatedData);
         } else {
-          return res.status(404).json({ code: '99', msg: 'Order not found' });
+          return res.status(404).json({ code: '99', message: 'Order not found' });
         }
 
         // Lấy thông tin chi tiết đơn hàng
@@ -153,11 +153,11 @@ export default class OrderController {
         await new EmailService().sendSuccessVNPAYPaymentOrderEmail({ order, email: order.info.email });
         return res.status(200).json({ order });
       } else {
-        return res.status(400).json({ code: '97', msg: 'Fail checksum' });
+        return res.status(400).json({ code: '97', message: 'Fail checksum' });
       }
     } catch (err) {
       console.error(err);
-      return res.status(500).json({ code: '99', msg: 'Internal Server Error' });
+      return res.status(500).json({ code: '99', message: 'Internal Server Error' });
     }
   };
 

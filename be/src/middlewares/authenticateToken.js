@@ -21,10 +21,10 @@ const authenticateToken = (req, res, next) => {
                 jwt.verify(token, secretKey, (err, user) => {
                     if (err) {
                         console.log("Token invalid");
-                        return res.status(401).send({ msg: "Unauthorized" }); // Token không hợp lệ
+                        return res.status(401).send({ message: "Unauthorized" }); // Token không hợp lệ
                     }
                     if (req.path.includes('/api/v1' + adminRoutes) && user.role !== 'ADMIN') {
-                        return res.status(403).send({ msg: "Unauthorized, admin only" });
+                        return res.status(403).send({ message: "Unauthorized, admin only" });
                     }
                     req.user = user;
                     console.log('Token verified, proceeding to next middleware');
@@ -32,15 +32,15 @@ const authenticateToken = (req, res, next) => {
                 });
             } else {
                 // Trường hợp token không tồn tại sau "Bearer "
-                return res.status(403).send({ msg: "Unauthorized, token not provided" });
+                return res.status(401).send({ message: "Unauthorized, token not provided" });
             }
         } else {
             // Trường hợp không có authorization header
-            return res.status(403).send({ msg: "Unauthorized, no authorization header" });
+            return res.status(401).send({ message: "Unauthorized, no authorization header" });
         }
     } catch (error) {
         console.log("Authentication error: ", error);
-        return res.status(500).send({ msg: "Unauthorized due to error" });
+        return res.status(500).send({ message: "Unauthorized due to error" });
     }
 };
 

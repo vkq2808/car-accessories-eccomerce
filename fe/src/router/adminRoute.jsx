@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { HeaderWithSideBar } from '../components/common'
 import { AccountManagement } from '../pages';
-import { AdminDashboard } from '../pages/admin';
+import { AdminLandingPage, ProductManagement } from '../pages/admin';
 
 
 const AdminRoute = () => {
@@ -10,11 +10,16 @@ const AdminRoute = () => {
     <>
       <HeaderWithSideBar />
       <Routes>
-        <Route path='/' element={<AdminDashboard />} />
-        <Route path='/manage' element={<AdminDashboard />} />
+        <Route path='/' element={<AdminLandingPage />} />
+        <Route path='/dashboard' element={<AdminLandingPage />} />
+        <Route path='/manage' element={<AdminLandingPage />} />
         <Route
-          path='/manage/account'
-          element={<AdminDashboard child={<AccountManagement />} />}
+          path='/manage/user'
+          element={<AdminLandingPage child={<AccountManagement />} />}
+        />
+        <Route
+          path='/manage/product'
+          element={<AdminLandingPage child={<ProductManagement />} />}
         />
       </Routes>
     </>

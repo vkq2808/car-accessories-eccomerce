@@ -13,7 +13,7 @@ export const getCategories = () => async (dispatch) => {
     try {
         const res = await getDataAPI("category")
         if (res.status !== 200) {
-            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg })
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message })
             return;
         }
         dispatch({

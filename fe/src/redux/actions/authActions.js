@@ -33,16 +33,16 @@ export const login = (data) => async (dispatch) => {
             localStorage.setItem("accessToken", "Bearer " + res.data.accessToken)
             localStorage.setItem("refreshToken", "Bearer " + res.data.refreshToken)
 
-            dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.msg })
+            dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message })
         }
         else {
-            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg })
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message })
             dispatch({ type: GLOBALTYPES.LOADING, payload: false })
         }
     } catch (err) {
         dispatch({
             type: GLOBALTYPES.ERROR_ALERT,
-            payload: err.response?.data?.msg
+            payload: "Lỗi khi đăng nhập"
         })
         dispatch({ type: GLOBALTYPES.LOADING, payload: false })
     }
@@ -55,18 +55,18 @@ export const regist = (data, setResult) => async (dispatch) => {
         const res = await postDataAPI("auth/regist", data)
         if (res.status === 200) {
             dispatch({ type: GLOBALTYPES.LOADING, payload: false })
-            dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.msg })
+            dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message })
             dispatch({ type: GLOBALTYPES.REDIRECTING, payload: true })
         } else {
-            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg })
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message })
             dispatch({ type: GLOBALTYPES.LOADING, payload: false })
         }
-        setResult(res.data.msg)
+        setResult(res.data.message)
     } catch (err) {
-        setResult(err.response.data.msg)
+        setResult(err.response.data.message)
         dispatch({
             type: GLOBALTYPES.ERROR_ALERT,
-            payload: err.response.data.msg
+            payload: err.response.data.message
         })
         dispatch({ type: GLOBALTYPES.LOADING, payload: false })
     }
@@ -77,20 +77,20 @@ export const verifyEmail = ({ token, setIsLoading, setResult }) => async (dispat
         setIsLoading(true);
         const res = await getDataAPI(`auth/verify-email/${token}`);
         console.log(res)
-        setResult(res.data.msg);
+        setResult(res.data.message);
         if (res.status === 201) {
             setIsLoading(false);
-            dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.msg });
+            dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message });
             dispatch({ type: GLOBALTYPES.REDIRECTING, payload: true });
         } else {
             setIsLoading(false);
-            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg });
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message });
         }
     } catch (err) {
         console.log(err)
         dispatch({ type: GLOBALTYPES.REDIRECTING, payload: true });
-        dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.msg });
-        setResult(err.response.data.msg);
+        dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.message });
+        setResult(err.response.data.message);
         setIsLoading(false);
     }
 }
@@ -109,7 +109,7 @@ export const logout = () => async (dispatch) => {
     } catch (err) {
         dispatch({
             type: GLOBALTYPES.ERROR_ALERT,
-            payload: err.response.data.msg
+            payload: err.response.data.message
         })
     }
 }
@@ -136,18 +136,18 @@ export const requestResetPassword = (data, setResult) => async (dispatch) => {
     try {
         const res = await postDataAPI("auth/request-reset-password", data, localStorage.getItem("accessToken"))
         if (res.status === 200) {
-            dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.msg })
-            setResult(res.data.msg)
+            dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message })
+            setResult(res.data.message)
         } else {
-            setResult(res.data.msg)
-            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg })
+            setResult(res.data.message)
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message })
         }
         dispatch({ type: GLOBALTYPES.REDIRECTING, payload: true })
     } catch (err) {
-        setResult(err.response.data.msg)
+        setResult(err.response.data.message)
         dispatch({
             type: GLOBALTYPES.ERROR_ALERT,
-            payload: err.response.data.msg
+            payload: err.response.data.message
         })
     }
 }
@@ -156,17 +156,17 @@ export const resetPassword = (data, setResult) => async (dispatch) => {
     try {
         const res = await postDataAPI("auth/reset-password", data)
         if (res.status === 200) {
-            dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.msg })
+            dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message })
             dispatch({ type: GLOBALTYPES.REDIRECTING, payload: true })
         } else {
-            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg })
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message })
         }
-        setResult(res.data.msg)
+        setResult(res.data.message)
     } catch (err) {
-        setResult(err.response.data.msg)
+        setResult(err.response.data.message)
         dispatch({
             type: GLOBALTYPES.ERROR_ALERT,
-            payload: err.response.data.msg
+            payload: err.response.data.message
         })
         dispatch({ type: GLOBALTYPES.LOADING, payload: false })
     }
@@ -182,7 +182,7 @@ export const syncCartAndFollowing = (cart_items, following_items, token) => asyn
         } catch (err) {
             dispatch({
                 type: GLOBALTYPES.ERROR_ALERT,
-                payload: err.response.data.msg
+                payload: err.response.data.message
             })
         }
     }

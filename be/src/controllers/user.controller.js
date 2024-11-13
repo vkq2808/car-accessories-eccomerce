@@ -1,9 +1,30 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { UserService } from '../services';
+import { account_roles } from '../constants/constants';
 
-
+const role_author_number = {
+    [account_roles.NO_ROLE]: 0,
+    [account_roles.USER]: 1,
+    [account_roles.EMPLOYEE]: 1,
+    [account_roles.ADMIN]: 2,
+    [account_roles.SUPER_ADMIN]: 3,
+}
+const canCreate = (req_role, user_role) => {
+    return role_author_number[req_role] > role_author_number[user_role];
+}
+const canRead = (req_role, user_role) => {
+    return role_author_number[req_role] >= role_author_number[user_role];
+}
+const canUpdate = (req_role, user_role) => {
+    return role_author_number[req_role] > role_author_number[user_role];
+}
+const canDelete = (req_role, user_role) => {
+    return role_author_number[req_role] > role_author_number[user_role];
+}
 export default class UserController {
+
+
 
     getAccount(req, res) {
         return res.status(200).json({ message: "Account management" });
@@ -46,8 +67,14 @@ export default class UserController {
 
     async create(req, res) {
         try {
-            const data = await new UserService().create(req.body);
-            return res.status(201).json(data);
+            if (!canCreate(req.user.role || account_roles.NO_ROLE, req.body.role)) {
+                return res.status(403).json({ message: "You don't have permission to create this user" });
+            }
+
+            let { password, ...formData } = req.body;
+            formData.hashed_password = await new UserService().hashUserPassword(password);
+            const data = await new UserService().create(formData);
+            return res.status(201).json({ user: data, message: "Create successfully" });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ message: "Internal server error" });
@@ -56,8 +83,29 @@ export default class UserController {
 
     async update(req, res) {
         try {
-            const data = await new UserService().update(req.params.id, req.body);
-            return res.status(200).json(data);
+            const target_user = await new UserService().getOne({ where: { id: req.params.id } });
+            if (!target_user) {
+                return res.status(404).json({ message: "Not found" });
+            }
+            if (!canUpdate(req.user.role || account_roles.NO_ROLE, target_user.role)) {
+                return res.status(403).json({ message: "You don't have permission to edit this user" });
+            }
+
+            let { password, ...formData } = req.body;
+            if (password) {
+                formData.hashed_password = await new UserService().hashUserPassword(password);
+            }
+
+            let data = await new UserService().update(formData);
+
+            if (data) {
+                data = await new UserService().getOne({
+                    where: { id: req.body.id }
+                });
+            } else {
+                return res.status(404).json({ message: "Not found" });
+            }
+            return res.status(200).json({ user: data, message: "Update successfully" });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ message: "Internal server error" });
@@ -66,8 +114,20 @@ export default class UserController {
 
     async delete(req, res) {
         try {
-            await new UserService().delete(req.params.id);
-            return res.status(204).json();
+            const target_user = await new UserService().getOne({ where: { id: req.params.id } });
+            if (!target_user) {
+                return res.status(404).json({ message: "Not found" });
+            }
+            if (!canDelete(req.user.role || account_roles.NO_ROLE, target_user.role)) {
+                return res.status(403).json({ message: "You don't have permission to delete this user" });
+            }
+
+            const data = await new UserService().delete(req.params.id);
+            if (data) {
+                return res.status(200).json({ message: "Delete successfully" });
+            } else {
+                return res.status(404).json({ message: "Not found" });
+            }
         } catch (error) {
             console.error(error);
             return res.status(500).json({ message: "Internal server error" });

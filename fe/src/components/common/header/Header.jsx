@@ -96,7 +96,7 @@ const Header = ({ setIsSideBarOpen }) => {
     };
 
     return (
-        <div className='flex flex-col w-[98dvw] border-none z-10 md:py-0'>
+        <div className='flex flex-col w-screen border-none z-10 md:py-0'>
             <Headroom className="w-full z-[101] bg-[--primary-background-color] text-[--primary-text-color] border-0 border-b-2 border-solid border-[--primary-text-color]"
                 style={{ display: 'flex', justifyContent: 'center', justifyItems: 'center' }} >
                 <header className="w-full flex flex-col md:flex-row justify-between items-center border-b border-b-black bg-[--primary-background-color] text-[--primary-text-color]">

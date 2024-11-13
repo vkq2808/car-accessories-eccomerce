@@ -12,7 +12,7 @@ const AccordionItem = ({ icon, label, subItems }) => {
       >
         {icon}
         <span className="ml-3">{label}</span>
-        {subItems.length > 0 && (
+        {subItems?.length > 0 && (
           <FiChevronDown className={`ml-auto transform transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
         )}
       </button>

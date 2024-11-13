@@ -62,6 +62,9 @@ export const admin_table_field_types = {
   IMAGE: "image",
   DATE: "date",
   DATE_TIME: "date-time",
+  PASSWORD: "password",
+  MINIMUN_LENGTH: "minimun-length",
+  TEXTAREA: "textarea",
 }
 
 export const account_roles = {

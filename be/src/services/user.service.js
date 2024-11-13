@@ -137,7 +137,8 @@ class UserService {
 
     async update(data) {
         try {
-            const result = await this.model.update(data, { where: { id: data.id } });
+            const { id, ...filteredData } = data;
+            const result = await this.model.update(filteredData, { where: { id: data.id } });
             return result;
         } catch (error) {
             console.error(error);

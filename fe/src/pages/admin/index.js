@@ -1,7 +1,9 @@
 import AccountManagement from "./managements/AccountManagement";
-import AdminDashboard from "./AdminDashboard";
+import AdminLandingPage from "./AdminLandingPage";
+import ProductManagement from "./managements/ProductManagement";
 
 export {
   AccountManagement,
-  AdminDashboard
+  AdminLandingPage,
+  ProductManagement
 };

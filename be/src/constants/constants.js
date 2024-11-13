@@ -24,6 +24,7 @@ export const contact_information = {
 }
 
 export const account_roles = {
+  NO_ROLE: 'NO_ROLE',
   USER: 'USER',
   ADMIN: 'ADMIN',
   SUPER_ADMIN: 'SUPER_ADMIN',

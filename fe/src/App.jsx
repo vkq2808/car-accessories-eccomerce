@@ -61,7 +61,6 @@ function App() {
                     <Route path='/admin/*' element={<AdminRoute />} />
                     <Route path='/*' element={<HomeRoute />} />
                 </Routes>
-                <Footer />
             </div>
             {/* </SocketClient> */}
         </Router>

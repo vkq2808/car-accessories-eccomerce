@@ -27,7 +27,7 @@ export const searchProducts = ({ searchTerm = "", category_path, category_id = 0
 
         const res = await getDataAPI(`product/search?${queries}page=${page}&limit=${limit}`)
         if (res.status !== 200) {
-            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: res.data.msg } })
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: res.data.message } })
             return;
         }
         dispatch({
@@ -36,7 +36,7 @@ export const searchProducts = ({ searchTerm = "", category_path, category_id = 0
         })
     } catch (err) {
         console.log(err)
-        dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: err?.response?.data.msg || "Lỗi server" } })
+        dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: err?.response?.data.message || "Lỗi server" } })
     }
 }
 
@@ -49,7 +49,7 @@ export const getProductsBycategory_id = ({ category_id, page = 1, limit = 12 }) 
 
         const res = await getDataAPI(`product/search?${queries}page=${page}&limit=${limit}`)
         if (res.status !== 200) {
-            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: res.data.msg } })
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: res.data.message } })
             return;
         }
         dispatch({
@@ -58,7 +58,7 @@ export const getProductsBycategory_id = ({ category_id, page = 1, limit = 12 }) 
         })
     } catch (err) {
         console.log(err)
-        dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: err?.response?.data.msg || "Lỗi server" } })
+        dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: err?.response?.data.message || "Lỗi server" } })
     }
 }
 
@@ -66,7 +66,7 @@ export const getProducts = () => async (dispatch) => {
     try {
         const res = await getDataAPI("product")
         if (res.status !== 200) {
-            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: res.data.msg } })
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: res.data.message } })
             return;
         }
         dispatch({
@@ -86,7 +86,7 @@ export const getNewProducts = () => async (dispatch) => {
         const limit = 6
         const res = await getDataAPI(`product/search?searchTerm=${searchTerm}&category_id=${category_id}&page=${page}&limit=${limit}`)
         if (res.status !== 200) {
-            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: res.data.msg } })
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: res.data.message } })
             return;
         }
         dispatch({
@@ -106,7 +106,7 @@ export const getTrendingProducts = () => async (dispatch) => {
         const limit = 4
         const res = await getDataAPI(`product/search?searchTerm=${searchTerm}&category_id=${category_id}&page=${page}&limit=${limit}`)
         if (res.status !== 200) {
-            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: res.data.msg } })
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: res.data.message } })
             return;
         }
         dispatch({
@@ -122,7 +122,7 @@ export const getFollowingProducts = (token) => async (dispatch) => {
     try {
         const res = await getDataAPI('follow', token)
         if (res.status !== 200) {
-            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg })
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message })
             return;
         }
         dispatch(({
@@ -138,11 +138,11 @@ export const followProduct = ({ token, product }) => async (dispatch) => {
     try {
         const res = await postDataAPI('follow/follow', { product }, token)
         if (res.status !== 200) {
-            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg })
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message })
             return;
         }
         dispatch(getFollowingProducts(token))
-        dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.msg })
+        dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message })
     } catch (err) {
         console.log(err)
     }
@@ -152,7 +152,7 @@ export const unfollowProduct = ({ token, product }) => async (dispatch) => {
     try {
         const res = await postDataAPI(`follow/unfollow`, { product }, token)
         if (res.status !== 200) {
-            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg })
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message })
             return;
         }
         dispatch(getFollowingProducts(token))

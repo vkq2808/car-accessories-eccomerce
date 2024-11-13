@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import { CartDetail, OrderInfoConfirmationPage, PaymentMethodSelector } from '../pages';
-import { HeaderWithSideBar } from '../components/common'
+import { Footer, HeaderWithSideBar } from '../components/common'
 import PaymentResultPage from '../pages/checkout/PaymentResult';
 import { payment_method_codes } from '../constants/constants';
 
@@ -16,6 +16,7 @@ const ShopRoute = () => {
         <Route path='/checkout/payment-method' element={<PaymentMethodSelector />} />
         <Route path='/payment-result/vnpay-return/*' element={<PaymentResultPage method_code={payment_method_codes.VN_PAY} />} />
       </Routes>
+      <Footer />
     </>
   );
 };

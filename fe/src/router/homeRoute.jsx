@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom'
-import { HeaderWithSideBar } from '../components/common'
+import { Footer, HeaderWithSideBar } from '../components/common'
 import { UserProfile, SearchPage, NewHome } from '../pages'
 import { useSelector } from 'react-redux';
 
@@ -17,6 +17,7 @@ const HomeRoute = () => {
                 <Route path='profile/edit' element={<UserProfile isEditing={true} />} />
                 <Route path='search/:searchTerm' element={<SearchPage />} loader />
             </Routes>
+            <Footer />
         </>
     )
 };

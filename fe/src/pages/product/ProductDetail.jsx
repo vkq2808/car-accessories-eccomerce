@@ -37,7 +37,7 @@ const ProductDetail = () => {
                         let defaultOption = res.data.product.product_options.find(option => option.name === 'Default')
                         setSelectedProductOption(defaultOption)
                     } else {
-                        dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.msg });
+                        dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message });
                     }
                 })
                 .catch(err => {
