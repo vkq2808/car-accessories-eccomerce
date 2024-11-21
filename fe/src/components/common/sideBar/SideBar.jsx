@@ -7,6 +7,7 @@ import { GLOBALTYPES } from "../../../redux/actions/globalTypes";
 import { IoMdSwitch, IoIosSearch } from "react-icons/io";
 import { logout } from "../../../redux/actions/authActions";
 import { RiLogoutCircleLine } from "react-icons/ri";
+import { account_roles } from "../../../constants/constants";
 
 const Sidebar = ({ setIsSideBarOpen }) => {
     const navigate = useNavigate();
@@ -19,18 +20,8 @@ const Sidebar = ({ setIsSideBarOpen }) => {
 
 
     useEffect(() => {
-
         let items = [];
-        if (auth.role !== "ADMIN") {
-
-            items = [
-                { id: 1, title: "Hone", icon: <FiHome />, onClick: () => navigate("/") },
-                { id: 2, title: "Profile", icon: <FiUser />, onClick: () => navigate("/profile") },
-                { id: 3, title: "Documents", icon: <FiFolder />, onClick: () => navigate("/documents") },
-                { id: 4, title: "Change Theme", icon: <IoMdSwitch />, onClick: () => dispatch({ type: GLOBALTYPES.THEME }) },
-                { id: 5, title: "Logout", icon: <RiLogoutCircleLine />, onClick: () => dispatch(logout()) }
-            ];
-        } else {
+        if ([account_roles.ADMIN, account_roles.SUPER_ADMIN].includes(auth.role)) {
             items = [
                 { id: 11, title: "Hone", icon: <FiHome />, onClick: () => navigate("/") },
                 { id: 12, title: "Profile", icon: <FiUser />, onClick: () => navigate("/profile") },
@@ -39,6 +30,14 @@ const Sidebar = ({ setIsSideBarOpen }) => {
                 { id: 15, title: "Change Theme", icon: <IoMdSwitch />, onClick: () => dispatch({ type: GLOBALTYPES.THEME }) },
                 { id: 16, title: "Logout", icon: <RiLogoutCircleLine />, onClick: () => dispatch(logout()) }
             ]
+        } else {
+            items = [
+                { id: 1, title: "Hone", icon: <FiHome />, onClick: () => navigate("/") },
+                { id: 2, title: "Profile", icon: <FiUser />, onClick: () => navigate("/profile") },
+                { id: 3, title: "Documents", icon: <FiFolder />, onClick: () => navigate("/documents") },
+                { id: 4, title: "Change Theme", icon: <IoMdSwitch />, onClick: () => dispatch({ type: GLOBALTYPES.THEME }) },
+                { id: 5, title: "Logout", icon: <RiLogoutCircleLine />, onClick: () => dispatch(logout()) }
+            ];
         }
         setMenuItems(items);
     }, [navigate, dispatch, auth]);

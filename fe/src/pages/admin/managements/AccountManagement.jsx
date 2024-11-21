@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import AdminTable from './AdminManagementTable';
-import { account_gender, account_roles, admin_table_field_types } from '../../../constants/constants';
+import { account_gender, account_roles, admin_table_field_types, role_author_number } from '../../../constants/constants';
 import { deleteDataAPI, getDataAPI, postDataAPI, putDataAPI } from '../../../utils/fetchData';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { GLOBALTYPES } from '../../../redux/actions/globalTypes';
 import { useNavigate } from 'react-router-dom';
 
 const AccountManagement = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const auth = useSelector(state => state.auth);
 
   const [data, setData] = useState([]);
 
@@ -44,6 +45,9 @@ const AccountManagement = () => {
       address: {
         value: item.address,
       },
+      image_url: {
+        value: item.image_url,
+      }
     }
   }
 
@@ -56,16 +60,20 @@ const AccountManagement = () => {
       }
       ).catch(err => {
         if (err.response.status === 403) {
-          dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: err.response.data.message } });
+          dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.message });
           // navigate('/auth/login');
         }
       });
     }
   }, [data, dispatch, navigate]);
 
+
+  const havePermission = (req_role, user_role) => {
+    return role_author_number[req_role] > role_author_number[user_role];
+  }
   const fields = {
     id: {
-      type: [admin_table_field_types.NO_FORM_DATA],
+      type: [admin_table_field_types.NO_FORM_DATA, admin_table_field_types.ID],
       value: ""
     },
     first_name: {
@@ -77,7 +85,16 @@ const AccountManagement = () => {
       value: ""
     },
     email: {
-      type: [admin_table_field_types.EMAIL, admin_table_field_types.REQUIRED],
+      type: [admin_table_field_types.EMAIL, admin_table_field_types.REQUIRED, admin_table_field_types.UNIQUE],
+      checkExist: async (email) => {
+        try {
+          const res = await getDataAPI('admin/user/query?email=' + email);
+          return res.data.users; // Trả về danh sách user hoặc kết quả kiểm tra
+        } catch (err) {
+          console.log(err);
+          return false; // Trả về false nếu có lỗi
+        }
+      },
       value: ""
     },
     password: {
@@ -88,15 +105,20 @@ const AccountManagement = () => {
     },
     role: {
       type: [admin_table_field_types.SELECT, admin_table_field_types.REQUIRED],
-      options: Object.keys(account_roles).map((key) => {
-        return { id: key, display: key }
+      options: Object.keys(account_roles).filter((key) => {
+        if (havePermission(auth.role, key)) {
+          return true;
+        }
+        return false;
+      }).map((key) => {
+        return { value: key, label: key }
       }),
       value: ""
     },
     gender: {
       type: [admin_table_field_types.SELECT],
       options: Object.keys(account_gender).map((key) => {
-        return { id: key, display: key }
+        return { value: key, label: key }
       }),
       value: ""
     },
@@ -112,33 +134,54 @@ const AccountManagement = () => {
       type: [admin_table_field_types.TEXT],
       value: ""
     },
+    image_url: {
+      type: [admin_table_field_types.IMAGE],
+      value: "",
+      upload_function: async (file) => {
+        try {
+          if (!file) throw new Error("No file provided");
+
+          const formData = new FormData();
+          formData.append("file", file);
+
+          const res = await postDataAPI("upload/image", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data", // Đảm bảo backend nhận đúng định dạng
+            },
+          });
+
+          if (res.status !== 200) throw new Error(res.data.message || "Upload failed");
+          return res.data.url;
+        } catch (err) {
+          return false;
+        }
+      }
+    }
   };
 
   const handleUpdateRow = async (id, put) => {
     await putDataAPI(`admin/user/${id}`, put).then(res => {
       dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message });
+      console.log(res.data.user, id);
       setData(data.map((item) => {
-        if (parseInt(item.id) === parseInt(id)) {
+        if (parseInt(item.id.value) === parseInt(id)) {
           return mapData(res.data.user);
         }
         return item;
       }));
-      return true;
     }).catch(err => {
       console.log(err)
-      dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: err.response.data.message } });
-      return false;
+      dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.message });
     });
   }
 
   const handleAddNewRow = async (post) => {
-    console.log(post)
     await postDataAPI(`admin/user`, post).then(res => {
       dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message });
       setData([...data, mapData(res.data.user)]);
       return true;
     }).catch(err => {
-      dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: err.response.data.message } });
+      dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err });
       return false;
     });
   }
@@ -150,7 +193,7 @@ const AccountManagement = () => {
       return true;
     }
     ).catch(err => {
-      dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: err.response.data.message } });
+      dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.message });
       return false;
     });
   }

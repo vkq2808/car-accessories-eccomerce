@@ -7,16 +7,16 @@ const {
 module.exports = (sequelize, DataTypes) => {
     class cart_item extends Model {
         static associate(models) {
-            cart_item.belongsTo(models.cart, { foreignKey: 'cart_id' });
-            cart_item.belongsTo(models.product, { foreignKey: 'product_id', allowNull: true });
-            cart_item.belongsTo(models.product_option, { foreignKey: 'product_option_id', allowNull: true });
+            cart_item.belongsTo(models.cart, { foreignKey: 'cart_id', onDelete: 'CASCADE' });
+            cart_item.belongsTo(models.product, { foreignKey: 'product_id', onDelete: 'CASCADE' });
+            cart_item.belongsTo(models.product_option, { foreignKey: 'product_option_id', onDelete: 'SET NULL' });
         }
     }
     cart_item.init({
-        cart_id: DataTypes.INTEGER,
-        product_id: DataTypes.INTEGER,
-        product_option_id: DataTypes.INTEGER,
-        quantity: DataTypes.INTEGER
+        cart_id: DataTypes.BIGINT,
+        product_id: DataTypes.BIGINT,
+        product_option_id: DataTypes.BIGINT,
+        quantity: DataTypes.BIGINT
     }, {
         sequelize,
         modelName: 'cart_item',

@@ -157,6 +157,8 @@ export default class AuthController {
                 return res.status(404).json({ message: "Không tìm thấy người dùng" });
             }
 
+            console.log("Refresh token thành công");
+
             const accessToken = jwt.sign({ email: user.email, id: user.id, role: user.role }, process.env.ACCESS_TOKEN_SECRET_KEY, { expiresIn: '1h' });
             const refreshToken = jwt.sign({ email: user.email, id: user.id, role: user.role }, process.env.REFRESH_TOKEN_SECRET_KEY, { expiresIn: '1d' });
 

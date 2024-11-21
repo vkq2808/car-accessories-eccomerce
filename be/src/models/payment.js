@@ -6,11 +6,11 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class payment extends Model {
     static associate(models) {
-      payment.belongsTo(models.order, { foreignKey: 'order_id' });
+      payment.belongsTo(models.order, { foreignKey: 'order_id', onDelete: 'CASCADE' });
     }
   }
   payment.init({
-    order_id: DataTypes.INTEGER,
+    order_id: DataTypes.BIGINT,
     method: DataTypes.STRING,
     bank_code: DataTypes.STRING,
     status: DataTypes.STRING,
@@ -22,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
     transaction_status: DataTypes.STRING,
     transaction_time: DataTypes.DATE,
     transaction_data: DataTypes.JSON,
-
   }, {
     sequelize,
     modelName: 'payment',

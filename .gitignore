@@ -1,3 +1,5 @@
 node_modules
 /app
-be\src\config\config.json
+be/src/config/config.json
+be/src/config/firebase-service-account.json
+be/public/images

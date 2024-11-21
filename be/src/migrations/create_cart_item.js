@@ -7,10 +7,10 @@ module.exports = {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER
+                type: Sequelize.BIGINT
             },
             cart_id: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.BIGINT,
                 references: {
                     model: 'carts',
                     key: 'id'
@@ -20,7 +20,7 @@ module.exports = {
                 allowNull: false
             },
             product_id: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.BIGINT,
                 references: {
                     model: 'products',
                     key: 'id'
@@ -29,11 +29,11 @@ module.exports = {
                 onDelete: 'CASCADE'
             },
             product_option_id: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.BIGINT,
                 allowNull: true
             },
             quantity: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.BIGINT,
                 allowNull: false
             },
             createdAt: {

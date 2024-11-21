@@ -4,6 +4,7 @@ import CartController from "./cart.controller";
 import ProductController from "./product.controller";
 import OrderController from "./order.controller";
 import CategoryController from "./category.controller";
+import CostController from "./cost.controller";
 
 export {
     AuthController,
@@ -12,4 +13,5 @@ export {
     ProductController,
     OrderController,
     CategoryController,
+    CostController
 }

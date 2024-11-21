@@ -6,6 +6,8 @@ import followRoute from "./follow.route";
 import userAPIRoute from "./user.route";
 import orderRoute from "./order.route";
 import adminApiRoute from "./admin.route";
+import apllyUploadRouter from "./upload.route";
+import applyFileRoutes from "./file.route";
 
 export {
     authAPIRoute,
@@ -15,7 +17,9 @@ export {
     followRoute,
     userAPIRoute,
     orderRoute,
-    adminApiRoute
+    adminApiRoute,
+    apllyUploadRouter,
+    applyFileRoutes
 }
 
 export const applyAllRoutes = (app) => {
@@ -27,4 +31,6 @@ export const applyAllRoutes = (app) => {
     userAPIRoute(app);
     orderRoute(app);
     adminApiRoute(app);
+    apllyUploadRouter(app);
+    applyFileRoutes(app);
 }

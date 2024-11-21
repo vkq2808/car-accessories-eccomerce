@@ -19,7 +19,7 @@ module.exports = {
             hashed_password: adminHashPassword,
             first_name: adminfirst_name,
             last_name: adminlast_name,
-            role: 'ADMIN',
+            role: 'SUPER_ADMIN',
             phone: adminPhone,
             birth: new Date(adminBirth),
             createdAt: new Date(),

@@ -9,10 +9,11 @@ module.exports = {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER
+                type: Sequelize.BIGINT
             },
             email: {
                 type: Sequelize.STRING,
+                unique: true,
                 allowNull: false
             },
             hashed_password: {

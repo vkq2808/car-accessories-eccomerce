@@ -72,18 +72,17 @@ const CategoryManagement = () => {
       }));
     }).catch(err => {
       console.log(err)
-      dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: err.response.data.message } });
+      dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.message });
     });
   }
 
   const handleAddNewRow = async (post) => {
-    console.log(post)
     await postDataAPI(`admin/category`, post).then(res => {
       dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message });
       setData([...data, mapData(res.data.category)]);
       return true;
     }).catch(err => {
-      dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: err.response.data.message } });
+      dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.message });
       return false;
     });
   }
@@ -95,7 +94,7 @@ const CategoryManagement = () => {
       return true;
     }
     ).catch(err => {
-      dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: err.response.data.message } });
+      dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.message });
       return false;
     });
   }

@@ -55,21 +55,27 @@ export const contact_constants = {
 }
 
 export const admin_table_field_types = {
+  PARENT_SELECT: "parent-select",
+  CHILD_SELECT: "child-select",
+  ID: "id",
+  UNIQUE: "unique",
   NO_FORM_DATA: "no-form-data",
   NO_SHOW_DATA: "no-show-data",
+  NO_EDITABLE: "no-editable",
   REQUIRED: "required",
   NO_EDIT_REQUIRED: "NO_EDIT_REQUIRED",
   TEXT: "text",
   EMAIL: "email",
   SELECT: "select",
   NUMBER: "number",
-  BADGE: "badge",
   IMAGE: "image",
   DATE: "date",
   DATE_TIME: "date-time",
   PASSWORD: "password",
   MINIMUN_LENGTH: "minimun-length",
   TEXTAREA: "textarea",
+  QUERY: "query",
+  JSON: "json",
 }
 
 export const account_roles = {
@@ -78,6 +84,16 @@ export const account_roles = {
   SUPER_ADMIN: 'SUPER_ADMIN',
   EMPLOYEE: 'EMPLOYEE'
 }
+
+export const role_author_number = {
+  [account_roles.NO_ROLE]: 0,
+  [account_roles.USER]: 1,
+  [account_roles.EMPLOYEE]: 1,
+  [account_roles.ADMIN]: 2,
+  [account_roles.SUPER_ADMIN]: 3,
+}
+
+
 export const account_statuses = {
   Active: "Active",
   Inactive: "Inactive"
@@ -86,4 +102,20 @@ export const account_statuses = {
 export const account_gender = {
   MALE: "male",
   FEMALE: "female"
+}
+
+export const order_status = {
+  EMPTY: 'EMPTY',
+  PENDING: 'PENDING',
+  CANCELLED: 'CANCELLED',
+  PROCESSING: 'PROCESSING',
+  FINISHED: 'FINISHED',
+  NONE: 'NONE'
+}
+
+export const cost_types = {
+  PURCHASE: 'PURCHASE',
+  SALARY: 'SALARY',
+  MAINTENANCE: 'MAINTENANCE',
+  OTHER: 'OTHER'
 }

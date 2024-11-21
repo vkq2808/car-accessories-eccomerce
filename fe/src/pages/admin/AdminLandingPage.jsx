@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineDashboard, AiOutlineUser, AiOutlineSetting, AiOutlineBarChart, AiOutlineProduct } from "react-icons/ai";
-import { PiReadCvLogo } from "react-icons/pi";
+import { PiListChecksLight, PiReadCvLogo, PiTag } from "react-icons/pi";
 import AdminSideBar from "../../components/admin/sideBar/AdminSideBar";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { account_roles } from "../../constants/constants";
-import { BiCategory } from "react-icons/bi";
+import { GiPayMoney } from "react-icons/gi";
 
 const AdminLandingPage = ({ child }) => {
   const auth = useSelector(state => state.auth);
@@ -14,10 +14,10 @@ const AdminLandingPage = ({ child }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!auth.token) {
-        dispatch({ type: "ERROR_ALERT", payload: { error: "You are not logged in" } });
+        dispatch({ type: "ERROR_ALERT", payload: "You are not logged in" });
         navigate("/auth/login");
       } else if (auth.user.role !== account_roles.ADMIN && auth.user.role !== account_roles.SUPER_ADMIN) {
-        dispatch({ type: "ERROR_ALERT", payload: { error: "You are not an admin" } });
+        dispatch({ type: "ERROR_ALERT", payload: "You are not an admin" });
         navigate("/");
       }
     }, 1000);
@@ -54,7 +54,9 @@ const AdminLandingPage = ({ child }) => {
       submenu: [
         { id: "manage/user", title: "Users", icon: <AiOutlineUser className="w-4 h-4" /> },
         { id: "manage/product", title: "Products", icon: <AiOutlineProduct className="w-4 h-4" /> },
-        { id: "manage/category", title: "Categories", icon: <BiCategory className="w-4 h-4" /> },
+        { id: "manage/category", title: "Categories", icon: <PiTag className="w-4 h-4" /> },
+        { id: "manage/order", title: "Orders", icon: <PiListChecksLight className="w-4 h-4" /> },
+        { id: "manage/cost", title: "Costs", icon: <GiPayMoney className="w-4 h-4" /> }
       ]
     },
     {
@@ -79,9 +81,9 @@ const AdminLandingPage = ({ child }) => {
         handleMenuClick={handleMenuClick}
         activeMenu={activeMenu}
         toggleSidebar={toggleSidebar}
-        admin_avatar_url={auth?.user?.image_url}
-        admin_name={auth?.user?.first_name + " " + auth?.user?.last_name}
-        admin_role={auth?.user?.role}
+        admin_avatar_url={auth?.user?.image_url ?? ""}
+        admin_name={auth?.user?.first_name && (auth?.user?.first_name + " " + auth?.user?.last_name)}
+        admin_role={auth?.user?.role ?? ""}
       />
       <div className={`w-full min-h-[70vh] p-4 transition-all duration-300 ease-in-out ${isCollapsed ? "pl-24" : "pl-[17rem]"}`}>
         {child}

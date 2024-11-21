@@ -4,10 +4,21 @@ import jwt from "jsonwebtoken";
 import db from "../models";
 import moment from "moment";
 import { info } from "console";
-import { order_status, payment_method_codes } from "../constants/constants";
+import { account_roles, order_status, payment_method_codes } from "../constants/constants";
 import EmailService from "../services/email.service";
 
 require("dotenv").config();
+const role_author_number = {
+  [account_roles.NO_ROLE]: 0,
+  [account_roles.USER]: 1,
+  [account_roles.EMPLOYEE]: 1,
+  [account_roles.ADMIN]: 2,
+  [account_roles.SUPER_ADMIN]: 3,
+}
+const canCreate = (req_role) => role_author_number[req_role] >= role_author_number[account_roles.ADMIN];
+const canRead = (req_role) => role_author_number[req_role] >= role_author_number[account_roles.NO_ROLE];
+const canUpdate = (req_role) => role_author_number[req_role] >= role_author_number[account_roles.ADMIN];
+const canDelete = (req_role) => role_author_number[req_role] >= role_author_number[account_roles.ADMIN];
 
 export default class OrderController {
   constructor() { }
@@ -265,7 +276,7 @@ export default class OrderController {
 
   getById = async (req, res) => {
     try {
-      const data = await new OrderService().getOne(req.params.id);
+      const data = await new OrderService().getOne({ where: { id: req.params.id } });
       if (!data) {
         return res.status(404).json({ message: "Not found" });
       }
@@ -284,7 +295,7 @@ export default class OrderController {
       }
 
       const order_item = await new OrderItemService().create({ order_id: req.params.id, product_id: req.body.product.id, quantity: req.body.quantity });
-      const data = await new OrderService().getOne(req.params.id);
+      const data = await new OrderService().getOne({ where: { id: req.params.id }, include: [{ model: db.order_item, include: [{ model: db.product, include: [db.product_option] }] }] });
 
       return res.status(200).json(data);
     } catch (error) {
@@ -326,24 +337,39 @@ export default class OrderController {
 
   async getAll(req, res) {
     try {
+      if (!canRead(req.user?.role || account_roles.NO_ROLE)) {
+        return res.status(403).json({ message: "You don't have permission to read" });
+      }
       const data = await new OrderService().getAll({
-        include: [{ model: db.order_item, include: [{ model: db.product, include: [db.product_option] }, { model: db.product_option }] }]
+        include: [
+          {
+            model: db.order_item,
+            include: [db.product, db.product_option]
+          },
+          {
+            model: db.payment
+          },
+          {
+            model: db.user,
+            as: "user"
+          }
+        ]
       });
-      return res.status(200).json(data);
+      return res.status(200).json({ orders: data });
+
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: "Internal server error" });
     }
   }
 
-
   async getOne(req, res) {
     try {
-      const data = await new OrderService().getOne(req.params.id);
+      const data = await new OrderService().getOne({ where: { id: req.params.id } });
       if (!data) {
         return res.status(404).json({ message: "Not found" });
       }
-      return res.status(200).json(data);
+      return res.status(200).json({ order: data });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: "Internal server error" });
@@ -352,8 +378,11 @@ export default class OrderController {
 
   async create(req, res) {
     try {
+      if (!canCreate(req.user?.role || account_roles.NO_ROLE)) {
+        return res.status(403).json({ message: "You don't have permission to create this order" });
+      }
       const data = await new OrderService().create(req.body);
-      return res.status(201).json(data);
+      return res.status(201).json({ order: data, message: "Create successfully" });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: "Internal server error" });
@@ -362,8 +391,15 @@ export default class OrderController {
 
   async update(req, res) {
     try {
-      const data = await new OrderService().update(req.params.id, req.body);
-      return res.status(200).json(data);
+      const target_order = await new OrderService().getOne({ where: { id: req.params.id } });
+      if (!target_order) {
+        return res.status(404).json({ message: "Not found" });
+      }
+      if (!canUpdate(req.user?.role || account_roles.NO_ROLE)) {
+        return res.status(403).json({ message: "You don't have permission to edit this order" });
+      }
+      let data = await new OrderService().update(req.body);
+      return res.status(200).json({ order: data, message: "Update successfully" });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: "Internal server error" });
@@ -372,6 +408,9 @@ export default class OrderController {
 
   async delete(req, res) {
     try {
+      if (!canDelete(req.user?.role || account_roles.NO_ROLE)) {
+        return res.status(403).json({ message: "You don't have permission to delete this order" });
+      }
       await new OrderService().delete(req.params.id);
       return res.status(204).json();
     } catch (error) {

@@ -39,3 +39,10 @@ export const order_status = {
   FINISHED: 'FINISHED',
   NONE: 'NONE'
 }
+
+export const cost_types = {
+  PURCHASE: 'PURCHASE',
+  SALARY: 'SALARY',
+  MAINTENANCE: 'MAINTENANCE',
+  OTHER: 'OTHER'
+}

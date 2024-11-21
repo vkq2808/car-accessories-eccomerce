@@ -6,10 +6,12 @@ const {
 module.exports = (sequelize, DataTypes) => {
     class product extends Model {
         static associate(models) {
-            product.belongsTo(models.category, { foreignKey: 'category_id' });
-            product.hasMany(models.cart_item, { foreignKey: 'product_id' });
-            product.hasMany(models.order_item, { foreignKey: 'product_id' });
-            product.hasMany(models.product_option, { foreignKey: 'product_id' });
+            product.belongsTo(models.category, { foreignKey: 'category_id', onDelete: 'CASCADE' });
+            product.hasMany(models.cart_item, { foreignKey: 'product_id', onDelete: 'SET NULL' });
+            product.hasMany(models.order_item, { foreignKey: 'product_id', onDelete: 'SET NULL' });
+            product.hasMany(models.product_option, { foreignKey: 'product_id', onDelete: 'SET NULL' });
+            product.hasMany(models.product_follow, { foreignKey: 'product_id', onDelete: 'CASCADE' });
+            product.hasMany(models.cost, { foreignKey: 'product_id', onDelete: 'SET NULL' });
         }
     }
     product.init({
@@ -20,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         detail: DataTypes.TEXT,
-        stock: DataTypes.INTEGER,
+        stock: DataTypes.BIGINT,
         price: DataTypes.DOUBLE,
         currency: DataTypes.STRING,
         category_id: DataTypes.TEXT,

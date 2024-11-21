@@ -6,14 +6,14 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class order extends Model {
     static associate(models) {
-      order.hasMany(models.order_item, { foreignKey: 'order_id' });
-      order.belongsTo(models.user, { foreignKey: 'user_id', allowNull: true });
-      order.hasOne(models.payment, { foreignKey: 'order_id' });
+      order.hasMany(models.order_item, { foreignKey: 'order_id', onDelete: 'SET NULL', });
+      order.belongsTo(models.user, { foreignKey: 'user_id', onDelete: 'SET NULL' });
+      order.hasOne(models.payment, { foreignKey: 'order_id', onDelete: 'SET NULL' });
     }
   }
   order.init({
     user_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: true
     },
     status: {

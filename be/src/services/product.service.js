@@ -123,6 +123,23 @@ class ProductService {
         }
     }
 
+    async query(query) {
+        try {
+            let entries = Object.entries(query);
+
+            let where = {};
+            for (let [key, value] of entries) {
+                where[key] = { [db.Sequelize.Op.like]: `%${value}%` }
+            }
+            // console.log(where)
+            let data = await this.model.findAll({ where });
+            return data;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    }
+
     async update(data) {
         try {
             const { id, ...filteredData } = data;

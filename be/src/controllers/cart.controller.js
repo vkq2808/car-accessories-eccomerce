@@ -130,7 +130,7 @@ export default class CartController {
 
     async getOne(req, res) {
         try {
-            const data = await new CartService().getOne(req.params.id);
+            const data = await new CartService().getOne({ where: { id: req.params.id } });
             if (!data) {
                 return res.status(404).json({ message: "Not found" });
             }

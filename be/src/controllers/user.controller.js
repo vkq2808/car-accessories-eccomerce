@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import { UserService } from '../services';
+import { CartService, UserService } from '../services';
 import { account_roles } from '../constants/constants';
 
 const role_author_number = {
@@ -52,9 +52,23 @@ export default class UserController {
         }
     }
 
+    async query(req, res) {
+        try {
+            let query = req.query;
+
+            let data = await new UserService().query(query);
+
+            return res.status(200).json({ users: data });
+        }
+        catch (error) {
+            // console.error(error);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+    }
+
     async getOne(req, res) {
         try {
-            const data = await new UserService().getOne(req.params.id);
+            const data = await new UserService().getOne({ where: { id: req.params.id } });
             if (!data) {
                 return res.status(404).json({ message: "Not found" });
             }
@@ -67,7 +81,7 @@ export default class UserController {
 
     async create(req, res) {
         try {
-            if (!canCreate(req.user.role || account_roles.NO_ROLE, req.body.role)) {
+            if (!canCreate(req.user?.role || account_roles.NO_ROLE, req.body.role)) {
                 return res.status(403).json({ message: "You don't have permission to create this user" });
             }
 
@@ -87,7 +101,9 @@ export default class UserController {
             if (!target_user) {
                 return res.status(404).json({ message: "Not found" });
             }
-            if (!canUpdate(req.user.role || account_roles.NO_ROLE, target_user.role)) {
+
+            console.log(req.user.id, req.body.id, req.user?.role, target_user.role);
+            if (req.user.id != req.body.id && !canUpdate(req.user?.role || account_roles.NO_ROLE, target_user.role)) {
                 return res.status(403).json({ message: "You don't have permission to edit this user" });
             }
 
@@ -118,11 +134,11 @@ export default class UserController {
             if (!target_user) {
                 return res.status(404).json({ message: "Not found" });
             }
-            if (!canDelete(req.user.role || account_roles.NO_ROLE, target_user.role)) {
+            if (!canDelete(req.user?.role || account_roles.NO_ROLE, target_user.role) && req.user.id !== req.params.id) {
                 return res.status(403).json({ message: "You don't have permission to delete this user" });
             }
 
-            const data = await new UserService().delete(req.params.id);
+            let data = await new UserService().delete(req.params.id);
             if (data) {
                 return res.status(200).json({ message: "Delete successfully" });
             } else {

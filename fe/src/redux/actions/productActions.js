@@ -27,7 +27,7 @@ export const searchProducts = ({ searchTerm = "", category_path, category_id = 0
 
         const res = await getDataAPI(`product/search?${queries}page=${page}&limit=${limit}`)
         if (res.status !== 200) {
-            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: res.data.message } })
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message })
             return;
         }
         dispatch({
@@ -36,7 +36,7 @@ export const searchProducts = ({ searchTerm = "", category_path, category_id = 0
         })
     } catch (err) {
         console.log(err)
-        dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: err?.response?.data.message || "Lỗi server" } })
+        dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err?.response?.data.message || "Lỗi server" })
     }
 }
 
@@ -49,7 +49,7 @@ export const getProductsBycategory_id = ({ category_id, page = 1, limit = 12 }) 
 
         const res = await getDataAPI(`product/search?${queries}page=${page}&limit=${limit}`)
         if (res.status !== 200) {
-            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: res.data.message } })
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message })
             return;
         }
         dispatch({
@@ -58,7 +58,7 @@ export const getProductsBycategory_id = ({ category_id, page = 1, limit = 12 }) 
         })
     } catch (err) {
         console.log(err)
-        dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: err?.response?.data.message || "Lỗi server" } })
+        dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err?.response?.data.message || "Lỗi server" })
     }
 }
 
@@ -66,7 +66,7 @@ export const getProducts = () => async (dispatch) => {
     try {
         const res = await getDataAPI("product")
         if (res.status !== 200) {
-            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: res.data.message } })
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message })
             return;
         }
         dispatch({
@@ -86,7 +86,7 @@ export const getNewProducts = () => async (dispatch) => {
         const limit = 6
         const res = await getDataAPI(`product/search?searchTerm=${searchTerm}&category_id=${category_id}&page=${page}&limit=${limit}`)
         if (res.status !== 200) {
-            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: res.data.message } })
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message })
             return;
         }
         dispatch({
@@ -106,7 +106,7 @@ export const getTrendingProducts = () => async (dispatch) => {
         const limit = 4
         const res = await getDataAPI(`product/search?searchTerm=${searchTerm}&category_id=${category_id}&page=${page}&limit=${limit}`)
         if (res.status !== 200) {
-            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: res.data.message } })
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message })
             return;
         }
         dispatch({

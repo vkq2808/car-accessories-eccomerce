@@ -4,12 +4,12 @@ module.exports = {
     up: (queryInterface, Sequelize) => {
         return queryInterface.createTable('product_options', {
             id: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.BIGINT,
                 primaryKey: true,
                 autoIncrement: true
             },
             product_id: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.BIGINT,
                 allowNull: false,
                 references: {
                     model: 'products',
@@ -25,7 +25,7 @@ module.exports = {
                 allowNull: false
             },
             stock: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.BIGINT,
                 allowNull: false
             },
             createdAt: {

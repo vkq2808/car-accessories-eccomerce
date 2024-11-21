@@ -132,7 +132,7 @@ export default class ProductController {
 
     async getAll(req, res) {
         try {
-            if (!canRead(req.user.role || account_roles.NO_ROLE)) {
+            if (!canRead(req.user?.role || account_roles.NO_ROLE)) {
                 return res.status(403).json({ message: "You don't have permission to read" });
             }
             const data = await new ProductService().getAll();
@@ -146,7 +146,7 @@ export default class ProductController {
 
     async getOne(req, res) {
         try {
-            const data = await new ProductService().getOne(req.params.id);
+            const data = await new ProductService().getOne({ where: { id: req.params.id } });
             if (!data) {
                 return res.status(404).json({ message: "Not found" });
             }
@@ -159,12 +159,25 @@ export default class ProductController {
 
     async create(req, res) {
         try {
-            if (!canCreate(req.user.role || account_roles.NO_ROLE)) {
+            if (!canCreate(req.user?.role || account_roles.NO_ROLE)) {
                 return res.status(403).json({ message: "You don't have permission to create this product" });
             }
             const data = await new ProductService().create(req.body);
             return res.status(201).json({ product: data, message: "Create successfully" });
         } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+    }
+
+    async query(req, res) {
+        try {
+            let query = req.query;
+            let data = await new ProductService().query(query);
+
+            return res.status(200).json({ products: data });
+        }
+        catch (error) {
             console.error(error);
             return res.status(500).json({ message: "Internal server error" });
         }
@@ -176,7 +189,7 @@ export default class ProductController {
             if (!target_product) {
                 return res.status(404).json({ message: "Not found" });
             }
-            if (!canUpdate(req.user.role || account_roles.NO_ROLE)) {
+            if (!canUpdate(req.user?.role || account_roles.NO_ROLE)) {
                 return res.status(403).json({ message: "You don't have permission to edit this product" });
             }
             let data = await new ProductService().update(req.body);

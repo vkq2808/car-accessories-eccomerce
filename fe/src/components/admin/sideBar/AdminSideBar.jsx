@@ -108,8 +108,8 @@ const AdminSideBar = ({ isCollapsed, menuItems, handleMenuClick, activeMenu, tog
                         <img className={`w-8 h-8 rounded-full`} src={admin_avatar_url} alt=""></img>
                         {!isCollapsed && (
                             <div>
-                                <p className="text-sm font-medium">{admin_name || "John Doe"}</p>
-                                <p className="text-xs text-[--tertiary-text-color]">{admin_role || "Administrator"}</p>
+                                <p className="text-sm font-medium">{admin_name}</p>
+                                <p className="text-xs text-[--tertiary-text-color]">{admin_role}</p>
                             </div>
                         )}
                     </div>

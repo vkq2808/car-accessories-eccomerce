@@ -19,7 +19,7 @@ const startServer = async () => {
 
         // config cors
         app.use(cors({
-            origin: process.env.CLIENT_URL,
+            origin: process.env.CLIENT_URL,   // Cho phép tất cả các miền
             credentials: true,
         }));
 
@@ -35,6 +35,7 @@ const startServer = async () => {
             {
                 contentSecurityPolicy: false, // tắt chế độ CSP, tránh lỗi khi load ảnh từ url
                 xFrameOptions: false, // tắt chế độ xFrameOptions, tránh tấn công clickjacking
+                crossOriginResourcePolicy: false, // tắt chế độ CORP, tránh lỗi khi load ảnh từ url
             }
         ));
 

@@ -7,6 +7,8 @@ import OrderService from "./order.service";
 import OrderItemService from "./order_item.service";
 import ProductFollowService from "./product_follow.service";
 import PaymentService from "./payment.service";
+import CostService from "./cost.service";
+
 
 export {
   UserService,
@@ -17,5 +19,6 @@ export {
   CartItemService,
   OrderService,
   OrderItemService,
-  PaymentService
+  PaymentService,
+  CostService
 }

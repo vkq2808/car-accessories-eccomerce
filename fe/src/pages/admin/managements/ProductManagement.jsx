@@ -44,8 +44,8 @@ const ProductManagement = () => {
       getDataAPI('admin/category').then(cate_res => {
         setCategoryData(cate_res.data.map((item) => {
           return {
-            id: item.id,
-            display: item.name
+            value: item.id,
+            label: item.name
           }
         }));
         getDataAPI('admin/product').then(res => {
@@ -55,7 +55,7 @@ const ProductManagement = () => {
           }));
         }).catch(err => {
           if (err.response?.status === 403) {
-            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: err.response.data.message } });
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.message });
             // navigate('/auth/login');
           }
         });
@@ -109,18 +109,17 @@ const ProductManagement = () => {
       }));
     }).catch(err => {
       console.log(err)
-      dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: err.response.data.message } });
+      dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.message });
     });
   }
 
   const handleAddNewRow = async (post) => {
-    console.log(post)
     await postDataAPI(`admin/product`, post).then(res => {
       dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message });
       setData([...data, mapData(res.data.product)]);
       return true;
     }).catch(err => {
-      dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: err.response.data.message } });
+      dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.message });
       return false;
     });
   }
@@ -132,7 +131,7 @@ const ProductManagement = () => {
       return true;
     }
     ).catch(err => {
-      dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: { error: err.response.data.message } });
+      dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.message });
       return false;
     });
   }

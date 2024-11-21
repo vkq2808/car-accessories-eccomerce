@@ -37,8 +37,6 @@ axiosInstance.interceptors.response.use(
                 const response = await axios.post(`${server_url}/auth/refresh-token`, { refreshToken });
 
                 if (response.status !== 200) {
-                    localStorage.removeItem('accessToken');
-                    localStorage.removeItem('refreshToken');
                     return Promise.reject(error);
                 }
 
@@ -56,8 +54,6 @@ axiosInstance.interceptors.response.use(
 
                 return axiosInstance(originalRequest);
             } catch (err) {
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('refreshToken');
                 return Promise.reject(error);
             }
         }
@@ -74,9 +70,10 @@ export const getDataAPI = async (url) => {
     return res;
 };
 
-export const postDataAPI = async (url, post) => {
+export const postDataAPI = async (url, post, options) => {
     const token = localStorage.getItem('accessToken');
     const res = await axiosInstance.post(url, post, {
+        ...options,
         headers: { Authorization: token }
     });
     return res;

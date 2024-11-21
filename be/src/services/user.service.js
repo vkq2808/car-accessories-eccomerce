@@ -1,6 +1,7 @@
 // UserService.js
 import bcrypt from 'bcryptjs';
 import db from '../models/index';
+import CartService from './cart.service';
 
 require('dotenv').config();
 
@@ -9,6 +10,24 @@ const salt = process.env.SALT;
 class UserService {
     constructor() {
         this.model = db.user;
+    }
+
+    async query(query) {
+        try {
+            let entries = Object.entries(query);
+
+            let where = {};
+            for (let [key, value] of entries) {
+                where[key] = { [db.Sequelize.Op.like]: `%${value}%` }
+            }
+
+            let data = await this.model.findAll({ where });
+
+            return data;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
     }
 
     async hashUserPassword(password) {
@@ -148,7 +167,7 @@ class UserService {
 
     async delete(id) {
         try {
-            const result = await this.model.destroy({ where: { id: id } });
+            let result = await this.model.destroy({ where: { id: id } });
             return result;
         } catch (error) {
             console.error(error);
@@ -171,7 +190,6 @@ class UserService {
             const result = await this.model.findAll(options);
             return result;
         } catch (error) {
-            console.error(error);
             return null;
         }
     }

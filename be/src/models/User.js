@@ -7,13 +7,18 @@ const {
 module.exports = (sequelize, DataTypes) => {
     class user extends Model {
         static associate(models) {
-            user.hasOne(models.cart, { foreignKey: 'user_id' });
-            user.hasMany(models.order, { foreignKey: 'user_id' });
-            user.hasMany(models.product_follow, { foreignKey: 'user_id' });
+            user.hasOne(models.cart, { foreignKey: 'user_id', onDelete: 'SET NULL' });
+            user.hasMany(models.order, { foreignKey: 'user_id', onDelete: 'SET NULL' });
+            user.hasMany(models.product_follow, { foreignKey: 'user_id', onDelete: 'SET NULL' });
+            user.hasMany(models.cost, { foreignKey: 'employee_id', onDelete: 'SET NULL' });
         }
     }
     user.init({
-        email: DataTypes.STRING,
+        email: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true
+        },
         hashed_password: DataTypes.STRING,
         first_name: DataTypes.STRING,
         last_name: DataTypes.STRING,

@@ -5,12 +5,12 @@ module.exports = {
         await queryInterface.createTable('carts', {
             id: {
                 allowNull: false,
-                type: Sequelize.INTEGER,
+                type: Sequelize.BIGINT,
                 autoIncrement: true,
                 primaryKey: true,
             },
             user_id: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.BIGINT,
                 allowNull: false,
                 references: {
                     model: 'users',

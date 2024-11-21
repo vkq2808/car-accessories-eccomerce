@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaSort, FaSortUp, FaSortDown, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 import { IoIosSearch, IoMdClose } from "react-icons/io";
 import { BiLoaderAlt } from "react-icons/bi";
-import { account_statuses, admin_table_field_types } from "../../../constants/constants";
+import { admin_table_field_types } from "../../../constants/constants";
+import { maximizeString } from "../../../utils/stringUtils";
 
 const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRow, handleDeleteRow, rowsPerPage = 10, table_key = "1" }) => {
   const [data, setData] = useState(input_data);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState(fields);
   const [editingId, setEditingId] = useState(null);
@@ -16,13 +17,12 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
-  const validateForm = () => {
+  const validateForm = async () => {
     const newErrors = {};
-    Object.entries(formData).forEach(([key, field]) => {
-      let value = field.value;
-      // nếu field yêu cầu phải có 
-      // hoặc đang không edit field có loại là không cần edit
+    for (const key of Object.keys(fields)) {
+      let value = formData[key].value;
       if (
         (
           fields[key]?.type.includes(admin_table_field_types.REQUIRED) || (
@@ -68,12 +68,27 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
       }
 
       if (
+        fields[key]?.type.includes(admin_table_field_types.PASSWORD) &&
+        value && value !== formData[key + "_confirm"].value
+      ) {
+        newErrors[key] = "Password does not match";
+      }
+      if (
         fields[key]?.type.includes(admin_table_field_types.MINIMUN_LENGTH) &&
         value && value.length < fields[key].minimum_length
       ) {
         newErrors[key] = `${key.charAt(0).toUpperCase() + key.slice(1)} must be at least ${fields[key].minimum_length} characters`;
       }
-    });
+      if (
+        fields[key]?.type.includes(admin_table_field_types.UNIQUE) &&
+        value && !editingId
+      ) {
+        let isExist = await fields[key].checkExist(value);
+        if (isExist) {
+          newErrors[key] = "This content is already in use";
+        }
+      }
+    };
 
     setErrors(newErrors);
     console.log("newErrors: ", newErrors)
@@ -86,13 +101,6 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
       direction = "descending";
     }
     setSortConfig({ key, direction });
-  };
-
-  const maximizeString = (str, maxLength) => {
-    if (str.length > maxLength) {
-      return str.slice(0, maxLength) + "...";
-    }
-    return str;
   };
 
   const sortedData = React.useMemo(() => {
@@ -110,31 +118,51 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) {
+    let valid = await validateForm();
+    if (!valid) {
       return;
     }
 
     setIsLoading(true);
     try {
       let final_formData = {};
-      Object.entries(fields).forEach(([key, field]) => {
-        if (formData[key].value === "") {
-          return;
-        }
-        if (fields[key].type.includes(admin_table_field_types.SELECT) ||
-          fields[key].type.includes(admin_table_field_types.BADGE)) {
+      const original_data = data.find(item => item.id.value === editingId);
+
+      for (const key of Object.keys(fields)) {
+        const field = fields[key];
+        const formValue = formData[key]?.value;
+        const originalValue = original_data?.[key]?.value;
+
+        // Bỏ qua nếu giá trị là rỗng
+        if (!formValue) continue;
+
+        // Hàm kiểm tra giá trị có trùng với dữ liệu gốc không
+        // Nếu trùng và không phải là ID thì bỏ qua
+        const isUnchanged = (value) => editingId && value === originalValue && !field.type.includes(admin_table_field_types.ID);
+
+        // Xử lý theo từng loại field
+        if (field.type.includes(admin_table_field_types.SELECT)) {
+          // Nếu giá trị không nằm trong danh sách options thì bỏ qua
           // eslint-disable-next-line eqeqeq
-          if (!fields[key].options.some(option => option.id == (formData[key].value))) {
-            return;
-          }
+          if (!field.options.some(option => option.value == formValue)) continue;
+        }
+        else if (field.type.includes(admin_table_field_types.NUMBER)) {
+          const parsedValue = parseInt(formValue);
+          if (isUnchanged(parsedValue)) continue;
+          final_formData[key] = parsedValue;
+          continue;
+        }
+        else if (field.type.includes(admin_table_field_types.IMAGE)) {
+          const uploadedValue = await field.upload_function(formValue);
+          if (isUnchanged(uploadedValue)) continue;
+          final_formData[key] = uploadedValue;
+          continue;
         }
 
-        if (fields[key].type.includes(admin_table_field_types.NUMBER)) {
-          final_formData[key] = parseInt(formData[key]?.value);
-          return;
-        }
-        final_formData[key] = formData[key]?.value;
-      });
+        // Xử lý các loại field khác
+        if (isUnchanged(formValue)) continue;
+        final_formData[key] = formValue;
+      }
 
       if (editingId) {
         handleUpdateRow(editingId, final_formData);
@@ -153,7 +181,11 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
 
   const handleAddnew = () => {
     setEditingId(null);
-    setFormData(fields);
+    let newFormData = {};
+    Object.keys(fields).forEach((field) => {
+      newFormData[field] = { value: "" };
+    });
+    setFormData(newFormData);
     setShowModal(true);
   }
 
@@ -176,14 +208,15 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
     setIsLoading(false);
   };
   useEffect(() => {
-    if (input_data) {
-      setData(input_data);
-      setIsLoading(false);
-    }
-    else {
-      setIsLoading(true);
-    }
+    setIsLoading(true);
+    setData(input_data);
+    console.log("input_data: ", input_data)
+    setIsLoading(false);
   }, [input_data]);
+
+  useEffect(() => {
+    console.log(formData)
+  }, [formData]);
 
   useEffect(() => {
     let newData = [...data];
@@ -274,56 +307,19 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
                 key={table_key + 'item' + item.id.value}
                 className="hover:bg-[--secondary-background-color] transition-colors duration-200 group"
               >
-                {
-                  Object.keys(item)
-                    .concat("Actions")
-                    .map((field) => (
-                      !fields[field]?.type.includes(admin_table_field_types.NO_SHOW_DATA) &&
-                      <td key={table_key + field + '-' + item.id.value} className="px-3 py-2 text-xs whitespace-nowrap select-none">
-                        {
-                          field !== "Actions" ? (
-                            fields[field]?.type.includes(admin_table_field_types.IMAGE) ? (
-                              <img src={item[field].value} alt={item.name} className="w-8 h-8 rounded-full" />
-                            ) : fields[field]?.type.includes(admin_table_field_types.BADGE) ? (
-                              <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${item[field].value === account_statuses.Active ? "bg-green-100 text-green-800" : item[field].value === account_statuses.Inactive ? "bg-red-100 text-red-800" : "bg-[--primary-text-color] text-[--primary-background-color]"}`} >
-                                {item[field]?.value}
-                              </span>
-                            ) :
-                              fields[field]?.type.includes(admin_table_field_types.DATE) ? (
-                                new Date(item[field]?.value).toLocaleDateString('vi-VN')
-                              ) : fields[field]?.type.includes(admin_table_field_types.DATE_TIME) ? (
-                                new Date(item[field]?.value).toLocaleString('vi-VN')
-                              ) : fields[field].type.includes(admin_table_field_types.SELECT) ? (
-                                fields[field].options.find(option => option.id === item[field]?.value)?.display
-                              ) : fields[field]?.type.includes(admin_table_field_types.NUMBER) ? (
-                                new Intl.NumberFormat().format(item[field]?.value)
-                              ) : fields[field].type.includes(admin_table_field_types.TEXTAREA) ? (
-                                maximizeString(item[field]?.value, 15)
-                              ) : (
-                                item[field]?.value
-                              )
-                          )
-                            : (
-                              <div className="flex gap-3">
-                                <div
-                                  onClick={() => handleEdit(item)}
-                                  className="text-blue-600 hover:text-blue-800 transition-colors duration-200 cursor-pointer"
-                                  aria-label="Edit record"
-                                >
-                                  <FaEdit size={18} />
-                                </div>
-                                <div
-                                  onClick={() => handleDelete(item.id)}
-                                  className="text-red-600 hover:text-red-800 transition-colors duration-200 cursor-pointer"
-                                  aria-label="Delete record"
-                                >
-                                  <FaTrash size={18} />
-                                </div>
-                              </div>
-                            )}
-                      </td>
-                    ))
-                }
+                {Object.keys(fields).concat("Actions").map((field) => (
+                  <TableCell
+                    key={table_key + 'field' + field + '-' + item.id.value}
+                    field={field}
+                    item={item}
+                    fields={fields}
+                    handleEdit={handleEdit}
+                    handleDelete={handleDelete}
+                    table_key={table_key}
+                    setEditingId={setEditingId}
+                    setShowConfirmDelete={setShowConfirmDelete}
+                  />
+                ))}
               </tr>
             ))}
           </tbody>
@@ -333,7 +329,7 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
             <button
               onClick={() => setCurrentPage((prev) => prev - 1)}
               disabled={currentPage === 1}
-              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors duration-200"
+              className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-200 disabled:opacity-90 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors duration-200"
             >
               Previous
             </button>
@@ -341,7 +337,7 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
             <button
               onClick={() => setCurrentPage((prev) => prev + 1)}
               disabled={currentPage === maxPage}
-              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors duration-200"
+              className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-200 disabled:opacity-90 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors duration-200"
             >
               Next
             </button>
@@ -359,6 +355,46 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
           <BiLoaderAlt className="animate-spin text-[--primary-text-color] text-4xl" />
         </div>
       )}
+
+      {
+        showConfirmDelete && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-[--primary-background-color] rounded-lg px-6 pb-4 w-full max-w-md max-h-[60vh] overflow-y-scroll scrollbar-hide">
+              <div className="flex justify-between items-center w-full py-4 sticky bg-inherit top-0 left-0">
+                <h3 className="text-lg font-semibold">Confirm Delete</h3>
+                <button
+                  onClick={() => setShowConfirmDelete(false)}
+                  className="text-[--primary-text-color] bg-[--primary-background-color] hover:text-[--primary-text-color] transition-colors duration-200"
+                  aria-label="Close modal"
+                >
+                  <IoMdClose size={24} />
+                </button>
+              </div>
+              <div className="p-4">
+                <p className="text-[--primary-text-color]">Are you sure you want to delete this record?</p>
+                <div className="flex justify-end mt-4 gap-10">
+                  <button
+                    onClick={() => {
+                      handleDelete(editingId);
+                      setShowConfirmDelete(false);
+                    }}
+                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors duration-200"
+                  >
+                    Delete
+                  </button>
+                  <button
+                    onClick={() => setShowConfirmDelete(false)}
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors duration-200"
+                  >
+                    Cancel
+                  </button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      }
 
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"        >
@@ -378,96 +414,22 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
 
             <form onSubmit={handleSubmit} className="space-y-4">
               {Object.keys(fields).map((field) => (
-                (
-                  (
-                    !fields[field].type.includes(admin_table_field_types.NO_FORM_DATA)
-                  )
-                )
-                &&
-                (
-                  <div key={table_key + 'field' + field}>
-                    <label
-                      htmlFor={field}
-                      className="block text-sm font-medium text-[--primary-text-color]"
-                    >
-                      {field.charAt(0).toUpperCase() + field.slice(1)}
-                    </label>
-
-                    {
-                      fields[field]?.type.includes(admin_table_field_types.SELECT) ||
-                        fields[field]?.type.includes(admin_table_field_types.BADGE) ? (
-                        <select
-                          id={field}
-                          value={formData[field]?.value ?? ""}
-                          onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
-                          className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
-                        >
-                          <option value={""}>Select {field}</option>
-                          {fields[field]?.options?.map((option) => (
-                            <option key={table_key + 'option-' + field + '-' + option.id} value={option.id}>
-                              {option.display}
-                            </option>
-                          ))}
-                        </select>
-                      ) : fields[field].type.includes(admin_table_field_types.DATE) ? (
-                        <input
-                          type="date"
-                          id={field}
-                          value={formData[field]?.value && new Date(formData[field].value).toISOString().split('T')[0]}
-                          onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
-                          className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
-                        />
-                      ) : fields[field].type.includes(admin_table_field_types.NUMBER) ? (
-                        <input
-                          type="number"
-                          id={field}
-                          value={formData[field]?.value ?? ""}
-                          onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
-                          className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
-                        />
-                      ) : fields[field].type.includes(admin_table_field_types.EMAIL) ? (
-                        <input
-
-                          type="email"
-                          id={field}
-                          value={formData[field]?.value ?? ""}
-                          onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
-                          className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
-                        />
-                      ) : fields[field].type.includes(admin_table_field_types.PASSWORD) ? (
-                        <input
-                          autoComplete="new-password"
-                          autoCorrect="off"
-                          type="password"
-                          id={field}
-                          value={formData[field]?.value ?? ""}
-                          onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
-                          className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
-                        />
-                      ) : fields[field].type.includes(admin_table_field_types.TEXTAREA) ? (
-                        <textarea
-                          id={field}
-                          rows={6}
-                          value={formData[field]?.value ?? ""}
-                          onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
-                          className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
-                        />
-                      ) : (
-                        <input
-                          type={fields[field].type}
-                          id={field}
-                          value={formData[field]?.value ?? ""}
-                          onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
-                          className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
-                        />
-                      )
-                    }
-                    {
-                      errors[field] &&
-                      <ErrorMessage errors={errors} field={field} />
-                    }
-                  </div>
-                )))}
+                <div key={table_key + 'field' + field}>
+                  <DisplayField
+                    tank_key={table_key}
+                    field={field}
+                    fields={fields}
+                    table_key={table_key}
+                    formData={formData}
+                    setFormData={setFormData}
+                    errors={errors}
+                    editingId={editingId} />
+                  {
+                    errors[field] &&
+                    <ErrorMessage errors={errors} field={field} />
+                  }
+                </div>
+              ))}
               <div className="flex justify-end">
                 <button
                   type="submit"
@@ -484,12 +446,313 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
   );
 };
 
+const TableCell = ({ field, item, fields, handleEdit, handleDelete, table_key, setEditingId, setShowConfirmDelete }) => {
+  if (fields[field]?.type.includes(admin_table_field_types.NO_SHOW_DATA)) {
+    return null;
+  }
+
+  return (
+    <td key={table_key + field + '-' + item.id.value} className="px-3 py-2 text-xs whitespace-nowrap select-none">
+      {field !== "Actions" ? (
+        fields[field]?.type.includes(admin_table_field_types.IMAGE) ? (
+          <img src={item[field].value} alt="" className="w-8 h-8 rounded-[30%]" />
+        ) : fields[field]?.type.includes(admin_table_field_types.DATE) ? (
+          new Date(item[field]?.value).toLocaleDateString('vi-VN')
+        ) : fields[field]?.type.includes(admin_table_field_types.DATE_TIME) ? (
+          new Date(item[field]?.value).toLocaleString('vi-VN')
+        ) : fields[field]?.type.includes(admin_table_field_types.SELECT) ? (
+          fields[field].options.find(option => option.value === item[field]?.value)?.label
+        ) : fields[field]?.type.includes(admin_table_field_types.NUMBER) ? (
+          new Intl.NumberFormat().format(item[field]?.value)
+        ) : fields[field]?.type.includes(admin_table_field_types.TEXTAREA) ? (
+          maximizeString(item[field]?.value, 20)
+        ) : fields[field]?.type.includes(admin_table_field_types.JSON) ?
+          (<JsonViewer
+            data={item[field]?.value}
+          />) : (
+            maximizeString(item[field]?.value, 20)
+          )
+      ) : (
+        <div className="flex gap-3">
+          <div
+            onClick={() => handleEdit(item)}
+            className="text-blue-600 hover:text-blue-800 transition-colors duration-200 cursor-pointer"
+            aria-label="Edit record"
+          >
+            <FaEdit size={18} />
+          </div>
+          <div
+            onClick={() => {
+              setEditingId(item.id.value);
+              setShowConfirmDelete(true);
+            }}
+            className="text-red-600 hover:text-red-800 transition-colors duration-200 cursor-pointer"
+            aria-label="Delete record"
+          >
+            <FaTrash size={18} />
+          </div>
+        </div>
+      )}
+    </td>
+  );
+};
+
+const DisplayField = ({ table_key, field, fields, formData, setFormData, errors, editingId }) => {
+  const fieldProps = fields[field];
+
+  if (!fieldProps || fieldProps.type.includes(admin_table_field_types.NO_FORM_DATA)) return null;
+
+  const fieldLabel = (
+    <label
+      htmlFor={field}
+      className="block text-sm font-medium text-[--primary-text-color]"
+    >
+      {field.charAt(0).toUpperCase() + field.slice(1)}
+      {fieldProps.type.includes(admin_table_field_types.REQUIRED) && "*"}
+      {fieldProps.type.includes(admin_table_field_types.NO_EDIT_REQUIRED) && editingId && (<span className="text-xs">" (Optional Editing)"</span>)}
+    </label>
+  );
+
+  if (fieldProps.type.includes(admin_table_field_types.NO_EDITABLE) && editingId) {
+    return (
+      <>
+        {fieldLabel}
+        <span className="text-sm text-[--primary-text-color]">This field is not editable</span>
+      </>
+    );
+  }
+
+  if (fieldProps.type.includes(admin_table_field_types.CHILD_SELECT)) {
+    for (const key of Object.keys(fields)) {
+      if (
+        key === fieldProps.parent_key &&
+        (
+          formData[key]?.value === "" ||
+          formData[key]?.value !== fieldProps.child_key
+        )
+      ) {
+        return null;
+      }
+    }
+  }
+
+  if (fieldProps.type.includes(admin_table_field_types.SELECT)) {
+    return (
+      <>
+        {fieldLabel}
+        <select
+          id={field}
+          value={formData[field]?.value ?? ""}
+          disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
+          onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
+          className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
+        >
+          <option value="">Select {field}</option>
+          {fieldProps.options?.map((option) => (
+            <option key={table_key + 'option-' + field + '-' + option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </>
+    );
+  }
+
+  if (fieldProps.type.includes(admin_table_field_types.DATE)) {
+    return (
+      <>
+        {fieldLabel}
+        <input
+          type="date"
+          id={field}
+          disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
+          value={formData[field]?.value && new Date(formData[field].value).toISOString().split('T')[0]}
+          onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
+          className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
+        />
+      </>
+    );
+  }
+
+  if (fieldProps.type.includes(admin_table_field_types.NUMBER)) {
+    return (
+      <>
+        {fieldLabel}
+        <input
+          type="number"
+          id={field}
+          disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
+          value={formData[field]?.value ?? ""}
+          onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
+          className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
+        />
+      </>
+    );
+  }
+
+  if (fieldProps.type.includes(admin_table_field_types.EMAIL)) {
+    return (
+      <>
+        {fieldLabel}
+        <input
+          type="email"
+          id={field}
+          disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
+          value={formData[field]?.value ?? ""}
+          onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
+          className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
+        />
+      </>
+    );
+  }
+
+  if (fieldProps.type.includes(admin_table_field_types.PASSWORD)) {
+    return (
+      <>
+        {fieldLabel}
+        <input
+          autoComplete="new-password"
+          autoCorrect="off"
+          type="password"
+          id={field}
+          disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
+          value={formData[field]?.value ?? ""}
+          onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
+          className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
+        />
+        <input
+          autoComplete="new-password"
+          autoCorrect="off"
+          type="password"
+          id={field + "_confirm"}
+          disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
+          value={formData[field + "_confirm"]?.value ?? ""}
+          onChange={(e) => setFormData({ ...formData, [field + "_confirm"]: { ...formData[field + "_confirm"], value: e.target.value } })}
+          className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
+        />
+      </>
+    );
+  }
+
+  if (fieldProps.type.includes(admin_table_field_types.TEXTAREA)) {
+    return (
+      <>
+        {fieldLabel}
+        <textarea
+          id={field}
+          rows={6}
+          disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
+          value={formData[field]?.value ?? ""}
+          onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
+          className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
+        />
+      </>
+    );
+  }
+
+  if (fieldProps.type.includes(admin_table_field_types.JSON)) {
+    return (
+      <>
+        {fieldLabel}
+        <textarea
+          id={field}
+          rows={6}
+          disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
+          value={formData[field]?.value ?? ""}
+          onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
+          className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
+        />
+      </>
+    );
+  }
+
+  if (fieldProps.type.includes(admin_table_field_types.QUERY)) {
+
+    return (
+      <>
+        {fieldLabel}
+        <input
+          type="text"
+          id={table_key + field}
+          disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
+          value={(formData[field]?.value || formData[field]?.query) ?? ""}
+          onChange={(e) => {
+            const queryValue = e.target.value;
+            setFormData((prevFormData) => ({
+              ...prevFormData,
+              [field]: { ...prevFormData[field], value: "" }
+            }));
+            fields[field].query_function(queryValue).then((options) => {
+              setFormData((prevFormData) => ({
+                ...prevFormData,
+                [field]: { ...prevFormData[field], options, query: queryValue }
+              }));
+            });
+          }}
+          className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
+        />
+        <ul className="absolute w-[400px] bg-white border border-gray-200 rounded-md mt-1 shadow-lg">
+          {formData[field].options?.slice(0, 5).map((option) => (
+            <li
+              key={option.value}
+              onClick={() => {
+                setFormData({ ...formData, [field]: { ...formData[field], value: option.label, options: [] } });
+              }}
+              className="p-2 cursor-pointer hover:bg-gray-100 list-none "
+            >
+              {option.label}
+            </li>
+          ))}
+        </ul>
+      </>
+    );
+  }
+
+  if (fieldProps.type.includes(admin_table_field_types.IMAGE)) {
+    return (
+      <>
+        {fieldLabel}
+        <input
+          type="file"
+          accept="image/png, image/jpeg, image/jpg"
+          id={field}
+          disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
+          onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.files[0] } })}
+          className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
+        />
+        {
+          formData[field]?.value && (
+            <img
+              src={typeof formData[field].value === 'string' ? formData[field].value : URL.createObjectURL(formData[field].value)}
+              alt={field}
+              className="w-8 h-8 rounded-[30%] mt-2"
+            />
+          )
+        }
+      </>
+    );
+  }
+
+  return (
+    <>
+      {fieldLabel}
+      <input
+        type={fieldProps.type}
+        id={field}
+        disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
+        value={formData[field]?.value ?? ""}
+        onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
+        className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
+      />
+    </>
+  );
+};
+
 
 const ErrorMessage = ({ errors, field, ref }) => {
   const errorRef = useRef(null);
 
   useEffect(() => {
-    // Nếu có lỗi, cuộn trang đến vị trí của thông báo lỗi
     if (errors[field]) {
       errorRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
     }
@@ -504,6 +767,27 @@ const ErrorMessage = ({ errors, field, ref }) => {
       )}
     </>
   );
+};
+
+
+export const JsonViewer = ({ data }) => {
+  const renderJson = (data) => {
+    if (typeof data === 'object' && data !== null) {
+      return (
+        <ul className='flex flex-col'>
+          {Object.keys(data).map((key) => (
+            <li key={key} className="list-none">
+              <strong>{key}:</strong> {renderJson(data[key])}
+            </li>
+          ))}
+        </ul>
+      );
+    } else {
+      return <span>{maximizeString(String(data ?? ""), 10)}</span>
+    }
+  };
+
+  return <div>{renderJson(data) || ""}</div>;
 };
 
 

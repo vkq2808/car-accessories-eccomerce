@@ -2,16 +2,16 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const { INTEGER, STRING, DECIMAL, DATE, JSON } = Sequelize;
-    await queryInterface.createTable('Payments', {
+    const { BIGINT, STRING, DECIMAL, DATE, JSON } = Sequelize;
+    await queryInterface.createTable('payments', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: INTEGER
+        type: BIGINT
       },
       order_id: {
-        type: INTEGER,
+        type: BIGINT,
         allowNull: false
       },
       method: {
@@ -72,6 +72,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Payments');
+    await queryInterface.dropTable('payments');
   }
 };
