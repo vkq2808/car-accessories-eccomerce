@@ -101,20 +101,25 @@ export default class AuthController {
     }
 
     requestPasswordReset = async (req, res) => {
-        const { email } = req.body;
-        if (!email) {
-            return res.status(400).json({ message: "Email là bắt buộc" });
+        try {
+            const { email } = req.body; //(1)
+            if (!email) { //(2)
+                return res.status(400).json({ message: "Email là bắt buộc" }); //(3)
+            }
+
+            const user = await new UserService().getUserInfoByEmail(email); //(4)
+            if (!user) { //(5)
+                return res.status(404).json({ message: "Không tìm thấy email" }); //(6)
+            }
+
+            const token = jwt.sign({ email, old_password: user.hashed_password }, process.env.RESET_PASSWORD_SECRET_KEY, { expiresIn: '5m' }); //(7)
+            await new EmailService().sendResetPasswordEmail({ email, token }); //(8)
+
+            return res.status(200).json({ message: "Email đặt lại mật khẩu đã được gửi" }); //(9)
+        } catch (error) { //(10)
+            console.log(error); //(11)
+            return res.status(500).json({ message: "Lỗi máy chủ" }); //(12)
         }
-
-        const user = await new UserService().getUserInfoByEmail(email);
-        if (!user) {
-            return res.status(404).json({ message: "Không tìm thấy email" });
-        }
-
-        const token = jwt.sign({ email, old_password: user.hashed_password }, process.env.RESET_PASSWORD_SECRET_KEY, { expiresIn: '5m' });
-        await new EmailService().sendResetPasswordEmail({ email, token });
-
-        return res.status(200).json({ message: "Email đặt lại mật khẩu đã được gửi" });
     }
 
     resetPassword = async (req, res) => {
