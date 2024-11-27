@@ -8,6 +8,10 @@ const initalState = {
     searchResults: {
         products: [],
         total: 0
+    },
+    headerSearchResults: {
+        products: [],
+        total: 0
     }
 }
 
@@ -45,6 +49,22 @@ const productReducer = (state = initalState, action) => {
             return {
                 ...state,
                 searchResults: {
+                    products: [],
+                    total: 0
+                }
+            }
+        case PRODUCT_ACTION_TYPES.HEADER_SEARCH_PRODUCTS:
+            return {
+                ...state,
+                headerSearchResults: {
+                    products: action.payload.products,
+                    total: action.payload.total
+                }
+            }
+        case PRODUCT_ACTION_TYPES.CLEAR_HEADER_SEARCH_PRODUCTS:
+            return {
+                ...state,
+                headerSearchResults: {
                     products: [],
                     total: 0
                 }

@@ -162,7 +162,7 @@ const Cart = () => {
                                             >
                                                 {item.product.product_options.map((option) => {
                                                     return (
-                                                        <option key={'cart-' + option.id} value={option.id}>
+                                                        <option key={'cart-' + option.id} value={option.id} disabled={option.stock === 0}>
                                                             {option.name} - {formatNumberWithCommas(option.price)} {item.product.currency}
                                                         </option>
                                                     )

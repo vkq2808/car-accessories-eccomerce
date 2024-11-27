@@ -5,6 +5,7 @@ import { deleteDataAPI, getDataAPI, postDataAPI, putDataAPI } from '../../../uti
 import { useDispatch } from 'react-redux';
 import { GLOBALTYPES } from '../../../redux/actions/globalTypes';
 import { useNavigate } from 'react-router-dom';
+import ProductOptionManagement from './ProductOptionManagement';
 
 const ProductManagement = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,9 @@ const ProductManagement = () => {
       name: {
         value: item.name
       },
+      path: {
+        value: item.path
+      },
       detail: {
         value: item.detail
       },
@@ -35,6 +39,13 @@ const ProductManagement = () => {
       },
       category_id: {
         value: item.category_id,
+      }, image_url: {
+        value: item.image_url
+      }, product_options: {
+        props: {
+          product_options: item.product_options,
+          product_id: item.id
+        }
       }
     }
   }
@@ -49,7 +60,6 @@ const ProductManagement = () => {
           }
         }));
         getDataAPI('admin/product').then(res => {
-          console.log(res.data)
           setData(res.data.map((item) => {
             return mapData(item);
           }));
@@ -67,11 +77,24 @@ const ProductManagement = () => {
 
   const fields = {
     id: {
-      type: [admin_table_field_types.NO_FORM_DATA],
+      type: [admin_table_field_types.NO_FORM_DATA, admin_table_field_types.ID],
       value: ""
     },
     name: {
       type: [admin_table_field_types.TEXT],
+      value: ""
+    },
+    path: {
+      type: [admin_table_field_types.TEXT, admin_table_field_types.NO_SHOW_DATA, admin_table_field_types.UNIQUE],
+      checkExist: async (path) => {
+        try {
+          const res = await getDataAPI('product/detail/' + path);
+          return res.data.product;
+        } catch (err) {
+          console.log(err);
+          return false;
+        }
+      },
       value: ""
     },
     detail: {
@@ -79,8 +102,17 @@ const ProductManagement = () => {
       value: ""
     },
     stock: {
-      type: [admin_table_field_types.NUMBER],
+      type: [admin_table_field_types.NUMBER, admin_table_field_types.NO_FORM_DATA],
       value: ""
+    },
+    product_options: {
+      type: [admin_table_field_types.TABLE, admin_table_field_types.NO_SHOW_DATA, admin_table_field_types.NO_ADDABLE],
+      value: "",
+      child: ProductOptionManagement,
+      props: {
+        product_options: "",
+        product_id: ""
+      }
     },
     price: {
       type: [admin_table_field_types.NUMBER],
@@ -94,11 +126,33 @@ const ProductManagement = () => {
       type: [admin_table_field_types.SELECT, admin_table_field_types.NUMBER],
       value: "",
       options: categoryData
+    },
+    image_url: {
+      type: [admin_table_field_types.IMAGE],
+      value: "",
+      upload_function: async (file) => {
+        try {
+          if (!file) throw new Error("No file provided");
+
+          const formData = new FormData();
+          formData.append("file", file);
+
+          const res = await postDataAPI("upload/image", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+
+          if (res.status !== 200) throw new Error(res.data.message || "Upload failed");
+          return res.data.url;
+        } catch (err) {
+          return false;
+        }
+      }
     }
   };
 
   const handleUpdateRow = async (id, put) => {
-    console.log(put)
     await putDataAPI(`admin/product/${id}`, put).then(res => {
       dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message });
       setData(data.map((item) => {
@@ -112,6 +166,10 @@ const ProductManagement = () => {
       dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.message });
     });
   }
+
+  useEffect(() => {
+    console.log(data[0])
+  }, [data])
 
   const handleAddNewRow = async (post) => {
     await postDataAPI(`admin/product`, post).then(res => {
@@ -127,7 +185,7 @@ const ProductManagement = () => {
   const handleDeleteRow = async (id) => {
     await deleteDataAPI(`admin/product/${id}`).then(res => {
       dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message });
-      setData(data.filter((item) => parseInt(item.id) !== parseInt(id)));
+      setData(data.filter((item) => parseInt(item.id.value) !== parseInt(id)));
       return true;
     }
     ).catch(err => {
@@ -145,7 +203,7 @@ const ProductManagement = () => {
         handleAddNewRow={handleAddNewRow}
         handleDeleteRow={handleDeleteRow}
       />
-    </div>
+    </div >
   );
 }
 

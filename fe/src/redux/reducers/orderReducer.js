@@ -16,9 +16,8 @@ const orderReducer = (state = initialState, action) => {
   switch (action.type) {
     case ORDER_ACTION_TYPES.CREATE_ORDER:
       return {
+        ...action.payload,
         ...state,
-        order_items: action.payload.order_items,
-        total_amount: action.payload.total_amount,
         status: ORDER_STATUS.EMPTY
       }
     case ORDER_ACTION_TYPES.GET_ORDER:
@@ -27,10 +26,11 @@ const orderReducer = (state = initialState, action) => {
         ...action.payload
       }
     case ORDER_ACTION_TYPES.ADD_ORDER_ITEM:
+      let new_order_items = [...(state.order_items ?? []), action.payload]
       return {
         ...state,
-        order_items: [...state.order_items, action.payload],
-        total_amount: state.total_amount + action.payload.product_option.price * action.payload.quantity,
+        order_items: new_order_items,
+        total_amount: (state.total_amount ?? 0) + action.payload.product_option.price * action.payload.quantity,
         status: ORDER_STATUS.PENDING,
       }
     case ORDER_ACTION_TYPES.CANCEL_ORDER:

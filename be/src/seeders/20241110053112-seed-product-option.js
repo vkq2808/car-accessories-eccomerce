@@ -8,10 +8,27 @@ module.exports = {
     let products = await queryInterface.select(db.product, 'products', ['id']);
 
     for (let product of products) {
+      const total_stock = product.stock;
+      let remaining_stock = total_stock;
+
+      const default_stock = Math.floor(Math.random() * total_stock * 0.5);
+      remaining_stock -= default_stock;
+      const size_s_stock = Math.floor(Math.random() * remaining_stock);
+      remaining_stock -= size_s_stock;
+      const size_m_stock = Math.floor(Math.random() * remaining_stock);
+      remaining_stock -= size_m_stock;
+      const size_l_stock = remaining_stock;
+      remaining_stock -= total_stock;
+      const color_red_stock = Math.floor(Math.random() * remaining_stock);
+      remaining_stock -= color_red_stock;
+      const color_blue_stock = Math.floor(Math.random() * remaining_stock);
+      remaining_stock -= color_blue_stock;
+      const color_green_stock = remaining_stock;
+
       await queryInterface.bulkInsert('product_options', [
         {
           name: 'Default',
-          stock: product.stock,
+          stock: default_stock,
           price: product.price,
           product_id: product.id,
           createdAt: new Date(),
@@ -19,7 +36,7 @@ module.exports = {
         },
         {
           name: 'Size S',
-          stock: product.stock,
+          stock: size_s_stock,
           price: product.price + product.price * 0.05,
           product_id: product.id,
           createdAt: new Date(),
@@ -27,7 +44,7 @@ module.exports = {
         },
         {
           name: 'Size M',
-          stock: product.stock,
+          stock: size_m_stock,
           price: product.price + product.price * 0.1,
           product_id: product.id,
           createdAt: new Date(),
@@ -35,7 +52,7 @@ module.exports = {
         },
         {
           name: 'Size L',
-          stock: product.stock,
+          stock: size_l_stock,
           price: product.price + product.price * 0.15,
           product_id: product.id,
           createdAt: new Date(),
@@ -43,7 +60,7 @@ module.exports = {
         },
         {
           name: 'Color Red',
-          stock: product.stock,
+          stock: color_red_stock,
           price: product.price + product.price * 0.05,
           product_id: product.id,
           createdAt: new Date(),
@@ -51,7 +68,7 @@ module.exports = {
         },
         {
           name: 'Color Blue',
-          stock: product.stock,
+          stock: color_blue_stock,
           price: product.price + product.price * 0.5,
           product_id: product.id,
           createdAt: new Date(),
@@ -59,7 +76,7 @@ module.exports = {
         },
         {
           name: 'Color Green',
-          stock: product.stock,
+          stock: color_green_stock,
           price: product.price + product.price * 0.5,
           product_id: product.id,
           createdAt: new Date(),

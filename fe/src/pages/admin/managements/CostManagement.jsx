@@ -52,7 +52,7 @@ const CostManagement = () => {
 
   const fields = {
     id: {
-      type: [admin_table_field_types.NO_FORM_DATA],
+      type: [admin_table_field_types.NO_FORM_DATA, admin_table_field_types.ID],
       value: ""
     },
     total_cost: {
@@ -168,7 +168,7 @@ const CostManagement = () => {
   const handleDeleteRow = async (id) => {
     await deleteDataAPI(`admin/cost/${id}`).then(res => {
       dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message });
-      setAllCost(allCost.filter((item) => parseInt(item.id) !== parseInt(id)));
+      setAllCost(allCost.filter((item) => parseInt(item.id.value) !== parseInt(id)));
       return true;
     }
     ).catch(err => {

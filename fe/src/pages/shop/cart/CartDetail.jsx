@@ -4,6 +4,7 @@ import { formatNumberWithCommas, maximizeString } from '../../../utils/stringUti
 import { useNavigate } from 'react-router-dom';
 import { IconButton } from '../../../components/common';
 import { removeCartItem, retrieveCartItem, updateCartItem } from '../../../redux/actions/cartActions';
+import { getEmptyOrder, ORDER_ACTION_TYPES } from '../../../redux/actions/orderActions';
 
 const CartDetail = () => {
   const cart = useSelector(state => state.cart);
@@ -16,7 +17,9 @@ const CartDetail = () => {
       alert('Cart is empty');
     }
     else {
-      naviagte('/cart/checkout');
+      dispatch(getEmptyOrder(auth.token));
+      dispatch({ type: ORDER_ACTION_TYPES.CONVERT_FROM_CART, payload: { cart: cart } });
+      naviagte('/cart/checkout/confirm-information');
     }
   }
 
@@ -50,6 +53,12 @@ const CartDetail = () => {
     let cartItem = cart.deleted_items[index];
 
     dispatch(retrieveCartItem({ token: auth.token, cart_item: cartItem }));
+  }
+
+  const handleClearCart = () => {
+    for (let i = 0; i < cart.cart_items.length; i++) {
+      handleDeleteItem(i);
+    }
   }
 
   return (
@@ -136,7 +145,13 @@ const CartDetail = () => {
             </table>
           </div>
           {cart.cart_items.length > 0 && <div className="interactive-buttons-container flex justify-end p-4 w-full">
-            <button className="btn btn-primary">Clear cart</button>
+            <button
+              type="button"
+              onClick={handleClearCart}
+              className="min-w-[100px] bg-red-500 text-white py-3 rounded-lg font-semibold hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+            >
+              <span>Clear cart</span>
+            </button>
           </div>}
         </div>
 
@@ -155,9 +170,12 @@ const CartDetail = () => {
             </div>
           </div>
           <div className="checkout-button-container flex justify-end p-4">
-            <button className="btn btn-primary"
-              onClick={handleCheckout}>
-              Checkout
+            <button
+              type="button"
+              onClick={handleCheckout}
+              className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+            >
+              <span>Check out</span>
             </button>
           </div>
         </div>

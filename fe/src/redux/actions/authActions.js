@@ -24,14 +24,14 @@ export const login = (data) => async (dispatch) => {
 
             dispatch({
                 type: GLOBALTYPES.AUTH,
-                payload: { token: "Bearer " + res.data.accessToken, user: res.data.user, role: res.data.user.role }
+                payload: { token: "Bearer " + res.data.access_token, user: res.data.user, role: res.data.user.role }
             })
 
             dispatch({ type: GLOBALTYPES.LOADING, payload: false })
 
             localStorage.setItem("firstLogin", true)
-            localStorage.setItem("accessToken", "Bearer " + res.data.accessToken)
-            localStorage.setItem("refreshToken", "Bearer " + res.data.refreshToken)
+            localStorage.setItem("access_token", "Bearer " + res.data.access_token)
+            localStorage.setItem("refresh_token", "Bearer " + res.data.refresh_token)
 
             dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message })
         }
@@ -98,8 +98,8 @@ export const verifyEmail = ({ token, setIsLoading, setResult }) => async (dispat
 export const logout = () => async (dispatch) => {
     try {
         localStorage.removeItem("firstLogin")
-        localStorage.removeItem("accessToken")
-        localStorage.removeItem("refreshToken")
+        localStorage.removeItem("access_token")
+        localStorage.removeItem("refresh_token")
         localStorage.removeItem("cart")
         localStorage.removeItem("following_items")
         dispatch({ type: AUTH_ACTION_TYPES.LOGOUT })
@@ -118,13 +118,13 @@ export const getUserInfo = () => async (dispatch) => {
     const firstLogin = localStorage.getItem("firstLogin")
 
     if (firstLogin) {
-        const accessToken = localStorage.getItem("accessToken")
+        const access_token = localStorage.getItem("access_token")
         try {
-            const res = await getDataAPI("user/get-user-info", accessToken)
+            const res = await getDataAPI("user/get-user-info", access_token)
 
             dispatch({
                 type: GLOBALTYPES.AUTH,
-                payload: { token: accessToken, user: res.data, role: res.data.role }
+                payload: { token: access_token, user: res.data, role: res.data.role }
             })
 
         } catch (err) {
@@ -134,7 +134,7 @@ export const getUserInfo = () => async (dispatch) => {
 
 export const requestResetPassword = (data, setResult) => async (dispatch) => {
     try {
-        const res = await postDataAPI("auth/request-reset-password", data, localStorage.getItem("accessToken"))
+        const res = await postDataAPI("auth/request-reset-password", data, localStorage.getItem("access_token"))
         if (res.status === 200) {
             dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message })
             setResult(res.data.message)

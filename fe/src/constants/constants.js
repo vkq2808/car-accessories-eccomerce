@@ -55,6 +55,7 @@ export const contact_constants = {
 }
 
 export const admin_table_field_types = {
+  TABLE: "table",
   PARENT_SELECT: "parent-select",
   CHILD_SELECT: "child-select",
   ID: "id",
@@ -62,6 +63,7 @@ export const admin_table_field_types = {
   NO_FORM_DATA: "no-form-data",
   NO_SHOW_DATA: "no-show-data",
   NO_EDITABLE: "no-editable",
+  NO_ADDABLE: "no-addable",
   REQUIRED: "required",
   NO_EDIT_REQUIRED: "NO_EDIT_REQUIRED",
   TEXT: "text",

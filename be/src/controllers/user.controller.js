@@ -26,8 +26,33 @@ export default class UserController {
 
 
 
-    getAccount(req, res) {
-        return res.status(200).json({ message: "Account management" });
+    updateInfo(req, res) {
+        try {
+            if (!req.body) {
+                return res.status(400).json({ message: "Missing user info" });
+            }
+            if (!req.body.id) {
+                return res.status(400).json({ message: "Missing user id" });
+            }
+            const { id, ...formData } = req.body;
+            if (req.user?.id != id) {
+                return res.status(403).json({ message: "You don't have permission to edit this user" });
+            }
+
+            let update = formData;
+
+            if (update.password) {
+                update.hashed_password = new UserService().hashUserPassword(update.password);
+                delete update.password;
+            }
+
+            new UserService().update({ id, ...update });
+
+            return res.status(200).json({ message: "Update successfully" });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "Internal server error" });
+        }
     }
 
     async getUserByToken(req, res) {

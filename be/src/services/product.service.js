@@ -113,9 +113,10 @@ class ProductService {
         }
     }
 
-    async create(data) {
+    async create(data, options = {}) {
         try {
-            const result = await this.model.create(data);
+            console.log(data)
+            const result = await this.model.create(data, options);
             return result;
         } catch (error) {
             console.error(error);
@@ -132,7 +133,7 @@ class ProductService {
                 where[key] = { [db.Sequelize.Op.like]: `%${value}%` }
             }
             // console.log(where)
-            let data = await this.model.findAll({ where });
+            let data = await this.model.findAll({ where }, include[db.category, db.product_option]);
             return data;
         } catch (error) {
             console.error(error);
@@ -140,10 +141,10 @@ class ProductService {
         }
     }
 
-    async update(data) {
+    async update(data, options = {}) {
         try {
             const { id, ...filteredData } = data;
-            const result = await this.model.update(filteredData, { where: { id: id } });
+            const result = await this.model.update(filteredData, { where: { id: id }, ...options });
             if (result[0] === 0) {
                 return null;
             }

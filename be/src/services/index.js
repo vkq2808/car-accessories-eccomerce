@@ -8,6 +8,7 @@ import OrderItemService from "./order_item.service";
 import ProductFollowService from "./product_follow.service";
 import PaymentService from "./payment.service";
 import CostService from "./cost.service";
+import ProductOptionService from "./product_option.service";
 
 
 export {
@@ -20,5 +21,6 @@ export {
   OrderService,
   OrderItemService,
   PaymentService,
-  CostService
+  CostService,
+  ProductOptionService
 }

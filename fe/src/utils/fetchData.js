@@ -26,23 +26,20 @@ axiosInstance.interceptors.response.use(
             originalRequest._retry = true;
 
             try {
-                const refreshToken = localStorage.getItem('refreshToken');
-                if (!refreshToken) {
-                    console.log('no refresh token');
-                    localStorage.removeItem('accessToken');
-                    localStorage.removeItem('refreshToken');
+                const refresh_token = localStorage.getItem('refresh_token');
+                if (!refresh_token) {
                     return Promise.reject(error);
                 }
 
-                const response = await axios.post(`${server_url}/auth/refresh-token`, { refreshToken });
+                const response = await axios.post(`${server_url}/auth/refresh-token`, { refresh_token });
 
                 if (response.status !== 200) {
                     return Promise.reject(error);
                 }
 
                 const newToken = response.data.token;
-                localStorage.setItem('accessToken', `Bearer ${newToken}`);
-                localStorage.setItem('refreshToken', `Bearer ${response.data.refreshToken}`);
+                localStorage.setItem('access_token', `Bearer ${newToken}`);
+                localStorage.setItem('refresh_token', `Bearer ${response.data.refresh_token}`);
 
                 // Sử dụng dispatch để cập nhật token vào Redux
                 if (dispatch) {
@@ -63,7 +60,7 @@ axiosInstance.interceptors.response.use(
 
 // Các hàm API để gọi GET, POST, PUT, PATCH, DELETE
 export const getDataAPI = async (url) => {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('access_token');
     const res = await axiosInstance.get(url, {
         headers: { Authorization: token }
     });
@@ -71,7 +68,7 @@ export const getDataAPI = async (url) => {
 };
 
 export const postDataAPI = async (url, post, options) => {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('access_token');
     const res = await axiosInstance.post(url, post, {
         ...options,
         headers: { Authorization: token }
@@ -80,7 +77,7 @@ export const postDataAPI = async (url, post, options) => {
 };
 
 export const putDataAPI = async (url, put) => {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('access_token');
     const res = await axiosInstance.put(url, put, {
         headers: { Authorization: token }
     });
@@ -88,7 +85,7 @@ export const putDataAPI = async (url, put) => {
 };
 
 export const patchDataAPI = async (url, patch) => {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('access_token');
     const res = await axiosInstance.patch(url, patch, {
         headers: { Authorization: token }
     });
@@ -96,11 +93,16 @@ export const patchDataAPI = async (url, patch) => {
 };
 
 export const deleteDataAPI = async (url) => {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('access_token');
     const res = await axiosInstance.delete(url, {
         headers: { Authorization: token }
     });
     return res;
 };
+
+export const fetchPublicKey = async () => {
+    const response = await axiosInstance.get('/auth/public-key');
+    return response.data.publicKey;
+}
 
 export default axiosInstance;

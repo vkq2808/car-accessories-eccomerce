@@ -6,6 +6,16 @@ export default class OrderService {
     this.model = db.order;
   }
 
+  findOrCreate = async (options) => {
+    try {
+      const [result, created] = await this.model.findOrCreate(options);
+      return [result, created];
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
   createOrder = async (userId, cart, name, email, phone, note) => {
     try {
       const order = await this.create({ userId, name, email, phone, note });
@@ -32,9 +42,10 @@ export default class OrderService {
     }
   }
 
-  async create(data) {
+  async create(data, options = {}) {
     try {
-      const result = await this.model.create(data);
+      console.log(data)
+      const result = await this.model.create(data, options);
       return result;
     } catch (error) {
       console.error(error);

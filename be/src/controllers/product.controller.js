@@ -1,6 +1,6 @@
 import { account_roles } from "../constants/constants";
 import db from "../models";
-import { ProductFollowService, ProductService } from "../services";
+import { ProductFollowService, ProductOptionService, ProductService } from "../services";
 
 const role_author_number = {
     [account_roles.NO_ROLE]: 0,
@@ -14,6 +14,108 @@ const canRead = (req_role) => role_author_number[req_role] >= role_author_number
 const canUpdate = (req_role) => role_author_number[req_role] >= role_author_number[account_roles.ADMIN];
 const canDelete = (req_role) => role_author_number[req_role] >= role_author_number[account_roles.ADMIN];
 export default class ProductController {
+
+    createOption = async (req, res) => {
+        const transaction = await db.sequelize.transaction();
+        try {
+            const { product_id, name, stock, price } = req.body;
+
+            const productOption = await new ProductOptionService().create({
+                product_id,
+                name,
+                stock,
+                price
+            }, { transaction });
+
+            let product = await new ProductService().getOne({
+                where: { id: product_id }
+            }, { transaction });
+
+            product.stock += stock;
+            await product.save({ transaction });
+
+            transaction.commit();
+            return res.status(201).json({ product_option: productOption });
+        } catch (error) {
+            console.error(error);
+            transaction.rollback();
+            return res.status(500).json({ message: error.message });
+        }
+    }
+
+    updateOption = async (req, res) => {
+        const transaction = await db.sequelize.transaction();
+        try {
+            const { id, product_id, name, stock, price } = req.body;
+
+            let oldProductOption = await new ProductOptionService().getOne({
+                where: { id }
+            }, { transaction });
+
+            if (!oldProductOption) {
+                return res.status(404).json({ message: "Product option not found" });
+            }
+
+            const stockDiff = stock - oldProductOption.stock;
+
+            const productOption = await new ProductOptionService().update({
+                id,
+                product_id,
+                name,
+                stock,
+                price
+            }, { transaction });
+
+            let product = await new ProductService().getOne({
+                where: { id: product_id }
+            }, { transaction });
+
+            product.stock += stockDiff;
+            await product.save({ transaction });
+
+            transaction.commit();
+            return res.status(200).json({ product_option: productOption });
+        } catch (error) {
+            console.error(error);
+            transaction.rollback();
+            return res.status(500).json({ message: error.message });
+        }
+    }
+
+    deleteOption = async (req, res) => {
+        const transaction = await db.sequelize.transaction();
+        try {
+            const { id } = req.params;
+
+            let productOption = await new ProductOptionService().getOne({
+                where: { id: parseInt(id) }
+            }, { transaction });
+
+            if (!productOption) {
+                return res.status(404).json({ message: "Product option not found" });
+            }
+
+            let product = await new ProductService().getOne({
+                where: { id: productOption.product_id }
+            }, { transaction });
+
+            product.stock -= productOption.stock;
+            await product.save({ transaction });
+
+            await new ProductOptionService().delete(
+                parseInt(id),
+                { transaction }
+            );
+
+            transaction.commit();
+            return res.status(204).json();
+        } catch (error) {
+            console.error(error);
+            transaction.rollback();
+            return res.status(500).json({ message: error.message });
+        }
+    }
+
     getByPath = async (req, res) => {
         try {
             const { path } = req.params;
@@ -135,7 +237,9 @@ export default class ProductController {
             if (!canRead(req.user?.role || account_roles.NO_ROLE)) {
                 return res.status(403).json({ message: "You don't have permission to read" });
             }
-            const data = await new ProductService().getAll();
+            const data = await new ProductService().getAll({
+                include: [db.product_option]
+            });
             return res.status(200).json(data);
 
         } catch (error) {
@@ -146,7 +250,10 @@ export default class ProductController {
 
     async getOne(req, res) {
         try {
-            const data = await new ProductService().getOne({ where: { id: req.params.id } });
+            const data = await new ProductService().getOne({
+                where: { id: req.params.id },
+                include: [db.product_option]
+            });
             if (!data) {
                 return res.status(404).json({ message: "Not found" });
             }

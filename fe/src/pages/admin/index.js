@@ -4,6 +4,7 @@ import ProductManagement from "./managements/ProductManagement";
 import CategoryManagement from "./managements/CategoryManagement";
 import OrderManagement from "./managements/OrderManagement";
 import CostManagement from "./managements/CostManagement";
+import RevenueStatitics from "./analytics/RevenueStatitics";
 
 export {
   AccountManagement,
@@ -11,5 +12,6 @@ export {
   ProductManagement,
   CategoryManagement,
   OrderManagement,
-  CostManagement
+  CostManagement,
+  RevenueStatitics
 };

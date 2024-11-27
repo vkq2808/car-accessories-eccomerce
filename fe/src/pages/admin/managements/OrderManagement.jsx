@@ -41,7 +41,7 @@ const OrderManagement = () => {
       },
       payment_bank_code: {
         value: item.payment_bank_code
-      },
+      }
     }
   }
 
@@ -61,7 +61,7 @@ const OrderManagement = () => {
 
   const fields = {
     id: {
-      type: [admin_table_field_types.NO_FORM_DATA],
+      type: [admin_table_field_types.NO_FORM_DATA, admin_table_field_types.ID],
       value: ""
     }, user_id: {
       type: [
@@ -167,7 +167,7 @@ const OrderManagement = () => {
   const handleDeleteRow = async (id) => {
     await deleteDataAPI(`admin/order/${id}`).then(res => {
       dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message });
-      setAllOrder(allOrder.filter((item) => parseInt(item.id) !== parseInt(id)));
+      setAllOrder(allOrder.filter((item) => parseInt(item.id.value) !== parseInt(id)));
       return true;
     }
     ).catch(err => {

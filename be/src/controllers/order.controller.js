@@ -1,11 +1,12 @@
 
-import { OrderItemService, OrderService, PaymentService } from "../services";
+import { OrderItemService, OrderService, PaymentService, ProductOptionService, ProductService } from "../services";
 import jwt from "jsonwebtoken";
 import db from "../models";
 import moment from "moment";
-import { info } from "console";
 import { account_roles, order_status, payment_method_codes } from "../constants/constants";
 import EmailService from "../services/email.service";
+import order_queue from "./queues/order_queue";
+
 
 require("dotenv").config();
 const role_author_number = {
@@ -21,7 +22,123 @@ const canUpdate = (req_role) => role_author_number[req_role] >= role_author_numb
 const canDelete = (req_role) => role_author_number[req_role] >= role_author_number[account_roles.ADMIN];
 
 export default class OrderController {
-  constructor() { }
+  constructor() {
+    this.queue = order_queue;
+  }
+
+  getMonthlyRevenue = async (req, res) => {
+    try {
+      const { Op } = require('sequelize');
+      let start = new Date(req.query.year, req.query.month - 1, 1);
+      let end = new Date(req.query.year, req.query.month, 0);
+
+      let data = await new OrderService().getAll({
+        where: {
+          createdAt: {
+            [Op.gte]: start,
+            [Op.lt]: end
+          }
+        },
+        include: [db.payment],
+        attributes: ['total_amount', 'createdAt', 'user_id']
+      });
+
+      let groupedData = data.reduce((acc, order) => {
+        // Format ngày: yyyy-mm-dd
+        let dateKey = new Date(order.createdAt).toISOString().split('T')[0];
+
+        if (!acc[dateKey]) {
+          acc[dateKey] = []; // Tạo mảng mới cho ngày này nếu chưa có
+        }
+
+        acc[dateKey].push(order);
+        return acc;
+      }, {});
+
+      return res.status(200).json(groupedData);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  }
+
+  getYearlyRevenue = async (req, res) => {
+    try {
+      const { Op } = require('sequelize'); // Đảm bảo bạn đã import Sequelize operators
+
+      let start = new Date(req.query.year, 0, 1);
+      let end = new Date(req.query.year, 12, 0);
+
+      let data = await new OrderService().getAll({
+        where: {
+          createdAt: {
+            [Op.gte]: start, // Lớn hơn hoặc bằng 1 năm trước
+            [Op.lt]: end // Nhỏ hơn ngày hiện tại
+          }
+        },
+        include: [db.payment],
+        attributes: ['total_amount', 'createdAt', 'user_id']
+      });
+
+      let groupedData = data.reduce((acc, order) => {
+        // Format ngày: yyyy-mm
+        let dateKey = new Date(order.createdAt).toISOString().split('T')[0].slice(0, 7);
+
+        if (!acc[dateKey]) {
+          acc[dateKey] = []; // Tạo mảng mới cho tháng này nếu chưa có
+        }
+
+        acc[dateKey].push(order);
+        return acc;
+      }, {});
+
+      return res.status(200).json(groupedData);
+    }
+    catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  }
+
+  getRevenue = async (req, res) => {
+    let { start, end } = req.query;
+
+    if (!start || !end) {
+      return res.status(400).json({ message: "Missing required parameters" });
+    }
+
+    try {
+      const { Op } = require('sequelize'); // Đảm bảo bạn đã import Sequelize operators
+
+      let data = await new OrderService().getAll({
+        where: {
+          createdAt: {
+            [Op.gte]: start,
+            [Op.lt]: end
+          }
+        },
+        include: [db.payment],
+        attributes: ['total_amount', 'createdAt', 'user_id']
+      });
+
+      let groupedData = data.reduce((acc, order) => {
+        // Format ngày: yyyy-mm-dd
+        let dateKey = new Date(order.createdAt).toISOString().split('T')[0];
+
+        if (!acc[dateKey]) {
+          acc[dateKey] = []; // Tạo mảng mới cho ngày này nếu chưa có
+        }
+
+        acc[dateKey].push(order);
+        return acc;
+      }, {});
+
+      return res.status(200).json(groupedData);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  }
 
   sortObject = (obj) => {
     let sorted = {};
@@ -39,6 +156,67 @@ export default class OrderController {
     return sorted;
   };
 
+  handleCheckStock = async (req, res) => {
+    this.queue.add(async () => {
+      try {
+        const { order_items } = req.body;
+
+        // Lấy danh sách tất cả product và product_option qua một truy vấn duy nhất
+        const productIds = order_items.map(item => item.product.id);
+        const productOptionIds = order_items.map(item => item.product_option.id);
+
+        const products = await new ProductService().getAll({ where: { id: productIds } });
+        const productOptions = await new ProductOptionService().getAll({ where: { id: productOptionIds } });
+
+        // Tạo Map để tra cứu nhanh dữ liệu product và product_option
+        const productMap = new Map(products.map(product => [product.id, product]));
+        const productOptionMap = new Map(productOptions.map(option => [option.id, option]));
+
+        // Biến lưu sản phẩm hết hàng
+        const outOfStockItems = [];
+
+        // Kiểm tra tồn kho
+        for (let item of order_items) {
+          const product = productMap.get(item.product.id);
+          const productOption = productOptionMap.get(item.product_option.id);
+
+          if (!product || !productOption || product.stock < item.quantity || productOption.stock < item.quantity) {
+            outOfStockItems.push({
+              productId: item.product.id,
+              productOptionId: item.product_option.id,
+              requestedQuantity: item.quantity,
+              availableStock: {
+                product: product ? product.stock : 0,
+                productOption: productOption ? productOption.stock : 0,
+              },
+            });
+          }
+        }
+
+        // Nếu có sản phẩm hết hàng, trả về thông tin chi tiết
+        if (outOfStockItems.length > 0) {
+          return res.status(400).json({
+            code: '01',
+            message: 'Some products are out of stock',
+            outOfStockItems,
+          });
+        }
+
+        // Nếu tất cả sản phẩm đủ tồn kho
+        return res.status(200).json({
+          code: '00',
+          message: 'All products are in stock'
+        });
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+          code: '99',
+          message: 'Internal server error while checking stock'
+        });
+      }
+    });
+    this.queue.process();
+  };
 
   createVNPayPaymentUrl = async (req, res) => {
     const { amount, bankCode, locale = 'vn', order_id } = req.body;
@@ -78,7 +256,6 @@ export default class OrderController {
 
     const querystring = require('qs');
     const signData = querystring.stringify(vnp_Params, { encode: false });
-    console.log('signData', signData);
     const crypto = require("crypto");
     const hmac = crypto.createHmac("sha512", secretKey);
     const signed = hmac.update(Buffer.from(signData, 'utf-8')).digest("hex");
@@ -91,101 +268,130 @@ export default class OrderController {
 
 
   confirmVNPayPayment = async (req, res) => {
-    try {
-      let vnp_Params = req.body;
-      let secureHash = vnp_Params['vnp_SecureHash'];
-      delete vnp_Params['vnp_SecureHash'];
-      delete vnp_Params['vnp_SecureHashType'];
+    this.queue.add(async () => {
+      try {
+        let vnp_Params = req.body;
+        let secureHash = vnp_Params['vnp_SecureHash'];
+        delete vnp_Params['vnp_SecureHash'];
+        delete vnp_Params['vnp_SecureHashType'];
 
-      // Sắp xếp các tham số
-      vnp_Params = this.sortObject(vnp_Params);
+        // Sắp xếp các tham số
+        vnp_Params = this.sortObject(vnp_Params);
 
-      let tmnCode = process.env.vnp_TmnCode;
-      let secretKey = process.env.vnp_HashSecret;
-      let querystring = require('qs');
-      let signData = querystring.stringify(vnp_Params, { encode: false });
-      console.log('signData', signData);
-      let crypto = require("crypto");
-      let hmac = crypto.createHmac("sha512", secretKey);
-      let signed = hmac.update(Buffer.from(signData, 'utf-8')).digest("hex");
+        let tmnCode = process.env.vnp_TmnCode;
+        let secretKey = process.env.vnp_HashSecret;
+        let querystring = require('qs');
+        let signData = querystring.stringify(vnp_Params, { encode: false });
+        let crypto = require("crypto");
+        let hmac = crypto.createHmac("sha512", secretKey);
+        let signed = hmac.update(Buffer.from(signData, 'utf-8')).digest("hex");
 
-      // Kiểm tra checksum
-      if (secureHash === signed) {
-        let order_id = vnp_Params['vnp_TxnRef'];
-        let rspCode = vnp_Params['vnp_ResponseCode'];
-        let amount = vnp_Params['vnp_Amount'] / 100;
-        let bankCode = vnp_Params['vnp_BankCode'];
-        let orderInfo = vnp_Params['vnp_OrderInfo'];
-        let transaction_id = vnp_Params['vnp_TransactionNo'];
-        let transaction_time = moment(vnp_Params['vnp_PayDate'], 'YYYYMMDDHHmmss').toDate();
+        // Kiểm tra checksum
+        if (secureHash === signed) {
+          let order_id = vnp_Params['vnp_TxnRef'];
+          let rspCode = vnp_Params['vnp_ResponseCode'];
+          let amount = vnp_Params['vnp_Amount'] / 100;
+          let bankCode = vnp_Params['vnp_BankCode'];
+          let orderInfo = vnp_Params['vnp_OrderInfo'];
+          let transaction_id = vnp_Params['vnp_TransactionNo'];
+          let transaction_time = moment(vnp_Params['vnp_PayDate'], 'YYYYMMDDHHmmss').toDate();
 
-        // Tạo payment mới
-        let payment = await new PaymentService().create({
-          order_id,
-          method: 'vnpay',
-          status: rspCode === '00' ? 'success' : 'failed',
-          bankCode,
-          amount,
-          currency: 'VND',
-          transaction_id,
-          decription: orderInfo,
-          transaction_info: orderInfo,
-          transaction_status: rspCode,
-          transaction_time,
-          transaction_data: vnp_Params
-        });
+          const transaction = await db.sequelize.transaction();
+          try {
+            const payment = await new PaymentService().create({
+              order_id,
+              method: 'vnpay',
+              status: rspCode === '00' ? 'success' : 'failed',
+              bankCode,
+              amount,
+              currency: 'VND',
+              transaction_id,
+              decription: orderInfo,
+              transaction_info: orderInfo,
+              transaction_status: rspCode,
+              transaction_time,
+              transaction_data: vnp_Params
+            }, { transaction });
 
-        // Cập nhật đơn hàng
-        let order = await new OrderService().getOne({ where: { id: order_id } });
-        if (order) {
-          const updatedData = {
-            id: order.id,
-            status: rspCode === '00' ? 'success' : 'failed',
-          };
-          await new OrderService().update(updatedData);
-        } else {
-          return res.status(404).json({ code: '99', message: 'Order not found' });
-        }
+            const order = await new OrderService().getOne({ where: { id: order_id } });
+            if (!order) throw new Error('Order not found');
 
-        // Lấy thông tin chi tiết đơn hàng
-        order = await new OrderService().getOne({
-          where: { id: order.id },
-          include: [
-            {
-              model: db.order_item,
-              include: [db.product, db.product_option]
-            },
-            {
-              model: db.payment
+            const updatedData = {
+              id: order.id,
+              status: rspCode === '00' ? 'success' : 'failed',
+            };
+            await new OrderService().update(updatedData, { transaction });
+
+            for (let item of order.order_items) {
+              const product = await db.product.findOne({
+                where: { id: item.product.id },
+                transaction,
+              });
+
+              const productOption = await db.product_option.findOne({
+                where: { id: item.product_option.id },
+                transaction,
+              });
+
+              if (product.stock >= item.quantity && productOption.stock >= item.quantity) {
+                await product.update(
+                  { stock: product.stock - item.quantity },
+                  { transaction }
+                );
+
+                await productOption.update(
+                  { stock: productOption.stock - item.quantity },
+                  { transaction }
+                );
+              } else {
+                throw new Error('Product out of stock');
+              }
             }
-          ]
-        });
 
-        await new EmailService().sendSuccessVNPAYPaymentOrderEmail({ order, email: order.info.email });
-        return res.status(200).json({ order });
-      } else {
-        return res.status(400).json({ code: '97', message: 'Fail checksum' });
+            await transaction.commit();
+
+            await new EmailService().sendSuccessVNPAYPaymentOrderEmail({ order, email: order.info.email });
+            return res.status(200).json({ order });
+          } catch (error) {
+            await transaction.rollback();
+            return res.status(500).json({
+              code: '99',
+              message: 'Internal server error while processing payment',
+              details: error.message
+            });
+          }
+        } else {
+          return res.status(400).json({ code: '97', message: 'Fail checksum' });
+        }
+      } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+          code: '99',
+          message: 'Internal server error while processing payment',
+          details: err.message
+        });
       }
-    } catch (err) {
-      console.error(err);
-      return res.status(500).json({ code: '99', message: 'Internal Server Error' });
-    }
+    });
+    this.queue.process();
   };
 
 
   getUserByToken = async (req, res) => {
     try {
-      const token = req.headers.authorization;
+      let authorization = req.headers.authorization;
+
+      let token = authorization.split(' ')[1];
       if (!token) {
         return null;
       }
-
-      const { user } = jwt.verify(req.headers.authorization, process.env.ACCESS_TOKEN_SECRET_KEY,
+      const decoded = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY,
         async (err, data) => {
           if (err)
             return null;
           return data;
         });
+
+      const user = decoded ? await db.user.findOne({ where: { id: decoded.id } }) : null;
 
       return user || null;
     } catch (error) {
@@ -201,78 +407,149 @@ export default class OrderController {
       const data = await new OrderService().getAll({ where: { userId: user.id }, include: [{ model: db.order_item, include: [{ model: db.product, include: [db.product_option] }] }] });
       return res.status(200).json(data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       return res.status(500).json({ message: "Internal server error" });
     }
   }
 
   createOrder = async (req, res) => {
-    try {
-      const { order_items, info, bank_code, payment_method, total_amount } = req.body;
-      const user = await this.getUserByToken(req, res);
+    this.queue.add(async () => {
+      const transaction = await db.sequelize.transaction();
+      try {
+        const { order_items, info, bank_code, payment_method } = req.body;
+        const user = await this.getUserByToken(req, res);
 
-      let order = await new OrderService().create({ userId: user?.id, status: order_status.PENDING, info: info, payment_method: payment_method, payment_bank_code: bank_code, total_amount });
+        // Lấy danh sách product và product_option
+        const productIds = order_items.map(item => item.product.id);
+        const productOptionIds = order_items.map(item => item.product_option.id);
 
-      let new_order_items = order_items.map(item => {
-        return {
-          order_id: order.id,
-          product_id: item.product.id,
-          quantity: item.quantity,
-          price: item.product.price,
-          product_option_id: item.product_option?.id,
-          currency: item.product.currency
+        const products = await new ProductService().getAll({ where: { id: productIds }, transaction });
+        const productOptions = await new ProductOptionService().getAll({ where: { id: productOptionIds }, transaction });
+
+        const productMap = new Map(products.map(product => [product.id, product]));
+        const productOptionMap = new Map(productOptions.map(option => [option.id, option]));
+
+        // Kiểm tra tồn kho
+        const outOfStockItems = [];
+        for (let item of order_items) {
+          const product = productMap.get(item.product.id);
+          const productOption = productOptionMap.get(item.product_option.id);
+
+          if (!product || !productOption || product.stock < item.quantity || productOption.stock < item.quantity) {
+            outOfStockItems.push({
+              productId: item.product.id,
+              productOptionId: item.product_option.id,
+              requestedQuantity: item.quantity,
+              availableStock: {
+                product: product ? product.stock : 0,
+                productOption: productOption ? productOption.stock : 0,
+              },
+            });
+          }
         }
-      });
 
-      await db.order_item.bulkCreate(new_order_items);
+        // Nếu hết hàng, trả về lỗi
+        if (outOfStockItems.length > 0) {
+          return res.status(400).json({
+            message: 'Some products are out of stock',
+            outOfStockItems,
+          });
+        }
 
-      order = await new OrderService().getOne({
-        where: { id: order.id },
-        include: [{
-          model: db.order_item, include: [{
-            model: db.product,
-            include: [db.product_option]
+        // Tạo order
+        let [order, created] = await new OrderService().findOrCreate({
+          where: { user_id: user?.id || null, status: order_status.EMPTY },
+          defaults: {
+            user_id: user?.id || null, // Chỉ gán user_id nếu user có giá trị
+            status: order_status.PENDING,
+            currency: 'VND',
           },
-          { model: db.product_option }]
-        }]
-      });
+          transaction
+        });
 
-      if (payment_method === payment_method_codes.COD) {
-        new EmailService().sendOrderPendingEmail({ order, email: info.email });
+        // Tính lại total_amount từ sản phẩm
+        let calculatedTotalAmount = 0;
+        for (let item of order_items) {
+          const product_option = productOptionMap.get(item.product_option.id);
+          calculatedTotalAmount += product_option.price * item.quantity;
+        }
+
+        order.total_amount = calculatedTotalAmount;
+        order.payment_method = payment_method;
+        order.bank_code = bank_code;
+        order.info = info;
+        order.status = order_status.PENDING;
+        await order.save({ transaction });
+
+        // Tạo order_items và giảm tồn kho
+        for (let item of order_items) {
+          const product = productMap.get(item.product.id);
+          const productOption = productOptionMap.get(item.product_option.id);
+
+          await new OrderItemService().create({
+            order_id: order.id,
+            product_id: product.id,
+            product_option_id: productOption.id,
+            quantity: item.quantity,
+            price: productOption.price,
+            currency: 'VND'
+          }, { transaction });
+        }
+
+        await transaction.commit();
+        order = await new OrderService().getOne({ where: { id: order.id }, include: [{ model: db.order_item, include: [{ model: db.product, include: [db.product_option] }, { model: db.product_option }] }] });
+
+        // Gửi email nếu thanh toán COD
+        // if (payment_method === payment_method_codes.COD) {
+        //   await new EmailService().sendOrderPendingEmail({ order, email: info.email });
+        // }
+
+        return res.status(201).json({ order });
+      } catch (error) {
+        await transaction.rollback();
+        console.log(error);
+        return res.status(500).json({ message: 'Internal server error' });
       }
-
-      return res.status(201).json({ order });
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: "Internal server error" });
-    }
-  }
+    });
+    this.queue.process();
+  };
 
   getEmptyOrder = async (req, res) => {
+    const transaction = await db.sequelize.transaction(); // Khởi tạo transaction
     try {
       const user = await this.getUserByToken(req, res);
       if (!user) {
         return res.status(204).send();
       }
-      const data = await new OrderService().findOne({
-        where: { userId: user.id, status: order_status.EMPTY },
+
+      const [order] = await new OrderService().findOrCreate({
+        where: { user_id: user.id, status: order_status.EMPTY },
+        defaults: { user_id: user.id, status: order_status.EMPTY },
         include: [{
           model: db.order_item,
+          as: "order_items",
           include: [{
             model: db.product,
             include: [db.product_option]
-          }]
-        }]
+          }],
+        }],
+        attributes: ['id', 'total_amount', 'status'],
+        transaction
       });
-      if (!data) {
-        data = await new OrderService().create({ userId: user.id, status: order_status.EMPTY });
-      }
-      return res.status(200).json(data);
+
+      await transaction.commit();
+
+      return res.status(200).json(order);
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: "Internal server error" });
+      await transaction.rollback();
+      console.log("Error in getEmptyOrder:", error);
+      return res.status(500).json({
+        message: "Internal server error",
+        error: error.message,
+      });
     }
-  }
+  };
+
 
   getById = async (req, res) => {
     try {
@@ -282,7 +559,7 @@ export default class OrderController {
       }
       return res.status(200).json(data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       return res.status(500).json({ message: "Internal server error" });
     }
   }
@@ -299,7 +576,7 @@ export default class OrderController {
 
       return res.status(200).json(data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       return res.status(500).json({ message: "Internal server error" });
     }
   }
@@ -326,14 +603,10 @@ export default class OrderController {
 
       return res.status(200).json(data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       return res.status(500).json({ message: "Internal server error" });
     }
   }
-
-
-
-
 
   async getAll(req, res) {
     try {
@@ -358,7 +631,7 @@ export default class OrderController {
       return res.status(200).json({ orders: data });
 
     } catch (error) {
-      console.error(error);
+      console.log(error);
       return res.status(500).json({ message: "Internal server error" });
     }
   }
@@ -371,7 +644,7 @@ export default class OrderController {
       }
       return res.status(200).json({ order: data });
     } catch (error) {
-      console.error(error);
+      console.log(error);
       return res.status(500).json({ message: "Internal server error" });
     }
   }
@@ -384,7 +657,7 @@ export default class OrderController {
       const data = await new OrderService().create(req.body);
       return res.status(201).json({ order: data, message: "Create successfully" });
     } catch (error) {
-      console.error(error);
+      console.log(error);
       return res.status(500).json({ message: "Internal server error" });
     }
   }
@@ -401,7 +674,7 @@ export default class OrderController {
       let data = await new OrderService().update(req.body);
       return res.status(200).json({ order: data, message: "Update successfully" });
     } catch (error) {
-      console.error(error);
+      console.log(error);
       return res.status(500).json({ message: "Internal server error" });
     }
   }
@@ -414,7 +687,7 @@ export default class OrderController {
       await new OrderService().delete(req.params.id);
       return res.status(204).json();
     } catch (error) {
-      console.error(error);
+      console.log(error);
       return res.status(500).json({ message: "Internal server error" });
     }
   }

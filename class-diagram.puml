@@ -1,0 +1,96 @@
+@startuml class_diagram
+entity category {
+  +id: number
+  +name: text
+  +description: text
+  +link: text
+  +imgSrc: text
+}
+
+entity product {
+  +id: number
+  +name: text
+  +detail: text
+  +category_id: number
+  +stock: number
+  +status: text
+}
+
+entity product_option {
+  +id: number
+  +name: text
+  +type: text
+  +product_id: number
+}
+
+entity cart {
+  +id: number
+  +user_id: number
+}
+
+entity cart_item {
+  +id: number
+  +cart_id: number
+  +quantity: number
+  +product_id: number
+  +product_option_id: number
+}
+
+entity user {
+  +id: number
+  +first_name: text
+  +last_name: text
+  +email: text
+  +hashed_password: text
+  +phone: text
+  +address: text
+  +role: text
+  +imgUrl: text
+}
+
+entity order {
+  +id: number
+  +user_id: number
+  +status: text
+  +total_amount: double
+  +discount: double
+  +payment_method: text
+  +payment_status: text
+  +info: JSON
+}
+
+entity order_item {
+  +id: number
+  +order_id: number
+  +quantity: number
+  +product_id: number
+  +product_option_id: number
+}
+
+entity payment {
+  +id: number
+  +order_id: number
+  +method: text
+  +bank_code: text
+  +status: text
+  +amount: number
+  +currency: text
+  +description: text
+  +transaction_id: text
+  +transaction_info: text
+  +transaction_status: text
+  +transaction_time: Date
+  +transaction_data: JSON
+}
+
+' Các mối quan hệ
+category "1" -- "0..*" product : contains
+cart "1" -- "0..*" cart_item : contains
+user "1" -- "0..*" order : places
+user "1" -- "0..1" cart : owns
+order "1" -- "0..*" order_item : contains
+order "1" -- "0..1" payment : paid_by
+product "1" -- "0..*" product_option : has
+cart_item "0..*" -- "1" product : is
+order_item "0..*" -- "1" product : is
+@enduml

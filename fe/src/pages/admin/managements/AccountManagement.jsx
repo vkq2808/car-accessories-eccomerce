@@ -89,7 +89,7 @@ const AccountManagement = () => {
       checkExist: async (email) => {
         try {
           const res = await getDataAPI('admin/user/query?email=' + email);
-          return res.data.users; // Trả về danh sách user hoặc kết quả kiểm tra
+          return res.data.users.length > 0; // Trả về danh sách user hoặc kết quả kiểm tra
         } catch (err) {
           console.log(err);
           return false; // Trả về false nếu có lỗi
@@ -146,7 +146,7 @@ const AccountManagement = () => {
 
           const res = await postDataAPI("upload/image", formData, {
             headers: {
-              "Content-Type": "multipart/form-data", // Đảm bảo backend nhận đúng định dạng
+              "Content-Type": "multipart/form-data",
             },
           });
 
@@ -189,7 +189,7 @@ const AccountManagement = () => {
   const handleDeleteRow = async (id) => {
     await deleteDataAPI(`admin/user/${id}`).then(res => {
       dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message });
-      setData(data.filter((item) => parseInt(item.id) !== parseInt(id)));
+      setData(data.filter((item) => parseInt(item.id.value) !== parseInt(id)));
       return true;
     }
     ).catch(err => {

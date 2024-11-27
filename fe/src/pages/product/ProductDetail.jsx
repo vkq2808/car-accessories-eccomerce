@@ -21,6 +21,7 @@ const ProductDetail = () => {
     const auth = useSelector(state => state.auth);
     const cart = useSelector(state => state.cart);
     const followings = useSelector(state => state.product.following);
+    const order = useSelector(state => state.order);
     const [selectedProductOption, setSelectedProductOption] = useState(null);
 
     const dispatch = useDispatch()
@@ -135,13 +136,18 @@ const ProductDetail = () => {
 
     const handleCheckOut = () => {
         dispatch(getEmptyOrder(auth.token))
-        dispatch({ type: ORDER_ACTION_TYPES.ADD_ORDER_ITEM, payload: { product, quantity } })
-        navigate('/cart/checkout/confirm-information')
+        dispatch({ type: ORDER_ACTION_TYPES.ADD_ORDER_ITEM, payload: { product, quantity, product_option: selectedProductOption } })
     }
 
     const hanleChangeProductOption = (e) => {
         setSelectedProductOption(product.product_options.find(option => option.id === parseInt(e.target.value)))
     }
+
+    useEffect(() => {
+        if (order.order_items?.length > 0) {
+            navigate('/cart/checkout/confirm-information')
+        }
+    }, [order.order_items, navigate])
 
     return (
         <div className="flex flex-col justify-center items-center w-full bg-[--primary-background-color] text-[--primary-text-color]">
@@ -180,7 +186,7 @@ const ProductDetail = () => {
                                         <select id='product_option' name='product_option' className="w-full p-2" onChange={hanleChangeProductOption}>
                                             {
                                                 product.product_options?.map((option, index) => (
-                                                    <option key={index} value={option.id}>{option.name} - {option.price}</option>
+                                                    <option disabled={option.stock === 0} key={index} value={option.id}>{option.name} - {option.price}</option>
                                                 ))
                                             }
                                         </select>

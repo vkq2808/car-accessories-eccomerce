@@ -89,6 +89,4 @@ export const finishInformation = ({ is_cart, cart_id }) => async (dispatch) => {
     type: ORDER_ACTION_TYPES.FINISH_ORDER,
     payload: { is_cart }
   })
-
-
 }

@@ -9,6 +9,8 @@ export const PRODUCT_ACTION_TYPES = {
     GET_TRENDING_PRODUCTS: "GET_TRENDING_PRODUCTS",
     SEARCH_PRODUCTS: "SEARCH_PRODUCTS",
     CLEAR_SEARCH_PRODUCTS: "CLEAR_SEARCH_PRODUCTS",
+    HEADER_SEARCH_PRODUCTS: "HEADER_SEARCH_PRODUCTS",
+    CLEAR_HEADER_SEARCH_PRODUCTS: "CLEAR_HEADER_SEARCH_PRODUCTS",
     FOLLOW_PRODUCT: "FOLLOW_PRODUCT",
     UNFOLLOW_PRODUCT: "UNFOLLOW_PRODUCT",
     GET_FOLLOWING_PRODUCTS: "GET_FOLLOWING_PRODUCTS",
@@ -32,6 +34,30 @@ export const searchProducts = ({ searchTerm = "", category_path, category_id = 0
         }
         dispatch({
             type: PRODUCT_ACTION_TYPES.SEARCH_PRODUCTS,
+            payload: res.data.result
+        })
+    } catch (err) {
+        console.log(err)
+        dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err?.response?.data.message || "Lỗi server" })
+    }
+}
+
+export const headerSearchProducts = ({ searchTerm = "", category_path, category_id = 0, page = 1, limit = 6 }) => async (dispatch) => {
+    try {
+        let queriesArr = [];
+        queriesArr.push(searchTerm ? 'searchTerm=' + searchTerm + '&' : '');
+        queriesArr.push(category_id ? 'category_id=' + category_id + '&' : 'category_path=' + category_path + '&');
+
+        let queries = queriesArr.join('');
+
+        const res = await getDataAPI(`product/search?${queries}page=${page}&limit=${limit}`)
+        if (res.status !== 200) {
+            dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message })
+            return;
+        }
+
+        dispatch({
+            type: PRODUCT_ACTION_TYPES.HEADER_SEARCH_PRODUCTS,
             payload: res.data.result
         })
     } catch (err) {

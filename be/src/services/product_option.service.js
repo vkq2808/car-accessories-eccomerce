@@ -1,14 +1,13 @@
 
-import db from "../models";
+import db from '../models/index';
 
-export default class ProductFollowService {
+class ProductOptionService {
   constructor() {
-    this.model = db.product_follow;
+    this.model = db.product_option;
   }
 
   async create(data, options = {}) {
     try {
-      console.log(data)
       const result = await this.model.create(data, options);
       return result;
     } catch (error) {
@@ -17,24 +16,40 @@ export default class ProductFollowService {
     }
   }
 
-  async update(data) {
+  async query(query) {
     try {
-      const { id, ...filteredData } = data;
-      const result = await this.model.update(filteredData, { where: { id: id } });
-      if (result[0] === 0) {
-        return null;
+      let entries = Object.entries(query);
+
+      let where = {};
+      for (let [key, value] of entries) {
+        where[key] = { [db.Sequelize.Op.like]: `%${value}%` }
       }
-      let product = await this.model.findOne({ where: { id: id } });
-      return product;
+      let data = await this.model.findAll({ where });
+      return data;
     } catch (error) {
       console.error(error);
       return null;
     }
   }
 
-  async delete(id) {
+  async update(data, options = {}) {
     try {
-      const result = await this.model.destroy({ where: { id: id } });
+      const { id, ...filteredData } = data;
+      let result = await this.model.update(filteredData, { where: { id: id }, ...options });
+      if (result[0] === 0) {
+        return null;
+      }
+      result = await this.model.findOne({ where: { id: id } });
+      return result;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  async delete(id, options = {}) {
+    try {
+      const result = await this.model.destroy({ where: { id: id }, ...options });
       return result;
     } catch (error) {
       console.error(error);
@@ -82,3 +97,5 @@ export default class ProductFollowService {
     }
   }
 }
+
+export default ProductOptionService;

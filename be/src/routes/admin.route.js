@@ -33,7 +33,15 @@ let adminApiRoute = (app) => {
   adminApi.put("/order/:id", new OrderController().update);
   adminApi.delete("/order/:id", new OrderController().delete);
 
+  adminApi.post("/product_option", new ProductController().createOption);
+  adminApi.put("/product_option/:id", new ProductController().updateOption);
+  adminApi.delete("/product_option/:id", new ProductController().deleteOption);
+
   adminApi.get("/cost", new CostController().getAll);
+
+  adminApi.get("/monthly-revenue", new OrderController().getMonthlyRevenue);
+  adminApi.get("/yearly-revenue", new OrderController().getYearlyRevenue);
+  adminApi.get("/revenue", new OrderController().getRevenue);
 
   return app.use("/api/v1/admin", adminApi);
 }

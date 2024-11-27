@@ -58,6 +58,15 @@ class UserService {
         }
     }
 
+    async updateInfo(data) {
+        try {
+
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
     async getFullUserInfoById(user_id) {
         try {
             const user = await this.model.findOne({
@@ -144,9 +153,10 @@ class UserService {
         }
     }
 
-    async create(data) {
+    async create(data, options = {}) {
         try {
-            const result = await this.model.create(data);
+            console.log(data)
+            const result = await this.model.create(data, options);
             return result;
         } catch (error) {
             console.error(error);

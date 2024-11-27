@@ -8,7 +8,7 @@ import { maximizeString } from "../../../utils/stringUtils";
 const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRow, handleDeleteRow, rowsPerPage = 10, table_key = "1" }) => {
   const [data, setData] = useState(input_data);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState(fields);
   const [editingId, setEditingId] = useState(null);
@@ -120,6 +120,7 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
     e.preventDefault();
     let valid = await validateForm();
     if (!valid) {
+      console.log("Invalid form");
       return;
     }
 
@@ -134,7 +135,7 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
         const originalValue = original_data?.[key]?.value;
 
         // Bỏ qua nếu giá trị là rỗng
-        if (!formValue) continue;
+        if (!formValue || field.type.includes(admin_table_field_types.TABLE)) continue;
 
         // Hàm kiểm tra giá trị có trùng với dữ liệu gốc không
         // Nếu trùng và không phải là ID thì bỏ qua
@@ -153,6 +154,7 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
           continue;
         }
         else if (field.type.includes(admin_table_field_types.IMAGE)) {
+          if (typeof formValue === 'string') continue;
           const uploadedValue = await field.upload_function(formValue);
           if (isUnchanged(uploadedValue)) continue;
           final_formData[key] = uploadedValue;
@@ -182,8 +184,9 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
   const handleAddnew = () => {
     setEditingId(null);
     let newFormData = {};
+
     Object.keys(fields).forEach((field) => {
-      newFormData[field] = { value: "" };
+      newFormData[field] = { value: fields[field].value || "" };
     });
     setFormData(newFormData);
     setShowModal(true);
@@ -207,16 +210,12 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
     handleDeleteRow(id);
     setIsLoading(false);
   };
+
   useEffect(() => {
     setIsLoading(true);
     setData(input_data);
-    console.log("input_data: ", input_data)
     setIsLoading(false);
   }, [input_data]);
-
-  useEffect(() => {
-    console.log(formData)
-  }, [formData]);
 
   useEffect(() => {
     let newData = [...data];
@@ -235,7 +234,6 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
     setFilteredData(newData);
     setCurrentPage(1);
     setMaxPage(Math.ceil(newData.length / rowsPerPage) || 1);
-
   }, [data, sortedData, searchTerm, rowsPerPage, fields]);
 
   return (
@@ -243,8 +241,8 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
       <div className="flex flex-col lg:flex-row justify-between items-center mb-6">
         <h2 className="text-2xl font-semibold text-[--primary-text-color]">{title}</h2>
         <div className="flex items-center justify-between p-4 border-b">
-          <div className="relative flex-1 mr-4">
-            <div className="relative">
+          <div className="flex-1 mr-4">
+            <div className="">
               <input
                 type="text"
                 placeholder="Search..."
@@ -258,6 +256,7 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
           <IoIosSearch cursor={'pointer'} size={24} />
         </div>
         <button
+          type="button"
           onClick={() => { handleAddnew() }}
           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors duration-200"
           aria-label="Add new record"
@@ -398,7 +397,7 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
 
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"        >
-          <div className="bg-[--primary-background-color] rounded-lg px-6 pb-4 w-full max-w-md max-h-[60vh] overflow-y-scroll scrollbar-hide">
+          <div className="bg-[--primary-background-color] rounded-lg px-6 pb-4 w-full max-w-2xl max-h-[60vh] overflow-y-scroll scrollbar-hide">
             <div className="flex justify-between items-center w-full py-4 sticky bg-inherit top-0 left-0">
               <h3 className="text-lg font-semibold">
                 {editingId ? "Edit Record" : "Add New Record"}
@@ -412,7 +411,7 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-4">
               {Object.keys(fields).map((field) => (
                 <div key={table_key + 'field' + field}>
                   <DisplayField
@@ -432,13 +431,13 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
               ))}
               <div className="flex justify-end">
                 <button
-                  type="submit"
+                  onClick={handleSubmit}
                   className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors duration-200"
                 >
                   {isLoading ? <BiLoaderAlt /> : "Submit"}
                 </button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       )}
@@ -461,7 +460,7 @@ const TableCell = ({ field, item, fields, handleEdit, handleDelete, table_key, s
         ) : fields[field]?.type.includes(admin_table_field_types.DATE_TIME) ? (
           new Date(item[field]?.value).toLocaleString('vi-VN')
         ) : fields[field]?.type.includes(admin_table_field_types.SELECT) ? (
-          fields[field].options.find(option => option.value === item[field]?.value)?.label
+          fields[field].options.find(option => option.value === item[field]?.value)?.label || item[field]?.value
         ) : fields[field]?.type.includes(admin_table_field_types.NUMBER) ? (
           new Intl.NumberFormat().format(item[field]?.value)
         ) : fields[field]?.type.includes(admin_table_field_types.TEXTAREA) ? (
@@ -501,6 +500,7 @@ const DisplayField = ({ table_key, field, fields, formData, setFormData, errors,
   const fieldProps = fields[field];
 
   if (!fieldProps || fieldProps.type.includes(admin_table_field_types.NO_FORM_DATA)) return null;
+  if (!editingId && fieldProps.type.includes(admin_table_field_types.NO_ADDABLE)) return null;
 
   const fieldLabel = (
     <label
@@ -633,6 +633,14 @@ const DisplayField = ({ table_key, field, fields, formData, setFormData, errors,
       </>
     );
   }
+  if (fieldProps.type.includes(admin_table_field_types.TABLE)) {
+    return (
+      <>
+        {fieldLabel}
+        <fieldProps.child {...formData[field].props} />
+      </>
+    )
+  }
 
   if (fieldProps.type.includes(admin_table_field_types.TEXTAREA)) {
     return (
@@ -714,7 +722,7 @@ const DisplayField = ({ table_key, field, fields, formData, setFormData, errors,
         {fieldLabel}
         <input
           type="file"
-          accept="image/png, image/jpeg, image/jpg"
+          accept="image/*"
           id={field}
           disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
           onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.files[0] } })}

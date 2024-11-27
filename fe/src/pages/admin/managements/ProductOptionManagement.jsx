@@ -1,12 +1,13 @@
+
 import React, { useEffect, useState } from 'react';
 import AdminTable from './AdminManagementTable';
 import { admin_table_field_types } from '../../../constants/constants';
-import { deleteDataAPI, getDataAPI, postDataAPI, putDataAPI } from '../../../utils/fetchData';
+import { deleteDataAPI, postDataAPI, putDataAPI } from '../../../utils/fetchData';
 import { useDispatch } from 'react-redux';
 import { GLOBALTYPES } from '../../../redux/actions/globalTypes';
 import { useNavigate } from 'react-router-dom';
 
-const CategoryManagement = () => {
+const ProductOptionManagement = ({ product_options, product_id }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -17,56 +18,54 @@ const CategoryManagement = () => {
       id: {
         value: item.id
       },
+      product_id: {
+        value: item.product_id
+      },
       name: {
         value: item.name
       },
-      path: {
-        value: item.path
+      price: {
+        value: item.price
       },
-      description: {
-        value: item.description
+      stock: {
+        value: item.stock
       }
     }
   }
 
   useEffect(() => {
-    if (!data || !data.length) {
-      getDataAPI('admin/category').then(cate_res => {
-        setData(cate_res.data.map((item) => {
-          return mapData(item);
-        }));
-      }).catch(err => {
-        console.log(err)
-      });
-    }
-  }, [data, dispatch, navigate]);
+    setData(product_options?.map((item) => mapData(item)) || []);
+  }, [dispatch, navigate, product_options]);
 
   const fields = {
     id: {
       type: [admin_table_field_types.NO_FORM_DATA, admin_table_field_types.ID],
       value: ""
     },
+    product_id: {
+      type: [admin_table_field_types.NO_FORM_DATA, admin_table_field_types.ID],
+      value: product_id
+    },
     name: {
       type: [admin_table_field_types.TEXT],
       value: ""
     },
-    path: {
-      type: [admin_table_field_types.TEXT],
+    price: {
+      type: [admin_table_field_types.NUMBER],
       value: ""
     },
-    description: {
-      type: [admin_table_field_types.TEXT],
+    stock: {
+      type: [admin_table_field_types.NUMBER],
       value: ""
     }
   };
 
   const handleUpdateRow = async (id, put) => {
-    console.log(put)
-    await putDataAPI(`admin/category/${id}`, put).then(res => {
+    await putDataAPI(`admin/product_option/${id}`, put).then(res => {
       dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message });
       setData(data.map((item) => {
         if (parseInt(item.id.value) === parseInt(id)) {
-          return mapData(res.data.category);
+          return mapData(res.data.product_option);
         }
         return item;
       }));
@@ -77,9 +76,9 @@ const CategoryManagement = () => {
   }
 
   const handleAddNewRow = async (post) => {
-    await postDataAPI(`admin/category`, post).then(res => {
+    await postDataAPI(`admin/product_option`, post).then(res => {
       dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message });
-      setData([...data, mapData(res.data.category)]);
+      setData([...data, mapData(res.data.product_option)]);
       return true;
     }).catch(err => {
       dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.message });
@@ -88,10 +87,10 @@ const CategoryManagement = () => {
   }
 
   const handleDeleteRow = async (id) => {
-    await deleteDataAPI(`admin/category/${id}`).then(res => {
+    await deleteDataAPI(`admin/product_option/${id}`).then(res => {
       dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message });
       setData(data.filter((item) => parseInt(item.id.value) !== parseInt(id)));
-      dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: "You deleted a category successfully" });
+      return true;
     }
     ).catch(err => {
       dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.message });
@@ -101,15 +100,14 @@ const CategoryManagement = () => {
   return (
     <div>
       <AdminTable
-        title={"Category Management"}
         fields={fields}
         input_data={data}
         handleUpdateRow={handleUpdateRow}
         handleAddNewRow={handleAddNewRow}
         handleDeleteRow={handleDeleteRow}
       />
-    </div>
+    </div >
   );
 }
 
-export default CategoryManagement;
+export default ProductOptionManagement;

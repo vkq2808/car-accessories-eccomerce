@@ -5,6 +5,16 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     const order_status = ['PENDING', 'PROCESSING', 'FINISHED'];
 
+    // Hàm để lấy ngày ngẫu nhiên trong 2 tháng vừa qua
+    function getRandomDateWithinLastTwoMonths() {
+      const now = new Date();
+      const twoMonthsAgo = new Date();
+      twoMonthsAgo.setMonth(now.getMonth() - 2);
+
+      const randomTimestamp = Math.random() * (now.getTime() - twoMonthsAgo.getTime()) + twoMonthsAgo.getTime();
+      return new Date(randomTimestamp);
+    }
+
     function getRandomInt(min, max) {
       min = Math.ceil(min);
       max = Math.floor(max);
@@ -20,6 +30,9 @@ module.exports = {
 
     for (let product of product_options) {
       // Thêm đơn hàng
+      let createdAt = getRandomDateWithinLastTwoMonths();
+      let updatedAt = createdAt;
+
       let result = await queryInterface.bulkInsert('orders', [
         {
           user_id: getRandomInt(0, 1) ? 1 : null,
@@ -27,8 +40,8 @@ module.exports = {
           currency: 'VND',
           discount: 0,
           total_amount: 0,
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          createdAt: createdAt,
+          updatedAt: updatedAt,
         },
       ]);
 
@@ -46,8 +59,8 @@ module.exports = {
           quantity: order_item_quantity,
           price: product.price,
           currency: 'VND',
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          createdAt: createdAt,
+          updatedAt: updatedAt,
         }
       ], {});
 
@@ -55,8 +68,8 @@ module.exports = {
       await queryInterface.bulkUpdate('orders',
         {
           total_amount: product.price * order_item_quantity,
-        }
-        , {
+        },
+        {
           id: order_id
         });
     }

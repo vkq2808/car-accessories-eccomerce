@@ -14,13 +14,13 @@ const AdminLandingPage = ({ child }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!auth.token) {
-        dispatch({ type: "ERROR_ALERT", payload: "You are not logged in" });
+        dispatch({ type: "ERROR_ALERT", payload: "Bạn chưa đăng nhập" });
         navigate("/auth/login");
       } else if (auth.user.role !== account_roles.ADMIN && auth.user.role !== account_roles.SUPER_ADMIN) {
-        dispatch({ type: "ERROR_ALERT", payload: "You are not an admin" });
+        dispatch({ type: "ERROR_ALERT", payload: "Bạn không có quyền quản trị viên" });
         navigate("/");
       }
-    }, 1000);
+    }, 3000);
 
     return () => clearTimeout(timer); // Clear timeout on cleanup
   }, [auth, dispatch, navigate]);
@@ -44,29 +44,32 @@ const AdminLandingPage = ({ child }) => {
   const menuItems = [
     {
       id: "dashboard",
-      title: "Dashboard",
+      title: "Trang chủ",
       icon: <AiOutlineDashboard className="w-5 h-5" />
     },
     {
       id: "manage",
-      title: "Management",
+      title: "Quản lý",
       icon: <PiReadCvLogo className="w-5 h-5" />,
       submenu: [
-        { id: "manage/user", title: "Users", icon: <AiOutlineUser className="w-4 h-4" /> },
-        { id: "manage/product", title: "Products", icon: <AiOutlineProduct className="w-4 h-4" /> },
-        { id: "manage/category", title: "Categories", icon: <PiTag className="w-4 h-4" /> },
-        { id: "manage/order", title: "Orders", icon: <PiListChecksLight className="w-4 h-4" /> },
-        { id: "manage/cost", title: "Costs", icon: <GiPayMoney className="w-4 h-4" /> }
+        { id: "manage/user", title: "Tài khoản", icon: <AiOutlineUser className="w-4 h-4" /> },
+        { id: "manage/product", title: "Sản phẩm", icon: <AiOutlineProduct className="w-4 h-4" /> },
+        { id: "manage/category", title: "Thể loại", icon: <PiTag className="w-4 h-4" /> },
+        { id: "manage/order", title: "Đơn hàng", icon: <PiListChecksLight className="w-4 h-4" /> },
+        { id: "manage/cost", title: "Chi phí", icon: <GiPayMoney className="w-4 h-4" /> }
       ]
     },
     {
       id: "analytics",
-      title: "Analytics",
-      icon: <AiOutlineBarChart className="w-5 h-5" />
+      title: "Thống kê",
+      icon: <AiOutlineBarChart className="w-5 h-5" />,
+      submenu: [
+        { id: "analytics/revenue", title: "Doanh Thu", icon: <AiOutlineBarChart className="w-4 h-4" /> }
+      ]
     },
     {
       id: "settings",
-      title: "Settings",
+      title: "Cài đặt web",
       icon: <AiOutlineSetting className="w-5 h-5" />
     }
   ];

@@ -48,11 +48,6 @@ const Following = () => {
                     className="cart-dropdown absolute top-10 right-[-342px] md:right-0 bg-white p-[10px] w-[100vw] max-w-[768px]">
                     <div className='flex justify-between'>
                         <h5 className="text-[#333]">Sản phẩm/ dịch vụ đang theo dõi</h5>
-                        <div className='hover:text-blue-400 cursor-pointer'
-                            onClick={() => nav('/user/following')}
-                        >
-                            Xem chi tiết
-                        </div>
                     </div>
                     {(followings?.length === 0 || !followings) ? (
                         <div className="flex items-center justify-center h-32 w-full text-lg">

@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 
 const OrderInfoConfirmationPage = () => {
   const order = useSelector(state => state.order);
-  const orderItems = order.order_items;
   const user = useSelector(state => state.auth.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -122,6 +121,7 @@ const OrderInfoConfirmationPage = () => {
     } else {
       setTotalAmount(order.order_items?.reduce((acc, item) => acc + item.product_option.price * item.quantity, 0));
     }
+    console.log(order)
   }, [order, navigate]);
 
   return (
@@ -142,7 +142,7 @@ const OrderInfoConfirmationPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {orderItems?.map((item, index) => (
+                {order.order_items?.map((item, index) => (
                   <tr key={index} className="border-b border-gray-200">
                     <td className="py-2 px-4 flex items-center gap-4">
                       <img

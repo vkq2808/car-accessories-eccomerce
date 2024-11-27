@@ -1,10 +1,14 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { UserService } from "../services";
-import sendEmail from "../utils/sendEmail";
 import EmailService from '../services/email.service';
 
 export default class AuthController {
+
+    getPublicKey = (req, res) => {
+        const publicKey = fs.readFileSync('../keys/public.key', 'utf8');
+        res.send({ publicKey });
+    }
 
     registerUser = async (req, res) => {
         const { email, password, first_name, last_name, phone, birth } = req.body;
@@ -51,18 +55,18 @@ export default class AuthController {
                 return res.status(400).json({ message: "Email hoặc mật khẩu không chính xác" });
             }
 
-            const accessToken = jwt.sign(
+            const access_token = jwt.sign(
                 { email: user.email, id: user.id, role: user.role },
                 process.env.ACCESS_TOKEN_SECRET_KEY,
                 { expiresIn: '1h' }
             );
-            const refreshToken = jwt.sign(
+            const refresh_token = jwt.sign(
                 { email: user.email, id: user.id, role: user.role },
                 process.env.REFRESH_TOKEN_SECRET_KEY,
                 { expiresIn: '1d' }
             );
 
-            return res.status(200).json({ message: "Đăng nhập thành công", user, accessToken, refreshToken });
+            return res.status(200).json({ message: "Đăng nhập thành công", user, access_token, refresh_token });
         } catch (err) {
             console.error('Lỗi xảy ra trong quá trình đăng nhập:', err);
             return res.status(500).json({ message: "Lỗi máy chủ" });
@@ -149,13 +153,13 @@ export default class AuthController {
     }
 
     refreshAccessToken = async (req, res) => {
-        const { refreshToken } = req.body;
-        if (!refreshToken) {
+        const { refresh_token } = req.body;
+        if (!refresh_token) {
             return res.status(400).json({ message: "Refresh token là bắt buộc" });
         }
 
         try {
-            const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET_KEY);
+            const decoded = jwt.verify(refresh_token, process.env.REFRESH_TOKEN_SECRET_KEY);
             const user = await new UserService().getUserInfoByEmail(decoded.email);
 
             if (!user) {
@@ -164,12 +168,30 @@ export default class AuthController {
 
             console.log("Refresh token thành công");
 
-            const accessToken = jwt.sign({ email: user.email, id: user.id, role: user.role }, process.env.ACCESS_TOKEN_SECRET_KEY, { expiresIn: '1h' });
-            const refreshToken = jwt.sign({ email: user.email, id: user.id, role: user.role }, process.env.REFRESH_TOKEN_SECRET_KEY, { expiresIn: '1d' });
+            const access_token = jwt.sign({ email: user.email, id: user.id, role: user.role }, process.env.ACCESS_TOKEN_SECRET_KEY, { expiresIn: '1h' });
+            const refresh_token = jwt.sign({ email: user.email, id: user.id, role: user.role }, process.env.REFRESH_TOKEN_SECRET_KEY, { expiresIn: '1d' });
 
-            return res.json({ message: "Refresh token thành công", user, accessToken, refreshToken });
+            return res.json({ message: "Refresh token thành công", user, access_token, refresh_token });
         } catch (error) {
             return res.status(400).json({ message: "Token không hợp lệ hoặc đã hết hạn" });
+        }
+    }
+
+    checkEmail = async (req, res) => {
+        const { email } = req.body;
+        if (!email) {
+            return res.status(400).json({ message: "Email là bắt buộc" });
+        }
+
+        try {
+            const user = await new UserService().getUserInfoByEmail(email);
+            if (!user) {
+                return res.status(404).json({ message: "Không tìm thấy email" });
+            }
+
+            return res.status(200).json({ message: "Email đã tồn tại" });
+        } catch (error) {
+            return res.status(500).json({ message: "Lỗi máy chủ" });
         }
     }
 }
