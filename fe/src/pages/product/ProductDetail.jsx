@@ -4,7 +4,7 @@ import { getDataAPI } from "../../utils/fetchData";
 import ReactMarkdown from 'react-markdown';
 import { useDispatch, useSelector } from "react-redux";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
-import { addProductAPI, CART_ACTION_TYPES, updateCartItem } from "../../redux/actions/cartActions";
+import { addProduct } from "../../redux/actions/cartActions";
 import { formatNumberWithCommas } from "../../utils/stringUtils";
 import { followProduct, PRODUCT_ACTION_TYPES, unfollowProduct } from "../../redux/actions/productActions";
 import { getEmptyOrder, ORDER_ACTION_TYPES } from "../../redux/actions/orderActions";
@@ -19,7 +19,6 @@ const ProductDetail = () => {
     const [product, setProduct] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const auth = useSelector(state => state.auth);
-    const cart = useSelector(state => state.cart);
     const followings = useSelector(state => state.product.following);
     const order = useSelector(state => state.order);
     const [selectedProductOption, setSelectedProductOption] = useState(null);
@@ -106,16 +105,7 @@ const ProductDetail = () => {
     }
 
     const handleAddToCart = () => {
-        if (auth.token) {
-            dispatch(addProductAPI({ product, quantity, token: auth.token, product_option: selectedProductOption }))
-        } else {
-            let cart_item = cart.cart_items.find(item => item.product.id === product.id && item.product_option.id === selectedProductOption.id)
-            if (cart_item) {
-                dispatch(updateCartItem({ cart_item: cart_item, quantity: quantity, token: auth.token, product_option: selectedProductOption }))
-            } else {
-                dispatch({ type: CART_ACTION_TYPES.ADD_TO_CART, payload: { product: product, quantity: quantity, product_option: selectedProductOption } })
-            }
-        }
+        dispatch(addProduct({ product, quantity, product_option: selectedProductOption, token: auth.token }))
     }
 
     const handleFollowProduct = () => {

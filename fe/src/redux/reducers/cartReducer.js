@@ -13,6 +13,14 @@ const initialState = localStorage.getItem('cart')
 const cartReducer = (state = initialState, action) => {
     switch (action.type) {
         case CART_ACTION_TYPES.ADD_TO_CART:
+
+            if (state.cart_items.some(item => item.product.id === action.payload.product.id && item.product_option.id === action.payload.product_option.id)) {
+                return {
+                    ...state,
+                    cart_items: state.cart_items.map(item => item.product.id === action.payload.product.id && item.product_option.id === action.payload.product_option.id ? { ...item, quantity: item.quantity + action.payload.quantity } : item),
+                };
+            }
+
             return {
                 ...state,
                 cart_items: [...state.cart_items, action.payload],

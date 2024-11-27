@@ -6,6 +6,7 @@ export default class CartController {
     }
 
     addProduct = async (req, res) => {
+        const transaction = await db.sequelize.transaction();
         try {
             const { user } = req;
             const { product, quantity, product_option } = req.body;
@@ -14,9 +15,26 @@ export default class CartController {
                 where: { user_id: user.id },
                 include: [{ model: db.cart_item, include: [{ model: db.product, include: [db.product_option] }, { model: db.product_option }] }]
             });
-            const cartItem = await new CartItemService().createCartItem(cart.id, product.id, quantity, product_option.id);
 
-            cart.cart_items.push(cartItem);
+            let found = false;
+
+            for (const item of cart.cart_items) {
+                if (item.product.id === product.id && item.product_option.id === product_option.id) {
+                    item.quantity += quantity;
+                    await item.save({ transaction })
+                    found = true;
+                }
+            }
+
+            if (!found) {
+                await new CartItemService().create({
+                    cart_id: cart.id,
+                    product_id: product.id,
+                    product_option_id: product_option.id,
+                    quantity: quantity
+                }, { transaction });
+            }
+            await transaction.commit();
 
             cart = await new CartService().getOne({
                 where: { user_id: user.id },

@@ -16,7 +16,6 @@ export const updateToken = (newToken) => async (dispatch) => {
 
 export const login = (data) => async (dispatch) => {
     try {
-        dispatch({ type: GLOBALTYPES.LOADING, payload: true })
 
         const res = await postDataAPI("auth/login", data)
 
@@ -27,7 +26,6 @@ export const login = (data) => async (dispatch) => {
                 payload: { token: "Bearer " + res.data.access_token, user: res.data.user, role: res.data.user.role }
             })
 
-            dispatch({ type: GLOBALTYPES.LOADING, payload: false })
 
             localStorage.setItem("firstLogin", true)
             localStorage.setItem("access_token", "Bearer " + res.data.access_token)
@@ -37,29 +35,27 @@ export const login = (data) => async (dispatch) => {
         }
         else {
             dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message })
-            dispatch({ type: GLOBALTYPES.LOADING, payload: false })
         }
     } catch (err) {
         dispatch({
             type: GLOBALTYPES.ERROR_ALERT,
             payload: "Lỗi khi đăng nhập"
         })
-        dispatch({ type: GLOBALTYPES.LOADING, payload: false })
     }
 }
 
 export const regist = (data, setResult) => async (dispatch) => {
     try {
-        dispatch({ type: GLOBALTYPES.LOADING, payload: true })
+
 
         const res = await postDataAPI("auth/regist", data)
         if (res.status === 200) {
-            dispatch({ type: GLOBALTYPES.LOADING, payload: false })
+
             dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message })
             dispatch({ type: GLOBALTYPES.REDIRECTING, payload: true })
         } else {
             dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message })
-            dispatch({ type: GLOBALTYPES.LOADING, payload: false })
+
         }
         setResult(res.data.message)
     } catch (err) {
@@ -68,7 +64,7 @@ export const regist = (data, setResult) => async (dispatch) => {
             type: GLOBALTYPES.ERROR_ALERT,
             payload: err.response.data.message
         })
-        dispatch({ type: GLOBALTYPES.LOADING, payload: false })
+
     }
 }
 
@@ -168,7 +164,7 @@ export const resetPassword = (data, setResult) => async (dispatch) => {
             type: GLOBALTYPES.ERROR_ALERT,
             payload: err.response.data.message
         })
-        dispatch({ type: GLOBALTYPES.LOADING, payload: false })
+
     }
 }
 
