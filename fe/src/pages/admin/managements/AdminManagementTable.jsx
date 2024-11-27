@@ -135,7 +135,9 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
         const originalValue = original_data?.[key]?.value;
 
         // Bỏ qua nếu giá trị là rỗng
-        if (!formValue || field.type.includes(admin_table_field_types.TABLE)) continue;
+        if (formValue === "" || field.type.includes(admin_table_field_types.TABLE)) {
+          continue;
+        }
 
         // Hàm kiểm tra giá trị có trùng với dữ liệu gốc không
         // Nếu trùng và không phải là ID thì bỏ qua
@@ -513,15 +515,6 @@ const DisplayField = ({ table_key, field, fields, formData, setFormData, errors,
     </label>
   );
 
-  if (fieldProps.type.includes(admin_table_field_types.NO_EDITABLE) && editingId) {
-    return (
-      <>
-        {fieldLabel}
-        <span className="text-sm text-[--primary-text-color]">This field is not editable</span>
-      </>
-    );
-  }
-
   if (fieldProps.type.includes(admin_table_field_types.CHILD_SELECT)) {
     for (const key of Object.keys(fields)) {
       if (
@@ -543,7 +536,7 @@ const DisplayField = ({ table_key, field, fields, formData, setFormData, errors,
         <select
           id={field}
           value={formData[field]?.value ?? ""}
-          disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
+          disabled={editingId && fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
           onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
           className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
         >
@@ -565,7 +558,7 @@ const DisplayField = ({ table_key, field, fields, formData, setFormData, errors,
         <input
           type="date"
           id={field}
-          disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
+          disabled={editingId && fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
           value={formData[field]?.value && new Date(formData[field].value).toISOString().split('T')[0]}
           onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
           className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
@@ -581,7 +574,7 @@ const DisplayField = ({ table_key, field, fields, formData, setFormData, errors,
         <input
           type="number"
           id={field}
-          disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
+          disabled={editingId && fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
           value={formData[field]?.value ?? ""}
           onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
           className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
@@ -597,7 +590,7 @@ const DisplayField = ({ table_key, field, fields, formData, setFormData, errors,
         <input
           type="email"
           id={field}
-          disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
+          disabled={editingId && fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
           value={formData[field]?.value ?? ""}
           onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
           className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
@@ -615,7 +608,7 @@ const DisplayField = ({ table_key, field, fields, formData, setFormData, errors,
           autoCorrect="off"
           type="password"
           id={field}
-          disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
+          disabled={editingId && fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
           value={formData[field]?.value ?? ""}
           onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
           className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
@@ -625,7 +618,7 @@ const DisplayField = ({ table_key, field, fields, formData, setFormData, errors,
           autoCorrect="off"
           type="password"
           id={field + "_confirm"}
-          disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
+          disabled={editingId && fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
           value={formData[field + "_confirm"]?.value ?? ""}
           onChange={(e) => setFormData({ ...formData, [field + "_confirm"]: { ...formData[field + "_confirm"], value: e.target.value } })}
           className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
@@ -649,7 +642,7 @@ const DisplayField = ({ table_key, field, fields, formData, setFormData, errors,
         <textarea
           id={field}
           rows={6}
-          disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
+          disabled={editingId && fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
           value={formData[field]?.value ?? ""}
           onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
           className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
@@ -665,7 +658,7 @@ const DisplayField = ({ table_key, field, fields, formData, setFormData, errors,
         <textarea
           id={field}
           rows={6}
-          disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
+          disabled={editingId && fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
           value={formData[field]?.value ?? ""}
           onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
           className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
@@ -682,8 +675,8 @@ const DisplayField = ({ table_key, field, fields, formData, setFormData, errors,
         <input
           type="text"
           id={table_key + field}
-          disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
-          value={(formData[field]?.value || formData[field]?.query) ?? ""}
+          disabled={editingId && fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
+          value={(formData[field]?.display || formData[field]?.query) ?? ""}
           onChange={(e) => {
             const queryValue = e.target.value;
             setFormData((prevFormData) => ({
@@ -704,7 +697,7 @@ const DisplayField = ({ table_key, field, fields, formData, setFormData, errors,
             <li
               key={option.value}
               onClick={() => {
-                setFormData({ ...formData, [field]: { ...formData[field], value: option.label, options: [] } });
+                setFormData({ ...formData, [field]: { ...formData[field], value: option.value, display: option.label, options: [] } });
               }}
               className="p-2 cursor-pointer hover:bg-gray-100 list-none "
             >
@@ -724,7 +717,7 @@ const DisplayField = ({ table_key, field, fields, formData, setFormData, errors,
           type="file"
           accept="image/*"
           id={field}
-          disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
+          disabled={editingId && fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
           onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.files[0] } })}
           className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}
         />
@@ -747,7 +740,7 @@ const DisplayField = ({ table_key, field, fields, formData, setFormData, errors,
       <input
         type={fieldProps.type}
         id={field}
-        disabled={fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
+        disabled={editingId && fieldProps.type.includes(admin_table_field_types.NO_EDITABLE)}
         value={formData[field]?.value ?? ""}
         onChange={(e) => setFormData({ ...formData, [field]: { ...formData[field], value: e.target.value } })}
         className={`mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors[field] ? "border-red-500" : ""}`}

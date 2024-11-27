@@ -53,13 +53,10 @@ export default class OrderService {
     }
   }
 
-  async update(data) {
+  async update(data, options = {}) {
     try {
       const { id, ...filteredData } = data;
-      const result = await this.model.update(filteredData, { where: { id: id } });
-      if (result[0] === 0) {
-        return null;
-      }
+      const result = await this.model.update(filteredData, { where: { id: id }, ...options });
       let product = await this.model.findOne({ where: { id: id } });
       return product;
     } catch (error) {

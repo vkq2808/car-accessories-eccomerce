@@ -198,7 +198,7 @@ export default class EmailService {
       <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
         <h4>Ngày thanh toán:</h4>
         <p>${new Date().toLocaleDateString('vi-VN')}</p>
-        <p>Số tiền: ${formatNumberWithCommas(order.payment.amount)} ${order.currency}</p>
+        <p>Số tiền: ${formatNumberWithCommas(order.total_amount)} ${order.currency}</p>
       </div>
     </div>
     

@@ -313,7 +313,14 @@ export default class OrderController {
               transaction_data: vnp_Params
             }, { transaction });
 
-            const order = await new OrderService().getOne({ where: { id: order_id } });
+            const order = await new OrderService().getOne({
+              where: { id: order_id },
+              include: [{
+                model: db.order_item,
+                include: [db.product, db.product_option]
+              }],
+              transaction
+            });
             if (!order) throw new Error('Order not found');
 
             const updatedData = {
@@ -348,11 +355,11 @@ export default class OrderController {
               }
             }
 
-            await transaction.commit();
-
             await new EmailService().sendSuccessVNPAYPaymentOrderEmail({ order, email: order.info.email });
+            await transaction.commit();
             return res.status(200).json({ order });
           } catch (error) {
+            console.log(error);
             await transaction.rollback();
             return res.status(500).json({
               code: '99',

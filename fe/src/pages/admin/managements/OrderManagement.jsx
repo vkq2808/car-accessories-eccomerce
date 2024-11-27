@@ -11,6 +11,7 @@ const OrderManagement = () => {
   const navigate = useNavigate();
 
   const [allOrder, setAllOrder] = useState([]);
+  const [pendingOrder, setPendingOrder] = useState([]);
   const [tryToFetchOrder, setTryToFetchOrder] = useState(false);
 
   const mapData = (item) => {
@@ -46,7 +47,7 @@ const OrderManagement = () => {
   }
 
   useEffect(() => {
-    if ((!allOrder || !allOrder.length) && !tryToFetchOrder) {
+    if ((!allOrder || !allOrder.length)) {
       getDataAPI("admin/order").then(res => {
         setTimeout(() => {
           setAllOrder(res?.data?.orders.map((item) => mapData(item)) || []);
@@ -58,6 +59,10 @@ const OrderManagement = () => {
       setTryToFetchOrder(true);
     }
   }, [allOrder, dispatch, navigate, tryToFetchOrder]);
+
+  useEffect(() => {
+    setPendingOrder(allOrder?.filter((item) => item.status.value === order_status.PENDING));
+  }, [allOrder]);
 
   const fields = {
     id: {
@@ -85,11 +90,14 @@ const OrderManagement = () => {
             )
           ]);
 
-          const combinedResults = firstNameQuery.filter(
+          let combinedResults = firstNameQuery.filter(
             (item) => !lastNameQuery.some((element) => element.value === item.value)
           ).concat(lastNameQuery);
-          console.log("combinedResults", combinedResults);
-          return combinedResults;
+          combinedResults = combinedResults.concat({
+            value: null,
+            label: "None"
+          });
+          return combinedResults
         } catch (error) {
           console.error("Error fetching user data:", error);
           throw new Error("Unable to fetch user data.");
@@ -139,14 +147,10 @@ const OrderManagement = () => {
   };
 
   const handleUpdateRow = async (id, put) => {
+    console.log(put)
     await putDataAPI(`admin/order/${id}`, put).then(res => {
       dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message });
-      setAllOrder(allOrder.map((item) => {
-        if (parseInt(item.id.value) === parseInt(id)) {
-          return mapData(res.data.order);
-        }
-        return item;
-      }));
+      setAllOrder([]);
     }).catch(err => {
       console.log(err)
       dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.message });
@@ -156,7 +160,7 @@ const OrderManagement = () => {
   const handleAddNewRow = async (post) => {
     await postDataAPI(`admin/order`, post).then(res => {
       dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message });
-      setAllOrder([...allOrder, mapData(res.data.order)]);
+      setAllOrder([]);
       return true;
     }).catch(err => {
       dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.message });
@@ -167,7 +171,7 @@ const OrderManagement = () => {
   const handleDeleteRow = async (id) => {
     await deleteDataAPI(`admin/order/${id}`).then(res => {
       dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message });
-      setAllOrder(allOrder.filter((item) => parseInt(item.id.value) !== parseInt(id)));
+      setAllOrder([]);
       return true;
     }
     ).catch(err => {
@@ -177,6 +181,17 @@ const OrderManagement = () => {
   }
   return (
     <div>
+      <div className="mb-4">
+        <AdminTable
+          title={"Pending Order Management"}
+          fields={fields}
+          input_data={pendingOrder}
+          handleUpdateRow={handleUpdateRow}
+          handleAddNewRow={handleAddNewRow}
+          handleDeleteRow={handleDeleteRow}
+          table_key='2'
+        />
+      </div>
       <AdminTable
         title={"All Order Management"}
         fields={fields}
