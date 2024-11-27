@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { postDataAPI, putDataAPI } from "../../utils/fetchData";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
+import OrderHistory from "./OrderHistory";
 
 const UserProfile = () => {
     const [isEditing, setIsEditing] = useState(false);
@@ -24,7 +25,7 @@ const UserProfile = () => {
         phone: auth.user?.phone || '',
         bio: "Passionate developer with a love for creating innovative solutions.",
         image_url: auth.user?.image_url || '',
-        location: auth.user?.location || '',
+        address: auth.user?.address || '',
     });
 
     const handleCheckEmailExist = async () => {
@@ -84,8 +85,8 @@ const UserProfile = () => {
         // phone
         if (!userData.phone.trim()) newErrors.phone = "Phone is required";
         else if (!phoneRegex.test(userData.phone)) newErrors.phone = "Invalid phone number";
-        // location
-        if (userData.location.length > 100) newErrors.location = "Location is too long";
+        // address
+        if (userData.address.length > 100) newErrors.address = "Location is too long";
         // password
         if (userData.password && userData.password.length < 8) newErrors.password = "Password is too short";
         else if (userData.password && userData.password.length > 50) newErrors.password = "Password is too long";
@@ -116,7 +117,6 @@ const UserProfile = () => {
                     const image_url = res.data.url;
 
                     const data = { ...userData, image_url, id: auth.user.id };
-                    console.log(data);
                     res = await putDataAPI("user/update-info", data, auth.token);
                     if (res.status === 200) {
                         dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: "You updated your profile successfully" });
@@ -153,13 +153,13 @@ const UserProfile = () => {
             email: auth.user?.email || '',
             phone: auth.user?.phone || '',
             image_url: auth.user?.image_url || '',
-            location: auth.user?.location || '',
+            address: auth.user?.address || '',
         });
-        console.log(auth.user)
     }, [auth.user]);
 
     useEffect(() => {
         refreshUserData();
+        console.log(auth.user)
     }, [refreshUserData, auth.user]);
 
     useEffect(() => {
@@ -174,7 +174,7 @@ const UserProfile = () => {
     }, [auth, dispatch, navigate]);
 
     return (
-        <div className="min-h-[90vh] min-w-[500px] bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 flex justify-center items-center">
+        <div className="min-h-[90vh] w-full bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 flex justify-center items-center gap-10 flex-col md:flex-row">
             <div className="min-w-[500px] bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="relative h-48 bg-gradient-to-r from-blue-500 to-cyan-600">
                     <button
@@ -281,12 +281,12 @@ const UserProfile = () => {
 
                             <ProfileField
                                 icon={<BiMapPin />}
-                                value={userData.location}
+                                value={userData.address}
                                 isEditing={isEditing}
-                                onChange={(val) => setUserData({ ...userData, location: val })}
+                                onChange={(val) => setUserData({ ...userData, address: val })}
                                 label="Location"
                                 placeholder={"Location"}
-                                error={errors.location}
+                                error={errors.address}
                             />
                         </div>
 
@@ -316,6 +316,7 @@ const UserProfile = () => {
                     </div>
                 </div>
             </div>
+            {!isEditing && <OrderHistory />}
         </div>
     );
 };

@@ -58,7 +58,7 @@ export default class ProductController {
 
             const stockDiff = stock - oldProductOption.stock;
 
-            const productOption = await new ProductOptionService().update({
+            let productOption = await new ProductOptionService().update({
                 id,
                 product_id,
                 name,
@@ -73,11 +73,14 @@ export default class ProductController {
             product.stock += stockDiff;
             await product.save({ transaction });
 
-            transaction.commit();
+            await transaction.commit();
+            productOption = await new ProductOptionService().getOne({
+                where: { id }
+            });
             return res.status(200).json({ product_option: productOption });
         } catch (error) {
             console.error(error);
-            transaction.rollback();
+            await transaction.rollback();
             return res.status(500).json({ message: error.message });
         }
     }
@@ -257,7 +260,7 @@ export default class ProductController {
             if (!data) {
                 return res.status(404).json({ message: "Not found" });
             }
-            return res.status(200).json(data);
+            return res.status(200).json({ product: data });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ message: "Internal server error" });
@@ -270,6 +273,14 @@ export default class ProductController {
                 return res.status(403).json({ message: "You don't have permission to create this product" });
             }
             const data = await new ProductService().create(req.body);
+
+            let default_product_option = await new ProductOptionService().create({
+                product_id: data.id,
+                name: "Default",
+                stock: 0,
+                price: 0
+            });
+
             return res.status(201).json({ product: data, message: "Create successfully" });
         } catch (error) {
             console.error(error);

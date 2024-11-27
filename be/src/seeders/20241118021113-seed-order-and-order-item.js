@@ -68,6 +68,7 @@ module.exports = {
       await queryInterface.bulkUpdate('orders',
         {
           total_amount: product.price * order_item_quantity,
+          payment_method: 'cod'
         },
         {
           id: order_id

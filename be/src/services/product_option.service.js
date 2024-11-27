@@ -39,7 +39,6 @@ class ProductOptionService {
       if (result[0] === 0) {
         return null;
       }
-      result = await this.model.findOne({ where: { id: id } });
       return result;
     } catch (error) {
       console.error(error);

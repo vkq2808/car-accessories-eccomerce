@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { GLOBALTYPES } from '../../../redux/actions/globalTypes';
 import { useNavigate } from 'react-router-dom';
 
-const ProductOptionManagement = ({ product_options, product_id }) => {
+const ProductOptionManagement = ({ product_options, product_id, setInputData }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -61,24 +61,31 @@ const ProductOptionManagement = ({ product_options, product_id }) => {
   };
 
   const handleUpdateRow = async (id, put) => {
-    await putDataAPI(`admin/product_option/${id}`, put).then(res => {
+    const res = await putDataAPI(`admin/product_option/${id}`, put).then(res => {
       dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message });
-      setData(data.map((item) => {
-        if (parseInt(item.id.value) === parseInt(id)) {
-          return mapData(res.data.product_option);
-        }
-        return item;
-      }));
+      return res;
     }).catch(err => {
       console.log(err)
       dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.message });
     });
+
+    const newData = data.map((item) => {
+      if (parseInt(item.id.value) === parseInt(id)) {
+        return mapData(res.data.product_option);
+      }
+      return item;
+    })
+
+    setData(newData);
+    setInputData(product_id);
   }
 
   const handleAddNewRow = async (post) => {
     await postDataAPI(`admin/product_option`, post).then(res => {
       dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message });
-      setData([...data, mapData(res.data.product_option)]);
+      const newData = [...data, mapData(res.data.product_option)];
+      setData(newData);
+      setInputData(product_id);
       return true;
     }).catch(err => {
       dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.message });
@@ -89,7 +96,9 @@ const ProductOptionManagement = ({ product_options, product_id }) => {
   const handleDeleteRow = async (id) => {
     await deleteDataAPI(`admin/product_option/${id}`).then(res => {
       dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message });
-      setData(data.filter((item) => parseInt(item.id.value) !== parseInt(id)));
+      const newData = data.filter((item) => parseInt(item.id.value) !== parseInt(id));
+      setData(newData);
+      setInputData(product_id);
       return true;
     }
     ).catch(err => {
@@ -105,6 +114,7 @@ const ProductOptionManagement = ({ product_options, product_id }) => {
         handleUpdateRow={handleUpdateRow}
         handleAddNewRow={handleAddNewRow}
         handleDeleteRow={handleDeleteRow}
+        key={product_id}
       />
     </div >
   );

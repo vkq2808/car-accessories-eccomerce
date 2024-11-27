@@ -34,7 +34,7 @@ const ProductDetail = () => {
                     setIsLoading(false);
                     if (res.status === 200) {
                         setProduct(res.data.product);
-                        let defaultOption = res.data.product.product_options.find(option => option.name === 'Default')
+                        let defaultOption = res.data.product.product_options[0]
                         setSelectedProductOption(defaultOption)
                     } else {
                         dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message });

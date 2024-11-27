@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
-import { CartService, UserService } from '../services';
-import { account_roles } from '../constants/constants';
+import db from '../models';
+import { CartService, OrderService, UserService } from '../services';
+import { account_roles, order_status, payment_method_codes } from '../constants/constants';
 
 const role_author_number = {
     [account_roles.NO_ROLE]: 0,
@@ -55,12 +55,58 @@ export default class UserController {
         }
     }
 
+    async cancelOrder(req, res) {
+        try {
+            const order = await new OrderService().getOne({ where: { id: req.params.id } });
+            if (!order) {
+                return res.status(404).json({ message: "Not found" });
+            }
+            if (order.status !== order_status.PENDING) {
+                return res.status(400).json({ message: "Order is not pending" });
+            }
+            if (order.payment_method !== payment_method_codes.COD) {
+                return res.status(400).json({ message: "Can't cancel this order" });
+            }
+            if (order.user_id !== req.user.id) {
+                return res.status(403).json({ message: "You don't have permission to cancel this order" });
+            }
+            const data = await new OrderService().update({ id: req.params.id, status: order_status.CANCELLED });
+
+            let updatedOrder = await new OrderService().getOne({ where: { id: req.params.id } });
+
+            return res.status(200).json({ message: "Cancel order successfully", order: updatedOrder });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+    }
+
     async getUserByToken(req, res) {
         try {
             const token = req.headers.authorization.split(' ')[1];
             const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY);
             const user = await new UserService().getFullUserInfoById(decoded.id);
             return res.status(200).json(user);
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: error.message });
+        }
+    }
+
+    async getOrders(req, res) {
+        try {
+            const orders = await new OrderService().getAll({
+                where: { user_id: req.user.id },
+                include: [
+                    {
+                        model: db.order_item,
+                        include: [
+                            { model: db.product }
+                        ]
+                    }
+                ]
+            });
+            return res.status(200).json({ orders });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ message: error.message });

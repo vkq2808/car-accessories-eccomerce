@@ -91,7 +91,6 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
     };
 
     setErrors(newErrors);
-    console.log("newErrors: ", newErrors)
     return Object.keys(newErrors).length === 0;
   };
 
@@ -169,10 +168,10 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
       }
 
       if (editingId) {
-        handleUpdateRow(editingId, final_formData);
+        await handleUpdateRow(editingId, final_formData);
         setShowModal(false);
       } else {
-        handleAddNewRow(final_formData);
+        await handleAddNewRow(final_formData);
         setShowModal(false);
       }
 
@@ -630,7 +629,7 @@ const DisplayField = ({ table_key, field, fields, formData, setFormData, errors,
     return (
       <>
         {fieldLabel}
-        <fieldProps.child {...formData[field].props} />
+        <fieldProps.child {...formData[field].props} setInputData={(data, id) => fieldProps.setInputData(data, id)} />
       </>
     )
   }

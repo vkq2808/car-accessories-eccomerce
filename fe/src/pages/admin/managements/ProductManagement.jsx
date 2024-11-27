@@ -109,6 +109,21 @@ const ProductManagement = () => {
       type: [admin_table_field_types.TABLE, admin_table_field_types.NO_SHOW_DATA, admin_table_field_types.NO_ADDABLE],
       value: "",
       child: ProductOptionManagement,
+      setInputData: async (id) => {
+        const res = await getDataAPI(`admin/product/${id}`).then(res => {
+          return res.data.product;
+        }).catch(err => {
+          console.log(err);
+          return false;
+        });
+
+        setData(data.map((item) => {
+          if (parseInt(item.id.value) === parseInt(id)) {
+            return mapData(res);
+          }
+          return item;
+        }));
+      },
       props: {
         product_options: "",
         product_id: ""
@@ -152,6 +167,10 @@ const ProductManagement = () => {
     }
   };
 
+  useEffect(() => {
+    console.log(data[0])
+  }, [data]);
+
   const handleUpdateRow = async (id, put) => {
     await putDataAPI(`admin/product/${id}`, put).then(res => {
       dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message });
@@ -166,10 +185,6 @@ const ProductManagement = () => {
       dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.message });
     });
   }
-
-  useEffect(() => {
-    console.log(data[0])
-  }, [data])
 
   const handleAddNewRow = async (post) => {
     await postDataAPI(`admin/product`, post).then(res => {
