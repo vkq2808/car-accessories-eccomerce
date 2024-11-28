@@ -41,7 +41,7 @@ const Sidebar = ({ setIsSideBarOpen }) => {
             ];
         }
         setMenuItems(items);
-    }, [navigate, dispatch, auth]);
+    }, [handleNavigate, dispatch, auth]);
 
     const toggleSearch = (e) => {
         e.preventDefault();
