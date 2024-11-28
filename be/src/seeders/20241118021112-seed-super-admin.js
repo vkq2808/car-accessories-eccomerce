@@ -22,6 +22,8 @@ module.exports = {
             role: 'SUPER_ADMIN',
             phone: adminPhone,
             birth: new Date(adminBirth),
+            address: 'Đây là địa chỉ admin',
+            image_url: "http://localhost:3001/api/v1/file/image/avatar.jpeg",
             createdAt: new Date(),
             updatedAt: new Date(),
         },

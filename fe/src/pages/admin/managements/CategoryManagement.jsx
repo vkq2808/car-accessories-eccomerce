@@ -52,7 +52,7 @@ const CategoryManagement = () => {
     },
     path: {
       type: [admin_table_field_types.TEXT],
-      value: ""
+      value: "search/q?category_id="
     },
     description: {
       type: [admin_table_field_types.TEXT],

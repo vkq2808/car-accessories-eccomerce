@@ -153,6 +153,19 @@ class UserService {
         }
     }
 
+    async compareUserPassword(password, hashed_password) {
+        try {
+            console.log(password, hashed_password);
+            if (!password || !hashed_password) {
+                return false;
+            }
+            return await bcrypt.compare(password, hashed_password);
+        } catch (error) {
+            console.error(error);
+            return false;
+        }
+    }
+
     async create(data, options = {}) {
         try {
             console.log(data)

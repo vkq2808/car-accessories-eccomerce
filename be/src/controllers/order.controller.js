@@ -26,6 +26,44 @@ export default class OrderController {
     this.queue = order_queue;
   }
 
+  getWeeklyOrders = async (req, res) => {
+    try {
+      const { Op } = require('sequelize');
+      let start = new Date();
+      start.setHours(0, 0, 0, 0);
+      let end = new Date();
+      end.setHours(23, 59, 59, 999);
+      let day = 24 * 60 * 60 * 1000;
+      let data = await new OrderService().getAll({
+        where: {
+          createdAt: {
+            [Op.gte]: start - 6 * day,
+            [Op.lt]: end
+          }
+        },
+        include: [db.payment],
+        attributes: ['total_amount', 'createdAt', 'user_id']
+      });
+
+      let groupedData = data.reduce((acc, order) => {
+        // Format ngày: yyyy-mm-dd
+        let dateKey = new Date(order.createdAt).toISOString().split('T')[0];
+
+        if (!acc[dateKey]) {
+          acc[dateKey] = []; // Tạo mảng mới cho ngày này nếu chưa có
+        }
+
+        acc[dateKey].push(order);
+        return acc;
+      }, {});
+
+      return res.status(200).json(groupedData);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  }
+
   getMonthlyRevenue = async (req, res) => {
     try {
       const { Op } = require('sequelize');

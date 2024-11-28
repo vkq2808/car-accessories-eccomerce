@@ -4,7 +4,7 @@ export const ORDER_STATUS = {
   EMPTY: "EMPTY",
   PENDING: "PENDING",
   CANCELLED: "CANCELLED",
-  PROCESSING: "PROCESSING",
+  DELIVERING: "DELIVERING",
   NONE: "NONE",
 }
 const initialState = {

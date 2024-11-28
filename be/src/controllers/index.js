@@ -5,6 +5,7 @@ import ProductController from "./product.controller";
 import OrderController from "./order.controller";
 import CategoryController from "./category.controller";
 import CostController from "./cost.controller";
+import PublicController from "./public.controller";
 
 export {
     AuthController,
@@ -13,5 +14,6 @@ export {
     ProductController,
     OrderController,
     CategoryController,
-    CostController
+    CostController,
+    PublicController
 }

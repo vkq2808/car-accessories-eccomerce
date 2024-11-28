@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    const order_status = ['PENDING', 'PROCESSING', 'FINISHED'];
+    const order_status = ['PENDING', 'DELIVERING', 'FINISHED'];
 
     // Hàm để lấy ngày ngẫu nhiên trong 2 tháng vừa qua
     function getRandomDateWithinLastTwoMonths() {
@@ -22,7 +22,7 @@ module.exports = {
     }
 
     let product_options = await queryInterface.sequelize.query(
-      `SELECT p.id, po.id as option_id, po.price
+      `SELECT p.id, po.id as option_id, po.price, po.stock
        FROM products p 
        JOIN product_options po ON po.product_id = p.id`,
       { type: Sequelize.QueryTypes.SELECT }
@@ -32,6 +32,7 @@ module.exports = {
       // Thêm đơn hàng
       let createdAt = getRandomDateWithinLastTwoMonths();
       let updatedAt = createdAt;
+      let stock = product.stock;
 
       let result = await queryInterface.bulkInsert('orders', [
         {
@@ -48,31 +49,47 @@ module.exports = {
       // Lấy ID cuối cùng được chèn
       let [lastInserted] = await queryInterface.sequelize.query('SELECT LAST_INSERT_ID() as id');
       let order_id = lastInserted[0].id;
-      let order_item_quantity = getRandomInt(1, 5);
 
-      // Thêm chi tiết đơn hàng
-      await queryInterface.bulkInsert('order_items', [
-        {
-          order_id: order_id,
-          product_id: product.id,
-          product_option_id: product.option_id,
-          quantity: order_item_quantity,
-          price: product.price,
-          currency: 'VND',
-          createdAt: createdAt,
-          updatedAt: updatedAt,
-        }
-      ], {});
+      if (stock > 0) {
+        let max = stock > 5 ? stock = 5 : stock;
+        let order_item_quantity = getRandomInt(1, max);
+        await queryInterface.bulkInsert('order_items', [
+          {
+            order_id: order_id,
+            product_id: product.id,
+            product_option_id: product.option_id,
+            quantity: order_item_quantity,
+            price: product.price,
+            currency: 'VND',
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+          }
+        ], {});
 
-      // Cập nhật tổng tiền
-      await queryInterface.bulkUpdate('orders',
-        {
-          total_amount: product.price * order_item_quantity,
-          payment_method: 'cod'
-        },
-        {
-          id: order_id
-        });
+        await queryInterface.bulkUpdate('products',
+          {
+            stock: stock - order_item_quantity
+          },
+          {
+            id: product.id
+          });
+        await queryInterface.bulkUpdate('product_options',
+          {
+            stock: stock - order_item_quantity
+          },
+          {
+            id: product.option_id
+          });
+        // Cập nhật tổng tiền
+        await queryInterface.bulkUpdate('orders',
+          {
+            total_amount: product.price * order_item_quantity,
+            payment_method: 'cod'
+          },
+          {
+            id: order_id
+          });
+      }
     }
   },
 

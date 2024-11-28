@@ -131,10 +131,11 @@ const UserProfile = () => {
                         setIsEditing(false);
                     }
                 }
+
+                setUserData({ ...userData, password: "", confirmPassword: "", old_password: "" });
             } catch (err) {
                 console.log(err)
-                dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: "Something is wrong when updating your profile" });
-                return false;
+                dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: err.response.data.message });
             }
         }
     };
@@ -159,7 +160,6 @@ const UserProfile = () => {
 
     useEffect(() => {
         refreshUserData();
-        console.log(auth.user)
     }, [refreshUserData, auth.user]);
 
     useEffect(() => {
@@ -168,7 +168,7 @@ const UserProfile = () => {
                 dispatch({ type: "ERROR_ALERT", payload: "Bạn chưa đăng nhập" });
                 navigate("/auth/login");
             }
-        }, 2000);
+        }, 3000);
 
         return () => clearTimeout(timer); // Clear timeout on cleanup
     }, [auth, dispatch, navigate]);
@@ -248,6 +248,14 @@ const UserProfile = () => {
                                 label="Email"
                                 placeholder={"Email"}
                                 checkIcon={emailChecking ? <FiLoader /> : <FiCheck />}
+                            />
+                            <PasswordField
+                                icon={<FiLock />}
+                                value={userData.old_password}
+                                isEditing={isEditing}
+                                onChange={(val) => setUserData({ ...userData, old_password: val })}
+                                error={errors.old_password}
+                                label="Old Password"
                             />
 
                             <PasswordField

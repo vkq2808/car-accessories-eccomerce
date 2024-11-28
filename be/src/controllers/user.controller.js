@@ -24,9 +24,7 @@ const canDelete = (req_role, user_role) => {
 }
 export default class UserController {
 
-
-
-    updateInfo(req, res) {
+    async updateInfo(req, res) {
         try {
             if (!req.body) {
                 return res.status(400).json({ message: "Missing user info" });
@@ -42,11 +40,22 @@ export default class UserController {
             let update = formData;
 
             if (update.password) {
-                update.hashed_password = new UserService().hashUserPassword(update.password);
+                if (update.password.length < 8) {
+                    return res.status(400).json({ message: "Password must be at least 8 characters" });
+                }
+
+                let user = await new UserService().getOne({ where: { id } });
+
+                let old_password_match = await new UserService().compareUserPassword(update.old_password, user.hashed_password);
+                if (!old_password_match) {
+                    return res.status(400).json({ message: "Old password is incorrect" });
+                }
+                update.hashed_password = await new UserService().hashUserPassword(update.password);
                 delete update.password;
+                delete update.old_password;
             }
 
-            new UserService().update({ id, ...update });
+            await new UserService().update({ id, ...update });
 
             return res.status(200).json({ message: "Update successfully" });
         } catch (error) {

@@ -8,6 +8,7 @@ import orderRoute from "./order.route";
 import adminApiRoute from "./admin.route";
 import apllyUploadRouter from "./upload.route";
 import applyFileRoutes from "./file.route";
+import publicAPIRoute from "./public.route";
 
 export {
     authAPIRoute,
@@ -19,7 +20,8 @@ export {
     orderRoute,
     adminApiRoute,
     apllyUploadRouter,
-    applyFileRoutes
+    applyFileRoutes,
+    publicAPIRoute,
 }
 
 export const applyAllRoutes = (app) => {
@@ -33,4 +35,5 @@ export const applyAllRoutes = (app) => {
     adminApiRoute(app);
     apllyUploadRouter(app);
     applyFileRoutes(app);
+    publicAPIRoute(app);
 }

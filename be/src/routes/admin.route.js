@@ -4,6 +4,7 @@ import {
   CostController,
   OrderController,
   ProductController,
+  PublicController,
   UserController
 } from "../controllers";
 
@@ -40,9 +41,14 @@ let adminApiRoute = (app) => {
 
   adminApi.get("/cost", new CostController().getAll);
 
+  adminApi.get("/weekly-orders", new OrderController().getWeeklyOrders);
+
   adminApi.get("/monthly-revenue", new OrderController().getMonthlyRevenue);
   adminApi.get("/yearly-revenue", new OrderController().getYearlyRevenue);
   adminApi.get("/revenue", new OrderController().getRevenue);
+
+  adminApi.get("/promotion", new PublicController().getPromotions);
+  adminApi.put("/promotion", new PublicController().updatePromotions);
 
   return app.use("/api/v1/admin", adminApi);
 }

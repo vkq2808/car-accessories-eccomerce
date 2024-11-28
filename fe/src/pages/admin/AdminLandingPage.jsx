@@ -11,6 +11,8 @@ const AdminLandingPage = ({ child }) => {
   const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = window.location.pathname;
+  const [expandedSubmenus, setExpandedSubmenus] = useState([]);
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!auth.token) {
@@ -19,12 +21,33 @@ const AdminLandingPage = ({ child }) => {
       } else if (auth.user.role !== account_roles.ADMIN && auth.user.role !== account_roles.SUPER_ADMIN) {
         dispatch({ type: "ERROR_ALERT", payload: "Bạn không có quyền quản trị viên" });
         navigate("/");
+      } else {
+        if (location === "/admin") {
+          navigate("/admin/dashboard");
+          return;
+        }
+        if (location === "/admin/manage") {
+          navigate("/admin/manage/user");
+          return;
+        }
+        if (location === "/admin/analytics") {
+          navigate("/admin/analytics/revenue");
+          return;
+        }
+        if (location === "/admin/settings") {
+          navigate("/admin/settings/promotion");
+          return;
+        }
       }
     }, 3000);
 
     return () => clearTimeout(timer); // Clear timeout on cleanup
-  }, [auth, dispatch, navigate]);
+  }, [auth, dispatch, navigate, location]);
 
+  useEffect(() => {
+    setActiveMenu(location.split("/").slice(2).join("/"));
+    setExpandedSubmenus(expandedSubmenus => [...expandedSubmenus, location.split("/")[2]]);
+  }, [location]);
 
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activeMenu, setActiveMenu] = useState("");
@@ -34,10 +57,10 @@ const AdminLandingPage = ({ child }) => {
 
   const handleMenuClick = (menu_id) => {
     if (isCollapsed) setIsCollapsed(false);
-    setActiveMenu(menu_id);
     if (menuItems.find(menu => menu.id === menu_id)?.submenu?.length > 0) {
       return;
     }
+    setActiveMenu(menu_id);
     navigate(`/admin/${menu_id}`);
   };
 
@@ -70,7 +93,10 @@ const AdminLandingPage = ({ child }) => {
     {
       id: "settings",
       title: "Cài đặt web",
-      icon: <AiOutlineSetting className="w-5 h-5" />
+      icon: <AiOutlineSetting className="w-5 h-5" />,
+      submenu: [
+        { id: "settings/promotion", title: "Promotion", icon: <AiOutlineSetting className="w-4 h-4" /> }
+      ]
     }
   ];
 
@@ -87,6 +113,8 @@ const AdminLandingPage = ({ child }) => {
         admin_avatar_url={auth?.user?.image_url ?? ""}
         admin_name={auth?.user?.first_name && (auth?.user?.first_name + " " + auth?.user?.last_name)}
         admin_role={auth?.user?.role ?? ""}
+        expandedSubmenus={expandedSubmenus}
+        setExpandedSubmenus={setExpandedSubmenus}
       />
       <div className={`w-full min-h-[70vh] p-4 transition-all duration-300 ease-in-out ${isCollapsed ? "pl-24" : "pl-[17rem]"}`}>
         {child}

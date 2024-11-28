@@ -47,7 +47,7 @@ const OrderHistory = () => {
                   <td className="text-center p-2">
                     <button
                       onClick={() => handleViewOrder(order)}
-                      className="bg-[--tertiary-background-color] text-[--tertiary-text-color] p-2 rounded-md">
+                      className="bg-blue-400 text-white hover:bg-blue-600 p-2 rounded-md">
                       View
                     </button>
                   </td>
@@ -85,7 +85,7 @@ const ViewOrderDetail = ({ order, setViewOrder, setDisplayedOrders }) => {
           <h1 className="text-lg font-semibold">Order Detail</h1>
           <button
             onClick={() => setViewOrder(null)}
-            className="bg-[--tertiary-background-color] text-[--tertiary-text-color] p-2 rounded-md"
+            className="bg-blue-400 text-white hover:bg-blue-600 p-2 rounded-md"
           >
             Close
           </button>

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { BiSolidChevronDown, BiSolidChevronUp } from "react-icons/bi";
 import { RiMenuFoldLine, RiMenuUnfoldLine } from "react-icons/ri";
 
 
 
-const AdminSideBar = ({ isCollapsed, menuItems, handleMenuClick, activeMenu, toggleSidebar, admin_name, admin_role, admin_avatar_url }) => {
-    const [expandedSubmenus, setExpandedSubmenus] = useState([]);
+const AdminSideBar = ({ isCollapsed, menuItems, handleMenuClick, activeMenu, toggleSidebar, admin_name, admin_role, admin_avatar_url, expandedSubmenus, setExpandedSubmenus }) => {
+
     const toggleSubmenu = (menuId) => {
         setExpandedSubmenus(prev =>
             prev.includes(menuId)
@@ -22,11 +22,13 @@ const AdminSideBar = ({ isCollapsed, menuItems, handleMenuClick, activeMenu, tog
         >
             <div className="flex flex-col h-full">
                 <div className="p-5 border-b border-gray-500 flex items-center justify-end">
+
                     <button
                         onClick={toggleSidebar}
-                        className="p-2 rounded-lg hover:bg-gray-500 transition-colors duration-200"
+                        className="p-2 rounded-lg hover:bg-gray-500 transition duration-200 justify-between w-full items-center flex"
                         aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
                     >
+                        {!isCollapsed && <span >Thu gọn</span>}
                         {isCollapsed ? (
                             <RiMenuUnfoldLine className="w-6 h-6" />
                         ) : (

@@ -51,7 +51,6 @@ export default class AuthController {
         try {
             const user = await new UserService().getUserInfoByEmail(email);
             if (!user || !(await bcrypt.compare(password, user.hashed_password))) {
-                console.log("Email hoặc mật khẩu không chính xác");
                 return res.status(400).json({ message: "Email hoặc mật khẩu không chính xác" });
             }
 

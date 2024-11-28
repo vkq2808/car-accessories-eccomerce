@@ -5,7 +5,17 @@ import { BiLoaderAlt } from "react-icons/bi";
 import { admin_table_field_types } from "../../../constants/constants";
 import { maximizeString } from "../../../utils/stringUtils";
 
-const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRow, handleDeleteRow, rowsPerPage = 10, table_key = "1" }) => {
+const AdminTable = ({
+  title,
+  fields,
+  input_data,
+  handleAddNewRow,
+  handleUpdateRow,
+  handleDeleteRow,
+  rowsPerPage = 10,
+  table_key = "1",
+  actable = true
+}) => {
   const [data, setData] = useState(input_data);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const [isLoading, setIsLoading] = useState(false);
@@ -239,9 +249,9 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
 
   return (
     <div className="w-full mx-auto bg-[--primary-background-color] rounded-lg shadow-md shadow-[--quaternary-text-color] p-4">
-      <div className="flex flex-col lg:flex-row justify-between items-center mb-6">
+      {(actable || title) && <div className="flex flex-col lg:flex-row justify-between items-center mb-6">
         <h2 className="text-2xl font-semibold text-[--primary-text-color]">{title}</h2>
-        <div className="flex items-center justify-between p-4 border-b">
+        {actable && <div className="flex items-center justify-between p-4 border-b">
           <div className="flex-1 mr-4">
             <div className="">
               <input
@@ -255,27 +265,33 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
             </div>
           </div>
           <IoIosSearch cursor={'pointer'} size={24} />
-        </div>
-        <button
+        </div>}
+        {actable && <button
           type="button"
           onClick={() => { handleAddnew() }}
           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors duration-200"
           aria-label="Add new record"
         >
           <FaPlus /> Add New
-        </button>
-      </div>
+        </button>}
+      </div>}
 
       <div className="overflow-x-auto">
         <table className="w-full border-collapse table-auto">
           <thead>
             <tr className="bg-inherit">
-              {Object.keys(
-                Object.entries(fields)
-                  .filter(([key, value]) => !value.type.includes(admin_table_field_types.NO_SHOW_DATA))
-                  .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {})
-              )
-                .concat("Actions").map((header) => (
+              {(actable ?
+                Object.keys(
+                  Object.entries(fields)
+                    .filter(([key, value]) => !value.type.includes(admin_table_field_types.NO_SHOW_DATA))
+                    .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {})
+                ).concat("Actions")
+                :
+                (Object.keys(
+                  Object.entries(fields)
+                    .filter(([key, value]) => !value.type.includes(admin_table_field_types.NO_SHOW_DATA))
+                    .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {})
+                ))).map((header) => (
                   <th
                     key={table_key + 'header-' + header}
                     className="px-2 py-3 select-none text-left font-medium text-[--primary-text-color] bg-inherit uppercase tracking-wider cursor-pointer hover:bg-blue-400 transition-colors duration-200 text-sm"
@@ -302,14 +318,14 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
             </tr>
           </thead>
           <tbody>
-            {filteredData?.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage).map((item) => (
+            {filteredData?.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage).map((item, index) => (
               <tr
-                key={table_key + 'item' + item.id.value}
+                key={table_key + 'item' + item.id.value + index}
                 className="hover:bg-[--secondary-background-color] transition-colors duration-200 group"
               >
-                {Object.keys(fields).concat("Actions").map((field) => (
+                {(actable ? Object.keys(fields).concat("Actions") : Object.keys(fields)).map((field) => (
                   <TableCell
-                    key={table_key + 'field' + field + '-' + item.id.value}
+                    key={table_key + field + '-' + item.id?.value + index}
                     field={field}
                     item={item}
                     fields={fields}
@@ -318,6 +334,7 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
                     table_key={table_key}
                     setEditingId={setEditingId}
                     setShowConfirmDelete={setShowConfirmDelete}
+                    index={index}
                   />
                 ))}
               </tr>
@@ -446,13 +463,13 @@ const AdminTable = ({ title, fields, input_data, handleAddNewRow, handleUpdateRo
   );
 };
 
-const TableCell = ({ field, item, fields, handleEdit, handleDelete, table_key, setEditingId, setShowConfirmDelete }) => {
+const TableCell = ({ field, item, fields, handleEdit, handleDelete, table_key, setEditingId, setShowConfirmDelete, index }) => {
   if (fields[field]?.type.includes(admin_table_field_types.NO_SHOW_DATA)) {
     return null;
   }
 
   return (
-    <td key={table_key + field + '-' + item.id.value} className="px-3 py-2 text-xs whitespace-nowrap select-none">
+    <td key={table_key + field + '-' + item.id?.value + index} className="px-3 py-2 text-xs whitespace-nowrap select-none">
       {field !== "Actions" ? (
         fields[field]?.type.includes(admin_table_field_types.IMAGE) ? (
           <img src={item[field].value} alt="" className="w-8 h-8 rounded-[30%]" />

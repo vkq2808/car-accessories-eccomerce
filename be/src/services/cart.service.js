@@ -23,7 +23,6 @@ export default class CartService {
 
     async create(data, options = {}) {
         try {
-            console.log(data)
             const result = await this.model.create(data, options);
             return result;
         } catch (error) {

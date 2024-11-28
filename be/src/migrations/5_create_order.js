@@ -22,7 +22,7 @@ module.exports = {
         allowNull: false
       },
       total_amount: {
-        type: Sequelize.DECIMAL,
+        type: Sequelize.BIGINT,
         allowNull: true,
         defaultValue: 0
       },

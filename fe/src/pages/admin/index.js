@@ -5,6 +5,8 @@ import CategoryManagement from "./managements/CategoryManagement";
 import OrderManagement from "./managements/OrderManagement";
 import CostManagement from "./managements/CostManagement";
 import RevenueStatitics from "./analytics/RevenueStatitics";
+import AdminDashboard from "./dashboard/AdminDashboard";
+import PromotionSetting from "./settings/PromotionSetting";
 
 export {
   AccountManagement,
@@ -13,5 +15,7 @@ export {
   CategoryManagement,
   OrderManagement,
   CostManagement,
-  RevenueStatitics
+  RevenueStatitics,
+  AdminDashboard,
+  PromotionSetting
 };

@@ -1,9 +1,4 @@
-import customer from './customer';
-import admin from './admin';
-import common from './common';
+export * from './customer';
+export * from './admin';
+export * from './common';
 
-export default {
-    customer,
-    admin,
-    common
-}

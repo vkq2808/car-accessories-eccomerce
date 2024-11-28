@@ -8,8 +8,10 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  Label,
 } from 'recharts';
 import { getDataAPI } from '../../../utils/fetchData';
+import { formatNumberWithCommas } from '../../../utils/stringUtils';
 
 const RevenueStatitics = () => {
   const [monthlyRevenue, setMonthlyRevenue] = useState([]);
@@ -34,7 +36,7 @@ const RevenueStatitics = () => {
           guest: value.filter((item) => !item.user_id).reduce((acc, item) => acc + parseInt(item.total_amount), 0),
         }));
 
-        setMonthlyRevenue(monthlyData?.reverse());
+        setMonthlyRevenue(monthlyData?.sort((a, b) => new Date(a.name) - new Date(b.name)));
       } catch (error) {
         console.error('Error fetching revenue data:', error);
       }
@@ -54,7 +56,7 @@ const RevenueStatitics = () => {
           guest: value.filter((item) => !item.user_id).reduce((acc, item) => acc + parseInt(item.total_amount), 0),
         }));
 
-        setYearlyRevenue(yearlyData?.reverse());
+        setYearlyRevenue(yearlyData?.sort((a, b) => new Date(a.name) - new Date(b.name)));
       } catch (error) {
         console.error('Error fetching revenue data:', error);
       }
@@ -103,23 +105,53 @@ const RevenueStatitics = () => {
           </select>
         </div>
       </div>
-      <RevenueChart data={yearlyRevenue} title="Thống kê doanh thu theo năm" />
+      <RevenueChart data={yearlyRevenue} title="Thống kê doanh thu theo năm" date_type='month' />
     </div>
   );
 }
 
-const RevenueChart = ({ data, title }) => {
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white border border-gray-300 rounded-lg p-2 shadow-lg">
+        <p className="font-semibold text-gray-700">{`Ngày: ${label}`}</p>
+        <p className="text-blue-500">{`Doanh thu: ${(payload[0].value + payload[1].value).toLocaleString()} VND`}</p>
+      </div>
+    );
+  }
+  return null;
+};
+
+const getDayOfMonth = (dateString, date_type) => {
+  const date = new Date(dateString);
+  if (date_type === "day") {
+    return date.getDate();
+  }
+  if (date_type === "month") {
+    return date.getMonth() + 1;
+  }
+}
+
+
+export const RevenueChart = ({ data, title, date_type = "day" }) => {
   return (
     <div className='w-full min-h-[400px]'>
       <h2 className='mb-4'>{title}</h2>
       <ResponsiveContainer
         height={400}
       >
-        <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+        <BarChart data={data} margin={{ top: 40, right: 30, left: 50, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
+          <XAxis dataKey="name" tickFormatter={(value) => getDayOfMonth(value, date_type)} />
+          <YAxis tickFormatter={(value) => formatNumberWithCommas(value)}>
+            <Label
+              value="Doanh thu"
+              position="top"
+              offset={20}
+              style={{ textAnchor: 'middle' }}
+            />
+          </YAxis>
+          <Tooltip content={<CustomTooltip />} />
           <Legend />
           <Bar dataKey="user" fill="#8884d8" name="Doanh thu User" />
           <Bar dataKey="guest" fill="#82ca9d" name="Doanh thu Guest" />

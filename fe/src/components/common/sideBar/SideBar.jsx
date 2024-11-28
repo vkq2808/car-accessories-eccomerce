@@ -26,7 +26,7 @@ const Sidebar = ({ setIsSideBarOpen }) => {
                 { id: 11, title: "Hone", icon: <FiHome />, onClick: () => navigate("/") },
                 { id: 12, title: "Profile", icon: <FiUser />, onClick: () => navigate("/profile") },
                 { id: 13, title: "Documents", icon: <FiFolder />, onClick: () => navigate("/documents") },
-                { id: 14, title: "Admin management", icon: <FiSettings />, onClick: () => navigate("/admin/manage/user") },
+                { id: 14, title: "Admin Page", icon: <FiSettings />, onClick: () => navigate("/admin/dashboard") },
                 { id: 15, title: "Change Theme", icon: <IoMdSwitch />, onClick: () => dispatch({ type: GLOBALTYPES.THEME }) },
                 { id: 16, title: "Logout", icon: <RiLogoutCircleLine />, onClick: () => dispatch(logout()) }
             ]
