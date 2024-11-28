@@ -4,7 +4,7 @@ entity category {
   +name: text
   +description: text
   +link: text
-  +imgSrc: text
+  +image_url: text
 }
 
 entity product {

@@ -95,7 +95,8 @@ const AdminLandingPage = ({ child }) => {
       title: "Cài đặt web",
       icon: <AiOutlineSetting className="w-5 h-5" />,
       submenu: [
-        { id: "settings/promotion", title: "Promotion", icon: <AiOutlineSetting className="w-4 h-4" /> }
+        { id: "settings/promotion", title: "Promotion", icon: <AiOutlineSetting className="w-4 h-4" /> },
+        { id: "settings/policies", title: "Policies", icon: <AiOutlineSetting className="w-4 h-4" /> }
       ]
     }
   ];

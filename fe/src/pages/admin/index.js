@@ -6,7 +6,8 @@ import OrderManagement from "./managements/OrderManagement";
 import CostManagement from "./managements/CostManagement";
 import RevenueStatitics from "./analytics/RevenueStatitics";
 import AdminDashboard from "./dashboard/AdminDashboard";
-import PromotionSetting from "./settings/PromotionSetting";
+import PromotionSetting from "./settings/PromotionsSetting";
+import PoliciesSetting from "./settings/PoliciesSetting";
 
 export {
   AccountManagement,
@@ -17,5 +18,6 @@ export {
   CostManagement,
   RevenueStatitics,
   AdminDashboard,
-  PromotionSetting
+  PromotionSetting,
+  PoliciesSetting
 };

@@ -9,6 +9,7 @@ import SideBar from './sideBar/SideBar';
 import Header from './header/Header';
 import Cart from './header/cart/Cart';
 import PromotionSlider from './slider/PromotionSlider';
+import Policies from './other/Policies';
 
 export {
     Alert,
@@ -21,5 +22,6 @@ export {
     Header,
     Cart,
     LoadingSpinner,
-    PromotionSlider
+    PromotionSlider,
+    Policies
 }

@@ -69,7 +69,7 @@ Màn hình Ownice có thiết kế mỏng, dễ lắp cho hầu hết các dòng
 Sạc nhanh là tính năng đáng giá đối với xe hơi, khi mà thời gian di chuyển thông thường không liên tục. Bạn sẽ bỏ lỡ một cú sạc đầy 100% pin điện thoại và phải sạc nhiều lần nếu sử dụng cổng sạc thông thường. Điều đó gây hại nghiêm trọng tới tuổi thọ của pin và thiết bị di động.
         
         `,
-        stock: 10,
+        stock: 25,
         price: 500000,
         currency: "VND",
         category_id: 1,
@@ -102,7 +102,7 @@ Phim cách nhiệt 3M do 3M sản xuất, có hai loại chính: 3M crystalline 
 - Dòng sản phẩm mới ra mắt năm 2020, ceramic hồng ngoại.
 
 `,
-        stock: 2000,
+        stock: 20,
         price: 3000000,
         currency: "VND",
         category_id: 2,
@@ -150,7 +150,7 @@ Ford Territory là dòng xe SUV 7 chỗ với thiết kế hiện đại, tiện
 - **Chất lượng dịch vụ**: Sử dụng vật liệu chính hãng, quy trình chuẩn xác và tỉ mỉ.
 - **Bảo hành uy tín**: Chế độ bảo hành dài hạn và hỗ trợ khách hàng tận tình.
 - **Giá cả cạnh tranh**: Mức giá hợp lý, không phát sinh chi phí ngoài hợp đồng.`,
-        stock: 10,
+        stock: 20,
         price: 5000000,
         currency: "VND",
         category_id: 5,
@@ -197,7 +197,7 @@ Ford Territory là dòng xe SUV 7 chỗ với thiết kế hiện đại, tiện
 - **Chất lượng dịch vụ**: Sử dụng vật liệu chính hãng, quy trình chuẩn xác và tỉ mỉ.
 - **Bảo hành uy tín**: Chế độ bảo hành dài hạn và hỗ trợ khách hàng tận tình.
 - **Giá cả cạnh tranh**: Mức giá hợp lý, không phát sinh chi phí ngoài hợp đồng.`,
-        stock: 10,
+        stock: 20,
         price: 5000000,
         currency: "VND",
         category_id: 5,
@@ -361,7 +361,7 @@ Không chỉ bền vững và hiệu quả, nước hoa cho xe ô tô của Lê 
 
 Với mức giá cạnh tranh, bạn có thể tiết kiệm chi phí mà vẫn được tận hưởng một không gian xe thơm phức và sang trọng. Tóm lại, nước hoa cho xe ô tô của Lê Nguyễn Auto không chỉ đem đến mùi hương dễ chịu, mà còn mang đến sự tin cậy và hài lòng cho khách hàng trong việc làm đẹp và làm mới không gian nội thất xe hơi.
 `,
-        stock: 2000,
+        stock: 20,
         price: 1500000,
         currency: "VND",
         category_id: 7,
@@ -458,7 +458,7 @@ Perfect Car có thể lắp đặt cho nhiều dòng xe với thiết kế zin, 
 - Nút bấm mở cốp trên xe và cốp sau
 - Chất liệu nhựa ABS và kim loại chống gỉ, bền bỉ
 `,
-        stock: 10,
+        stock: 20,
         price: 9000000,
         currency: "VND",
         category_id: 9,
@@ -502,7 +502,7 @@ Bi Aozoom Domax và Bi gầm F Light Audi Q7 đều là các phụ kiện ánh s
 - Nút bấm và công tắc điều khiển
 
 `,
-        stock: 300,
+        stock: 30,
         price: 12000000,
         currency: "VND",
         category_id: 10,
@@ -542,7 +542,7 @@ Bi gầm Wasp Led Fog Light là loại bi đèn sương mù trang bị bóng đ�
 - Không để bi đèn dưới trời nắng nóng lâu, tránh nhiệt độ quá cao làm hư hỏng LED.
 - Kiểm tra độ sáng định kỳ, thay mới khi sáng yếu dần theo thời gian.
 `,
-        stock: 500,
+        stock: 25,
         price: 15000000,
         currency: "VND",
         category_id: 10,
@@ -573,7 +573,7 @@ Bi gầm Wasp LED Fog Light là một tùy chọn phụ kiện sau-market cho BM
 - **Tiết kiệm năng lượng**: Công nghệ LED tiên tiến giúp tiết kiệm năng lượng hơn so với đèn halogen truyền thống.
 - **Dễ dàng lắp đặt**: Wasp LED Fog Light được thiết kế để phù hợp với BMW X6 2010, dễ dàng lắp đặt mà không cần thay đổi kết cấu của xe.
 `,
-        stock: 300,
+        stock: 30,
         price: 17000000,
         currency: "VND",
         category_id: 10,
@@ -614,7 +614,7 @@ Sự phát triển không ngừng trong công nghệ ô tô mang lại không ch
 - **Tích hợp thẩm mỹ và hiện đại**: Đèn Aozoom được thiết kế hiện đại, nâng cấp thẩm mỹ cho xe.
 - **Tư vấn chuyên nghiệp**: Đội ngũ nhân viên tư vấn giúp bạn chọn sản phẩm phù hợp với nhu cầu.
 `,
-        stock: 300,
+        stock: 30,
         price: 20000000,
         currency: "VND",
         category_id: 10,
@@ -658,7 +658,7 @@ Chóa đèn xe ô tô trở nên mờ có thể do nhiều nguyên nhân khác n
 - **Đảm bảo an toàn**: Sử dụng dịch vụ đánh bóng đảm bảo an toàn cho hệ thống chiếu sáng và xe của bạn.
 - **Tư vấn chuyên nghiệp**: Kỹ thuật viên có thể cung cấp tư vấn về cách bảo dưỡng và bảo vệ chóa đèn.
 `,
-        stock: 500,
+        stock: 25,
         price: 1000000,
         currency: "VND",
         category_id: 10,
@@ -727,7 +727,7 @@ Aozoom cung cấp các mẫu đèn bi LED dành riêng cho dòng xe VF3 của Vi
 - **Đảm bảo an toàn**: Ánh sáng không chói giúp giảm thiểu tình trạng chói mắt cho người đối diện, đảm bảo an toàn cho cả người lái và người đi đường.
 - **Dễ dàng lắp đặt**: Thiết kế chuẩn xác, dễ dàng lắp đặt vào các loại xe khác nhau mà không cần chế cháo.
 `,
-        stock: 500,
+        stock: 25,
         price: 2500000,
         currency: "VND",
         category_id: 10,
@@ -773,7 +773,7 @@ Việc lắp đèn LED nội thất V3 cho xe Mazda 6 2023 không chỉ là mộ
 - **Bảo dưỡng**: Dễ dàng tháo lắp để bảo dưỡng khi cần thiết.
 - **Giá cả**: Cân nhắc giữa giá cả và chất lượng sản phẩm.
 `,
-        stock: 10,
+        stock: 20,
         price: 1500000,
         currency: "VND",
         category_id: 10,
@@ -814,7 +814,7 @@ Khi nói đến việc cải thiện hiệu suất và tăng cường tính th�
 
 Hỗ trợ sau bán hàng: Cung cấp bảo hành và hỗ trợ cho sản phẩm đã lắp đặt.
 `,
-        stock: 10,
+        stock: 20,
         price: 8000000,
         currency: "VND",
         category_id: 3,
@@ -866,7 +866,7 @@ Khi ánh sáng từ đèn xe phản chiếu trên con đường phía trước, 
 **Bước 7**: Thử nghiệm xe trên đường để đảm bảo khách hàng hài lòng.
 **Bước 8**: Bàn giao xe và hướng dẫn sử dụng, bảo dưỡng đèn mới.
 `,
-        stock: 10,
+        stock: 20,
         price: 9500000,
         currency: "VND",
         category_id: 10,
@@ -896,7 +896,7 @@ Chưa kể, ở nhiều dòng xe bản thấp bị cắt giảm chi tiết đèn
 
 Với việc đảm bảo những tiêu chí an toàn kể trên, chủ xe hoàn toàn có thể an tâm sử dụng dịch vụ độ đèn xe ô tô tăng sáng.
 `,
-        stock: 10,
+        stock: 20,
         price: 4500000,
         currency: "VND",
         category_id: 10,
@@ -955,7 +955,7 @@ Việc độ đèn bi Aozoo Thor cho Kia Sportage 2023 mang lại nhiều lợi 
 
 Việc độ đèn bi Aozoo Thor cho Kia Sportage 2023 mang đến nhiều lợi ích vượt trội. Từ ánh sáng mạnh mẽ và tầm nhìn tốt hơn đến tiết kiệm năng lượng và tính thẩm mỹ, đèn bi Aozoo Thor nâng cao trải nghiệm lái xe và đảm bảo an toàn trên đường.
 `,
-        stock: 10,
+        stock: 20,
         price: 6000000,
         currency: "VND",
         category_id: 10,
@@ -993,7 +993,7 @@ Hãy cùng Lê Nguyễn Auto khám phá những ưu điểm không thể bỏ qu
 - **Hệ thống điều chỉnh cơ học**: Sử dụng bộ phận điều chỉnh tích hợp trên đèn, có thể được thao tác thủ công hoặc qua một động cơ nhỏ.
 - **Hệ thống điều chỉnh tự động**: Một số mẫu đèn hiện đại có thể tự động điều chỉnh góc chiếu dựa trên thông tin từ cảm biến của xe, như cảm biến góc lái hoặc cảm biến tải trọng.
 `,
-        stock: 10,
+        stock: 20,
         price: 7000000,
         currency: "VND",
         category_id: 10,
@@ -1032,7 +1032,7 @@ Hãy cùng Lê Nguyễn Auto khám phá những ưu điểm không thể bỏ qu
 - Hoạt động bền bỉ trong mọi điều kiện thời tiết: Hệ thống đèn laser tỏa ra rất nhiều nhiệt so với đèn LED do đó đòi hỏi phải có các bộ tản nhiệt bổ sung. Tuy nhiên, nhà sản xuất Aozoom đã trang bị hệ thống tản nhiệt bổ sung cho Bi Laser JAGUAR Light AOZOOM nên đèn vẫn có thể hoạt động đảm bảo đúng công suất, tuổi thọ. Do đó, sản phẩm này cho tuổi thọ cao và khả năng hoạt động bền bỉ trong những điều kiện khắc nghiệt.
 - Đèn Bi Pha Laser JAGUAR AOZOOM có thể lắp cho đèn pha và cos: Trước kia công nghệ đèn laser nguyên bản theo xe chưa thể đảm nhiệm vai trò chiếu gần và chiếu xa mà phải đi kèm đèn LED hoặc đèn Xenon. Tuy nhiên, hiện nay công nghệ hiện đại hơn, bi laser Aozoom có thể lắp đặt được cho cả đèn pha và đèn cos. Đây có thể là một ưu điểm lớn của công nghệ bi laser ô tô.
 `,
-        stock: 10,
+        stock: 20,
         price: 7500000,
         currency: "VND",
         category_id: 10,
@@ -1090,7 +1090,7 @@ Thời gian lắp đặt phụ thuộc vào độ khó của từng dòng xe và
 - BƯỚC 2: Hấp tách đèn, lắp đèn bi Laser vào chóa đèn, căn chỉnh.
 - BƯỚC 3: Vệ sinh, thêm keo và hấp đèn hoàn thành, lắp đặt lên xe và xử lý nguồn điện đèn.
 `,
-        stock: 10,
+        stock: 20,
         price: 8500000,
         currency: "VND",
         category_id: 10,
@@ -1148,7 +1148,7 @@ Các sản phẩm chính bao gồm đèn xenon HID, Bi LED, Bi Laser, Bi Xenon�
 
 Hiện nay, đèn xenon Aozoom ngày càng được ưa chuộng nên dẫn đến việc xuất hiện các sản phẩm giả nhái đèn Aozoom với chất lượng kém gây nhiều nguy hiểm khi lái xe. Vì vậy, là người tiêu dùng thông minh bạn cần lựa chọn kỹ các địa điểm phân phối và bán đèn Xenon Aozoom chính hãng, uy tín để lắp đặt cho xế yêu của mình.
 `,
-        stock: 10,
+        stock: 20,
         price: 8500000,
         currency: "VND",
         category_id: 10,
@@ -1259,7 +1259,7 @@ Mỗi khách hàng sẽ có nhu cầu độ đèn tăng sáng xe khác nhau. Đ�
 Nếu mua tìm sản phẩm đáp ứng yêu cầu thẩm mỹ sang trọng, màu sắc đa dạng, ít tốn năng lượng nên chọn đèn Bi LED.
 
 `,
-        stock: 2000,
+        stock: 20,
         price: 8500000,
         currency: "VND",
         category_id: 10,
@@ -1295,7 +1295,7 @@ Bạn đang sở hữu một chiếc Ford Territory và muốn nâng cấp hệ 
 | Màu ánh sáng | Trắng xanh, cải thiện độ bám đường| Trắng tinh khiết, tăng khả năng xuyên thấu |
 | Tính năng nổi bật | Hệ thống tản nhiệt hiệu quả, chống chói| Công nghệ điều chỉnh ánh sáng tự động, tuổi thọ cao |
 `,
-        stock: 10,
+        stock: 20,
         price: 8500000,
         currency: "VND",
         category_id: 10,
@@ -1346,7 +1346,7 @@ Khi nói đến độ đèn tăng sáng cho xe Hyundai Custin, không chỉ là 
 - **Đảm Bảo An Toàn:** Tuân thủ tiêu chuẩn an toàn và luật lệ giao thông.
 - **Dịch Vụ Hậu Mãi:** Cung cấp dịch vụ hậu mãi để bảo đảm hệ thống hoạt động ổn định.
 `,
-        stock: 10,
+        stock: 20,
         price: 8500000,
         currency: "VND",
         category_id: 10,
@@ -1384,7 +1384,7 @@ Xpander Cross là mẫu xe 7 chỗ cỡ nhỏ của hãng Mitsubishi Motors, thu
 - Chi phí đầu tư hợp lý so với hiệu quả mang lại.
 - Tầm chiếu xa và rộng hơn, an toàn giao thông tăng lên.
 `,
-        stock: 10,
+        stock: 20,
         price: 8500000,
         currency: "VND",
         category_id: 10,
@@ -1430,7 +1430,7 @@ Bi Laser Omega là sản phẩm đèn pha thế hệ mới được thiết kế
 - Tránh sử dụng các chất tẩy rửa mạnh có thể làm hỏng lớp phủ bảo vệ của đèn.
 - Tắt nguồn điện trước khi vệ sinh Bi Laser Omega.
 `,
-        stock: 10,
+        stock: 20,
         price: 11500000,
         currency: "VND",
         category_id: 10,
@@ -1506,7 +1506,7 @@ Lắp đặt và sử dụng Bi LED X-LED Pro Domax và Bi Laser Thor trên Ford
 - Định kỳ kiểm tra và bảo dưỡng hệ thống chiếu sáng.
 - Tránh điều chỉnh quá mức hoặc tự ý can thiệp vào các thành phần.
 `,
-        stock: 10,
+        stock: 20,
         price: 19500000,
         currency: "VND",
         category_id: 10,
@@ -1578,7 +1578,7 @@ Quy trình cơ bản để lắp đặt bi LED Leo Light và bi gầm WASP LED F
 - Sau khi kiểm tra hoàn tất, lắp đặt viên pin cực và các bộ phận trang trí cuối cùng nếu cần.
 - Vệ sinh kỹ lưỡng để loại bỏ bụi bẩn và dầu mỡ từ quá trình lắp đặt.
 `,
-        stock: 10,
+        stock: 20,
         price: 16500000,
         currency: "VND",
         category_id: 10,
@@ -1624,7 +1624,7 @@ Sau khi lắp đặt đèn, bước cuối cùng là cân chỉnh lại góc chi
 - **Kiểm tra và bảo dưỡng định kỳ**: Sau khi độ đèn, bạn nên kiểm tra và bảo dưỡng định kỳ hệ thống đèn để đảm bảo độ bền và hiệu suất hoạt động tốt nhất.
 - **Tuân thủ quy định về ánh sáng**: Khi độ đèn, cần lưu ý tuân thủ các quy định về ánh sáng của pháp luật, tránh làm phiền và gây chói mắt cho các phương tiện tham gia giao thông khác.
 `,
-        stock: 10,
+        stock: 20,
         price: 19500000,
         currency: "VND",
         category_id: 10,
@@ -1683,7 +1683,7 @@ So với đèn pha halogen hoặc HID nguyên bản, bi gầm Wasp Aozooom cung 
 **Phản hồi của người dùng**:
 Người dùng đánh giá cao khả năng chiếu sáng vượt trội, tuổi thọ cao và thiết kế chống nước của bi gầm Wasp Aozooom. Nhiều người báo cáo rằng việc lắp đặt bi gầm đã cải thiện đáng kể trải nghiệm lái xe ban đêm của họ, tăng cường sự an toàn và sự tự tin. Một số người dùng cũng lưu ý rằng việc lắp đặt tương đối dễ dàng và không yêu cầu bất kỳ sửa đổi lớn nào đối với cụm đèn pha nguyên bản.
 `,
-        stock: 10,
+        stock: 20,
         price: 6500000,
         currency: "VND",
         category_id: 10,
@@ -1735,7 +1735,7 @@ Hệ thống đèn pha LED Bi Laser Thor là một điểm nhấn ấn tượng 
 
 Đối với những người yêu thích sự năng động và cá tính, cũng như đề cao tính an toàn, Honda HR-V 2023 là một lựa chọn phù hợp. Với khả năng vận hành mạnh mẽ, tiện nghi trong nội thất và các tính năng an toàn tiên tiến, HR-V đáp ứng được nhu cầu của người lái hiện đại, tạo ra một trải nghiệm lái xe đáng giá.
 `,
-        stock: 10,
+        stock: 20,
         price: 7500000,
         currency: "VND",
         category_id: 10,
@@ -1772,7 +1772,7 @@ Lắp đặt bi LED cho Hyundai Creta mang đến nhiều ưu điểm vượt tr
 - **Tăng cường độ an toàn cho xe**: Khởi động nhanh chỉ trong 0,2 giây, giúp bạn có tầm nhìn nhanh chóng khi cần phanh gấp hoặc di chuyển trong điều kiện thiếu sáng. Chống rung, chống nước tốt, phù hợp với mọi điều kiện thời tiết, kể cả địa hình gồ ghề hay mưa gió. Tích hợp nhiều tính năng hiện đại như tự động điều chỉnh độ cao chùm sáng, tự động bật/tắt đèn theo ánh sáng môi trường, tự động chuyển đổi chùm sáng gần/xa,... giúp bạn lái xe an toàn và thoải mái hơn.
 - **Sự thẩm mỹ**: Bi LED có nhiều màu sắc khác nhau để bạn lựa chọn, phù hợp với sở thích và phong cách của mỗi người. Thiết kế hiện đại, sang trọng, góp phần nâng tầm đẳng cấp cho chiếc Hyundai Creta của bạn.
 `,
-        stock: 10,
+        stock: 20,
         price: 6500000,
         currency: "VND",
         category_id: 10,
@@ -1810,7 +1810,7 @@ Hyundai Custin là một mẫu xe thương mại được ưa chuộng bởi nhi
 - **Cải thiện thẩm mỹ cho xe**: Thiết kế nhỏ gọn và hiện đại của bi gầm WASP LED Fog Light không chỉ tăng cường khả năng chiếu sáng mà còn góp phần nâng cao tính thẩm mỹ cho xe Hyundai Custin, tạo nên vẻ ngoài sang trọng và thể thao hơn.
 - **Tiết kiệm chi phí bảo dưỡng và thay thế**: Tuổi thọ cao lên đến 50.000 giờ của bi gầm WASP LED Fog Light giúp giảm đáng kể chi phí bảo dưỡng và thay thế so với các loại đèn truyền thống, tiết kiệm tiền bạc cho người dùng trong quá trình sử dụng xe.
 `,
-        stock: 10,
+        stock: 20,
         price: 4800000,
         currency: "VND",
         category_id: 10,
@@ -1844,7 +1844,7 @@ Bi Laser Iron Light là một bước tiến mới trong lĩnh vực công ngh�
 - **Tăng cường sự an toàn khi lái xe trong điều kiện ánh sáng yếu**: Ánh sáng yếu là nguyên nhân chính gây ra các tai nạn vào ban đêm hoặc khi trời u ám. Đèn Bi Laser Iron Light cung cấp độ sáng cao, giúp người lái phát hiện sớm các chướng ngại vật, động vật hoặc người đi bộ từ xa, giảm nguy cơ va chạm và tăng cường sự an toàn khi lái xe.
 - **Nâng cao giá trị thẩm mỹ cho Hyundai Elantra 2018**: Ngoài những lợi ích về mặt hiệu suất và an toàn, việc nâng cấp lên đèn Bi Laser Iron Light còn làm tăng giá trị thẩm mỹ cho Hyundai Elantra 2018. Đèn laser mang lại vẻ ngoài hiện đại, sang trọng, góp phần nâng cao đẳng cấp của chiếc xe.
 `,
-        stock: 10,
+        stock: 20,
         price: 7600000,
         currency: "VND",
         category_id: 10,
@@ -1908,7 +1908,7 @@ Khi sử dụng công nghệ bi laser Thor Aozoom trên Hyundai Palisade 2024, t
 
 Việc lắp đặt đèn bi laser Thor Aozoom trên Hyundai Palisade 2024 rất đơn giản và thuận tiện nhờ thiết kế plug-and-play, tính tương thích cao với hệ thống điện của xe, và không cần thay đổi cấu trúc ban đầu. Hỗ trợ kỹ thuật từ nhà sản xuất và dịch vụ hậu mãi chu đáo cũng là một điểm cộng lớn, giúp người dùng dễ dàng nâng cấp hệ thống chiếu sáng của xe mà không gặp phải nhiều khó khăn.
 `,
-        stock: 10,
+        stock: 20,
         price: 8500000,
         currency: "VND",
         category_id: 10,
@@ -1955,7 +1955,7 @@ Bi gầm WASP LED Fog Light không chỉ mang đến hiệu suất chiếu sáng
 - **Tiết kiệm năng lượng**: Bi gầm WASP LED Fog Light sử dụng công nghệ LED tiên tiến, tiêu thụ điện năng thấp hơn 30% so với đèn LED thông thường và 80% so với bóng halogen truyền thống. Điều này giúp tiết kiệm chi phí nhiên liệu cho người sử dụng, đồng thời góp phần giảm thiểu lượng khí thải CO2 ra môi trường, bảo vệ môi trường sống xanh, sạch, đẹp.
 - **Tầm nhìn về bền vững**: Bi gầm WASP LED Fog Light có tuổi thọ cao gấp 5 lần so với bóng halogen, hạn chế thay thế, tiết kiệm chi phí và góp phần giảm thiểu rác thải điện tử. Sản phẩm được sản xuất từ vật liệu cao cấp, thân thiện với môi trường, có thể tái chế. Việc sử dụng Bi gầm WASP LED Fog Light góp phần lan tỏa thông điệp bảo vệ môi trường, hướng đến một tương lai phát triển bền vững.
 `,
-        stock: 10,
+        stock: 20,
         price: 3500000,
         currency: "VND",
         category_id: 10,
@@ -2000,7 +2000,7 @@ Dưới đây là những ưu điểm nổi bật của bi Laser Omega:
 - **Tăng cường sự an toàn**: Khởi động nhanh chỉ trong 0,2 giây, giúp bạn có tầm nhìn nhanh chóng khi cần phanh gấp hoặc di chuyển trong điều kiện thiếu sáng. Chống rung, chống nước tốt, phù hợp với mọi điều kiện thời tiết, kể cả địa hình gồ ghề hay mưa gió. Tích hợp nhiều tính năng hiện đại như: tự động điều chỉnh độ cao chùm sáng, tự động bật/tắt đèn theo ánh sáng môi trường, tự động chuyển đổi chùm sáng gần/xa,... giúp bạn lái xe an toàn và thoải mái hơn.
 - **Tăng tính thẩm mỹ cho xe**: Bi Laser Omega có nhiều màu sắc khác nhau để bạn lựa chọn, phù hợp với sở thích và phong cách của mỗi người. Thiết kế hiện đại, sang trọng, góp phần nâng tầm đẳng cấp cho chiếc KIA Sorento 2018 của bạn.
 `,
-        stock: 10,
+        stock: 20,
         price: 5000000,
         currency: "VND",
         category_id: 10,
@@ -2041,7 +2041,7 @@ X-Light F10 là một loại đèn xe hơi LED chất lượng cao được thi�
 
 Quy trình này đảm bảo rằng việc lắp đặt đèn X-Light F10 cho xe Honda diễn ra một cách chuyên nghiệp và an toàn, và đảm bảo rằng khách hàng sẽ tận hưởng ánh sáng chiếu sáng tốt nhất từ sản phẩm này.
 `,
-        stock: 10,
+        stock: 20,
         price: 3000000,
         currency: "VND",
         category_id: 10,
@@ -2079,7 +2079,7 @@ Phụ kiện có rất nhiều kiểu dáng và màu sắc khác nhau để phù
 - **Hoàn thiện**: Cuối cùng, sau khi đèn LED nội thất đã được lắp đặt và kiểm tra hoạt động đúng, nhân viên sẽ hoàn thiện quá trình lắp đặt và dọn dẹp không gian nội thất của xe.
 - **Giao xe**: Sau khi hoàn thành, xe Innova đã được trang bị đèn LED nội thất hoàn chỉnh và sẵn sàng để giao lại cho khách hàng.
 `,
-        stock: 2000,
+        stock: 20,
         price: 1500000,
         currency: "VND",
         category_id: 10,
@@ -2205,7 +2205,7 @@ Trong khía cạnh vận hành, Mazda CX-5 2024 được trang bị động cơ 
 - **Bi Laser Omega Domax:** Có giá cao hơn nhưng hiệu suất chiếu sáng cao, phù hợp với nhu cầu chuyên nghiệp.
 - **Bi Laser Thor:** Giá thành thấp hơn, hiệu quả chi phí cao do tuổi thọ dài và tiết kiệm năng lượng.
 `,
-        stock: 2000,
+        stock: 20,
         price: 3500000,
         currency: "VND",
         category_id: 10,
@@ -2296,7 +2296,7 @@ Công nghệ Bi Gầm Wasp LED Fog Light là một tiên tiến trong lĩnh vự
 
 - **Đối chiếu với các công nghệ khác trên thị trường:** Bi Gầm Wasp LED Fog Light cung cấp ánh sáng mạnh mẽ hơn, tiết kiệm năng lượng và có tuổi thọ cao hơn so với các công nghệ như HID.
 `,
-        stock: 2000,
+        stock: 20,
         price: 4500000,
         currency: "VND",
         category_id: 10,
@@ -2335,7 +2335,7 @@ Các bước độ đèn tăng sáng VF3 bao gồm:
 - **Tháo dỡ đèn cũ và lắp đặt đèn mới:** Quy trình này yêu cầu kỹ thuật viên chuyên nghiệp để đảm bảo không làm hỏng hệ thống điện hay các bộ phận liên quan của xe.
 - **Kiểm tra ánh sáng sau khi lắp đặt:** Sau khi độ đèn, việc kiểm tra ánh sáng để đảm bảo đúng góc chiếu và độ sáng mong muốn là bước cuối cùng và quan trọng.
 `,
-        stock: 2000,
+        stock: 20,
         price: 4200000,
         currency: "VND",
         category_id: 10,
@@ -2422,7 +2422,7 @@ Khi lựa chọn độ đèn Square V1 cho VinFast VF3, người dùng sẽ có 
 - **Nâng cấp dễ dàng:** Đèn Square V1 tương thích hoàn hảo và dễ dàng lắp đặt.
 
 `,
-        stock: 2000,
+        stock: 20,
         price: 4000000,
         currency: "VND",
         category_id: 10,
@@ -2461,7 +2461,7 @@ Nâng cấp đèn chiếu sáng trên ô tô lên một hệ thống hiệu qu�
 - **Tăng giá trị xe:** Nâng cấp đèn chiếu sáng không chỉ tạo ra một điểm nhấn cho chiếc xe mà còn tăng giá trị tổng thể của nó.
 
 `,
-        stock: 2000,
+        stock: 20,
         price: 8500000,
         currency: "VND",
         category_id: 10,
@@ -2489,7 +2489,7 @@ Quy trình lắp đặt đèn Bi Aozoom XLED Pro Domax và độ đèn mí, xi n
 ### 4. Lợi ích và khuyến nghị
 Việc nâng cấp hệ thống đèn ô tô bằng các sản phẩm chất lượng như Đèn Bi Aozoom XLED Pro Domax và độ đèn mí, xi nhan LED mang lại nhiều lợi ích. Chúng giúp cải thiện độ sáng và khả năng chiếu sáng, tăng độ an toàn khi lái xe, tiết kiệm điện năng và có tuổi thọ cao hơn so với đèn thông thường.
 `,
-        stock: 3000,
+        stock: 30,
         price: 7000000,
         currency: "VND",
         category_id: 10,
@@ -2538,7 +2538,7 @@ Việc độ đèn bi tăng sáng cho xe Trailblazer mang lại nhiều lợi í
 
 - **Bàn giao và hướng dẫn sử dụng**: Khách hàng nhận xe cùng hướng dẫn chi tiết về cách sử dụng và bảo quản.
 `,
-        stock: 3000,
+        stock: 30,
         price: 7500000,
         currency: "VND",
         category_id: 10,
@@ -2586,7 +2586,7 @@ Bi Aozoom Thor là một sản phẩm mới của thương hiệu Aozoom, đư�
 
 - **Bảo dưỡng định kỳ**: Vệ sinh đèn pha và bảo quản sản phẩm cẩn thận.
 `,
-        stock: 3000,
+        stock: 30,
         price: 6500000,
         currency: "VND",
         category_id: 10,
@@ -2632,7 +2632,7 @@ Sở hữu một chiếc xe BMW luôn là niềm tự hào của mỗi chủ nh�
 - **Bước 5: Kiểm tra và hoàn thiện**: Đảm bảo không có lỗi.
 - **Bước 6: Thời gian khô**: Lớp phủ cần thời gian để hóa rắn từ 6 đến 10 tiếng.
 `,
-        stock: 2000,
+        stock: 20,
         price: 15000000,
         currency: "VND",
         category_id: 8,
@@ -2671,7 +2671,7 @@ Phủ ceramic cho xe Kia Sedona là dịch vụ bảo vệ và làm đẹp bề 
 - **Bước 8**: Sấy lớp phủ bằng đèn hồng ngoại tiêu chuẩn.
 - **Bước 9**: Kiểm tra và bàn giao xe cho khách hàng.
 `,
-        stock: 3000,
+        stock: 30,
         price: 8000000,
         currency: "VND",
         category_id: 8,
@@ -2710,7 +2710,7 @@ Phủ ceramic xe ô tô là một quá trình chăm sóc và bảo vệ bề m�
 - **Bước 8**: Sấy lớp phủ bằng đèn hồng ngoại tiêu chuẩn.
 - **Bước 9**: Kiểm tra và bàn giao xe cho khách hàng.
 `,
-        stock: 3000,
+        stock: 30,
         price: 8000000,
         currency: "VND",
         category_id: 8,
@@ -2748,7 +2748,7 @@ Phủ ceramic xe ô tô là một quá trình chăm sóc và bảo vệ bề m�
 - **Bước 8**: Sấy lớp phủ bằng đèn hồng ngoại tiêu chuẩn.
 - **Bước 9**: Kiểm tra và bàn giao xe cho khách hàng.
 `,
-        stock: 3000,
+        stock: 30,
         price: 9000000,
         currency: "VND",
         category_id: 8,
@@ -2788,7 +2788,7 @@ Việc phủ ceramic ngay khi xe còn mới là điều được khuyến khích
 Chọn dịch vụ có thương hiệu uy tín, chi phí hợp lý và tay nghề cao. Kiểm tra kết quả sau khi hoàn thành để đảm bảo chất lượng.
 
 `,
-        stock: 3000,
+        stock: 30,
         price: 7500000,
         currency: "VND",
         category_id: 8,
@@ -2846,7 +2846,7 @@ Phim cách nhiệt có các mã tối màu có khả năng chống nhìn từ ng
 - Phiếu bảo hành.
 
 `,
-        stock: 2000,
+        stock: 20,
         price: 5000000,
         currency: "VND",
         category_id: 2,
@@ -2917,7 +2917,7 @@ Sử dụng phim cách nhiệt kém chất lượng đem lại nhiều hậu qu�
 - Dựa vào phiếu bảo hành gói dán phim cách nhiệt 3M Bình Dương.
 
 `,
-        stock: 2000,
+        stock: 20,
         price: 4500000,
         currency: "VND",
         category_id: 2,
@@ -3006,7 +3006,7 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
 
 
 `,
-        stock: 10,
+        stock: 20,
         price: 19500000,
         currency: "VND",
         category_id: 1,
@@ -3095,7 +3095,7 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
 
 
 `,
-        stock: 10,
+        stock: 20,
         price: 14500000,
         currency: "VND",
         category_id: 1,
@@ -3174,7 +3174,7 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
 - Lệnh gọi để vào Radio: “Nghe Radio”
 
 `,
-        stock: 10,
+        stock: 20,
         price: 17500000,
         currency: "VND",
         category_id: 1,
@@ -3332,7 +3332,7 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
 - Lệnh gọi để vào Radio: “Nghe Radio”
 
 `,
-        stock: 2000,
+        stock: 20,
         price: 14900000,
         currency: "VND",
         category_id: 1,
@@ -3399,7 +3399,7 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
 - Lệnh gọi để vào Radio: “Nghe Radio”
 
 `,
-        stock: 2000,
+        stock: 20,
         price: 14500000,
         currency: "VND",
         category_id: 1,
@@ -3466,7 +3466,7 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
 - Lệnh gọi để vào Radio: “Nghe Radio”
 
 `,
-        stock: 2000,
+        stock: 20,
         price: 11900000,
         currency: "VND",
         category_id: 1,
@@ -3533,7 +3533,7 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
 - Lệnh gọi để vào Radio: “Nghe Radio”
 
 `,
-        stock: 2000,
+        stock: 20,
         price: 8900000,
         currency: "VND",
         category_id: 1,
@@ -3590,7 +3590,7 @@ Với 72 sắc màu thời thượng trên màn hình, cho bạn tự do thay đ
 Đặc biệt, tích hợp giao diện tự động hóa theo thời gian: Bình minh, Ban ngày, Ban đêm. Tạo nên điểm nhấn không sản phẩm nào có được.
 
 `,
-        stock: 2000,
+        stock: 20,
         price: 20900000,
         currency: "VND",
         category_id: 1,
@@ -3647,7 +3647,7 @@ Với 72 sắc màu thời thượng trên màn hình, cho bạn tự do thay đ
 Đặc biệt, tích hợp giao diện tự động hóa theo thời gian: Bình minh, Ban ngày, Ban đêm. Tạo nên điểm nhấn không sản phẩm nào có được.
 
 `,
-        stock: 10,
+        stock: 20,
         price: 14900000,
         currency: "VND",
         category_id: 1,
@@ -3704,7 +3704,7 @@ Với 72 sắc màu thời thượng trên màn hình, cho bạn tự do thay đ
 Đặc biệt, tích hợp giao diện tự động hóa theo thời gian: Bình minh, Ban ngày, Ban đêm. Tạo nên điểm nhấn không sản phẩm nào có được.
 
 `,
-        stock: 10,
+        stock: 20,
         price: 14900000,
         currency: "VND",
         category_id: 1,
@@ -4061,7 +4061,7 @@ ICAR Calendar còn được tích hợp lịch âm của người Việt. Ví d�
 Đây là ứng dụng giám sát, định vị xe hơi với độ chính xác cao và tiện lợi trên màn hình DVD Android này. Với ICAR Tracking bạn có thể xem lại toàn bộ hành trình của xe, từng địa điểm dừng đỗ xe một cách chi tiết và cụ thể.
 
 `,
-        stock: 10,
+        stock: 20,
         price: 5800000,
         currency: "VND",
         category_id: 1,
@@ -4107,7 +4107,7 @@ Tính năng chia đôi màn hình giúp bạn có thể vừa xem bản đồ v�
 Thông qua ứng dụng Zestech Tracking bạn có thể biết được chính xác vị trí xe của mình và xem lại lịch trình di chuyển trong 365 ngày cực kỳ tiện lợi chỉ với chiếc điện thoại thông minh. 
 
 `,
-        stock: 10,
+        stock: 20,
         price: 13900000,
         currency: "VND",
         category_id: 1,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FiHome, FiSettings, FiUser, FiFolder } from "react-icons/fi";
+import { FiHome, FiSettings, FiUser } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,9 +24,8 @@ const Sidebar = ({ setIsSideBarOpen }) => {
         if ([account_roles.ADMIN, account_roles.SUPER_ADMIN].includes(auth.role)) {
             items = [
                 { id: 11, title: "Hone", icon: <FiHome />, onClick: () => navigate("/") },
-                { id: 12, title: "Profile", icon: <FiUser />, onClick: () => navigate("/profile") },
-                { id: 13, title: "Documents", icon: <FiFolder />, onClick: () => navigate("/documents") },
                 { id: 14, title: "Admin Page", icon: <FiSettings />, onClick: () => navigate("/admin/dashboard") },
+                { id: 12, title: "Profile", icon: <FiUser />, onClick: () => navigate("/profile") },
                 { id: 15, title: "Change Theme", icon: <IoMdSwitch />, onClick: () => dispatch({ type: GLOBALTYPES.THEME }) },
                 { id: 16, title: "Logout", icon: <RiLogoutCircleLine />, onClick: () => dispatch(logout()) }
             ]
@@ -34,7 +33,6 @@ const Sidebar = ({ setIsSideBarOpen }) => {
             items = [
                 { id: 1, title: "Hone", icon: <FiHome />, onClick: () => navigate("/") },
                 { id: 2, title: "Profile", icon: <FiUser />, onClick: () => navigate("/profile") },
-                { id: 3, title: "Documents", icon: <FiFolder />, onClick: () => navigate("/documents") },
                 { id: 4, title: "Change Theme", icon: <IoMdSwitch />, onClick: () => dispatch({ type: GLOBALTYPES.THEME }) },
                 { id: 5, title: "Logout", icon: <RiLogoutCircleLine />, onClick: () => dispatch(logout()) }
             ];

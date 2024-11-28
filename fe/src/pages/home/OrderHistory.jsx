@@ -38,7 +38,7 @@ const OrderHistory = () => {
           </thead>
           <tbody>
             {
-              displayedOrders.map(order => (
+              displayedOrders?.map(order => (
                 <tr key={order.id}>
                   <td className="text-center p-2">{order.id}</td>
                   <td className="text-center p-2">{new Date(order.createdAt).toLocaleString('vi-VN')}</td>
@@ -69,7 +69,7 @@ const ViewOrderDetail = ({ order, setViewOrder, setDisplayedOrders }) => {
     if (window.confirm('Are you sure you want to cancel this order?')) {
       putDataAPI(`user/order/${order.id}/cancel`).then(res => {
         dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: res.data.message });
-        setDisplayedOrders(prevOrders => prevOrders.map(prevOrder => prevOrder.id === order.id ? res.data.order : prevOrder));
+        setDisplayedOrders(orders => orders.map(prevOrder => prevOrder.id === order.id ? res.data.order : prevOrder));
         setViewOrder(null);
       }).catch(err => {
         console.log(err);
@@ -122,7 +122,7 @@ const ViewOrderDetail = ({ order, setViewOrder, setDisplayedOrders }) => {
             </thead>
             <tbody>
               {
-                order.order_items.map(item => (
+                order.order_items?.map(item => (
                   <tr key={item.id}>
                     <td className="border p-2">{item.product.name}</td>
                     <td className="border p-2">{item.quantity}</td>

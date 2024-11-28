@@ -9,6 +9,10 @@ export default class SettingService {
     return await this.SettingModel.findOne({ where: { key: 'policies' } });
   }
 
+  async updatePolicies(data) {
+    return await this.SettingModel.update({ value: data }, { where: { key: 'policies' } });
+  }
+
   async getPromotions() {
     return await this.SettingModel.findOne({ where: { key: 'promotions' } });
   }

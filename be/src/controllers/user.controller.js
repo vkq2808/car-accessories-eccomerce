@@ -81,7 +81,17 @@ export default class UserController {
             }
             const data = await new OrderService().update({ id: req.params.id, status: order_status.CANCELLED });
 
-            let updatedOrder = await new OrderService().getOne({ where: { id: req.params.id } });
+            let updatedOrder = await new OrderService().getOne({
+                where: { id: req.params.id },
+                include: [
+                    {
+                        model: db.order_item,
+                        include: [
+                            { model: db.product }
+                        ]
+                    }
+                ]
+            });
 
             return res.status(200).json({ message: "Cancel order successfully", order: updatedOrder });
         } catch (error) {

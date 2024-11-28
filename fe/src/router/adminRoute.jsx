@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { HeaderWithSideBar } from '../components/common'
-import { AdminLandingPage, AdminDashboard, AccountManagement, ProductManagement, NotFound, CategoryManagement, OrderManagement, CostManagement, RevenueStatitics, PromotionSetting } from '../pages';
+import { AdminLandingPage, AdminDashboard, AccountManagement, ProductManagement, NotFound, CategoryManagement, OrderManagement, CostManagement, RevenueStatitics, PromotionSetting, PoliciesSetting } from '../pages';
 
 
 const AdminRoute = () => {
@@ -40,6 +40,9 @@ const AdminRoute = () => {
         <Route path='/settings' element={<AdminLandingPage />} />
         <Route path='/settings/promotion'
           element={<AdminLandingPage child={<PromotionSetting />} />}
+        />
+        <Route path='/settings/policies'
+          element={<AdminLandingPage child={<PoliciesSetting />} />}
         />
 
         <Route path='*' element={<NotFound />} />

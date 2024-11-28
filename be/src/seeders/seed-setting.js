@@ -7,19 +7,19 @@ module.exports = {
       {
         key: 'policies', value: JSON.stringify([
           {
-            imgSrc: "http://localhost:3001/api/v1/file/assest/policy_1.webp",
+            image_url: "http://localhost:3001/api/v1/file/assest/policy_1.webp",
             title: "Tư Vấn Miễn Phí",
             content: "Nhận tư vấn từ chuyên gia 24/7"
           }, {
-            imgSrc: "http://localhost:3001/api/v1/file/assest/policy_2.webp",
+            image_url: "http://localhost:3001/api/v1/file/assest/policy_2.webp",
             title: "Hỗ Trợ Lắp Đặt",
             content: "Lắp đặt miễn phí tại TP.HCM"
           }, {
-            imgSrc: "http://localhost:3001/api/v1/file/assest/policy_3.png",
+            image_url: "http://localhost:3001/api/v1/file/assest/policy_3.png",
             title: "Bảo Hành Chính Hãng",
             content: "Sản Phẩm, Phụ Kiện Chất Lượng Cao"
           }, {
-            imgSrc: "http://localhost:3001/api/v1/file/assest/policy_4.webp",
+            image_url: "http://localhost:3001/api/v1/file/assest/policy_4.webp",
             title: "Thanh Toán An Toàn",
             content: "Chính sách hậu mãi uy tín"
           }
@@ -28,15 +28,15 @@ module.exports = {
       {
         key: 'promotions', value: JSON.stringify([
           {
-            img: "http://localhost:3001/api/v1/file/assest/promotion1.png",
+            image_url: "http://localhost:3001/api/v1/file/assest/promotion1.png",
             link: '/search/q?category_id=-1'
           },
           {
-            img: "http://localhost:3001/api/v1/file/assest/promotion2.png",
+            image_url: "http://localhost:3001/api/v1/file/assest/promotion2.png",
             link: '/search/q?category_id=-1'
           },
           {
-            img: "http://localhost:3001/api/v1/file/assest/promotion3.png",
+            image_url: "http://localhost:3001/api/v1/file/assest/promotion3.png",
             link: '/search/q?category_id=-1'
           },
         ])

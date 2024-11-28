@@ -22,7 +22,7 @@ module.exports = {
     }
 
     let product_options = await queryInterface.sequelize.query(
-      `SELECT p.id, po.id as option_id, po.price, po.stock
+      `SELECT p.id, po.id as option_id, po.price, po.stock as po_stock
        FROM products p 
        JOIN product_options po ON po.product_id = p.id`,
       { type: Sequelize.QueryTypes.SELECT }
@@ -32,26 +32,34 @@ module.exports = {
       // Thêm đơn hàng
       let createdAt = getRandomDateWithinLastTwoMonths();
       let updatedAt = createdAt;
-      let stock = product.stock;
 
-      let result = await queryInterface.bulkInsert('orders', [
-        {
-          user_id: getRandomInt(0, 1) ? 1 : null,
-          status: order_status[getRandomInt(0, 2)],
-          currency: 'VND',
-          discount: 0,
-          total_amount: 0,
-          createdAt: createdAt,
-          updatedAt: updatedAt,
-        },
-      ]);
+      let curr_p = await queryInterface.sequelize.query(
+        `SELECT stock FROM products WHERE id = ${product.id}`,
+        { type: Sequelize.QueryTypes.SELECT }
+      );
 
-      // Lấy ID cuối cùng được chèn
-      let [lastInserted] = await queryInterface.sequelize.query('SELECT LAST_INSERT_ID() as id');
-      let order_id = lastInserted[0].id;
+      let p_stock = curr_p[0].stock;
+      let po_stock = product.po_stock;
+      // console.log(p_stock);
 
-      if (stock > 0) {
-        let max = stock > 5 ? stock = 5 : stock;
+      if (po_stock > 0) {
+        let result = await queryInterface.bulkInsert('orders', [
+          {
+            user_id: getRandomInt(0, 1) ? 1 : null,
+            status: order_status[getRandomInt(0, 2)],
+            currency: 'VND',
+            discount: 0,
+            total_amount: 0,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+          },
+        ]);
+
+        // Lấy ID cuối cùng được chèn
+        let [lastInserted] = await queryInterface.sequelize.query('SELECT LAST_INSERT_ID() as id');
+        let order_id = lastInserted[0].id;
+
+        let max = po_stock > 5 ? 5 : po_stock;
         let order_item_quantity = getRandomInt(1, max);
         await queryInterface.bulkInsert('order_items', [
           {
@@ -68,14 +76,14 @@ module.exports = {
 
         await queryInterface.bulkUpdate('products',
           {
-            stock: stock - order_item_quantity
+            stock: p_stock - order_item_quantity
           },
           {
             id: product.id
           });
         await queryInterface.bulkUpdate('product_options',
           {
-            stock: stock - order_item_quantity
+            stock: po_stock - order_item_quantity
           },
           {
             id: product.option_id

@@ -28,7 +28,7 @@ const PromotionSlider = ({ promotions, handleNavigate }) => {
                   </div>
                 </div>
                 <div className="spacer h-[100px]">&nbsp;</div>
-                <img className="w-full lg:w-2/3 h-auto object-contain transform translate-x-[50%]" src={promotion.img} alt="promotion" />
+                <img className="w-full lg:w-2/3 h-auto object-contain transform translate-x-[50%]" src={promotion.image_url} alt="promotion" />
               </div>
             </div>
           </SwiperSlide>

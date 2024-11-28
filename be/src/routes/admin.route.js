@@ -50,6 +50,9 @@ let adminApiRoute = (app) => {
   adminApi.get("/promotion", new PublicController().getPromotions);
   adminApi.put("/promotion", new PublicController().updatePromotions);
 
+  adminApi.get("/policies", new PublicController().getPolicies);
+  adminApi.put("/policies", new PublicController().updatePolicies);
+
   return app.use("/api/v1/admin", adminApi);
 }
 

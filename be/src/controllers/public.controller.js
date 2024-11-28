@@ -12,6 +12,25 @@ export default class PublicController {
     }
   }
 
+  updatePolicies = async (req, res) => {
+    try {
+      let policies = req.body.policies;
+      let oldPolicies = await new SettingService().getPolicies();
+
+      for (let old of oldPolicies.value) {
+        if (!policies.find(p => p.image_url === old.image_url)) {
+          await new FileService().deleteImage(old.image_url.split('/').reverse()[0]);
+        }
+      }
+
+      await new SettingService().updatePolicies(policies);
+
+      return res.status(200).json({ message: "Policies updated successfully" });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
+
   getPromotions = async (req, res) => {
     try {
       const promotionsSettings = await new SettingService().getPromotions();
@@ -27,8 +46,8 @@ export default class PublicController {
       const oldPromotions = await new SettingService().getPromotions();
 
       for (let old of oldPromotions.value) {
-        if (!promotions.find(p => p.img === old.img)) {
-          await new FileService().deleteImage(old.img.split('/').reverse()[0]);
+        if (!promotions.find(p => p.image_url === old.image_url)) {
+          await new FileService().deleteImage(old.image_url.split('/').reverse()[0]);
         }
       }
 
