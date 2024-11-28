@@ -17,22 +17,25 @@ const Sidebar = ({ setIsSideBarOpen }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [menuItems, setMenuItems] = useState([]);
 
-
+    const handleNavigate = (path) => {
+        setIsSideBarOpen(false);
+        navigate(path);
+    };
 
     useEffect(() => {
         let items = [];
         if ([account_roles.ADMIN, account_roles.SUPER_ADMIN].includes(auth.role)) {
             items = [
-                { id: 11, title: "Hone", icon: <FiHome />, onClick: () => navigate("/") },
-                { id: 14, title: "Admin Page", icon: <FiSettings />, onClick: () => navigate("/admin/dashboard") },
-                { id: 12, title: "Profile", icon: <FiUser />, onClick: () => navigate("/profile") },
+                { id: 11, title: "Hone", icon: <FiHome />, onClick: () => handleNavigate("/") },
+                { id: 14, title: "Admin Page", icon: <FiSettings />, onClick: () => handleNavigate("/admin/dashboard") },
+                { id: 12, title: "Profile", icon: <FiUser />, onClick: () => handleNavigate("/profile") },
                 { id: 15, title: "Change Theme", icon: <IoMdSwitch />, onClick: () => dispatch({ type: GLOBALTYPES.THEME }) },
                 { id: 16, title: "Logout", icon: <RiLogoutCircleLine />, onClick: () => dispatch(logout()) }
             ]
         } else {
             items = [
-                { id: 1, title: "Hone", icon: <FiHome />, onClick: () => navigate("/") },
-                { id: 2, title: "Profile", icon: <FiUser />, onClick: () => navigate("/profile") },
+                { id: 1, title: "Hone", icon: <FiHome />, onClick: () => handleNavigate("/") },
+                { id: 2, title: "Profile", icon: <FiUser />, onClick: () => handleNavigate("/profile") },
                 { id: 4, title: "Change Theme", icon: <IoMdSwitch />, onClick: () => dispatch({ type: GLOBALTYPES.THEME }) },
                 { id: 5, title: "Logout", icon: <RiLogoutCircleLine />, onClick: () => dispatch(logout()) }
             ];
