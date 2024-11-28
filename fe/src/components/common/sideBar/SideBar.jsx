@@ -17,12 +17,13 @@ const Sidebar = ({ setIsSideBarOpen }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [menuItems, setMenuItems] = useState([]);
 
-    const handleNavigate = (path) => {
-        setIsSideBarOpen(false);
-        navigate(path);
-    };
+
 
     useEffect(() => {
+        const handleNavigate = (path) => {
+            setIsSideBarOpen(false);
+            navigate(path);
+        };
         let items = [];
         if ([account_roles.ADMIN, account_roles.SUPER_ADMIN].includes(auth.role)) {
             items = [
@@ -41,7 +42,7 @@ const Sidebar = ({ setIsSideBarOpen }) => {
             ];
         }
         setMenuItems(items);
-    }, [handleNavigate, dispatch, auth]);
+    }, [navigate, setIsSideBarOpen, dispatch, auth]);
 
     const toggleSearch = (e) => {
         e.preventDefault();
