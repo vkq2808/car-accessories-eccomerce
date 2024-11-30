@@ -31,6 +31,7 @@ fs
             const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
             db[model.name] = model;
         } catch (e) {
+            console.log(e)
         }
     });
 

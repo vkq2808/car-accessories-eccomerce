@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   payment.init({
-    order_id: DataTypes.BIGINT,
+    order_id: DataTypes.INTEGER,
     method: DataTypes.STRING,
     bank_code: DataTypes.STRING,
     status: DataTypes.STRING,

@@ -9,6 +9,7 @@ import { formatNumberWithCommas } from "../../utils/stringUtils";
 import { followProduct, PRODUCT_ACTION_TYPES, unfollowProduct } from "../../redux/actions/productActions";
 import { getEmptyOrder, ORDER_ACTION_TYPES } from "../../redux/actions/orderActions";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const follwedProductStyle = "text-[#ff0000] hover:text-inherit"
 const notFollwedProductStyle = "text-inherit hover:text-[--secondary-text-color]"
@@ -53,23 +54,23 @@ const ProductDetail = () => {
 
     const CustomMarkdown = ({ children }) => {
         return (<ReactMarkdown
-            className='markdown p-[20px] bg-[--secondary-background-color] text-[--primary-text-color] overflow-y-auto outline-none text-[1rem]'
+            className='markdown p-[20px] bg-[--primary-background-color] text-[--primary-text-color] overflow-y-auto outline-none text-[1rem]'
             children={children}
             components={{
                 img: ({ node, ...props }) => {
-                    return (<img {...props} style={{ maxWidth: '100%' }} alt={props.alt} />)
+                    return (<img {...props} className="max-w-[100%]" alt={props.alt} />)
                 },
                 h2: ({ node, ...props }) => {
-                    return (<h2 {...props} style={{ color: 'var(--primary-text-color)', fontWeight: 700 }} children={props.children} />)
+                    return (<h2 {...props} className="text-[--primary-text-color] font-bold m-4" children={props.children} />)
                 },
                 h3: ({ node, ...props }) => {
-                    return (<h3 {...props} style={{ color: 'var(--primary-text-color)', fontWeight: 700 }} children={props.children} />)
+                    return (<h3 {...props} className="text-[--primary-text-color] font-bold m-3" children={props.children} />)
                 },
                 li: ({ node, ...props }) => {
-                    return (<li {...props} style={{ userSelect: 'all' }} />)
+                    return (<li {...props} className="select-all m-2 ml-8" />)
                 },
                 p: ({ node, ...props }) => {
-                    return (<p {...props} style={{ color: 'var(--secondary-text-color)' }} />)
+                    return (<p {...props} className="mb-4" />)
                 },
             }}
         />)
@@ -140,75 +141,88 @@ const ProductDetail = () => {
     }, [order.order_items, navigate])
 
     return (
-        <div className="flex flex-col justify-center items-center w-full bg-[--primary-background-color] text-[--primary-text-color]">
-            {
-                (isLoading && <Loading />) ||
-                (product &&
-                    (<div className="flex w-full md:w-[80%] bg-[--primary-background-color] text-[--primary-text-color]">
-                        <div className="flex flex-col w-full">
-                            <div className="flex flex-col w-full py-4 md:flex-row justify-between">
-                                <img className="w-full md:w-[40%] md:max-h-[300px] object-contain p-2" src={product.image_url} alt={product.name} />
-                                <div className="flex flex-col p-2">
-                                    <h2 className="select-all">{product.name}</h2>
-                                    <h4 className="text-[--color-red] mb-4">{formatNumberWithCommas(product.price)} {product.currency}</h4>
-                                    <p>{formatNumberWithCommas(product.stock)} sản phẩm có sẵn</p>
+        <>
+            <Helmet>
+                <title>{product?.name}</title>
+                <meta name="description" content={product?.detail} />
+                <meta name="keywords" content={product?.name} />
+                <meta name="robots" content="index, follow" />
+                <link rel="canonical" href="https://www.example.com" />
+                <meta property="og:title" content="Phụ Tùng Xe Hơi - Trang Chủ" />
+                <meta property="og:description" content={product?.detail} />
+                <meta property="og:image" content={product?.image_url} />
+                <meta property="og:url" content="https://www.example.com" />
+                <meta property="og:type" content="website" />
+            </Helmet>
 
-                                    <div className="flex pb-4">
-                                        <div className={"flex p-2 cursor-pointer"}
-                                            onClick={handleFollowProduct}
-                                        >
-                                            <i className={`fas fa-heart ${followingStyle}`}></i>
+            <div className="flex flex-col justify-center items-center w-full bg-[--primary-background-color] text-[--primary-text-color]">
+                {
+                    (isLoading && <Loading />) ||
+                    (product &&
+                        (<div className="flex w-full md:w-[80%] bg-[--primary-background-color] text-[--primary-text-color]">
+                            <div className="flex flex-col w-full">
+                                <div className="flex flex-col w-full py-4 md:flex-row justify-between">
+                                    <img className="w-full md:w-[40%] md:max-h-[300px] object-contain p-2" src={product.image_url} alt={product.name} />
+                                    <div className="flex flex-col p-2">
+                                        <h2 className="select-all">{product.name}</h2>
+                                        <h4 className="text-[--color-red] mb-4">{formatNumberWithCommas(product.price)} {product.currency}</h4>
+                                        <p>{formatNumberWithCommas(product.stock)} sản phẩm có sẵn</p>
+
+                                        <div className="flex pb-4">
+                                            <div className={"flex p-2 cursor-pointer"}
+                                                onClick={handleFollowProduct}
+                                            >
+                                                <i className={`fas fa-heart ${followingStyle}`}></i>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div className="flex flex-row items-center mb-4">
-                                        <div className="decrease-button cursor-pointer" onClick={handleDecreaseQuantity}>
-                                            <i className="fas fa-minus"></i>
+                                        <div className="flex flex-row items-center mb-4">
+                                            <div className="decrease-button cursor-pointer" onClick={handleDecreaseQuantity}>
+                                                <i className="fas fa-minus"></i>
+                                            </div>
+                                            <input className="quantity-input w-8 outline-0 border-none text-center" value={quantity} onChange={(e) => handleQuantityChange(e)} />
+                                            <div className="increase-button cursor-pointer" onClick={handleIncreaseQuantity}>
+                                                <i className="fas fa-plus"></i>
+                                            </div>
                                         </div>
-                                        <input className="quantity-input w-8 outline-0 border-none text-center" value={quantity} onChange={(e) => handleQuantityChange(e)} />
-                                        <div className="increase-button cursor-pointer" onClick={handleIncreaseQuantity}>
-                                            <i className="fas fa-plus"></i>
+
+                                        <div className="mb-4 flex flex-col">
+                                            <label htmlFor='product_option'>Option</label>
+                                            <select id='product_option' name='product_option' className="w-full p-2" onChange={hanleChangeProductOption}>
+                                                {
+                                                    product.product_options?.map((option, index) => (
+                                                        <option disabled={option.stock === 0} key={index} value={option.id}>{option.name} - {option.price}</option>
+                                                    ))
+                                                }
+                                            </select>
                                         </div>
-                                    </div>
 
-                                    <div className="mb-4 flex flex-col">
-                                        <label htmlFor='product_option'>Option</label>
-                                        <select id='product_option' name='product_option' className="w-full p-2" onChange={hanleChangeProductOption}>
-                                            {
-                                                product.product_options?.map((option, index) => (
-                                                    <option disabled={option.stock === 0} key={index} value={option.id}>{option.name} - {option.price}</option>
-                                                ))
-                                            }
-                                        </select>
-                                    </div>
-
-                                    <div className="mb-4 flex">
-                                        <span className="mr-2">Tổng tiền:</span>
-                                        <span>{formatNumberWithCommas(selectedProductOption.price * quantity)} {product.currency}</span>
-                                    </div>
-                                    <div className="actions flex justify-between">
-                                        <button className="btn btn-primary w-[40%] min-w-[120px]"
-                                            onClick={() => handleCheckOut()}
-                                        >
-                                            Mua ngay
-                                        </button>
-                                        <button className="btn btn-primary w-[40%] min-w-[120px]"
-                                            onClick={handleAddToCart}
-                                        >
-                                            Thêm vào giỏ hàng
-                                        </button>
+                                        <div className="mb-4 flex">
+                                            <span className="mr-2">Tổng tiền:</span>
+                                            <span>{formatNumberWithCommas(selectedProductOption.price * quantity)} {product.currency}</span>
+                                        </div>
+                                        <div className="actions flex justify-between">
+                                            <button className="btn btn-primary w-[40%] min-w-[120px]"
+                                                onClick={() => handleCheckOut()}
+                                            >
+                                                Mua ngay
+                                            </button>
+                                            <button className="btn btn-primary w-[40%] min-w-[120px]"
+                                                onClick={handleAddToCart}
+                                            >
+                                                Thêm vào giỏ hàng
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
+                                <CustomMarkdown children={product?.detail} />
                             </div>
-
-                            <div className="flex w-auto mr-auto px-2 bg-[--secondary-background-color]"> Mô tả </div>
-                            <CustomMarkdown children={product?.detail} />
                         </div>
-                    </div>
+                        )
                     )
-                )
-            }
-        </div>
+                }
+            </div>
+        </>
     )
 }
 

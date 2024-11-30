@@ -17,13 +17,15 @@ const PromotionSlider = ({ promotions, handleNavigate }) => {
       >
         {promotions.map((promotion, index) => (
           <SwiperSlide key={index} className="duration-500">
-            <div className=" flex lg:h-[600px] relative w-full" onClick={() => handleNavigate(promotion?.link)}>
+            <div className=" flex lg:h-[600px] relative w-full">
               <div className="promotion-detail flex flex-col sticky w-full">
                 <div className="pl-[100px] pt-[60px] absolute">
                   <h4 className="text-[--secondary-text-color] opacity-65">Best Furniture For Your Car....</h4>
                   <div className="text-[--primary-text-color] text-[53px] font-sans max-w-[700px]">New Car Furniture Collection
                     Trends in 2024</div>
-                  <div className="view-detail-button">
+                  <div className="view-detail-button"
+                    onClick={() => handleNavigate(promotion?.link)}
+                  >
                     <button className="bg-[#AAAAAA] cursor-pointer border-none rounded-[4px] hover:bg-blue-500 text-white px-4 py-2 mt-4">View Detail</button>
                   </div>
                 </div>

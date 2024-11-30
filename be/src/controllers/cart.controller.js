@@ -120,16 +120,27 @@ export default class CartController {
             const { cart_items } = req.body;
 
             for (const item of cart_items) {
-                const cartItem = cart.cart_items?.find(user_item => user_item.product.id === item.product.id);
-                if (cartItem) {
-                    cartItem.quantity += item.quantity;
-                    await new CartItemService().updateCartItem(cartItem);
-                } else {
-                    await new CartItemService().createCartItem(cart.id, item.product.id, item.quantity);
+                let found = false;
+                for (const cartItem of cart.cart_items) {
+                    if (cartItem.product.id === item.product.id && cartItem.product_option.id === item.product_option.id) {
+                        cartItem.quantity += item.quantity;
+                        await cartItem.save();
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    await new CartItemService().create({
+                        cart_id: cart.id,
+                        product_id: item.product.id,
+                        product_option_id: item.product_option.id,
+                        quantity: item.quantity
+                    });
                 }
             }
 
-            return res.status(200).json(cart);
+            const updatedCart = await new CartService().getByUserId(user.id);
+
+            return res.status(200).json(updatedCart);
         } catch (error) {
             console.error(error);
             return res.status(500).json({ message: "Internal server error" });

@@ -190,8 +190,7 @@ class UserService {
 
     async delete(id) {
         try {
-            let result = await this.model.destroy({ where: { id: id } });
-            return result;
+            await this.model.destroy({ where: { id: id } });
         } catch (error) {
             console.error(error);
             return null;

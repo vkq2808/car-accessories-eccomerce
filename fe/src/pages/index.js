@@ -13,6 +13,7 @@ import OrderInfoConfirmationPage from './shop/checkout/InfoConfirmation';
 import PaymentMethodSelector from './shop/checkout/PaymentMethodSelector';
 import PaymentResultPage from './shop/checkout/PaymentResultPage';
 import NotFound from './common/NotFound';
+import ServerClosed from './common/ServerClosed';
 export * from './admin';
 
 
@@ -31,5 +32,6 @@ export {
     OrderInfoConfirmationPage,
     PaymentMethodSelector,
     PaymentResultPage,
-    NotFound
+    NotFound,
+    ServerClosed
 }

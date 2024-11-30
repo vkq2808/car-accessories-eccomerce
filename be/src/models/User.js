@@ -12,6 +12,27 @@ module.exports = (sequelize, DataTypes) => {
             user.hasMany(models.product_follow, { foreignKey: 'user_id', onDelete: 'SET NULL' });
             user.hasMany(models.cost, { foreignKey: 'employee_id', onDelete: 'SET NULL' });
         }
+        getFullName() {
+            return `${this.firstName} ${this.lastName}`;
+        }
+
+        toJSON() {
+            let { hashed_password, ...data } = this.get();
+            const full_name = this.getFullName();
+            return { ...data, full_name };
+        }
+
+        static hash_password(password) {
+            const bcrypt = require('bcrypt');
+            require('dotenv').config();
+            const salt = process.env.SALT;
+            return bcrypt.hashSync(password, salt);
+        }
+
+        static compare_password(password) {
+            const bcrypt = require('bcrypt');
+            return bcrypt.compareSync(password, this.get().hashed_password);
+        }
     }
     user.init({
         email: {
@@ -36,5 +57,6 @@ module.exports = (sequelize, DataTypes) => {
         modelName: 'user',
         timestamps: true
     });
+
     return user;
 }

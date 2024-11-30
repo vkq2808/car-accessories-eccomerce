@@ -22,8 +22,6 @@ axiosInstance.interceptors.response.use(
     },
     async (error) => {
 
-        console.log(error);
-
         if (error.code === "ERR_NETWORK") {
             dispatch({ type: GLOBALTYPES.SERVER_ERROR, payload: true });
         }
@@ -34,6 +32,7 @@ axiosInstance.interceptors.response.use(
             originalRequest._retry = true;
 
             try {
+                localStorage.removeItem('access_token');
                 const refresh_token = localStorage.getItem('refresh_token');
                 if (!refresh_token) {
                     return Promise.reject(error);

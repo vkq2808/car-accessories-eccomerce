@@ -1,5 +1,7 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 const Footer = () => {
+    const navigate = useNavigate();
 
     const ContactCol = () => {
         return (
@@ -8,19 +10,19 @@ const Footer = () => {
                     Thông tin liên hệ
                 </div>
                 <div className="address flex items-center">
-                    <span><i className="lni lni-map"></i></span>
+                    <i className="lni lni-map"></i>
                     Số 1 Võ Văn Ngân, Phường Linh Chiểu, Quận Thủ Đức, TP.HCM
                 </div>
                 <div className="phone flex items-center">
-                    <span><i className="lni lni-phone"></i></span>
+                    <i className="lni lni-phone"></i>
                     0123456789
                 </div>
                 <div className="email flex items-center">
-                    <span><i className="lni lni-envelope"></i></span>
+                    <i className="lni lni-envelope"></i>
                     <a href="mailto:vkq265@gmail.com">vkq265@gmail.com</a>
                 </div>
                 <div className="work-time flex items-center">
-                    <span><i className="lni fas fa-clock"></i></span>
+                    <i className="lni fas fa-clock"></i>
                     T2-CN (8:00 - 17:00)
                 </div>
             </div>
@@ -33,17 +35,17 @@ const Footer = () => {
                 <div className="help-option-title font-semibold text-lg">
                     Hỗ trợ
                 </div>
-                <div className="help-option-item">
-                    <a href="/about-us">Giới thiệu</a>
+                <div className="no-underline text-inherit cursor-pointer hover:scale-110 transition-all duration-200">
+                    <div onClick={() => navigate("/about-us")}>Giới thiệu</div>
                 </div>
-                <div className="help-option-item">
-                    <a href="return-policy">Chính sách đổi trả</a>
+                <div className="no-underline text-inherit cursor-pointer hover:scale-110 transition-all duration-200">
+                    <div onClick={() => navigate("return-policy")}>Chính sách đổi trả</div>
                 </div>
-                <div className="help-option-item">
-                    <a href="security-policy">Chính sách bảo mật</a>
+                <div className="no-underline text-inherit cursor-pointer hover:scale-110 transition-all duration-200">
+                    <div onClick={() => navigate("security-policy")}>Chính sách bảo mật</div>
                 </div>
-                <div className="help-option-item">
-                    <a href="term-and-service">Điều khoản dịch vụ</a>
+                <div className="no-underline text-inherit cursor-pointer hover:scale-110 transition-all duration-200">
+                    <div onClick={() => navigate("term-and-service")}>Điều khoản dịch vụ</div>
                 </div>
             </div>
         );

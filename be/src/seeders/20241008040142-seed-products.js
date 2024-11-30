@@ -4,7 +4,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
 
-    await queryInterface.bulkInsert('Products', [
+    const products = [
       {
         name: "Màn hình android Ownice C970 pro",
         path: "man-hinh-android-ownice-c970-pro",
@@ -4116,7 +4116,10 @@ Thông qua ứng dụng Zestech Tracking bạn có thể biết được chính 
         updatedAt: new Date()
 
       },
-    ], {});
+    ];
+    for (let product of products) {
+      await queryInterface.bulkInsert('products', [product]);
+    }
   },
   async down(queryInterface, Sequelize) {
     /**

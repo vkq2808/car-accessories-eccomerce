@@ -12,9 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   order_item.init({
-    order_id: { type: DataTypes.BIGINT },
-    product_id: { type: DataTypes.BIGINT },
-    product_option_id: { type: DataTypes.BIGINT },
+    order_id: { type: DataTypes.INTEGER },
+    product_id: { type: DataTypes.INTEGER },
+    product_option_id: { type: DataTypes.INTEGER },
     quantity: { type: DataTypes.BIGINT },
     price: { type: DataTypes.DECIMAL },
     currency: { type: DataTypes.STRING },

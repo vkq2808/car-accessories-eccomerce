@@ -67,8 +67,9 @@ function App() {
     }, [auth, dispatch]);
 
     useEffect(() => {
-        dispatch(getUserInfo());
-    }, [dispatch]);
+        if (auth.token)
+            dispatch(getUserInfo());
+    }, [dispatch, auth.token]);
 
 
     return (

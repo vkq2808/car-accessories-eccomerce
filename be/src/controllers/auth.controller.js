@@ -2,12 +2,14 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { UserService } from "../services";
 import EmailService from '../services/email.service';
+import fs from 'fs';
 
 export default class AuthController {
 
     getPublicKey = (req, res) => {
-        const publicKey = fs.readFileSync('../keys/public.key', 'utf8');
-        res.send({ publicKey });
+        let path = require('path');
+        const publicKey = fs.readFileSync(path.resolve(__dirname, '../keys/public.key'), 'utf8');
+        res.send(publicKey);
     }
 
     registerUser = async (req, res) => {

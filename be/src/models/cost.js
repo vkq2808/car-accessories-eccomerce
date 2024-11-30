@@ -21,11 +21,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     product_id: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER,
       allowNull: true
     },
     employee_id: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER,
       allowNull: true
     },
     description: {

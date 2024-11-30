@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   order.init({
     user_id: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER,
       allowNull: true
     },
     status: {

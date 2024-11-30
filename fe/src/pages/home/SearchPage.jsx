@@ -1,21 +1,17 @@
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { PRODUCT_ACTION_TYPES, searchProducts } from '../../redux/actions/productActions';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { formatNumberWithCommas } from '../../utils/stringUtils';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import LazyLoad from 'react-lazyload';
-
+import { getDataAPI } from '../../utils/fetchData';
 function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
 
 const SearchPage = () => {
-    const searchResults = useSelector(state => state.product.searchResults);
     const categories = useSelector(state => state.category.list);
     const [page, setPage] = useState(1);
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const query = useQuery();
@@ -23,19 +19,26 @@ const SearchPage = () => {
     const categoryFilterId = query.get('category_id');
     const [searchKey, setSearchKey] = useState(key);
     const [category_id, setcategory_id] = useState(categoryFilterId);
-    const [hasMore, setHasMore] = useState(true);
     const [displayedProducts, setDisplayedProducts] = useState([]);
+    const [searchResults, setSearchResults] = useState({ products: [], total: 0 });
+    const [isLoadingResults, setIsLoadingResults] = useState(false);
+
 
     useEffect(() => {
-        if (searchKey?.length > 0 || !searchKey) {
-            dispatch({ type: PRODUCT_ACTION_TYPES.CLEAR_SEARCH_PRODUCTS })
-            dispatch(searchProducts({ searchTerm: searchKey, category_id: category_id, page: 1, limit: 12 }));
+        const fetchFirstResults = async () => {
+            const res = await getDataAPI(`product/search?searchTerm=${searchKey}&category_id=${category_id}&page=${1}&limit=12`);
+            if (res.status === 200) {
+                setSearchResults(res.data.result);
+            }
         }
-    }, [searchKey, category_id, dispatch]);
+
+        if (searchKey && category_id) {
+            fetchFirstResults();
+        }
+    }, [searchKey, category_id]);
 
     useEffect(() => {
         const renderItemsWithDelay = async () => {
-            setDisplayedProducts([]); // Đặt lại danh sách hiển thị
             for (let i = 0; i < searchResults.products.length; i++) {
                 await new Promise(resolve => {
                     setTimeout(() => {
@@ -51,14 +54,26 @@ const SearchPage = () => {
         }
     }, [searchResults.products]);
 
-    const handleNext = () => {
-        let newPage = page + 1;
-        if (page * 12 >= searchResults.total) {
-            setHasMore(false);
-            return;
+    const handleNext = async () => {
+        const fetchNextResults = async () => {
+
+            let newPage = page + 1;
+            const res = await getDataAPI(`product/search?searchTerm=${searchKey}&category_id=${category_id}&page=${newPage}&limit=12`);
+            if (res.status === 200) {
+                setSearchResults({ products: [...searchResults.products, ...res.data.result.products] });
+                setPage(newPage);
+            }
         }
-        setPage(newPage);
-        dispatch(searchProducts({ searchTerm: searchKey, category_id: category_id, page: newPage, limit: 12 }));
+        setIsLoadingResults(true);
+        if (!isLoadingResults) {
+            await fetchNextResults();
+            setIsLoadingResults(false);
+        }
+    }
+
+    const hasMore = () => {
+        console.log('test')
+        return searchResults.products.length < searchResults.total;
     }
 
     return (
@@ -109,8 +124,8 @@ const SearchPage = () => {
 
                 <InfiniteScroll
                     dataLength={displayedProducts.length}
-                    next={handleNext}
-                    hasMore={hasMore}
+                    next={() => { if (!isLoadingResults) { handleNext() } }}
+                    hasMore={hasMore()}
                     loader={<h4>Loading...</h4>}
                     endMessage={
                         <p style={{ textAlign: 'center', paddingTop: 30 }}>
@@ -121,25 +136,18 @@ const SearchPage = () => {
                     <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5'>
                         {displayedProducts.map((product, index) => (
 
-                            <LazyLoad
-                                height={330}
-                                offset={800}
-                                placeholder={<div className='bg-gray-200 w-full h-40 animate-pulse'></div>}
-                                key={index}
-                            >
-                                <motion.div
-                                    key={product.id}
-                                    initial={{ opacity: 0, y: 30 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.5 }}
-                                    onClick={() => navigate(`/product/${product.path}`)}
-                                    className='bg-inherit p-4 shadow-md shadow-[--primary-text-color] cursor-pointer'>
-                                    <img loading='lazy' src={product.image_url} alt={product.name} className='w-full h-40 object-cover' />
-                                    <h1 className='text-lg font-semibold mt-2'>{product.name}</h1>
-                                    <p className='text-sm mt-2'>{product.description}</p>
-                                    <p className='text-lg font-semibold mt-2'>{formatNumberWithCommas(product.price)} {product.currency}</p>
-                                </motion.div>
-                            </LazyLoad>
+                            <motion.div
+                                key={'search-page-product-' + product.id}
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5 }}
+                                onClick={() => navigate(`/product/${product.path}`)}
+                                className='bg-inherit p-4 shadow-md shadow-[--primary-text-color] cursor-pointer'>
+                                <img loading='lazy' src={product.image_url} alt={product.name} className='w-full h-40 object-cover' />
+                                <h1 className='text-lg font-semibold mt-2'>{product.name}</h1>
+                                <p className='text-sm mt-2'>{product.description}</p>
+                                <p className='text-lg font-semibold mt-2'>{formatNumberWithCommas(product.price)} {product.currency}</p>
+                            </motion.div>
                         ))}
                     </div>
                 </InfiniteScroll>

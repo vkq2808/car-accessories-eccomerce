@@ -1,4 +1,11 @@
 @startuml class_diagram
+
+entity setting {
+  +id: number
+  +key: text
+  +value: JSON
+}
+
 entity category {
   +id: number
   +name: text
@@ -36,6 +43,12 @@ entity cart_item {
   +product_option_id: number
 }
 
+entity product_follow {
+  +id: number
+  +product_id: number
+  +user_id: number
+}
+
 entity user {
   +id: number
   +first_name: text
@@ -46,6 +59,15 @@ entity user {
   +address: text
   +role: text
   +imgUrl: text
+}
+
+entity cost {
+  +id:number
+  +total_cost: number,
+  +cost_type: text,
+  +product_id: number,
+  +employee_id: number,
+  +description: text
 }
 
 entity order {
@@ -93,4 +115,8 @@ order "1" -- "0..1" payment : paid_by
 product "1" -- "0..*" product_option : has
 cart_item "0..*" -- "1" product : is
 order_item "0..*" -- "1" product : is
+cost "1" -- "0..1" product : purchasing
+cost "1" -- "0..1" user : salary
+product_follow "0..*" -- "1" product : is
+product_follow "0..*" -- "1" user : of
 @enduml

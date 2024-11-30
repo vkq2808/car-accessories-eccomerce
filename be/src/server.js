@@ -6,7 +6,7 @@ import cors from 'cors';
 import authenticateToken from './middlewares/authenticateToken.js';
 import helmet from 'helmet';
 // config
-import connectDB from './config/database.js';
+import connectDB, { seedData, sequelizeSync } from './config/database.js';
 // route
 import { applyAllRoutes } from './routes';
 
@@ -43,7 +43,9 @@ const startServer = async () => {
         applyAllRoutes(app);
 
         // Kết nối cơ sở dữ liệu
-        connectDB();
+        await connectDB();
+        // await sequelizeSync();
+        // await seedData();
 
         // Khởi động server
         const port = process.env.PORT || 3001;

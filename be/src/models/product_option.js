@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   product_option.init({
-    product_id: DataTypes.BIGINT,
+    product_id: DataTypes.INTEGER,
     name: DataTypes.STRING,
     price: DataTypes.DECIMAL,
     stock: DataTypes.BIGINT

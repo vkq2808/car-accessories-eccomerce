@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
         }
     }
     product_follow.init({
-        product_id: DataTypes.BIGINT,
-        user_id: DataTypes.BIGINT
+        product_id: DataTypes.INTEGER,
+        user_id: DataTypes.INTEGER
     }, {
         sequelize,
         modelName: 'product_follow',

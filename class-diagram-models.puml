@@ -1,0 +1,138 @@
+@startuml class_diagram_models
+
+user --|> Model
+setting --|> Model
+category --|> Model
+product --|> Model
+product_option --|> Model
+cart --|> Model
+Model <|-- cart_item
+Model <|-- product_follow
+Model <|-- cost
+Model <|-- order
+Model <|-- order_item
+Model <|-- payment
+
+abstract class Model {
+    +id: bigint
+    +created_at: datetime
+    +updated_at: datetime
+
+    +save(): Model
+    +destroy(): void
+    +toJSON(): JSON
+    +findOne(id: int): Model
+    +findAll(options: QueryOption): Array<Model>
+    +update(model: Model, options?: QueryOption): Model
+    +create(model: Model, options?: QueryOption): Model
+    +delete(id: int): void
+    +findAndCountAll(options: QueryOption): Array<Model>
+}
+
+object QueryOption {
+    +where: object
+    +limit: int
+    +offset: int
+    +order: string
+}
+
+class setting {
+  +key: string
+  +value: JSON
+}
+
+class category {
+  +name: string
+  +description: string
+  +link: string
+  +image_url: string
+}
+
+class product {
+  +name: string
+  +detail: string
+  +category_id: number
+  +stock: number
+  +status: string
+
+  +getProductOptions(options: QueryOption): Array<product_option>
+  +getCategory(options: QueryOption): category
+  +getFollowers(options: QueryOption): Array<user>
+  +getCosts(options: QueryOption): Array<cost>
+}
+
+class product_option {
+  +name: string
+  +type: string
+  +product_id: number
+}
+
+class cart {
+  +user_id: number
+}
+
+class cart_item {
+  +cart_id: number
+  +quantity: number
+  +product_id: number
+  +product_option_id: number
+}
+
+class product_follow {
+  +product_id: number
+  +user_id: number
+}
+
+class user {
+  +first_name: string
+  +last_name: string
+  +email: string
+  +hashed_password: string
+  +phone: string
+  +address: string
+  +role: string
+  +imgUrl: string
+}
+
+class cost {
+  +id:number
+  +total_cost: number,
+  +cost_type: string,
+  +product_id: number,
+  +employee_id: number,
+  +description: string
+}
+
+class order {
+  +user_id: number
+  +status: string
+  +total_amount: double
+  +discount: double
+  +payment_method: string
+  +payment_status: string
+  +info: JSON
+}
+
+class order_item {
+  +order_id: number
+  +quantity: number
+  +product_id: number
+  +product_option_id: number
+}
+
+class payment {
+  +order_id: number
+  +method: string
+  +bank_code: string
+  +status: string
+  +amount: number
+  +currency: string
+  +description: string
+  +transaction_id: string
+  +transaction_info: string
+  +transaction_status: string
+  +transaction_time: Date
+  +transaction_data: JSON
+}
+
+@enduml
