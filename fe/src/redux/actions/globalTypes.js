@@ -12,6 +12,7 @@ export const GLOBALTYPES = {
     SOCKET: "SOCKET",
     DIALOG: "DIALOG",
     REDIRECTING: "REDIRECTING",
+    SERVER_ERROR: "SERVER_ERROR",
 }
 
 export const EditData = (data, id, newItem) => {
