@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { updateToken } from '../redux/actions/authActions'; // Action để cập nhật token vào Redux
+import { GLOBALTYPES } from '../redux/actions/globalTypes';
 
 // Khai báo biến `dispatch` để lưu `dispatch` của Redux
 let dispatch;
@@ -20,6 +21,13 @@ axiosInstance.interceptors.response.use(
         return response;
     },
     async (error) => {
+
+        console.log(error);
+
+        if (error.code === "ERR_NETWORK") {
+            dispatch({ type: GLOBALTYPES.SERVER_ERROR, payload: true });
+        }
+
         const originalRequest = error.config;
 
         if ((error.response.status === 401) && !originalRequest._retry) {
