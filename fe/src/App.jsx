@@ -49,7 +49,6 @@ function App() {
         if (auth.token) {
             let cart_items = JSON.parse(localStorage.getItem('cart') || {}).cart_items || [];
             let following_items = JSON.parse(localStorage.getItem('following_items') || '[]');
-            console.log(cart_items, following_items);
             if (cart_items?.length > 0 || following_items?.length > 0) {
                 dispatch({
                     type: GLOBALTYPES.DIALOG, payload: {

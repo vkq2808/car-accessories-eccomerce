@@ -21,7 +21,6 @@ const ProductDetail = () => {
     const [quantity, setQuantity] = useState(1);
     const auth = useSelector(state => state.auth);
     const followings = useSelector(state => state.product.following);
-    const order = useSelector(state => state.order);
     const [selectedProductOption, setSelectedProductOption] = useState(null);
 
     const dispatch = useDispatch()
@@ -104,17 +103,12 @@ const ProductDetail = () => {
     const handleCheckOut = () => {
         dispatch(getEmptyOrder(auth.token))
         dispatch({ type: ORDER_ACTION_TYPES.ADD_ORDER_ITEM, payload: { product, quantity, product_option: selectedProductOption } })
+        navigate('/checkout')
     }
 
     const hanleChangeProductOption = (e) => {
         setSelectedProductOption(product.product_options.find(option => option.id === parseInt(e.target.value)))
     }
-
-    useEffect(() => {
-        if (order.order_items?.length > 0) {
-            navigate('/cart/checkout/confirm-information')
-        }
-    }, [order.order_items, navigate])
 
     return (
         <>

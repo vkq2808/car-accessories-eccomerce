@@ -73,9 +73,11 @@ const Cart = () => {
     }
 
     useEffect(() => {
-        let savingCart = { ...cart, deleted_items: [] };
-        localStorage.setItem('cart', JSON.stringify(savingCart));
-    }, [cart]);
+        if (!auth.token) {
+            let savingCart = { ...cart, deleted_items: [] };
+            localStorage.setItem('cart', JSON.stringify(savingCart));
+        }
+    }, [cart, auth.token]);
 
     const handleChangeProductOption = (e, index) => {
         let cartItem = cart.cart_items[index];

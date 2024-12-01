@@ -482,8 +482,8 @@ export default class OrderController {
 
           if (!product || !productOption || product.stock < item.quantity || productOption.stock < item.quantity) {
             outOfStockItems.push({
-              productId: item.product.id,
-              productOptionId: item.product_option.id,
+              product_name: item.product.name,
+              product_option_name: item.product_option.name,
               requestedQuantity: item.quantity,
               availableStock: {
                 product: product ? product.stock : 0,
@@ -495,8 +495,10 @@ export default class OrderController {
 
         // Nếu hết hàng, trả về lỗi
         if (outOfStockItems.length > 0) {
+          transaction.rollback();
           return res.status(400).json({
             message: 'Some products are out of stock',
+            code: 404,
             outOfStockItems,
           });
         }

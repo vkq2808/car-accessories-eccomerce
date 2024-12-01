@@ -33,8 +33,9 @@ const Following = () => {
         }
     }
     useEffect(() => {
-        localStorage.setItem('following_items', JSON.stringify(followings));
-    }, [followings]);
+        if (!auth.token)
+            localStorage.setItem('following_items', JSON.stringify(followings));
+    }, [auth.token, followings]);
 
     return (
         <div className="cart-container relative inline-flex">

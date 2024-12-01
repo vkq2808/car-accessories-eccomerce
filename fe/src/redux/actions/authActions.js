@@ -122,8 +122,8 @@ export const getUserInfo = () => async (dispatch) => {
                 type: GLOBALTYPES.AUTH,
                 payload: { token: access_token, user: res.data, role: res.data.role }
             })
-
         } catch (err) {
+            localStorage.removeItem("firstLogin")
         }
     }
 }
