@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Loading from "../../components/common/alert/Loading";
 import { getDataAPI } from "../../utils/fetchData";
-import ReactMarkdown from 'react-markdown';
 import { useDispatch, useSelector } from "react-redux";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 import { addProduct } from "../../redux/actions/cartActions";
@@ -10,6 +9,7 @@ import { followProduct, PRODUCT_ACTION_TYPES, unfollowProduct } from "../../redu
 import { getEmptyOrder, ORDER_ACTION_TYPES } from "../../redux/actions/orderActions";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { CustomMarkdown } from "../../components";
 
 const follwedProductStyle = "text-[#ff0000] hover:text-inherit"
 const notFollwedProductStyle = "text-inherit hover:text-[--secondary-text-color]"
@@ -51,30 +51,6 @@ const ProductDetail = () => {
 
     const currentProductFollow = followings?.find(following => following.product.id === product?.id)
     const followingStyle = currentProductFollow ? follwedProductStyle : notFollwedProductStyle
-
-    const CustomMarkdown = ({ children }) => {
-        return (<ReactMarkdown
-            className='markdown p-[20px] bg-[--primary-background-color] text-[--primary-text-color] overflow-y-auto outline-none text-[1rem]'
-            children={children}
-            components={{
-                img: ({ node, ...props }) => {
-                    return (<img {...props} className="max-w-[100%]" alt={props.alt} />)
-                },
-                h2: ({ node, ...props }) => {
-                    return (<h2 {...props} className="text-[--primary-text-color] font-bold m-4" children={props.children} />)
-                },
-                h3: ({ node, ...props }) => {
-                    return (<h3 {...props} className="text-[--primary-text-color] font-bold m-3" children={props.children} />)
-                },
-                li: ({ node, ...props }) => {
-                    return (<li {...props} className="select-all m-2 ml-8" />)
-                },
-                p: ({ node, ...props }) => {
-                    return (<p {...props} className="mb-4" />)
-                },
-            }}
-        />)
-    }
 
     const handleDecreaseQuantity = () => {
         if (quantity > 1) {

@@ -69,6 +69,8 @@ function App() {
     useEffect(() => {
         if (auth.token)
             dispatch(getUserInfo());
+        else
+            dispatch({ type: GLOBALTYPES.AUTH, payload: { token: localStorage.getItem("access_token") } });
     }, [dispatch, auth.token]);
 
 

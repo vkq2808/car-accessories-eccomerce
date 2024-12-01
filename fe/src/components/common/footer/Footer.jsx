@@ -10,19 +10,19 @@ const Footer = () => {
                     Thông tin liên hệ
                 </div>
                 <div className="address flex items-center">
-                    <i className="lni lni-map"></i>
+                    <i className="h-full w-auto lni lni-map"></i>
                     Số 1 Võ Văn Ngân, Phường Linh Chiểu, Quận Thủ Đức, TP.HCM
                 </div>
                 <div className="phone flex items-center">
-                    <i className="lni lni-phone"></i>
+                    <i className="h-full w-auto lni lni-phone"></i>
                     0123456789
                 </div>
                 <div className="email flex items-center">
-                    <i className="lni lni-envelope"></i>
+                    <i className="h-full w-auto lni lni-envelope"></i>
                     <a href="mailto:vkq265@gmail.com">vkq265@gmail.com</a>
                 </div>
                 <div className="work-time flex items-center">
-                    <i className="lni fas fa-clock"></i>
+                    <i className="h-full w-auto lni fas fa-clock"></i>
                     T2-CN (8:00 - 17:00)
                 </div>
             </div>
@@ -77,7 +77,9 @@ const Footer = () => {
                         <HelpOptionCol />
                         <LogoCol />
                     </div>
-                    <p>© 2024 All rights reserved</p>
+                    <div className="w-full flex justify-center">
+                        <p>© 2024 All rights reserved</p>
+                    </div>
                 </div>
             </div>
         </div>

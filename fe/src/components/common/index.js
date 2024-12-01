@@ -10,6 +10,7 @@ import Header from './header/Header';
 import Cart from './header/cart/Cart';
 import PromotionSlider from './slider/PromotionSlider';
 import Policies from './other/Policies';
+import CustomMarkdown from './other/CustomMarkdown';
 
 export {
     Alert,
@@ -23,5 +24,6 @@ export {
     Cart,
     LoadingSpinner,
     PromotionSlider,
-    Policies
+    Policies,
+    CustomMarkdown
 }

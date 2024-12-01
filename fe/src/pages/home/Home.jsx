@@ -38,13 +38,21 @@ const NewHome = () => {
     dispatch(getTrendingProducts());
 
     const fetchPolicies = async () => {
-      const response = await getDataAPI('public/get-policies');
-      setPolicies(response.data.policies);
+      try {
+        const response = await getDataAPI('public/get-policies');
+        setPolicies(response.data.policies);
+      } catch (err) {
+        console.log(err);
+      }
     }
 
     const fetchPromotions = async () => {
-      const response = await getDataAPI('public/get-promotions');
-      setPromotions(response.data.promotions);
+      try {
+        const response = await getDataAPI('public/get-promotions');
+        setPromotions(response.data.promotions);
+      } catch (err) {
+        console.log(err);
+      }
     }
 
     fetchPolicies();

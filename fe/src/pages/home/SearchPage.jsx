@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux';
 import { formatNumberWithCommas } from '../../utils/stringUtils';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { getDataAPI } from '../../utils/fetchData';
+import { debounce } from 'lodash';
+import { CustomMarkdown } from '../../components';
 function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
@@ -19,7 +21,6 @@ const SearchPage = () => {
     const categoryFilterId = query.get('category_id');
     const [searchKey, setSearchKey] = useState(key);
     const [category_id, setcategory_id] = useState(categoryFilterId);
-    const [displayedProducts, setDisplayedProducts] = useState([]);
     const [searchResults, setSearchResults] = useState({ products: [], total: 0 });
     const [isLoadingResults, setIsLoadingResults] = useState(false);
 
@@ -37,42 +38,35 @@ const SearchPage = () => {
         }
     }, [searchKey, category_id]);
 
-    useEffect(() => {
-        const renderItemsWithDelay = async () => {
-            for (let i = 0; i < searchResults.products.length; i++) {
-                await new Promise(resolve => {
-                    setTimeout(() => {
-                        setDisplayedProducts(prev => [...prev, searchResults.products[i]]);
-                        resolve();
-                    }, 150); // Thay đổi thời gian nếu cần
-                });
-            }
-        };
-
-        if (searchResults.products.length > 0) {
-            renderItemsWithDelay();
-        }
-    }, [searchResults.products]);
-
     const handleNext = async () => {
-        const fetchNextResults = async () => {
+        if (isLoadingResults || !hasMore()) return; // Ngăn chặn gọi nếu đang tải hoặc hết dữ liệu
 
-            let newPage = page + 1;
+        setIsLoadingResults(true); // Đặt cờ ngay khi bắt đầu tải
+        try {
+            const newPage = page + 1;
             const res = await getDataAPI(`product/search?searchTerm=${searchKey}&category_id=${category_id}&page=${newPage}&limit=12`);
+
             if (res.status === 200) {
-                setSearchResults({ products: [...searchResults.products, ...res.data.result.products] });
+                const newProducts = res.data.result.products;
+                setSearchResults(prev => ({
+                    ...prev,
+                    products: [...prev.products, ...newProducts],
+                }));
                 setPage(newPage);
             }
+        } catch (error) {
+            console.error("Error fetching next results:", error);
+        } finally {
+            setIsLoadingResults(false); // Hoàn tất tải
         }
-        setIsLoadingResults(true);
-        if (!isLoadingResults) {
-            await fetchNextResults();
-            setIsLoadingResults(false);
+    };
+    const handleNextDebounced = debounce(() => {
+        if (!isLoadingResults && hasMore()) {
+            handleNext();
         }
-    }
+    }, 300);
 
     const hasMore = () => {
-        console.log('test')
         return searchResults.products.length < searchResults.total;
     }
 
@@ -123,8 +117,8 @@ const SearchPage = () => {
                 </div>
 
                 <InfiniteScroll
-                    dataLength={displayedProducts.length}
-                    next={() => { if (!isLoadingResults) { handleNext() } }}
+                    dataLength={searchResults.products.length}
+                    next={handleNextDebounced}
                     hasMore={hasMore()}
                     loader={<h4>Loading...</h4>}
                     endMessage={
@@ -132,24 +126,40 @@ const SearchPage = () => {
                             <b>Yay! You have seen it all</b>
                         </p>
                     }
+                    className='h-screen'
                 >
-                    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5'>
-                        {displayedProducts.map((product, index) => (
-
-                            <motion.div
-                                key={'search-page-product-' + product.id}
-                                initial={{ opacity: 0, y: 30 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5 }}
-                                onClick={() => navigate(`/product/${product.path}`)}
-                                className='bg-inherit p-4 shadow-md shadow-[--primary-text-color] cursor-pointer'>
-                                <img loading='lazy' src={product.image_url} alt={product.name} className='w-full h-40 object-cover' />
-                                <h1 className='text-lg font-semibold mt-2'>{product.name}</h1>
-                                <p className='text-sm mt-2'>{product.description}</p>
-                                <p className='text-lg font-semibold mt-2'>{formatNumberWithCommas(product.price)} {product.currency}</p>
-                            </motion.div>
-                        ))}
-                    </div>
+                    <table className='w-full border-collapse'>
+                        <thead>
+                            <tr>
+                                <th className='w-1/4 text-center'>Image</th>
+                                <th className='text-left'>Product Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {searchResults.products.map((product, index) => (
+                                <tr
+                                    key={'search-page-product-' + product.id}
+                                    onClick={() => navigate(`/product/${product.path}`)}
+                                    className='cursor-pointer hover:bg-gray-100 h-50'
+                                >
+                                    <td className="w-1/4 text-start h-40">
+                                        <img
+                                            loading='lazy'
+                                            src={product.image_url}
+                                            alt={product.name}
+                                            className='h-40 w-auto object-cover mx-auto'
+                                        />
+                                    </td>
+                                    <td className="p-4 align-middle h-40 overflow-hidden">
+                                        <h1 className='text-lg font-semibold'>{product.name}</h1>
+                                        <p className='text-lg font-semibold'>
+                                            {formatNumberWithCommas(product.price)} {product.currency}
+                                        </p>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </InfiniteScroll>
             </div>
         </div >
