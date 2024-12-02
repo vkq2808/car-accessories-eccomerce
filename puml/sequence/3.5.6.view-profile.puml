@@ -1,0 +1,40 @@
+@startuml logout-sequence
+
+skinparam DefaultFontName "Times New Roman"
+skinparam DefaultFontSize 14
+
+title 3.5.6. View Profile Sequence
+
+actor User as u
+boundary ProfilePage as p
+control UserController as c
+entity UserService as s
+database Database as d
+
+u -> p: Click on profile
+activate u
+activate p
+p -> p: check token
+alt token is existed
+  p -> c: postDataAPI(token)
+  ref over u,p,c: 3.5.22. authenticate middleware sequence
+  alt authenticate success
+    activate c
+    c -> s: getUserById(req.user.id)
+    activate s
+    s -> d: findOne({id: userId})
+    activate d
+    d --> s: user
+    deactivate d
+    s --> c: user
+    deactivate s
+    c --> p: user
+    deactivate c
+    p --> u: Show profile page
+  end
+else token is not existed
+  p --> u: Redirect to login page
+  deactivate p
+end
+
+@enduml

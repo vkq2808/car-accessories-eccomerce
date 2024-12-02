@@ -1,0 +1,30 @@
+
+@startuml verify-email-sequence
+skinparam DefaultFontName "Times New Roman"
+skinparam DefaultFontSize 14
+
+title Verify token sequence
+actor user as u
+boundary VerifyEmailPage as vp
+control AuthController as ac
+entity Service as s
+database Database as db
+activate u
+u -> u: Open email and click the link
+u -> vp: Open Verify Email Page
+deactivate u
+activate vp
+vp -> vp: Get and validate the token
+vp -> ac: postDataAPI("auth/verify-email", token)
+activate ac
+ac -> ac: Validate the token
+ac --> vp: result
+alt token is invalid
+ac --> vp: error
+vp -> vp: Show error
+else token is valid
+ref over vp, ac, s, db: Do the verification process
+end
+deactivate ac
+deactivate vp
+@enduml

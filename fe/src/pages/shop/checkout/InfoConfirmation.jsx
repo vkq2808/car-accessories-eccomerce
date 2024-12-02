@@ -116,12 +116,13 @@ const OrderInfoConfirmationPage = () => {
   };
 
   useEffect(() => {
-    if (!order.order_items) {
-      navigate('/')
-    } else {
-      setTotalAmount(order.order_items?.reduce((acc, item) => acc + item.product_option.price * item.quantity, 0));
-    }
-    console.log(order)
+    setTimeout(() => {
+      if (!order.order_items) {
+        navigate('/')
+      } else {
+        setTotalAmount(order.order_items?.reduce((acc, item) => acc + item.product_option.price * item.quantity, 0));
+      }
+    }, 1000)
   }, [order, navigate]);
 
   return (

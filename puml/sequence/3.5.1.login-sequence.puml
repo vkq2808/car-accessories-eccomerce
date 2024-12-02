@@ -1,0 +1,60 @@
+
+@startuml login_sequence
+skinparam DefaultFontName "Times New Roman"
+skinparam DefaultFontSize 14
+
+title 3.5.1 Login sequence
+
+actor User as u
+boundary LoginPage as lp
+control AuthController as ac
+entity UserService as us
+database Database as db
+
+opt user want to register
+ref over u : 3.5.2. Register sequence 
+end
+opt user want to reset password
+ref over u : 3.5.3 Reset password sequence
+end
+
+u->lp: open LoginPage
+activate u
+activate lp
+lp->lp: check token
+alt token is existed 
+  lp-->u: redirect to home page
+else token is not existed
+  lp-->u: show login form
+  u->lp: submit login form
+  lp->lp: validate form
+  alt form is invalid
+    lp-->u: show error message
+  else form is valid
+    lp->ac: postDataAPI(form)
+    activate ac
+    ac->us: getUserByEmail(form.email)
+    activate us
+    us->db: findOne({email: form.email})
+    activate db
+    db-->us: user
+    deactivate db
+    us-->ac: user
+    deactivate us
+    alt user is not existed
+      ac-->lp: error message
+    else user is existed
+      ac->ac: comparePassword(form.password, user.password)
+      alt password is correct
+        ac->ac: generateToken(user) : access_token, refresh_token
+        ac --> lp: access_token, refresh_token, user
+        lp --> u: redirect to home page
+      else password is incorrect
+        ac-->lp: error message
+      end
+    end
+  end
+end
+
+deactivate u
+@enduml

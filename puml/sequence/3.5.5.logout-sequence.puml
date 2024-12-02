@@ -1,0 +1,17 @@
+@startuml logout-sequence
+
+skinparam DefaultFontName "Times New Roman"
+skinparam DefaultFontSize 14
+
+
+title 3.5.5. Logout Sequence
+
+actor User as u
+boundary WebApp as w
+
+u -> w: Logout
+w -> w: Clear token
+w -> w: Clear local storage
+w -> u: Redirect to login page
+
+@enduml

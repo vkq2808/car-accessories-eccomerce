@@ -1,0 +1,74 @@
+
+@startuml register-sequence
+skinparam DefaultFontName "Times New Roman"
+skinparam DefaultFontSize 14
+
+title Register Sequence
+
+Actor User as u
+boundary RegisterPage as rp
+boundary VerifyEmailPage as vp
+control AuthController as ac
+entity UserService as us
+entity EmailService as es
+database Database as db
+
+opt user want to login
+ref over u : 3.5.1 Login sequence
+end
+
+u -> rp: Open Register Page
+activate u
+activate rp
+u -> rp: Fill in the form
+rp -> rp: Validate the form
+alt form is invalid
+    rp -> rp: Show error message
+else form is valid
+    rp -> ac: postDataAPI(newUserData)
+    activate ac
+    ac -> us: checkEmail(newUserData.email)
+    activate us
+    us -> db: findOne(where{email})
+    activate db
+    db --> us: user
+    deactivate db
+    us --> ac: user
+    deactivate us
+    alt email is already taken
+        ac --> rp: error
+        rp -> rp: Show error message
+    else email is not taken
+        ac -> es: sendEmail("auth/register", newUserData.email)
+        activate es
+        es --> u: email
+        deactivate es
+        ac --> rp : email sent
+        deactivate ac
+        rp -> rp: Show email sent
+        rp --> u: Redirect to home page
+        deactivate rp
+        ref over u, ac : Verify the email by link in the email : result
+        alt result is success
+            ac -> us: createUser(newUserData)
+            activate ac
+            activate us
+            us -> db: create(newUserData)
+            activate db
+            db --> us: newUser
+            deactivate db
+            us --> ac: newUser
+            deactivate us
+            ac --> vp: success
+            activate vp
+            deactivate ac
+            vp -> vp: Show success message
+            vp --> u: Redirect to home page
+            deactivate vp
+        end
+    end
+end
+deactivate u
+
+
+@enduml
