@@ -44,8 +44,11 @@ const startServer = async () => {
 
         // Kết nối cơ sở dữ liệu
         await connectDB();
-        // await sequelizeSync();
-        // await seedData();
+        const INIT_DATABASE = process.env.INIT_DATABASE;
+        if (INIT_DATABASE === 'true') {
+            await sequelizeSync();
+            await seedData();
+        }
 
         // Khởi động server
         const port = process.env.PORT || 3001;

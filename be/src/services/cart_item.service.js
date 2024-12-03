@@ -30,9 +30,10 @@ export default class CartItemService {
         }
     }
 
-    async delete(id) {
+
+    async delete(options = {}) {
         try {
-            const result = await this.model.destroy({ where: { id: id } });
+            const result = await this.model.destroy(options);
             return result;
         } catch (error) {
             console.error(error);

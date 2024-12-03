@@ -34,7 +34,7 @@ const ProductDetail = () => {
                     setIsLoading(false);
                     if (res.status === 200) {
                         setProduct(res.data.product);
-                        let defaultOption = res.data.product.product_options[0]
+                        let defaultOption = res.data.product.product_options.find(option => option.stock > 0)
                         setSelectedProductOption(defaultOption)
                     } else {
                         dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message });
@@ -129,17 +129,17 @@ const ProductDetail = () => {
                 {
                     (isLoading && <Loading />) ||
                     (product &&
-                        (<div className="flex w-full md:w-[80%] bg-[--primary-background-color] text-[--primary-text-color]">
+                        (<div className="flex w-full md:w-[80%] bg-[--primary-background-color] text-[--primary-text-color] pb-10">
                             <div className="flex flex-col w-full">
                                 <div className="flex flex-col w-full py-4 md:flex-row justify-between">
-                                    <img className="w-full md:w-[40%] md:max-h-[300px] object-contain p-2" src={product.image_url} alt={product.name} />
-                                    <div className="flex flex-col p-2">
+                                    <img className="w-full md:w-[40%] md:max-h-[300px] object-contain p-2 hover:scale-110 transition-all" src={product.image_url} alt={product.name} />
+                                    <div className="flex flex-col p-2 md:w-[40%]">
                                         <h2 className="select-all">{product.name}</h2>
                                         <h4 className="text-[--color-red] mb-4">{formatNumberWithCommas(product.price)} {product.currency}</h4>
                                         <p>{formatNumberWithCommas(product.stock)} sản phẩm có sẵn</p>
 
                                         <div className="flex pb-4">
-                                            <div className={`flex items-center p-2 cursor-pointer ${followingStyle}`}
+                                            <div className={`flex items-center p-2 cursor-pointer ${followingStyle} hover:scale-110 transition-all`}
                                                 onClick={handleFollowProduct}
                                             >
                                                 <i className={`fas fa-heart mx-2`}></i>
@@ -148,10 +148,10 @@ const ProductDetail = () => {
                                         </div>
 
                                         <div className="flex flex-row items-center mb-4">
-                                            <div className="decrease-button cursor-pointer" onClick={handleDecreaseQuantity}>
+                                            <div className="decrease-button cursor-pointer hover:scale-110 transition-all" onClick={handleDecreaseQuantity}>
                                                 <i className="fas fa-minus"></i>
                                             </div>
-                                            <input className="quantity-input w-8 outline-0 border-none text-center" value={quantity} onChange={(e) => handleQuantityChange(e)} />
+                                            <input className="quantity-input w-8 outline-0 border-none text-center hover:scale-110 transition-all" value={quantity} onChange={(e) => handleQuantityChange(e)} />
                                             <div className="increase-button cursor-pointer" onClick={handleIncreaseQuantity}>
                                                 <i className="fas fa-plus"></i>
                                             </div>
@@ -159,10 +159,10 @@ const ProductDetail = () => {
 
                                         <div className="mb-4 flex flex-col">
                                             <label htmlFor='product_option'>Option</label>
-                                            <select id='product_option' name='product_option' className="w-full p-2" onChange={hanleChangeProductOption}>
+                                            <select id='product_option' name='product_option' className="w-full p-2 hover:scale-110 transition-all" onChange={hanleChangeProductOption}>
                                                 {
                                                     product.product_options?.map((option, index) => (
-                                                        <option disabled={option.stock === 0} key={index} value={option.id}>{option.name} - {option.price}</option>
+                                                        <option className="" disabled={option.stock === 0} key={index} value={option.id}>{option.name} - {option.price}</option>
                                                     ))
                                                 }
                                             </select>
@@ -173,12 +173,12 @@ const ProductDetail = () => {
                                             <span>{formatNumberWithCommas(selectedProductOption.price * quantity)} {product.currency}</span>
                                         </div>
                                         <div className="actions flex justify-between">
-                                            <button className="btn btn-primary w-[40%] min-w-[120px]"
+                                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-[40%] min-w-[120px]"
                                                 onClick={() => handleCheckOut()}
                                             >
                                                 Mua ngay
                                             </button>
-                                            <button className="btn btn-primary w-[40%] min-w-[120px]"
+                                            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-[40%] min-w-[120px]"
                                                 onClick={handleAddToCart}
                                             >
                                                 Thêm vào giỏ hàng

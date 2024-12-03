@@ -95,8 +95,8 @@ const ViewOrderDetail = ({ order, setViewOrder, setDisplayedOrders }) => {
             <h3 className="text-lg font-semibold">Order ID: {order.id}</h3>
             <h4 className="text-md font-semibold">Date: {new Date(order.createdAt).toLocaleString('vi-VN')}</h4>
             <h4 className="text-md font-semibold">Total: {formatNumberWithCommas(order.total_amount)} {order.currency}</h4>
-            <h4 className="text-md font-semibold">Status: {order.status}</h4>
-            <h4 className="text-md font-semibold">Payment Method: {order.payment_method}</h4>
+            <h4 className="text-md font-semibold">Status: <OrderStatusBadge status={order.status} /></h4>
+            <h4 className="text-md font-semibold">Payment Method: <OrderMethod method_code={order.payment_method} /></h4>
           </div>
           <div className='w-1/2 flex justify-center items-center'>
             {order.status === order_status.PENDING &&
@@ -137,6 +137,36 @@ const ViewOrderDetail = ({ order, setViewOrder, setDisplayedOrders }) => {
       </div>
     </div>
   )
+}
+
+const OrderMethod = ({ method_code }) => {
+  switch (method_code) {
+    case payment_method_codes.COD:
+      return 'Cash on Delivery';
+    case payment_method_codes.MOMO:
+      return 'Momo';
+    case payment_method_codes.ZALOPAY:
+      return 'ZaloPay';
+    default:
+      return 'Unknown';
+  }
+}
+
+const OrderStatusBadge = ({ status }) => {
+  switch (status) {
+    case order_status.PENDING:
+      return <span className="bg-yellow-400 text-white p-2 rounded-md">Pending</span>;
+    case order_status.PROCESSING:
+      return <span className="bg-blue-400 text-white p-2 rounded-md">Processing</span>;
+    case order_status.SHIPPING:
+      return <span className="bg-green-400 text-white p-2 rounded-md">Shipping</span>;
+    case order_status.DELIVERED:
+      return <span className="bg-green-400 text-white p-2 rounded-md">Delivered</span>;
+    case order_status.CANCELLED:
+      return <span className="bg-red-400 text-white p-2 rounded-md">Cancelled</span>;
+    default:
+      return <span className="bg-gray-400 text-white p-2 rounded-md">Unknown</span>;
+  }
 }
 
 export default OrderHistory;

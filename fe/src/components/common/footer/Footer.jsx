@@ -69,7 +69,7 @@ const Footer = () => {
     }
 
     return (
-        <div className="flex w-full !bg-[--secondary-background-color] !text-[--secondary-text-color]">
+        <div className="flex w-full !bg-[--primary-background-color] !text-[--secondary-text-color]">
             <div className="flex footer-container w-full justify-center">
                 <div className="footer-content w-full">
                     <div className="flex flex-wrap justify-between space-x-10 space-y-4 p-4">

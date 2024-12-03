@@ -5,10 +5,12 @@
   "scripts": {
     "start:fe": "cd fe && npm start",
     "start:be": "cd be && npm start",
+    "start:be:init-database": "cd be && npm run start:init-database",
     "install:fe": "cd fe && npm install",
     "install:be": "cd be && npm install",
     "db:all": "cd be && npm run db:all",
     "start": "concurrently \"npm run start:fe\" \"npm run start:be\"",
+    "start:init-database": "concurrently \"npm run start:be:init-database\" \"npm run start:be\"",
     "install": "npm-run-all install:fe install:be"
   },
   "author": "",
@@ -17,6 +19,5 @@
   "devDependencies": {
     "concurrently": "^9.0.1",
     "npm-run-all": "^4.1.5"
-  },
-  "dependencies": {}
+  }
 }

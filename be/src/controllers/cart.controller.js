@@ -200,6 +200,7 @@ export default class CartController {
             if (cart.id !== parseInt(req.params.id)) {
                 return res.status(402).json({ message: "Forbidden" });
             }
+
             await new CartService().delete({ where: { id: req.params.id } });
             return res.status(204).json();
         } catch (error) {
