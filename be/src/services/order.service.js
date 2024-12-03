@@ -16,32 +16,6 @@ export default class OrderService {
     }
   }
 
-  createOrder = async (userId, cart, name, email, phone, note) => {
-    try {
-      const order = await this.create({ userId, name, email, phone, note });
-      if (!order) {
-        return null;
-      }
-
-      const orderDetails = cart.map(item => ({
-        orderId: order.id,
-        productId: item.id,
-        quantity: item.quantity,
-        price: item.price
-      }));
-
-      const orderDetail = await db.orderDetail.bulkCreate(orderDetails);
-      if (!orderDetail) {
-        return null;
-      }
-
-      return order;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  }
-
   async create(data, options = {}) {
     try {
       console.log(data)

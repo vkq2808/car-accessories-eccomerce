@@ -1,0 +1,87 @@
+@startuml class-diagram-services
+skinparam DefaultFontName "Times New Roman"
+skinparam DefaultFontSize 14
+
+class SettingService {
+  getPolicies(): Array<object>
+  getPromotions(): Array<object>
+  updatePolicies(data): void
+  updatePromotions(data): void
+}
+class EmailService {
+  +sendRegisterEmail(email, token): void
+  +sendResetPasswordEmail(email, token): void
+  +sendOrderPendingEmail(email, order): void
+  +sendSuccessVNPAYPaymentOrderEmail(email, order): void
+}
+
+class FileService {
+  +deleteImage(file): boolean
+  +deleteAssest(file): boolean
+}
+
+abstract class CrudService<<T>> {
+  +getAll(options?): Array<T>
+  +query(query): Array<T>
+  +getOne(id, options?): T
+  +create(data, options?): T
+  +update(data, options?): T
+  +delete(id): void
+  +findAndCountAll(options?): {rows: Array<T>, count: number}
+}
+
+class CartItemService<<CartItem>> {
+}
+
+class CartService<<Cart>> {
+  +getByUserId(userId): Cart
+}
+
+class CategoryService<<Category>> {
+}
+
+class CostService<<Cost>> {
+}
+
+
+class OrderItemService<<OrderItem>> {
+}
+
+class OrderService<<Order>> {
+  +findOrCreate(options?): Order
+}
+
+class PaymentService<<Payment>> {
+}
+
+class ProductFollowService<<ProductFollow>> {
+}
+
+class ProductOptionService<<ProductOption>> {
+}
+
+class ProductService<<Product>> {
+  +searchAndCountProducts(options): {rows: Array<Product>, count: number}
+}
+
+
+class UserService<<User>> {
+  -hashUserPassword(password): hashed_password:string
+  +createUser(data): User
+  +getFullUserInfoById(id): User
+  +compareUserPassword(password, hashed_password): boolean
+}
+
+CartItemService -up-|> CrudService
+CartService -up-|> CrudService
+CategoryService -up-|> CrudService
+CostService -up-|> CrudService
+OrderItemService -right-|> CrudService
+OrderService -left-|> CrudService
+PaymentService -left-|> CrudService
+ProductFollowService -down-|> CrudService
+ProductOptionService -down-|> CrudService
+ProductService -down-|> CrudService
+UserService -down-|> CrudService
+
+@enduml

@@ -48,7 +48,7 @@ export default class CartController {
         }
     }
 
-    getByUserId = async (req, res) => {
+    getByUserInToken = async (req, res) => {
         try {
             const user = req.user;
             let cart = await new CartService().getByUserId(user.id);

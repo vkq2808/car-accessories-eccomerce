@@ -6,7 +6,7 @@ import {
 
 let cartAPI = e.Router();
 let cartAPIRoute = (app) => {
-    cartAPI.get("/", new CartController().getByUserId);
+    cartAPI.get("/", new CartController().getByUserInToken);
     cartAPI.delete("/:id", new CartController().delete);
     cartAPI.post("/add", new CartController().addProduct);
     cartAPI.put("/update/:id", new CartController().update);

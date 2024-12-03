@@ -4,55 +4,6 @@ export default class OrderItemService {
     constructor() {
         this.model = db.order_item;
     }
-    async getOrderItemByorder_id(order_id) {
-        try {
-            const orderItem = await this.model.findAll({
-                where: { order_id },
-                include: [{ model: db.product, include: [db.product_option] }]
-            });
-            return orderItem || null;
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
-    }
-    async createOrderItem(order_id, product_id, quantity) {
-        try {
-            const orderItem = await this.model.create({
-                order_id,
-                product_id,
-                quantity
-            });
-            return orderItem;
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
-    }
-    async updateOrderItem(orderItemId, quantity) {
-        try {
-            const orderItem = await this.model.update({
-                quantity
-            }, {
-                where: { id: orderItemId }
-            });
-            return orderItem;
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
-    }
-    async deleteOrderItem(orderItemId) {
-        try {
-            const orderItem = await this.model.destroy({
-                where: { id: orderItemId }
-            });
-            return orderItem;
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
-    }
 
     async create(data, options = {}) {
         try {

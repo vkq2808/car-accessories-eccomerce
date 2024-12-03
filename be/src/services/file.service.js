@@ -17,7 +17,7 @@ export default class FileService {
     }
   }
 
-  deleteAssests = async (asset) => {
+  deleteAssest = async (asset) => {
     try {
       const filePath = path.join(__dirname, `../../public/assets/${asset}`);
 

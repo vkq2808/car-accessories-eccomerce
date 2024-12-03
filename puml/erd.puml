@@ -1,106 +1,106 @@
 @startuml class_diagram
 
 entity setting {
-  +id: number
-  +key: text
+  +id: INTEGER
+  +key: TEXT
   +value: JSON
 }
 
 entity category {
-  +id: number
-  +name: text
-  +description: text
-  +link: text
-  +image_url: text
+  +id: INTEGER
+  +name: TEXT
+  +description: TEXT
+  +link: TEXT
+  +image_url: TEXT
 }
 
 entity product {
-  +id: number
-  +name: text
-  +detail: text
-  +category_id: number
-  +stock: number
-  +status: text
+  +id: INTEGER
+  +name: TEXT
+  +detail: TEXT
+  +category_id: INTEGER
+  +stock: INTEGER
+  +status: TEXT
 }
 
 entity product_option {
-  +id: number
-  +name: text
-  +type: text
-  +product_id: number
+  +id: INTEGER
+  +name: TEXT
+  +type: TEXT
+  +product_id: INTEGER
 }
 
 entity cart {
-  +id: number
-  +user_id: number
+  +id: INTEGER
+  +user_id: INTEGER
 }
 
 entity cart_item {
-  +id: number
-  +cart_id: number
-  +quantity: number
-  +product_id: number
-  +product_option_id: number
+  +id: INTEGER
+  +cart_id: INTEGER
+  +quantity: INTEGER
+  +product_id: INTEGER
+  +product_option_id: INTEGER
 }
 
 entity product_follow {
-  +id: number
-  +product_id: number
-  +user_id: number
+  +id: INTEGER
+  +product_id: INTEGER
+  +user_id: INTEGER
 }
 
 entity user {
-  +id: number
-  +first_name: text
-  +last_name: text
-  +email: text
-  +hashed_password: text
-  +phone: text
-  +address: text
-  +role: text
-  +imgUrl: text
+  +id: INTEGER
+  +first_name: TEXT
+  +last_name: TEXT
+  +email: TEXT
+  +hashed_password: TEXT
+  +phone: TEXT
+  +address: TEXT
+  +role: TEXT
+  +imgUrl: TEXT
 }
 
 entity cost {
-  +id:number
-  +total_cost: number,
-  +cost_type: text,
-  +product_id: number,
-  +employee_id: number,
-  +description: text
+  +id:INTEGER
+  +total_cost: INTEGER,
+  +cost_type: TEXT,
+  +product_id: INTEGER,
+  +employee_id: INTEGER,
+  +description: TEXT
 }
 
 entity order {
-  +id: number
-  +user_id: number
-  +status: text
+  +id: INTEGER
+  +user_id: INTEGER
+  +status: TEXT
   +total_amount: double
   +discount: double
-  +payment_method: text
-  +payment_status: text
+  +payment_method: TEXT
+  +payment_status: TEXT
   +info: JSON
 }
 
 entity order_item {
-  +id: number
-  +order_id: number
-  +quantity: number
-  +product_id: number
-  +product_option_id: number
+  +id: INTEGER
+  +order_id: INTEGER
+  +quantity: INTEGER
+  +product_id: INTEGER
+  +product_option_id: INTEGER
 }
 
 entity payment {
-  +id: number
-  +order_id: number
-  +method: text
-  +bank_code: text
-  +status: text
-  +amount: number
-  +currency: text
-  +description: text
-  +transaction_id: text
-  +transaction_info: text
-  +transaction_status: text
+  +id: INTEGER
+  +order_id: INTEGER
+  +method: TEXT
+  +bank_code: TEXT
+  +status: TEXT
+  +amount: INTEGER
+  +currency: TEXT
+  +description: TEXT
+  +transaction_id: TEXT
+  +transaction_info: TEXT
+  +transaction_status: TEXT
   +transaction_time: Date
   +transaction_data: JSON
 }

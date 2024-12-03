@@ -17,18 +17,6 @@ const canDelete = (req_role) => role_author_number[req_role] >= role_author_numb
 
 export default class CostController {
   constructor() { }
-  getById = async (req, res) => {
-    try {
-      const data = await new CostService().getOne({ where: { id: req.params.id } });
-      if (!data) {
-        return res.status(404).json({ message: "Not found" });
-      }
-      return res.status(200).json(data);
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: "Internal server error" });
-    }
-  }
 
   async getAll(req, res) {
     try {

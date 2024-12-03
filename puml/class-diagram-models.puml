@@ -1,4 +1,6 @@
 @startuml class_diagram_models
+skinparam DefaultFontName "Times New Roman"
+skinparam DefaultFontSize 14
 
 user --|> Model
 setting --|> Model
@@ -13,20 +15,19 @@ Model <|-- order
 Model <|-- order_item
 Model <|-- payment
 
-abstract class Model {
-    +id: bigint
+abstract class Model<<T>> {
+    +id: int
     +created_at: datetime
     +updated_at: datetime
 
-    +save(): Model
+    +save(): T
     +destroy(): void
-    +toJSON(): JSON
-    +findOne(id: int): Model
-    +findAll(options: QueryOption): Array<Model>
-    +update(model: Model, options?: QueryOption): Model
-    +create(model: Model, options?: QueryOption): Model
+    +findOne(id: int): T
+    +findAll(options: QueryOption): Array<T>
+    +update(t: T, options?: QueryOption): Model
+    +create(t: T, options?: QueryOption): Model
     +delete(id: int): void
-    +findAndCountAll(options: QueryOption): Array<Model>
+    +findAndCountAll(options: QueryOption): Array<T>
 }
 
 object QueryOption {
@@ -51,36 +52,31 @@ class category {
 class product {
   +name: string
   +detail: string
-  +category_id: number
-  +stock: number
+  +category_id: int
+  +stock: int
   +status: string
-
-  +getProductOptions(options: QueryOption): Array<product_option>
-  +getCategory(options: QueryOption): category
-  +getFollowers(options: QueryOption): Array<user>
-  +getCosts(options: QueryOption): Array<cost>
 }
 
 class product_option {
   +name: string
   +type: string
-  +product_id: number
+  +product_id: int
 }
 
 class cart {
-  +user_id: number
+  +user_id: int
 }
 
 class cart_item {
-  +cart_id: number
-  +quantity: number
-  +product_id: number
-  +product_option_id: number
+  +cart_id: int
+  +quantity: int
+  +product_id: int
+  +product_option_id: int
 }
 
 class product_follow {
-  +product_id: number
-  +user_id: number
+  +product_id: int
+  +user_id: int
 }
 
 class user {
@@ -95,16 +91,16 @@ class user {
 }
 
 class cost {
-  +id:number
-  +total_cost: number,
+  +id:int
+  +total_cost: int,
   +cost_type: string,
-  +product_id: number,
-  +employee_id: number,
+  +product_id: int,
+  +employee_id: int,
   +description: string
 }
 
 class order {
-  +user_id: number
+  +user_id: int
   +status: string
   +total_amount: double
   +discount: double
@@ -114,18 +110,18 @@ class order {
 }
 
 class order_item {
-  +order_id: number
-  +quantity: number
-  +product_id: number
-  +product_option_id: number
+  +order_id: int
+  +quantity: int
+  +product_id: int
+  +product_option_id: int
 }
 
 class payment {
-  +order_id: number
+  +order_id: int
   +method: string
   +bank_code: string
   +status: string
-  +amount: number
+  +amount: int
   +currency: string
   +description: string
   +transaction_id: string

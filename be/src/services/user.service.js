@@ -32,7 +32,7 @@ class UserService {
 
     async hashUserPassword(password) {
         try {
-            return bcrypt.hashSync(password, salt);
+            return this.model.hash_password(password);
         } catch (error) {
             console.error(error);
             return null;
@@ -52,15 +52,6 @@ class UserService {
                 role: data.role
             });
             return 'Create a new user successful';
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
-    }
-
-    async updateInfo(data) {
-        try {
-
         } catch (error) {
             console.error(error);
             throw error;
@@ -155,7 +146,6 @@ class UserService {
 
     async compareUserPassword(password, hashed_password) {
         try {
-            console.log(password, hashed_password);
             if (!password || !hashed_password) {
                 return false;
             }

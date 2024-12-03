@@ -1,0 +1,87 @@
+@startuml class_diagram_controllers
+skinparam DefaultFontName "Times New Roman"
+skinparam DefaultFontSize 14
+
+class AuthController{
+  +getPublicKey(req, res): res(string)
+  +registerUser(req, res): res(message)
+  +loginUser(req, res): res(message, user, access_token, refresh_token)
+  +verifyEmail(req, res): res(message, newUser?)
+  +requestPasswordReset(req, res): res(message)
+  +resetPassword(req, res): res(message, updatedUser?)
+  +refreshAccessToken(req, res): res(message, user?, access_token?, refresh_token?)
+  +checkEmail(req, res): res(message)
+}
+
+class PublicController {
+  +getPolicies(req, res): res(message, Array<Policy>?)
+  +updatePolicy(req, res): res(message)
+  +getPromotions(req, res): res(message, Array<Promotion>?)
+  +updatePromotion(req, res): res(message)
+}
+
+abstract class CrudController<<T>> {
+  +getAll(req, res): res(Array<T>?, message)
+  +query(req, res): res(Array<T>?, message)
+  +getOne(req, res): res(T?, message)
+  +create(req, res): res(T?, message)
+  +update(req, res): res(T?, message)
+  +delete(req, res): res(message)
+}
+
+class UserController<<User>> {
+  +updateInfo(req, res): res(message)
+  +cancelOrder(req,res): res(message, order?: Order)
+  +getUserByToken(req,res): res(message, user?)
+  +getOrders(req,res): res(Array<order>)
+}
+
+class CartController<<Cart>> {
+  +addProduct(req,res): res(message?, cart?)
+  +getByUserInToken(req, res): res(message?, cart?)
+  +updateCartItem(req, res): res(message?, cart?)
+  +deleteCartItem(req, res): res(message?, cart?)
+  +sync(req, res): res(message?, cart?)
+}
+
+class CategoryController<<Category>> {
+}
+
+
+class ProductController<<Product>> {
+  +createOption(req, res): res(message?, product_option?)
+  +updateOption(req, res): res(message?, product_option?)
+  +deleteOption(req, res): res(message?)
+  +getByPath(req, res): res(message?, product?)
+  +search(req, res): res(message?, {Array<product>, count}?)
+  +getFollow(req, res): res(message?, Array<product>?)
+  +follow(req, res): res(message?, product?)
+  +unfollow(req, res): res(message?)
+  +syncFollow(req, res): res(message)
+}
+
+class OrderController<<Order>> {
+  +getWeeklyOrders(req, res): res(message, Array<order>)
+  +getMonthlyRevenue(req, res): res(message, processed_orders)
+  +getYearlyRevenue(req, res): res(message, processed_orders)
+  +getRevenue(req, res): res(message, processed_orders)
+  -sortObject(obj): obj
+  +handleCheckStock(req, res): res(message, code?)
+  +createVNPayPaymentUrl(req, res): res(message, payment_url?)
+  +confirmVNPayPayment(req, res): res(message, code?, detail?)
+  +createOrder(req, res): res(message, order?)
+  +getEmptyOrder(req, res): res(message, order?)
+}
+
+class CostController<<Cost>> {
+}
+
+CategoryController --|> CrudController
+CartController --|> CrudController
+UserController --|> CrudController
+
+CrudController <|-- ProductController
+CrudController <|-- OrderController
+CrudController <|-- CostController
+
+@enduml
