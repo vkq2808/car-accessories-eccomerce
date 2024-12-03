@@ -731,7 +731,7 @@ export default class OrderController {
       if (!canDelete(req.user?.role || account_roles.NO_ROLE)) {
         return res.status(403).json({ message: "You don't have permission to delete this order" });
       }
-      await new OrderService().delete(req.params.id);
+      await new OrderService().delete({ where: { id: req.params.id } });
       return res.status(204).json();
     } catch (error) {
       console.log(error);

@@ -97,7 +97,7 @@ export default class CartController {
         try {
             const { user } = req;
 
-            await new CartItemService().delete(req.params.id);
+            await new CartItemService().delete({ where: { id: req.params.id } });
 
             const cart = await new CartService().getOne({
                 where: { user_id: user.id },
@@ -200,7 +200,7 @@ export default class CartController {
             if (cart.id !== parseInt(req.params.id)) {
                 return res.status(402).json({ message: "Forbidden" });
             }
-            await new CartService().delete(req.params.id);
+            await new CartService().delete({ where: { id: req.params.id } });
             return res.status(204).json();
         } catch (error) {
             console.error(error);

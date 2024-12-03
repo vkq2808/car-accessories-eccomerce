@@ -32,9 +32,9 @@ export default class ProductFollowService {
     }
   }
 
-  async delete(id) {
+  async delete(option = {}) {
     try {
-      const result = await this.model.destroy({ where: { id: id } });
+      const result = await this.model.destroy(option);
       return result;
     } catch (error) {
       console.error(error);

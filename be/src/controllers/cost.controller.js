@@ -91,7 +91,7 @@ export default class CostController {
       if (!canDelete(req.user?.role || account_roles.NO_ROLE)) {
         return res.status(403).json({ message: "You don't have permission to delete this cost" });
       }
-      await new CostService().delete(req.params.id);
+      await new CostService().delete({ where: { id: req.params.id } });
       return res.status(204).json();
     } catch (error) {
       console.error(error);

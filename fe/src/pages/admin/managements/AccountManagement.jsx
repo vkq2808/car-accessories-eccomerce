@@ -27,9 +27,6 @@ const AccountManagement = () => {
       email: {
         value: item.email,
       },
-      password: {
-        value: item.hashed_password,
-      },
       role: {
         value: item.role,
       },
@@ -95,12 +92,6 @@ const AccountManagement = () => {
           return false; // Trả về false nếu có lỗi
         }
       },
-      value: ""
-    },
-    password: {
-      type: [admin_table_field_types.PASSWORD, admin_table_field_types.NO_SHOW_DATA, admin_table_field_types.REQUIRED, admin_table_field_types.NO_EDIT_REQUIRED, admin_table_field_types.MINIMUN_LENGTH
-      ],
-      minimum_length: 8,
       value: ""
     },
     role: {

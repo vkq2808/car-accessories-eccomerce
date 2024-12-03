@@ -76,7 +76,7 @@ export default class CategoryController {
 
     async delete(req, res) {
         try {
-            await new CategoryService().delete(req.params.id);
+            await new CategoryService().delete({ where: { id: req.params.id } });
             return res.status(204).json();
         } catch (error) {
             console.error(error);

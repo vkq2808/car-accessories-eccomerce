@@ -195,4 +195,18 @@ export default class AuthController {
             return res.status(500).json({ message: "Lỗi máy chủ" });
         }
     }
+
+    checkToken = async (req, res) => {
+        const { token } = req.body;
+        if (!token) {
+            return res.status(400).json({ message: "Token là bắt buộc" });
+        }
+
+        try {
+            jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY);
+            return res.status(200).json({ message: "Token hợp lệ" });
+        } catch (error) {
+            return res.status(400).json({ message: "Token không hợp lệ" });
+        }
+    }
 }

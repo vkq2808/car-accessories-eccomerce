@@ -73,7 +73,7 @@ Sạc nhanh là tính năng đáng giá đối với xe hơi, khi mà thời gia
         price: 500000,
         currency: "VND",
         category_id: 1,
-        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        image_url: "http://localhost:3001/api/v1/file/image/1733186460508.jpeg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -2850,7 +2850,7 @@ Phim cách nhiệt có các mã tối màu có khả năng chống nhìn từ ng
         price: 5000000,
         currency: "VND",
         category_id: 2,
-        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        image_url: "http://localhost:3001/api/v1/file/image/1733186344578.jpeg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -2921,7 +2921,7 @@ Sử dụng phim cách nhiệt kém chất lượng đem lại nhiều hậu qu�
         price: 4500000,
         currency: "VND",
         category_id: 2,
-        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        image_url: "http://localhost:3001/api/v1/file/image/1733188009652.jpeg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3010,7 +3010,7 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         price: 19500000,
         currency: "VND",
         category_id: 1,
-        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        image_url: "http://localhost:3001/api/v1/file/image/1733186602303.jpeg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3099,7 +3099,7 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         price: 14500000,
         currency: "VND",
         category_id: 1,
-        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        image_url: "http://localhost:3001/api/v1/file/image/1733187057739.jpeg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3178,7 +3178,7 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         price: 17500000,
         currency: "VND",
         category_id: 1,
-        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        image_url: "http://localhost:3001/api/v1/file/image/1733187291609.jpeg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3257,7 +3257,7 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         price: 19500000,
         currency: "VND",
         category_id: 1,
-        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        image_url: "http://localhost:3001/api/v1/file/image/1733187363279.jpeg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3336,7 +3336,7 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         price: 14900000,
         currency: "VND",
         category_id: 1,
-        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        image_url: "Màn Hình Gotech GT 2K 360 | Màn Hình DVD Android Ô Tô",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3403,7 +3403,7 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         price: 14500000,
         currency: "VND",
         category_id: 1,
-        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        image_url: "http://localhost:3001/api/v1/file/image/1733187718500.jpeg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3470,7 +3470,7 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         price: 11900000,
         currency: "VND",
         category_id: 1,
-        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        image_url: "http://localhost:3001/api/v1/file/image/1733187816574.jpeg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3537,7 +3537,7 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         price: 8900000,
         currency: "VND",
         category_id: 1,
-        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        image_url: "http://localhost:3001/api/v1/file/image/1733187847816.jpeg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3594,7 +3594,7 @@ Với 72 sắc màu thời thượng trên màn hình, cho bạn tự do thay đ
         price: 20900000,
         currency: "VND",
         category_id: 1,
-        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        image_url: "http://localhost:3001/api/v1/file/image/1733188009652.jpeg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3651,7 +3651,7 @@ Với 72 sắc màu thời thượng trên màn hình, cho bạn tự do thay đ
         price: 14900000,
         currency: "VND",
         category_id: 1,
-        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        image_url: "http://localhost:3001/api/v1/file/image/1733188009652.jpeg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3708,7 +3708,7 @@ Với 72 sắc màu thời thượng trên màn hình, cho bạn tự do thay đ
         price: 14900000,
         currency: "VND",
         category_id: 1,
-        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        image_url: "http://localhost:3001/api/v1/file/image/1733188009652.jpeg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3765,7 +3765,7 @@ Với 72 sắc màu thời thượng trên màn hình, cho bạn tự do thay đ
         price: 11900000,
         currency: "VND",
         category_id: 1,
-        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        image_url: "http://localhost:3001/api/v1/file/image/1733188009652.jpeg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3822,7 +3822,7 @@ Với 72 sắc màu thời thượng trên màn hình, cho bạn tự do thay đ
         price: 8900000,
         currency: "VND",
         category_id: 1,
-        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        image_url: "http://localhost:3001/api/v1/file/image/1733188009652.jpeg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3875,7 +3875,7 @@ Với 72 sắc màu thời thượng trên màn hình, cho bạn tự do thay đ
         price: 11900000,
         currency: "VND",
         category_id: 1,
-        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        image_url: "http://localhost:3001/api/v1/file/image/1733188009652.jpeg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3920,7 +3920,7 @@ Cuối cùng tiến hành kích hoạt bảo hành, hướng dẫn khách sử d
         price: 11500000,
         currency: "VND",
         category_id: 1,
-        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        image_url: "http://localhost:3001/api/v1/file/image/1733188009652.jpeg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -3958,7 +3958,7 @@ Phạt nguội là vấn đề nóng hiện nay, đặc biệt khi nhiều ngư�
         price: 5500000,
         currency: "VND",
         category_id: 1,
-        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        image_url: "http://localhost:3001/api/v1/file/image/1733188009652.jpeg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -4012,7 +4012,7 @@ Màn hình ô tô Zestech có khả năng kết nối và hiển thị các thi�
         price: 6900000,
         currency: "VND",
         category_id: 1,
-        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        image_url: "http://localhost:3001/api/v1/file/image/1733188009652.jpeg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -4065,7 +4065,7 @@ ICAR Calendar còn được tích hợp lịch âm của người Việt. Ví d�
         price: 5800000,
         currency: "VND",
         category_id: 1,
-        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        image_url: "http://localhost:3001/api/v1/file/image/1733188009652.jpeg",
         createdAt: new Date(),
         updatedAt: new Date()
 
@@ -4111,7 +4111,7 @@ Thông qua ứng dụng Zestech Tracking bạn có thể biết được chính 
         price: 13900000,
         currency: "VND",
         category_id: 1,
-        image_url: "https://autohungdung.com/wp-content/uploads/2023/01/33502699.jpg",
+        image_url: "http://localhost:3001/api/v1/file/image/1733188009652.jpeg",
         createdAt: new Date(),
         updatedAt: new Date()
 

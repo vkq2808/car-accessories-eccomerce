@@ -15,6 +15,7 @@ let authAPIRoute = (app) => {
     authAPI.post("/reset-password", new AuthController().resetPassword);
     authAPI.post("/refresh-token", new AuthController().refreshAccessToken);
     authAPI.post("/check-email", new AuthController().checkEmail);
+    authAPI.post("/check-token", new AuthController().checkToken);
 
     return app.use("/api/v1/auth", authAPI);
 }

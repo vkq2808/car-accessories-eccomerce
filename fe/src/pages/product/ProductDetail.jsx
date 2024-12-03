@@ -11,8 +11,8 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { CustomMarkdown } from "../../components";
 
-const follwedProductStyle = "text-[#ff0000] hover:text-inherit"
-const notFollwedProductStyle = "text-inherit hover:text-[--secondary-text-color]"
+const follwedProductStyle = "text-[#ff0000] hover:text-[#ff0000]"
+const notFollwedProductStyle = "text-inherit hover:text-[#ff0000]"
 
 const ProductDetail = () => {
     const navigate = useNavigate();
@@ -139,10 +139,11 @@ const ProductDetail = () => {
                                         <p>{formatNumberWithCommas(product.stock)} sản phẩm có sẵn</p>
 
                                         <div className="flex pb-4">
-                                            <div className={"flex p-2 cursor-pointer"}
+                                            <div className={`flex items-center p-2 cursor-pointer ${followingStyle}`}
                                                 onClick={handleFollowProduct}
                                             >
-                                                <i className={`fas fa-heart ${followingStyle}`}></i>
+                                                <i className={`fas fa-heart mx-2`}></i>
+                                                Theo dõi
                                             </div>
                                         </div>
 

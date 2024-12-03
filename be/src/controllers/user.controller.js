@@ -228,7 +228,7 @@ export default class UserController {
                 return res.status(403).json({ message: "You don't have permission to delete this user" });
             }
 
-            let data = await new UserService().delete(req.params.id);
+            let data = await new UserService().delete({ where: { id: req.params.id } });
             if (data) {
                 return res.status(200).json({ message: "Delete successfully" });
             } else {

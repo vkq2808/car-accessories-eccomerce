@@ -33,9 +33,9 @@ export default class CostService {
     }
   }
 
-  async delete(id) {
+  async delete(option = {}) {
     try {
-      const result = await this.model.destroy({ where: { id: id } });
+      const result = await this.model.destroy(option);
       return result;
     } catch (error) {
       console.error(error);

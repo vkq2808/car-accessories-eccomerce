@@ -106,8 +106,10 @@ export default class ProductController {
             await product.save({ transaction });
 
             await new ProductOptionService().delete(
-                parseInt(id),
-                { transaction }
+                {
+                    where: { id: req.params.id },
+                    transaction
+                }
             );
 
             transaction.commit();
@@ -320,7 +322,7 @@ export default class ProductController {
 
     async delete(req, res) {
         try {
-            await new ProductService().delete(req.params.id);
+            await new ProductService().delete({ where: { id: req.params.id } });
             return res.status(204).json();
         } catch (error) {
             console.error(error);

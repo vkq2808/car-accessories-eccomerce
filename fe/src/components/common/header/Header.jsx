@@ -8,6 +8,7 @@ import { getCategories } from '../../../redux/actions/categoryActions';
 import Following from './following/Following';
 import { PRODUCT_ACTION_TYPES, headerSearchProducts } from '../../../redux/actions/productActions';
 import Headroom from 'react-headroom';
+import { postDataAPI } from '../../../utils/fetchData';
 const Header = ({ setIsSideBarOpen }) => {
 
     const auth = useSelector(state => state.auth);
@@ -24,7 +25,12 @@ const Header = ({ setIsSideBarOpen }) => {
     useEffect(() => {
         setTimeout(() => {
             if (auth.token) {
-                setLoadingUser(true);
+                postDataAPI('auth/check-token', auth.token).then(res => {
+                    setLoadingUser(true);
+                }).catch(err => {
+                    console.log(err);
+                    setLoadingUser(false);
+                })
             }
         }, 300);
         setLoadingUser(false);
