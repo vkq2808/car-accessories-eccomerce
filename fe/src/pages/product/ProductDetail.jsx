@@ -103,7 +103,7 @@ const ProductDetail = () => {
     const handleCheckOut = () => {
         dispatch(getEmptyOrder(auth.token))
         dispatch({ type: ORDER_ACTION_TYPES.ADD_ORDER_ITEM, payload: { product, quantity, product_option: selectedProductOption } })
-        navigate('/checkout')
+        navigate('/cart/checkout/confirm-information')
     }
 
     const hanleChangeProductOption = (e) => {

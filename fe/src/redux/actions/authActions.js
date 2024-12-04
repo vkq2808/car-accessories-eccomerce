@@ -110,21 +110,16 @@ export const logout = () => async (dispatch) => {
     }
 }
 export const getUserInfo = () => async (dispatch) => {
+    const access_token = localStorage.getItem("access_token")
+    try {
+        const res = await getDataAPI("user/get-user-info", access_token)
 
-    const firstLogin = localStorage.getItem("firstLogin")
-
-    if (firstLogin) {
-        const access_token = localStorage.getItem("access_token")
-        try {
-            const res = await getDataAPI("user/get-user-info", access_token)
-
-            dispatch({
-                type: GLOBALTYPES.AUTH,
-                payload: { token: access_token, user: res.data, role: res.data.role }
-            })
-        } catch (err) {
-            localStorage.removeItem("firstLogin")
-        }
+        dispatch({
+            type: GLOBALTYPES.AUTH,
+            payload: { user: res.data }
+        })
+    } catch (err) {
+        localStorage.removeItem("access_token")
     }
 }
 

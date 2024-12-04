@@ -25,12 +25,12 @@ const Header = ({ setIsSideBarOpen }) => {
     useEffect(() => {
         setTimeout(() => {
             if (auth.token) {
-                postDataAPI('auth/check-token', auth.token).then(res => {
-                    setLoadingUser(true);
-                }).catch(err => {
-                    console.log(err);
-                    setLoadingUser(false);
-                })
+                postDataAPI('auth/check-token', { token: auth.token })
+                    .then(res => {
+                        setLoadingUser(true);
+                    }).catch(err => {
+                        setLoadingUser(false);
+                    })
             }
         }, 300);
         setLoadingUser(false);

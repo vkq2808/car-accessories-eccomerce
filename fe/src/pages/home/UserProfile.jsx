@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { postDataAPI, putDataAPI } from "../../utils/fetchData";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 import OrderHistory from "./OrderHistory";
+import { getUserInfo } from "../../redux/actions/authActions";
 
 const UserProfile = () => {
     const [isEditing, setIsEditing] = useState(false);
@@ -171,7 +172,11 @@ const UserProfile = () => {
         }, 3000);
 
         return () => clearTimeout(timer); // Clear timeout on cleanup
-    }, [auth, dispatch, navigate]);
+    }, [auth.token, dispatch, navigate]);
+
+    useEffect(() => {
+        dispatch(getUserInfo());
+    }, [dispatch]);
 
     return (
         <div className="min-h-[90vh] w-full bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 flex justify-center items-center gap-10 flex-col md:flex-row">
