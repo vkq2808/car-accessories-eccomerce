@@ -26,6 +26,8 @@ export const login = (data) => async (dispatch) => {
                 payload: { token: "Bearer " + res.data.access_token, user: res.data.user, role: res.data.user.role }
             })
 
+            dispatch({ type: CART_ACTION_TYPES.CLEAR_CART })
+            dispatch({ type: PRODUCT_ACTION_TYPES.INIT_FOLLOWING_PRODUCTS })
 
             localStorage.setItem("firstLogin", true)
             localStorage.setItem("access_token", "Bearer " + res.data.access_token)
@@ -99,13 +101,13 @@ export const logout = () => async (dispatch) => {
         localStorage.removeItem("cart")
         localStorage.removeItem("following_items")
         dispatch({ type: AUTH_ACTION_TYPES.LOGOUT })
-        dispatch({ type: PRODUCT_ACTION_TYPES.GET_FOLLOWING_PRODUCTS_FROM_STORAGE, payload: [] })
-        dispatch({ type: CART_ACTION_TYPES.GET_CART_ITEMS_FROM_STORAGE, payload: [] })
-        window.location.href = "/"
+        dispatch({ type: PRODUCT_ACTION_TYPES.INIT_FOLLOWING_PRODUCTS })
+        dispatch({ type: CART_ACTION_TYPES.CLEAR_CART })
     } catch (err) {
+        console.log(err)
         dispatch({
             type: GLOBALTYPES.ERROR_ALERT,
-            payload: err.response.data.message
+            payload: err
         })
     }
 }

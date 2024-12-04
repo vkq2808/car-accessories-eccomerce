@@ -11,7 +11,7 @@ export const CART_ACTION_TYPES = {
     RETRIEVE_CART_ITEM: "RETRIEVE_CART_ITEM"
 }
 
-export const getCart = (token) => async (dispatch) => {
+export const getCart = () => async (dispatch) => {
     try {
         const res = await getDataAPI('cart')
         if (res.status === 200) {

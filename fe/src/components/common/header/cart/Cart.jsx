@@ -17,11 +17,11 @@ const Cart = () => {
     const [previewEnabled, setPreviewEnabled] = useState(Array(cart.cart_items?.length).fill(false));
 
     useEffect(() => {
-        setTimeout(() => {
-            if (auth.token && !cart.id) {
-                dispatch(getCart(auth.token));
-            }
-        }, 3000);
+        if (auth.token && !cart.id) {
+            setTimeout(() => {
+                dispatch(getCart());
+            }, 1000);
+        }
     }, [dispatch, auth, cart]);
 
     useEffect(() => {

@@ -1,3 +1,4 @@
+import { AUTH_ACTION_TYPES } from "../actions/authActions";
 import { GLOBALTYPES } from "../actions/globalTypes";
 
 const initialState = {
@@ -19,7 +20,7 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 redirecting: action.payload
             }
-        case GLOBALTYPES.LOGOUT:
+        case AUTH_ACTION_TYPES.LOGOUT:
             return initialState
         default:
             return state
