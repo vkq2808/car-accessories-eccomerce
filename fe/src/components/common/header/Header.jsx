@@ -55,7 +55,7 @@ const Header = ({ setIsSideBarOpen }) => {
     }, [searchResults.products]);
 
     const handleProfileClick = () => {
-        nav('/profile');
+        handleNavigate('/profile');
     };
 
     const onSearchChange = (e) => {
@@ -95,10 +95,16 @@ const Header = ({ setIsSideBarOpen }) => {
 
         if (e.key === 'Enter' || e.type === 'click') {
             const sanitizedSearchTerm = searchTerm.trim().replace(/[\s/]+/g, '-');
-            nav('/search/q?key=' + sanitizedSearchTerm + '&category_id=' + category_id.toString());
+            handleNavigate('/search/q?key=' + sanitizedSearchTerm + '&category_id=' + category_id.toString());
             setSearchTerm('');
         }
     };
+
+    const handleNavigate = (path) => {
+        setIsSideBarOpen(false);
+        const currentPath = window.location.pathname;
+        nav(path, { state: { from: currentPath } });
+    }
 
     return (
         <div className='flex flex-col w-screen border-none z-10 md:py-0'>
@@ -107,7 +113,7 @@ const Header = ({ setIsSideBarOpen }) => {
                 <header className="w-full flex flex-col md:flex-row justify-between items-center border-b border-b-black bg-[--primary-background-color] text-[--primary-text-color]">
                     <div className="ml-[100px] cursor-pointer"
                         onClick={() => {
-                            nav('/');
+                            handleNavigate('/');
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
                     >
@@ -157,7 +163,7 @@ const Header = ({ setIsSideBarOpen }) => {
                                             className="search-item p-2 border-b border-black "
                                         >
                                             <div className="flex p-1 m-1 border items-center"
-                                                onClick={() => nav('/product/' + product.path)}>
+                                                onClick={() => handleNavigate('/product/' + product.path)}>
                                                 <img
                                                     className="w-[70px] h-[70px] cursor-pointer"
                                                     src={product.image_url}
@@ -183,11 +189,11 @@ const Header = ({ setIsSideBarOpen }) => {
                     </div>
                     <div className="flex flex-row justify-start space-x-4 mt-2 md:mt-0 items-center mr-2">
                         {!auth.token && <div className='flex flex-row'>
-                            <div className='pl-1 mr-1' onClick={() => nav('/auth/login')}>
+                            <div className='pl-1 mr-1' onClick={() => handleNavigate('/auth/login')}>
                                 <span className='underline text-[blue] cursor-pointer'>Đăng nhập</span>
                             </div>
                             /
-                            <div className='pl-1 mr-1' onClick={() => nav('/auth/regist')}>
+                            <div className='pl-1 mr-1' onClick={() => handleNavigate('/auth/regist')}>
                                 <span className='underline text-[blue] cursor-pointer'>Đăng ký</span>
                             </div>
                         </div>}

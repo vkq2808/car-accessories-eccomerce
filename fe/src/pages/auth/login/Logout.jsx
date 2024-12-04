@@ -13,6 +13,7 @@ const Logout = () => {
     React.useEffect(() => {
         if (auth.token) {
             dispatch(logout());
+            nav("/")
         } else {
             nav("/")
         }

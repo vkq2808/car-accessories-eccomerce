@@ -55,7 +55,7 @@ function App() {
                         title: 'Thông báo',
                         children: SyncCartAndFollowingTemplate(cart_items, following_items, auth.token, dispatch),
                         onClose: () => {
-                            localStorage.removeItem('cart_items');
+                            localStorage.removeItem('cart');
                             localStorage.removeItem('following_items');
                             dispatch({ type: GLOBALTYPES.DIALOG, payload: null });
                         }

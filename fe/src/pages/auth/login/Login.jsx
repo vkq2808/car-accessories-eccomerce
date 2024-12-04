@@ -66,6 +66,8 @@ const LoginPage = () => {
         setLoading(true);
         // Simulate API call
         dispatch(login({ email, password }));
+        const redirect = location.state?.from || "/";
+        navigate(redirect);
         setLoading(false);
     };
 

@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { GLOBALTYPES } from "../../../redux/actions/globalTypes";
 import { IoMdSwitch, IoIosSearch } from "react-icons/io";
-import { logout } from "../../../redux/actions/authActions";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { account_roles } from "../../../constants/constants";
 
@@ -31,14 +30,14 @@ const Sidebar = ({ setIsSideBarOpen }) => {
                 { id: 14, title: "Admin Page", icon: <FiSettings />, onClick: () => handleNavigate("/admin/dashboard") },
                 { id: 12, title: "Profile", icon: <FiUser />, onClick: () => handleNavigate("/profile") },
                 { id: 15, title: "Change Theme", icon: <IoMdSwitch />, onClick: () => dispatch({ type: GLOBALTYPES.THEME }) },
-                { id: 16, title: "Logout", icon: <RiLogoutCircleLine />, onClick: () => dispatch(logout()) }
+                { id: 16, title: "Logout", icon: <RiLogoutCircleLine />, onClick: () => handleNavigate("/auth/logout") }
             ]
         } else {
             items = [
                 { id: 1, title: "Hone", icon: <FiHome />, onClick: () => handleNavigate("/") },
                 { id: 2, title: "Profile", icon: <FiUser />, onClick: () => handleNavigate("/profile") },
                 { id: 4, title: "Change Theme", icon: <IoMdSwitch />, onClick: () => dispatch({ type: GLOBALTYPES.THEME }) },
-                { id: 5, title: "Logout", icon: <RiLogoutCircleLine />, onClick: () => dispatch(logout()) }
+                { id: 5, title: "Logout", icon: <RiLogoutCircleLine />, onClick: () => handleNavigate("/auth/logout") }
             ];
         }
         setMenuItems(items);
