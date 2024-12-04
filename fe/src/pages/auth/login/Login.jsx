@@ -165,12 +165,12 @@ const LoginPage = () => {
                     </form>
 
                     <div className="mt-6 flex flex-col sm:flex-row items-center justify-between space-y-3 sm:space-y-0">
-                        <button className="text-blue-600 cursor-pointer border-none hover:text-blue-800 text-sm font-medium transition-colors"
+                        <button className="bg-[--primary-background-color] text-blue-600 cursor-pointer border-none hover:text-blue-800 text-sm font-medium transition-colors"
                             onClick={() => navigate("/auth/forgot-password")}
                         >
                             Forgot Password?
                         </button>
-                        <button className="text-blue-600 cursor-pointer border-none hover:text-blue-800 text-sm font-medium transition-colors">
+                        <button className="bg-[--primary-background-color] text-blue-600 cursor-pointer border-none hover:text-blue-800 text-sm font-medium transition-colors">
                             Create an Account
                         </button>
                     </div>
@@ -178,9 +178,9 @@ const LoginPage = () => {
 
                 <div className="w-full md:w-1/2 bg-[--primary-background-color] p-8 flex items-center justify-center">
                     <img
-                        src="images.unsplash.com/photo-1496096265110-f83ad7f96608?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
+                        src={process.env.REACT_APP_API_URL + "/file/assest/login-illu.png"}
                         alt="Login illustration"
-                        className="max-w-[80%] h-auto rounded-lg shadow-lg"
+                        className="max-w-[80%] h-auto rounded-lg"
                     />
                 </div>
             </div>
