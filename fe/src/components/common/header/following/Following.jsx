@@ -46,12 +46,12 @@ const Following = () => {
                 status={followings?.length > 0 ? { count: followings?.length } : null} />
             {isOpen && (
                 <div style={{ border: "1px solid #ccc", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
-                    className="cart-dropdown absolute top-10 right-[-342px] md:right-0 bg-white p-[10px] w-[100vw] max-w-[768px]">
+                    className="cart-dropdown absolute top-10 right-[-342px] md:right-0 bg-[--primary-background-color] text-[--primary-text-color] p-[10px] w-[100vw] max-w-[768px]">
                     <div className='flex justify-between'>
-                        <h5 className="text-[#333]">Sản phẩm/ dịch vụ đang theo dõi</h5>
+                        <h5 className="select-none">Sản phẩm/ dịch vụ đang theo dõi</h5>
                     </div>
                     {(followings?.length === 0 || !followings) ? (
-                        <div className="flex items-center justify-center h-32 w-full text-lg">
+                        <div className="flex items-center justify-center h-32 w-full text-lg select-none">
                             <p>Bạn chưa theo dõi sản phẩm nào</p>
                         </div>
                     ) : (
