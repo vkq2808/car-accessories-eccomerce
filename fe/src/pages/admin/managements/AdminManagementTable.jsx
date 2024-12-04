@@ -5,6 +5,7 @@ import { BiLoaderAlt } from "react-icons/bi";
 import { admin_table_field_types } from "../../../constants/constants";
 import { maximizeString } from "../../../utils/stringUtils";
 
+
 const AdminTable = ({
   title,
   fields,

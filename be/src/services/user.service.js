@@ -120,6 +120,7 @@ class UserService {
 
     async getUserInfoByEmail(userEmail) {
         try {
+            if (!userEmail) return null;
             const user = await this.model.findOne({ where: { email: userEmail } });
             return user || null;
         } catch (error) {
@@ -151,7 +152,6 @@ class UserService {
             }
             return await bcrypt.compare(password, hashed_password);
         } catch (error) {
-            console.error(error);
             return false;
         }
     }

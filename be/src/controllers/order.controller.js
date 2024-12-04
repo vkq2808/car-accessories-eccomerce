@@ -6,7 +6,7 @@ import moment from "moment";
 import { account_roles, order_status, payment_method_codes } from "../constants/constants";
 import EmailService from "../services/email.service";
 import order_queue from "./queues/order_queue";
-
+const { Op } = require('sequelize');
 
 require("dotenv").config();
 const role_author_number = {
@@ -28,7 +28,6 @@ export default class OrderController {
 
   getWeeklyOrders = async (req, res) => {
     try {
-      const { Op } = require('sequelize');
       let start = new Date();
       start.setHours(0, 0, 0, 0);
       let end = new Date();
@@ -66,7 +65,6 @@ export default class OrderController {
 
   getMonthlyRevenue = async (req, res) => {
     try {
-      const { Op } = require('sequelize');
       let start = new Date(req.query.year, req.query.month - 1, 1);
       let end = new Date(req.query.year, req.query.month, 0);
 
@@ -102,8 +100,6 @@ export default class OrderController {
 
   getYearlyRevenue = async (req, res) => {
     try {
-      const { Op } = require('sequelize'); // Đảm bảo bạn đã import Sequelize operators
-
       let start = new Date(req.query.year, 0, 1);
       let end = new Date(req.query.year, 12, 0);
 
@@ -145,9 +141,11 @@ export default class OrderController {
       return res.status(400).json({ message: "Missing required parameters" });
     }
 
-    try {
-      const { Op } = require('sequelize'); // Đảm bảo bạn đã import Sequelize operators
+    if (!moment(start, 'YYYY-MM-DD', true).isValid() || !moment(end, 'YYYY-MM-DD', true).isValid()) {
+      return res.status(400).json({ message: "Invalid date format, correct format is: YYYY-MM-DD" });
+    }
 
+    try {
       let data = await new OrderService().getAll({
         where: {
           createdAt: {
@@ -429,7 +427,7 @@ export default class OrderController {
       if (!token) {
         return null;
       }
-      const decoded = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY,
+      const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY,
         async (err, data) => {
           if (err)
             return null;

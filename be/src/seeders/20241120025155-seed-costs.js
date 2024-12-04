@@ -7,12 +7,13 @@ module.exports = {
       'SELECT id,price, stock FROM products;'
     );
 
+    // products: [[], metatdata]
     let costs = products[0].map((product) => {
       return {
-        total_cost: product.price * product.stock * 0.6,
+        total_cost: product.price * product.stock * 0.8,
         product_id: product.id,
         cost_type: 'PURCHASE',
-        description: 'Purchase cost',
+        description: 'Purchase for product ' + product.name,
         createdAt: new Date(),
         updatedAt: new Date()
       };

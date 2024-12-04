@@ -43,53 +43,56 @@ export default class AuthController {
     }
 
     loginUser = async (req, res) => {
-        const { email, password } = req.body;
+        const { email, password } = req.body; // (1)
 
-        if (!email || !password) {
-            console.log("Email và mật khẩu là bắt buộc");
-            return res.status(400).json({ message: "Email và mật khẩu là bắt buộc" });
+        if (
+            !email || // (2)
+            !password // (3)
+        ) {
+            return res.status(400).json({ message: "Email và mật khẩu là bắt buộc" }); // (4)
         }
 
         try {
-            const user = await new UserService().getUserInfoByEmail(email);
-            if (!user || !(await bcrypt.compare(password, user.hashed_password))) {
-                return res.status(400).json({ message: "Email hoặc mật khẩu không chính xác" });
+            const user = await new UserService().getUserInfoByEmail(email); // (5)
+            if (
+                !user || // (6)
+                !(await new UserService().compareUserPassword(password, user.hashed_password)) // (7)
+            ) {
+                return res.status(400).json({ message: "Email hoặc mật khẩu không chính xác" }); // (8)
             }
 
-            const access_token = jwt.sign(
+            const access_token = jwt.sign( // (9)
                 { email: user.email, id: user.id, role: user.role },
                 process.env.ACCESS_TOKEN_SECRET_KEY,
                 { expiresIn: '1h' }
             );
-            const refresh_token = jwt.sign(
+            const refresh_token = jwt.sign( // (10)
                 { email: user.email, id: user.id, role: user.role },
                 process.env.REFRESH_TOKEN_SECRET_KEY,
                 { expiresIn: '1d' }
             );
 
-            return res.status(200).json({ message: "Đăng nhập thành công", user, access_token, refresh_token });
-        } catch (err) {
-            console.error('Lỗi xảy ra trong quá trình đăng nhập:', err);
-            return res.status(500).json({ message: "Lỗi máy chủ" });
+            return res.status(200).json({ message: "Đăng nhập thành công", user, access_token, refresh_token }); // (11)
+        } catch (err) { // (12)
+            return res.status(500).json({ message: "Lỗi máy chủ", error: err }); // (13)
         }
     }
 
     verifyEmail = async (req, res) => {
-        const token = req.params.token;
-        if (!token) {
-            return res.status(400).json({ message: "Token là bắt buộc" });
+        const token = req.params.token; // (1)
+        if (!token) { // (2)
+            return res.status(400).json({ message: "Token là bắt buộc" }); // (3)
         }
 
         try {
-            const decoded = jwt.verify(token, process.env.REGISTER_SECRET_KEY);
-            const userExists = await new UserService().getUserInfoByEmail(decoded.email);
+            const decoded = jwt.verify(token, process.env.REGISTER_SECRET_KEY); // (4)
+            const userExist = await new UserService().getUserInfoByEmail(decoded.email); // (5)
 
-            if (userExists) {
-                console.log("Email đã được xác thực");
-                return res.status(400).json({ message: "Email đã được xác thực, đường dẫn này đã hết hạn" });
+            if (userExist) { // (6)
+                return res.status(400).json({ message: "Email đã được xác thực, đường dẫn này đã hết hạn" }); // (7)
             }
 
-            const newUser = await new UserService().createUser({
+            const newUser = await new UserService().createUser({ // (8)
                 email: decoded.email,
                 password: decoded.password,
                 first_name: decoded.first_name,
@@ -98,10 +101,10 @@ export default class AuthController {
                 birth: decoded.birth,
                 role: decoded.role
             });
-            return res.status(201).json({ message: "Email xác thực thành công", user: newUser });
-        } catch (error) {
-            console.log(error);
-            return res.status(400).json({ message: "Token không hợp lệ hoặc đã hết hạn" });
+
+            return res.status(201).json({ message: "Email xác thực thành công", user: newUser }); // (9)
+        } catch (error) { // (10)
+            return res.status(400).json({ message: "Token không hợp lệ hoặc đã hết hạn", error }); // (11)
         }
     }
 
@@ -135,6 +138,9 @@ export default class AuthController {
 
         try {
             const decoded = jwt.verify(token, process.env.RESET_PASSWORD_SECRET_KEY);
+            if (!decoded.email) {
+                return res.status(400).json({ message: "Token không hợp lệ" });
+            }
             const user = await new UserService().getUserInfoByEmail(decoded.email);
 
             if (!user) {
@@ -161,6 +167,9 @@ export default class AuthController {
 
         try {
             const decoded = jwt.verify(refresh_token, process.env.REFRESH_TOKEN_SECRET_KEY);
+            if (!decoded.email) {
+                return res.status(400).json({ message: "Token không hợp lệ" });
+            }
             const user = await new UserService().getUserInfoByEmail(decoded.email);
 
             if (!user) {

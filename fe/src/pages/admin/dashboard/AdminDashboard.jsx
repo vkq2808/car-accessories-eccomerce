@@ -15,9 +15,11 @@ import {
 import { getDataAPI } from "../../../utils/fetchData";
 import { formatNumberWithCommas } from "../../../utils/stringUtils";
 import RecentOrderTable from "./RecentOrder";
+import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
 
+  const navigate = useNavigate();
   const [analyticsData,] = useState([
     { title: "Total Users", value: 0, icon: HeartIcon },
     { title: "Total Products", value: 0, icon: CartIcon },
@@ -86,7 +88,9 @@ const AdminDashboard = () => {
             <button className="p-3 rounded-md">
               <span className="text-lg font-semibold text-blue-500">Làm mới</span>
             </button>
-            <button className="p-3 rounded-md">
+            <button className="p-3 rounded-md"
+              onClick={() => navigate('/admin/manage/order')}
+            >
               <span className="text-lg font-semibold text-blue-500">View all</span>
             </button>
           </div>
