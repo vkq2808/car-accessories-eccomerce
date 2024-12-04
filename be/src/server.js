@@ -19,7 +19,7 @@ const startServer = async () => {
 
         // config cors
         app.use(cors({
-            origin: process.env.CLIENT_URL,   // Cho phép tất cả các miền
+            origin: process.env.CLIENT_URL,
             credentials: true,
         }));
 
