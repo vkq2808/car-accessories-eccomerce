@@ -143,7 +143,7 @@ const ProductDetail = () => {
                                                 onClick={handleFollowProduct}
                                             >
                                                 <i className={`fas fa-heart mx-2`}></i>
-                                                Theo dõi
+                                                {currentProductFollow ? "Hủy theo dõi" : "Theo dõi"}
                                             </div>
                                         </div>
 
