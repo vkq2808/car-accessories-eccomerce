@@ -67,7 +67,7 @@ const EnterNewPassword = () => {
 
         setLoading(true);
         try {
-            const token = window.location.pathname.split("/").reverse[0];
+            const token = window.location.pathname.split("/").reverse()[0];
             dispatch(resetPassword({ token: token, password: formData.password }, setResult));
         } catch (error) {
             console.error("Reset failed:", error);
