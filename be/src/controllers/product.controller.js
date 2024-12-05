@@ -182,7 +182,7 @@ export default class ProductController {
                 product_id: product.id
             });
 
-            return res.status(200).json({ message: "Followed successfully" }); // Thêm json() với phản hồi
+            return res.status(200).json({ message: "Followed successfully" });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ message: error.message });
@@ -201,7 +201,7 @@ export default class ProductController {
                 }
             });
 
-            return res.status(200).json({ message: "Unfollowed successfully" }); // Thêm json() với phản hồi
+            return res.status(200).json({ message: "Unfollowed successfully" });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ message: error.message });
@@ -229,7 +229,7 @@ export default class ProductController {
                 }
             }
 
-            return res.status(200).json({ message: "Sync follow completed" }); // Thêm json() với phản hồi
+            return res.status(200).json({ message: "Sync follow completed" });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ message: error.message });

@@ -45,11 +45,11 @@ export default class OrderController {
       });
 
       let groupedData = data.reduce((acc, order) => {
-        // Format ngày: yyyy-mm-dd
+
         let dateKey = new Date(order.createdAt).toISOString().split('T')[0];
 
         if (!acc[dateKey]) {
-          acc[dateKey] = []; // Tạo mảng mới cho ngày này nếu chưa có
+          acc[dateKey] = [];
         }
 
         acc[dateKey].push(order);
@@ -80,11 +80,11 @@ export default class OrderController {
       });
 
       let groupedData = data.reduce((acc, order) => {
-        // Format ngày: yyyy-mm-dd
+
         let dateKey = new Date(order.createdAt).toISOString().split('T')[0];
 
         if (!acc[dateKey]) {
-          acc[dateKey] = []; // Tạo mảng mới cho ngày này nếu chưa có
+          acc[dateKey] = [];
         }
 
         acc[dateKey].push(order);
@@ -106,8 +106,8 @@ export default class OrderController {
       let data = await new OrderService().getAll({
         where: {
           createdAt: {
-            [Op.gte]: start, // Lớn hơn hoặc bằng 1 năm trước
-            [Op.lt]: end // Nhỏ hơn ngày hiện tại
+            [Op.gte]: start,
+            [Op.lt]: end
           }
         },
         include: [db.payment],
@@ -115,11 +115,11 @@ export default class OrderController {
       });
 
       let groupedData = data.reduce((acc, order) => {
-        // Format ngày: yyyy-mm
+
         let dateKey = new Date(order.createdAt).toISOString().split('T')[0].slice(0, 7);
 
         if (!acc[dateKey]) {
-          acc[dateKey] = []; // Tạo mảng mới cho tháng này nếu chưa có
+          acc[dateKey] = [];
         }
 
         acc[dateKey].push(order);
@@ -158,11 +158,11 @@ export default class OrderController {
       });
 
       let groupedData = data.reduce((acc, order) => {
-        // Format ngày: yyyy-mm-dd
+
         let dateKey = new Date(order.createdAt).toISOString().split('T')[0];
 
         if (!acc[dateKey]) {
-          acc[dateKey] = []; // Tạo mảng mới cho ngày này nếu chưa có
+          acc[dateKey] = [];
         }
 
         acc[dateKey].push(order);
@@ -197,21 +197,21 @@ export default class OrderController {
       try {
         const { order_items } = req.body;
 
-        // Lấy danh sách tất cả product và product_option qua một truy vấn duy nhất
+
         const productIds = order_items.map(item => item.product.id);
         const productOptionIds = order_items.map(item => item.product_option.id);
 
         const products = await new ProductService().getAll({ where: { id: productIds } });
         const productOptions = await new ProductOptionService().getAll({ where: { id: productOptionIds } });
 
-        // Tạo Map để tra cứu nhanh dữ liệu product và product_option
+
         const productMap = new Map(products.map(product => [product.id, product]));
         const productOptionMap = new Map(productOptions.map(option => [option.id, option]));
 
-        // Biến lưu sản phẩm hết hàng
+
         const outOfStockItems = [];
 
-        // Kiểm tra tồn kho
+
         for (let item of order_items) {
           const product = productMap.get(item.product.id);
           const productOption = productOptionMap.get(item.product_option.id);
@@ -229,7 +229,7 @@ export default class OrderController {
           }
         }
 
-        // Nếu có sản phẩm hết hàng, trả về thông tin chi tiết
+
         if (outOfStockItems.length > 0) {
           return res.status(400).json({
             code: '01',
@@ -238,7 +238,7 @@ export default class OrderController {
           });
         }
 
-        // Nếu tất cả sản phẩm đủ tồn kho
+
         return res.status(200).json({
           code: '00',
           message: 'All products are in stock'
@@ -311,7 +311,7 @@ export default class OrderController {
         delete vnp_Params['vnp_SecureHash'];
         delete vnp_Params['vnp_SecureHashType'];
 
-        // Sắp xếp các tham số
+
         vnp_Params = this.sortObject(vnp_Params);
 
         let tmnCode = process.env.vnp_TmnCode;
@@ -322,7 +322,7 @@ export default class OrderController {
         let hmac = crypto.createHmac("sha512", secretKey);
         let signed = hmac.update(Buffer.from(signData, 'utf-8')).digest("hex");
 
-        // Kiểm tra checksum
+
         if (secureHash === signed) {
           let order_id = vnp_Params['vnp_TxnRef'];
           let rspCode = vnp_Params['vnp_ResponseCode'];
@@ -361,7 +361,7 @@ export default class OrderController {
 
             const updatedData = {
               id: order.id,
-              status: rspCode === '00' ? 'success' : 'failed',
+              status: rspCode === '00' ? order_status.PENDING : 'PAYMENT_FAILED',
             };
             await new OrderService().update(updatedData, { transaction });
 
@@ -427,10 +427,11 @@ export default class OrderController {
       if (!token) {
         return null;
       }
-      const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY,
+      const decoded = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY,
         async (err, data) => {
-          if (err)
+          if (err) {
             return null;
+          }
           return data;
         });
 
@@ -462,7 +463,7 @@ export default class OrderController {
         const { order_items, info, bank_code, payment_method } = req.body;
         const user = await this.getUserByToken(req, res);
 
-        // Lấy danh sách product và product_option
+
         const productIds = order_items.map(item => item.product.id);
         const productOptionIds = order_items.map(item => item.product_option.id);
 
@@ -472,7 +473,7 @@ export default class OrderController {
         const productMap = new Map(products.map(product => [product.id, product]));
         const productOptionMap = new Map(productOptions.map(option => [option.id, option]));
 
-        // Kiểm tra tồn kho
+
         const outOfStockItems = [];
         for (let item of order_items) {
           const product = productMap.get(item.product.id);
@@ -491,7 +492,7 @@ export default class OrderController {
           }
         }
 
-        // Nếu hết hàng, trả về lỗi
+
         if (outOfStockItems.length > 0) {
           transaction.rollback();
           return res.status(400).json({
@@ -501,18 +502,18 @@ export default class OrderController {
           });
         }
 
-        // Tạo order
+
         let [order, created] = await new OrderService().findOrCreate({
           where: { user_id: user?.id || null, status: order_status.EMPTY },
           defaults: {
-            user_id: user?.id || null, // Chỉ gán user_id nếu user có giá trị
-            status: order_status.PENDING,
+            user_id: user?.id || null,
+            status: order_status.EMPTY,
             currency: 'VND',
           },
           transaction
         });
 
-        // Tính lại total_amount từ sản phẩm
+
         let calculatedTotalAmount = 0;
         for (let item of order_items) {
           const product_option = productOptionMap.get(item.product_option.id);
@@ -526,7 +527,7 @@ export default class OrderController {
         order.status = order_status.PENDING;
         await order.save({ transaction });
 
-        // Tạo order_items và giảm tồn kho
+
         for (let item of order_items) {
           const product = productMap.get(item.product.id);
           const productOption = productOptionMap.get(item.product_option.id);
@@ -544,10 +545,10 @@ export default class OrderController {
         await transaction.commit();
         order = await new OrderService().getOne({ where: { id: order.id }, include: [{ model: db.order_item, include: [{ model: db.product, include: [db.product_option] }, { model: db.product_option }] }] });
 
-        // Gửi email nếu thanh toán COD
-        // if (payment_method === payment_method_codes.COD) {
-        //   await new EmailService().sendOrderPendingEmail({ order, email: info.email });
-        // }
+
+
+
+
 
         return res.status(201).json({ order });
       } catch (error) {
@@ -560,14 +561,14 @@ export default class OrderController {
   };
 
   getEmptyOrder = async (req, res) => {
-    const transaction = await db.sequelize.transaction(); // Khởi tạo transaction
+    const transaction = await db.sequelize.transaction();
     try {
       const user = await this.getUserByToken(req, res);
       if (!user) {
-        return res.status(204).send();
+        return res.status(404).send();
       }
 
-      const [order] = await new OrderService().findOrCreate({
+      const [order, _] = await new OrderService().findOrCreate({
         where: { user_id: user.id, status: order_status.EMPTY },
         defaults: { user_id: user.id, status: order_status.EMPTY },
         include: [{
@@ -583,6 +584,8 @@ export default class OrderController {
       });
 
       await transaction.commit();
+
+      console.log(order)
 
       return res.status(200).json(order);
     } catch (error) {

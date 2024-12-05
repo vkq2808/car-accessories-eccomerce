@@ -8,6 +8,9 @@ const applyFileRoutes = (app) => {
   FileRouter.get("/image/:fileName", async (req, res) => {
     try {
       const fileName = req.params.fileName;
+      if (!fileName || fileName.includes('..')) {
+        return res.status(400).send({ message: "Invalid file name" });
+      }
       const filePath = path.join(__dirname, '../../public/images', fileName);
 
       if (!fs.existsSync(filePath)) {

@@ -13,16 +13,26 @@ export default class CartController {
 
             let cart = await new CartService().getOne({
                 where: { user_id: user.id },
-                include: [{ model: db.cart_item, include: [{ model: db.product, include: [db.product_option] }, { model: db.product_option }] }]
+                include: [{ model: db.cart_item, include: [{ model: db.product, include: [db.product_option] }, { model: db.product_option }] }],
+                transaction
             });
+            let cart_items = cart.cart_items;
 
             let found = false;
 
-            for (const item of cart.cart_items) {
-                if (item.product.id === product.id && item.product_option.id === product_option.id) {
-                    item.quantity += quantity;
-                    await item.save({ transaction })
+            for (
+                let i = 0;
+                i < cart_items.length;
+                i++
+            ) {
+                if (
+                    cart_items[i].product.id === product.id &&
+                    cart_items[i].product_option.id === product_option.id
+                ) {
+                    cart_items[i].quantity += quantity;
+                    await cart_items[i].save({ transaction })
                     found = true;
+                    break;
                 }
             }
 
@@ -44,6 +54,7 @@ export default class CartController {
             return res.status(200).json(cart);
         } catch (error) {
             console.error(error);
+            await transaction.rollback();
             return res.status(500).json({ message: "Internal server error" });
         }
     }
