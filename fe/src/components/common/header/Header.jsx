@@ -36,7 +36,7 @@ const Header = ({ setIsSideBarOpen }) => {
             }
         }, 300);
         setLoadingUser(false);
-    }, [auth]);
+    }, [auth, dispatch]);
 
     useEffect(() => {
         const renderItemsWithDelay = async () => {
