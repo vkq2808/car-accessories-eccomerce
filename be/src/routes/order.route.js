@@ -13,7 +13,7 @@ let orderRoute = (app) => {
   route.post("/add/:id", controller.addOrderItem);
   route.put("/update/:id", controller.updateOrderItem);
   route.post('/create-payment-url/vnpay', controller.createVNPayPaymentUrl);
-  route.post('/confirm-paym.ent/vnpay', controller.confirmVNPayPayment);
+  route.post('/confirm-payment/vnpay', controller.confirmVNPayPayment);
 
   return app.use("/api/v1/order", route);
 };

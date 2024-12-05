@@ -1,6 +1,36 @@
-import { FileService, SettingService } from "../services";
+import { FileService, OrderService, ProductService, SettingService, UserService } from "../services";
 
 export default class PublicController {
+
+  getAnalytics = async (req, res) => {
+    try {
+
+      const orders = await new OrderService().getAll();
+      const users = await new UserService().getAll();
+      const products = await new ProductService().getAll();
+
+      const analytics = [
+        {
+          value: users.length,
+        },
+        {
+          value: products.length,
+        },
+        {
+          value: orders.length,
+        },
+        {
+          value: (orders.reduce((acc, order) => acc + parseInt(order.total_amount), 0)).toLocaleString() + " VND",
+        },
+      ]
+
+      return res.status(200).json(analytics);
+    } catch (error) {
+      console.log(error)
+      return res.status(500).json({ error: error.message });
+    }
+  }
+
   getPolicies = async (req, res) => {
     try {
 
