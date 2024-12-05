@@ -226,7 +226,11 @@ const AdminTable = ({
   useEffect(() => {
     setIsLoading(true);
     setData(input_data);
-    setIsLoading(false);
+    if (input_data.length > 0) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000)
+    }
   }, [input_data]);
 
   useEffect(() => {
@@ -318,29 +322,40 @@ const AdminTable = ({
                 ))}
             </tr>
           </thead>
-          <tbody>
-            {filteredData?.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage).map((item, index) => (
-              <tr
-                key={table_key + 'item' + item.id.value + index}
-                className="hover:bg-[--secondary-background-color] transition-colors duration-200 group"
-              >
-                {(actable ? Object.keys(fields).concat("Actions") : Object.keys(fields)).map((field) => (
-                  <TableCell
-                    key={table_key + field + '-' + item.id?.value + index}
-                    field={field}
-                    item={item}
-                    fields={fields}
-                    handleEdit={handleEdit}
-                    handleDelete={handleDelete}
-                    table_key={table_key}
-                    setEditingId={setEditingId}
-                    setShowConfirmDelete={setShowConfirmDelete}
-                    index={index}
-                  />
-                ))}
+
+          {isLoading ? (
+            <tbody>
+              <tr>
+                <td colSpan={Object.keys(fields).length + 1} className="text-center py-4">
+                  <BiLoaderAlt className="animate-spin text-[--primary-text-color] text-7xl" />
+                </td>
               </tr>
-            ))}
-          </tbody>
+            </tbody>
+          ) :
+            <tbody>
+              {filteredData?.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage).map((item, index) => (
+                <tr
+                  key={table_key + 'item' + item.id.value + index}
+                  className="hover:bg-[--secondary-background-color] transition-colors duration-200 group"
+                >
+                  {(actable ? Object.keys(fields).concat("Actions") : Object.keys(fields)).map((field) => (
+                    <TableCell
+                      key={table_key + field + '-' + item.id?.value + index}
+                      field={field}
+                      item={item}
+                      fields={fields}
+                      handleEdit={handleEdit}
+                      handleDelete={handleDelete}
+                      table_key={table_key}
+                      setEditingId={setEditingId}
+                      setShowConfirmDelete={setShowConfirmDelete}
+                      index={index}
+                    />
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          }
         </table>
         <div className="flex items-center justify-end mt-4 gap-6">
           <div className="flex gap-6">
@@ -367,12 +382,6 @@ const AdminTable = ({
           </div>
         </div>
       </div>
-
-      {isLoading && (
-        <div className="fixed inset-0 bg-[--primary-background-color] bg-opacity-50 flex items-center justify-center z-50">
-          <BiLoaderAlt className="animate-spin text-[--primary-text-color] text-4xl" />
-        </div>
-      )}
 
       {
         showConfirmDelete && (

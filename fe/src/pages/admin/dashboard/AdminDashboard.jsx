@@ -20,29 +20,24 @@ import { useNavigate } from "react-router-dom";
 const AdminDashboard = () => {
 
   const navigate = useNavigate();
-  const [analyticsData,] = useState([
-    { title: "Total Users", value: 0, icon: HeartIcon },
-    { title: "Total Products", value: 0, icon: CartIcon },
-    { title: "Total Orders", value: 0, icon: GameIcon },
-    { title: "Total Revenue", value: 0, icon: WorkIcon },
-  ]);
+  const [analyticsData, setAnalyticsData] = useState([]);
   const [displayAnalyticsData, setDisplayAnalyticsData] = useState([]);
   const [weeklyOrdersData, setWeeklyOrdersData] = useState([]);
 
   useEffect(() => {
     const renderItemsWithDelay = async () => {
-      setDisplayAnalyticsData([]);
       for (let i = 0; i < analyticsData.length; i++) {
         await new Promise(resolve => {
           setTimeout(() => {
-            setDisplayAnalyticsData(prev => [...prev, analyticsData[i]]);
-            resolve();
+            setDisplayAnalyticsData(analyticsData.slice(0, i + 1));
+            resolve()
           }, 300); // Thay đổi thời gian nếu cần
         });
       }
     };
 
     if (analyticsData.length >= 0) {
+      setDisplayAnalyticsData([]);
       renderItemsWithDelay();
     }
   }, [analyticsData]);
@@ -60,15 +55,27 @@ const AdminDashboard = () => {
       data.sort((a, b) => new Date(a.name) - new Date(b.name));
       setWeeklyOrdersData(data);
     };
+    const fetchAnalyticsData = async () => {
+      let res = await getDataAPI('admin/analytics');
+      let data = res.data;
+      setAnalyticsData([
+        { title: "Total Users", value: data[0].value, icon: HeartIcon },
+        { title: "Total Products", value: data[1].value, icon: CartIcon },
+        { title: "Total Orders", value: data[2].value, icon: GameIcon },
+        { title: "Total Revenue", value: data[3].value, icon: WorkIcon },
+      ]);
+    }
+
+    fetchAnalyticsData();
     fetchWeeklyOrders();
   }, []);
 
   return (
     <div className="flex flex-col h-screen overflow-y-auto scrollbar-hide bg-[--primary-background-color] text-[--primary-text-color] w-full p-2">
       <div className="flex justify-between w-full">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <h1 className="text-3xl font-bold">Dashboard</h1>
       </div>
-      <div className="flex w-full flex-wrap">
+      <div className="flex w-full flex-wrap min-h-[100px]">
         <AnimatePresence>
           {displayAnalyticsData.map((data, index) => (
             <AnalyticCard key={index} data={data} />
@@ -76,22 +83,20 @@ const AdminDashboard = () => {
         </AnimatePresence>
       </div>
       <div className="flex flex-col mb-4">
-        <h1 className="text-2xl font-bold">Recent orders</h1>
+        <h3 className="text-2xl font-bold">Recent orders</h3>
         <WeeklyOrderChart data={weeklyOrdersData} />
       </div>
       <div className="flex flex-col mb-4">
         <div className="flex justify-between mb-4">
-          <h1>
-            <span className="text-2xl font-bold">Recent orders</span>
-          </h1>
+          <div></div>
           <div className="flex gap-4 justify-between items-center">
             <button className="p-3 rounded-md">
-              <span className="text-lg font-semibold text-blue-500">Làm mới</span>
+              <span className="text-md font-semibold text-blue-500">Làm mới</span>
             </button>
             <button className="p-3 rounded-md"
               onClick={() => navigate('/admin/manage/order')}
             >
-              <span className="text-lg font-semibold text-blue-500">View all</span>
+              <span className="text-md font-semibold text-blue-500">View all</span>
             </button>
           </div>
         </div>
