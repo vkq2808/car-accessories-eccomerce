@@ -35,7 +35,7 @@ class UserService {
             return this.model.hash_password(password);
         } catch (error) {
             console.error(error);
-            return null;
+            throw error;
         }
     }
 

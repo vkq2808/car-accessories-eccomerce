@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         }
 
         static hash_password(password) {
-            const bcrypt = require('bcrypt');
+            const bcrypt = require('bcryptjs');
             require('dotenv').config();
             const salt = process.env.SALT;
             return bcrypt.hashSync(password, salt);
