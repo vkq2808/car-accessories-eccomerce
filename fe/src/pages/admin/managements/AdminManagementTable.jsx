@@ -536,7 +536,7 @@ const DisplayField = ({ table_key, field, fields, formData, setFormData, errors,
       className="block text-sm font-medium text-[--primary-text-color]"
     >
       {field.charAt(0).toUpperCase() + field.slice(1)}
-      {fieldProps.type.includes(admin_table_field_types.REQUIRED) && "*"}
+      {(fieldProps.type.includes(admin_table_field_types.REQUIRED) || fieldProps.type.includes(admin_table_field_types.PASSWORD)) && "*"}
       {fieldProps.type.includes(admin_table_field_types.NO_EDIT_REQUIRED) && editingId && (<span className="text-xs">" (Optional Editing)"</span>)}
     </label>
   );

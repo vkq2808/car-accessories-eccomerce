@@ -92,11 +92,11 @@ const AccountManagement = () => {
       type: [admin_table_field_types.EMAIL, admin_table_field_types.REQUIRED, admin_table_field_types.UNIQUE],
       checkExist: async (email) => {
         try {
-          const res = await getDataAPI('admin/user/query?email=' + email);
-          return res.data.users.length > 0; // Trả về danh sách user hoặc kết quả kiểm tra
+          await postDataAPI('auth/check-email', { email });
+          return true;
         } catch (err) {
-          console.log(err);
-          return false; // Trả về false nếu có lỗi
+          if (err.response.status === 404) return false;
+          return true;
         }
       },
       value: ""
