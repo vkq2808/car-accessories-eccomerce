@@ -125,7 +125,7 @@ const OrderManagement = () => {
       value: ""
     },
     currency: {
-      type: [admin_table_field_types.TEXT, admin_table_field_types.NO_SHOW_DATA],
+      type: [admin_table_field_types.TEXT, admin_table_field_types.HIDDEN],
       value: ""
     },
     discount: {

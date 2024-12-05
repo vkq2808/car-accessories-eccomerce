@@ -66,7 +66,7 @@ const PromotionSetting = () => {
 
   const fields = {
     id: {
-      type: [admin_table_field_types.NO_FORM_DATA, admin_table_field_types.NO_SHOW_DATA],
+      type: [admin_table_field_types.NO_FORM_DATA, admin_table_field_types.HIDDEN],
       value: ""
     },
     link: {

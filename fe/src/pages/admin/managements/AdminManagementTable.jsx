@@ -242,7 +242,7 @@ const AdminTable = ({
     newData = newData.filter((item) => {
       return keys.every((key) =>
         Object.keys(fields).some((field) => {
-          return !fields[field].type.includes(admin_table_field_types.NO_SHOW_DATA) && item[field]?.value?.toString().toLowerCase().includes(key.toLowerCase())
+          return !fields[field].type.includes(admin_table_field_types.HIDDEN) && item[field]?.value?.toString().toLowerCase().includes(key.toLowerCase())
         })
       );
     });
@@ -288,13 +288,13 @@ const AdminTable = ({
               {(actable ?
                 Object.keys(
                   Object.entries(fields)
-                    .filter(([key, value]) => !value.type.includes(admin_table_field_types.NO_SHOW_DATA))
+                    .filter(([key, value]) => !value.type.includes(admin_table_field_types.HIDDEN))
                     .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {})
                 ).concat("Actions")
                 :
                 (Object.keys(
                   Object.entries(fields)
-                    .filter(([key, value]) => !value.type.includes(admin_table_field_types.NO_SHOW_DATA))
+                    .filter(([key, value]) => !value.type.includes(admin_table_field_types.HIDDEN))
                     .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {})
                 ))).map((header) => (
                   <th
@@ -474,7 +474,7 @@ const AdminTable = ({
 };
 
 const TableCell = ({ field, item, fields, handleEdit, handleDelete, table_key, setEditingId, setShowConfirmDelete, index }) => {
-  if (fields[field]?.type.includes(admin_table_field_types.NO_SHOW_DATA)) {
+  if (fields[field]?.type.includes(admin_table_field_types.HIDDEN)) {
     return null;
   }
 

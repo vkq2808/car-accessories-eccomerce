@@ -85,7 +85,7 @@ const ProductManagement = () => {
       value: ""
     },
     path: {
-      type: [admin_table_field_types.TEXT, admin_table_field_types.NO_SHOW_DATA, admin_table_field_types.UNIQUE],
+      type: [admin_table_field_types.TEXT, admin_table_field_types.HIDDEN, admin_table_field_types.UNIQUE],
       checkExist: async (path) => {
         try {
           const res = await getDataAPI('product/detail/' + path);
@@ -98,7 +98,7 @@ const ProductManagement = () => {
       value: ""
     },
     detail: {
-      type: [admin_table_field_types.TEXTAREA, admin_table_field_types.NO_SHOW_DATA],
+      type: [admin_table_field_types.TEXTAREA, admin_table_field_types.HIDDEN],
       value: ""
     },
     stock: {
@@ -106,7 +106,7 @@ const ProductManagement = () => {
       value: ""
     },
     product_options: {
-      type: [admin_table_field_types.TABLE, admin_table_field_types.NO_SHOW_DATA, admin_table_field_types.NO_ADDABLE],
+      type: [admin_table_field_types.TABLE, admin_table_field_types.HIDDEN, admin_table_field_types.NO_ADDABLE],
       value: "",
       child: ProductOptionManagement,
       setInputData: async (id) => {

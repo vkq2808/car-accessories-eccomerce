@@ -27,6 +27,9 @@ const AccountManagement = () => {
       email: {
         value: item.email,
       },
+      password: {
+        value: "",
+      },
       role: {
         value: item.role,
       },
@@ -79,6 +82,10 @@ const AccountManagement = () => {
     },
     last_name: {
       type: [admin_table_field_types.TEXT, admin_table_field_types.REQUIRED],
+      value: ""
+    },
+    password: {
+      type: [admin_table_field_types.PASSWORD, admin_table_field_types.NO_EDITABLE, admin_table_field_types.HIDDEN],
       value: ""
     },
     email: {

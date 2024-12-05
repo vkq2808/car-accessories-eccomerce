@@ -61,7 +61,7 @@ export const admin_table_field_types = {
   ID: "id",
   UNIQUE: "unique",
   NO_FORM_DATA: "no-form-data",
-  NO_SHOW_DATA: "no-show-data",
+  HIDDEN: "hidden",
   NO_EDITABLE: "no-editable",
   NO_ADDABLE: "no-addable",
   REQUIRED: "required",

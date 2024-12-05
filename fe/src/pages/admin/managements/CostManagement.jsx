@@ -74,7 +74,7 @@ const CostManagement = () => {
       type: [
         admin_table_field_types.QUERY,
         admin_table_field_types.CHILD_SELECT,
-        admin_table_field_types.NO_SHOW_DATA
+        admin_table_field_types.HIDDEN
       ],
       query_function: async (query) => {
         try {
@@ -113,7 +113,7 @@ const CostManagement = () => {
       value: ""
     },
     product_id: {
-      type: [admin_table_field_types.QUERY, admin_table_field_types.CHILD_SELECT, admin_table_field_types.NO_SHOW_DATA],
+      type: [admin_table_field_types.QUERY, admin_table_field_types.CHILD_SELECT, admin_table_field_types.HIDDEN],
       query_function: async (query) => {
         try {
           return await getDataAPI(`admin/product/query?path=${query}`).then(res => {
