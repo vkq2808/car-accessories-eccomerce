@@ -172,7 +172,9 @@ const LoginPage = () => {
                         >
                             Forgot Password?
                         </button>
-                        <button className="bg-[--primary-background-color] text-blue-600 cursor-pointer border-none hover:text-blue-800 text-sm font-medium transition-colors">
+                        <button
+                            onClick={() => navigate("/auth/regist")}
+                            className="bg-[--primary-background-color] text-blue-600 cursor-pointer border-none hover:text-blue-800 text-sm font-medium transition-colors">
                             Create an Account
                         </button>
                     </div>
