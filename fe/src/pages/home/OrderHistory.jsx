@@ -95,7 +95,7 @@ const ViewOrderDetail = ({ order, setViewOrder, setDisplayedOrders }) => {
             <h3 className="text-lg font-semibold">Order ID: {order.id}</h3>
             <h4 className="text-md font-semibold">Date: {new Date(order.createdAt).toLocaleString('vi-VN')}</h4>
             <h4 className="text-md font-semibold">Total: {formatNumberWithCommas(order.total_amount)} {order.currency}</h4>
-            <h4 className="text-md font-semibold">Status: <OrderStatusBadge status={order.status} /></h4>
+            <h4 className="text-md font-semibold flex">Status: <OrderStatusBadge status={order.status} /></h4>
             <h4 className="text-md font-semibold">Payment Method: <OrderMethod method_code={order.payment_method} /></h4>
           </div>
           <div className='w-1/2 flex justify-center items-center'>
@@ -145,8 +145,8 @@ const OrderMethod = ({ method_code }) => {
       return 'Cash on Delivery';
     case payment_method_codes.MOMO:
       return 'Momo';
-    case payment_method_codes.ZALOPAY:
-      return 'ZaloPay';
+    case payment_method_codes.VN_PAY:
+      return 'VNPay';
     default:
       return 'Unknown';
   }
@@ -155,17 +155,17 @@ const OrderMethod = ({ method_code }) => {
 const OrderStatusBadge = ({ status }) => {
   switch (status) {
     case order_status.PENDING:
-      return <span className="bg-yellow-400 text-white p-2 rounded-md">Pending</span>;
+      return <div className="bg-yellow-400 text-white px-2 rounded-md">Pending</div>;
     case order_status.PROCESSING:
-      return <span className="bg-blue-400 text-white p-2 rounded-md">Processing</span>;
+      return <div className="bg-blue-400 text-white p-2 rounded-md">Processing</div>;
     case order_status.SHIPPING:
-      return <span className="bg-green-400 text-white p-2 rounded-md">Shipping</span>;
+      return <div className="bg-green-400 text-white p-2 rounded-md">Shipping</div>;
     case order_status.DELIVERED:
-      return <span className="bg-green-400 text-white p-2 rounded-md">Delivered</span>;
+      return <div className="bg-green-400 text-white p-2 rounded-md">Delivered</div>;
     case order_status.CANCELLED:
-      return <span className="bg-red-400 text-white p-2 rounded-md">Cancelled</span>;
+      return <div className="bg-red-400 text-white p-2 rounded-md">Cancelled</div>;
     default:
-      return <span className="bg-gray-400 text-white p-2 rounded-md">Unknown</span>;
+      return <div className="bg-gray-400 text-white p-2 rounded-md">Unknown</div>;
   }
 }
 
