@@ -144,9 +144,9 @@ export const getTrendingProducts = () => async (dispatch) => {
     }
 }
 
-export const getFollowingProducts = (token) => async (dispatch) => {
+export const getFollowingProducts = (oken) => async (dispatch) => {
     try {
-        const res = await getDataAPI('follow', token)
+        const res = await getDataAPI('follow')
         if (res.status !== 200) {
             dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message })
             return;

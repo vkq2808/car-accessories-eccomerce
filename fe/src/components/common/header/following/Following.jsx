@@ -16,10 +16,10 @@ const Following = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
-        if (auth.token) {
-            dispatch(getFollowingProducts(auth.token));
+        if (auth.user) {
+            dispatch(getFollowingProducts());
         }
-    }, [dispatch, auth]);
+    }, [dispatch, auth.user]);
 
     const toggleFollowing = () => {
         setIsOpen(!isOpen);

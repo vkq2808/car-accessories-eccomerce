@@ -84,13 +84,12 @@ const AdminDashboard = () => {
       </div>
       <div className="flex flex-col mb-4">
         <h3 className="text-2xl font-bold">Recent orders</h3>
-        <WeeklyOrderChart data={weeklyOrdersData} />
-      </div>
-      <div className="flex flex-col mb-4">
         <div className="flex justify-between mb-4">
           <div></div>
           <div className="flex gap-4 justify-between items-center">
-            <button className="p-3 rounded-md">
+            <button className="p-3 rounded-md"
+              onClick={() => window.location.reload()}
+            >
               <span className="text-md font-semibold text-blue-500">Làm mới</span>
             </button>
             <button className="p-3 rounded-md"
@@ -100,6 +99,9 @@ const AdminDashboard = () => {
             </button>
           </div>
         </div>
+        <WeeklyOrderChart data={weeklyOrdersData} />
+      </div>
+      <div className="flex flex-col mb-4">
         <RecentOrderTable />
       </div>
     </div >

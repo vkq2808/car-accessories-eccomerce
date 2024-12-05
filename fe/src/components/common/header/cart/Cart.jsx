@@ -17,7 +17,7 @@ const Cart = () => {
     const [previewEnabled, setPreviewEnabled] = useState(Array(cart.cart_items?.length).fill(false));
 
     useEffect(() => {
-        if (auth.token && !cart.id) {
+        if (auth.user && !cart.id) {
             setTimeout(() => {
                 dispatch(getCart());
             }, 1000);

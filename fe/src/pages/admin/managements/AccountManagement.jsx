@@ -97,10 +97,7 @@ const AccountManagement = () => {
     role: {
       type: [admin_table_field_types.SELECT, admin_table_field_types.REQUIRED],
       options: Object.keys(account_roles).filter((key) => {
-        if (havePermission(auth.role, key)) {
-          return true;
-        }
-        return false;
+        return havePermission(auth.user.role, key);
       }).map((key) => {
         return { value: key, label: key }
       }),

@@ -2,7 +2,7 @@ import { AUTH_ACTION_TYPES } from "../actions/authActions";
 import { GLOBALTYPES } from "../actions/globalTypes";
 
 const initialState = {
-    token: '',
+    token: localStorage.getItem('access_token'),
     user: null,
     redirecting: false,
     role: ''

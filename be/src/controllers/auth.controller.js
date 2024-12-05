@@ -166,12 +166,14 @@ export default class AuthController {
     refreshAccessToken = async (req, res) => {
         let { refresh_token } = req.body;
         if (!refresh_token) {
+            console.log("Refresh token là bắt buộc");
             return res.status(400).json({ message: "Refresh token là bắt buộc" });
         }
 
         try {
             const decoded = jwt.verify(refresh_token, process.env.REFRESH_TOKEN_SECRET_KEY);
             if (!decoded.email) {
+                console.log("Token không hợp lệ");
                 return res.status(400).json({ message: "Token không hợp lệ" });
             }
             const user = await new UserService().getUserInfoByEmail(decoded.email);
@@ -185,7 +187,8 @@ export default class AuthController {
 
             return res.status(200).json({ message: "Refresh token thành công", user, access_token, refresh_token });
         } catch (error) {
-            return res.status(400).json({ message: "Token không hợp lệ hoặc đã hết hạn", error });
+            console.log(error);
+            return res.status(401).json({ message: "Token không hợp lệ hoặc đã hết hạn", error });
         }
     }
 

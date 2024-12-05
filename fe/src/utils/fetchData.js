@@ -58,7 +58,14 @@ axiosInstance.interceptors.response.use(
 
                 return axiosInstance(originalRequest);
             } catch (err) {
-                return Promise.reject(error);
+                if (err.response.status === 401) {
+                    localStorage.removeItem('access_token');
+                    localStorage.removeItem('refresh_token');
+                    if (dispatch) {
+                        dispatch({ type: GLOBALTYPES.AUTH_ERROR, payload: true });
+                    }
+                }
+                return Promise.reject(err);
             }
         }
         return Promise.reject(error);

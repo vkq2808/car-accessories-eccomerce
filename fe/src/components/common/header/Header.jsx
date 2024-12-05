@@ -9,6 +9,7 @@ import Following from './following/Following';
 import { PRODUCT_ACTION_TYPES, headerSearchProducts } from '../../../redux/actions/productActions';
 import Headroom from 'react-headroom';
 import { postDataAPI } from '../../../utils/fetchData';
+import { GLOBALTYPES } from '../../../redux/actions/globalTypes';
 const Header = ({ setIsSideBarOpen }) => {
 
     const auth = useSelector(state => state.auth);
@@ -30,6 +31,7 @@ const Header = ({ setIsSideBarOpen }) => {
                         setLoadingUser(true);
                     }).catch(err => {
                         setLoadingUser(false);
+                        dispatch({ type: GLOBALTYPES.AUTH, payload: { user: null, token: null } })
                     })
             }
         }, 300);
