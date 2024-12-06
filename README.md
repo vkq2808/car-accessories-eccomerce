@@ -24,7 +24,7 @@ npm i
 Navigate to the be and fe folders.
 Create a .env file in each folder based on your environment settings.
 
-#### Backend .env
+#### Backend .env (./be)
 ```bash
 PORT=3001
 SERVER_URL=http://localhost:3001
@@ -64,7 +64,7 @@ vnp_Url=https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
 vnp_ReturnUrl=http://localhost:3000/cart/payment-result/vnpay-return
 ```
 
-#### Frontend .env
+#### Frontend .env (./fe/)
 ```bash
 PORT=3000
 REACT_APP_API_URL=http://localhost:3001/api/v1
@@ -76,7 +76,7 @@ PUBLIC_URL="/"
 To create your database schema at the first, run:
 
 ```bash
-INIT_DATABASE=true npm start
+npm run start:init-database
 ```
 Ensure that your MySQL server is installed, running, and accessible using the credentials in your .env file.
 
