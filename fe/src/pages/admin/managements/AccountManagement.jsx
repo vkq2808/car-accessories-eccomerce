@@ -85,8 +85,13 @@ const AccountManagement = () => {
       value: ""
     },
     password: {
-      type: [admin_table_field_types.PASSWORD, admin_table_field_types.NO_EDITABLE, admin_table_field_types.HIDDEN],
-      value: ""
+      type: [admin_table_field_types.PASSWORD, admin_table_field_types.NO_EDITABLE, admin_table_field_types.HIDDEN, admin_table_field_types.CUSTOM_CHECKING],
+      value: "",
+      check: async (password) => {
+        if (password.length < 8) return "Password must be at least 8 characters";
+        if (password.length > 20) return "Password must be at most 20 characters";
+        return null;
+      }
     },
     email: {
       type: [admin_table_field_types.EMAIL, admin_table_field_types.REQUIRED, admin_table_field_types.UNIQUE],
@@ -104,7 +109,7 @@ const AccountManagement = () => {
     role: {
       type: [admin_table_field_types.SELECT, admin_table_field_types.REQUIRED],
       options: Object.keys(account_roles).filter((key) => {
-        return havePermission(auth.user.role, key);
+        return havePermission(auth.user?.role, key);
       }).map((key) => {
         return { value: key, label: key }
       }),
@@ -202,7 +207,7 @@ const AccountManagement = () => {
         handleAddNewRow={handleAddNewRow}
         handleDeleteRow={handleDeleteRow}
       />
-    </div>
+    </div >
   );
 }
 

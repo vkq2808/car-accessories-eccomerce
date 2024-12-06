@@ -10,7 +10,7 @@
     "install:be": "cd be && npm install",
     "db:all": "cd be && npm run db:all",
     "start": "concurrently \"npm run start:fe\" \"npm run start:be\"",
-    "start:init-database": "concurrently \"npm run start:be:init-database\" \"npm run start:be\"",
+    "start:init-database": "concurrently \"npm run start:be:init-database\" \"npm run start:fe\"",
     "install": "npm-run-all install:fe install:be"
   },
   "author": "",

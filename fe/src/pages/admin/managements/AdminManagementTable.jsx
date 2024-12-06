@@ -64,6 +64,12 @@ const AdminTable = ({
         newErrors[key] = "Invalid number";
       }
 
+      if (fields[key]?.type.includes(admin_table_field_types.POSITIVE_NUMBER) &&
+        value && (isNaN(value) || value < 0)
+      ) {
+        newErrors[key] = "Invalid positive number";
+      }
+
       if (
         fields[key]?.type.includes(admin_table_field_types.DATE) &&
         value && isNaN(Date.parse(value))
@@ -99,11 +105,31 @@ const AdminTable = ({
           newErrors[key] = "This content is already in use";
         }
       }
+
+      if (
+        fields[key]?.type.includes(admin_table_field_types.CUSTOM_CHECKING) &&
+        value
+      ) {
+        let error = await fields[key].check(value);
+        if (error) {
+          newErrors[key] = error;
+        }
+      }
+
     };
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+  const handleChangePage = (event) => {
+    if (event.target.value > 0 && event.target.value <= maxPage) {
+      setCurrentPage(event.target.value);
+    } else if (event.target.value > maxPage) {
+      setCurrentPage(maxPage);
+    } else if (event.target.value < 1) {
+      setCurrentPage(1);
+    };
+  }
 
   const handleSort = (key) => {
     let direction = "ascending";
@@ -195,6 +221,7 @@ const AdminTable = ({
 
   const handleAddnew = () => {
     setEditingId(null);
+    setErrors({});
     let newFormData = {};
 
     Object.keys(fields).forEach((field) => {
@@ -206,6 +233,7 @@ const AdminTable = ({
 
   const handleEdit = (item) => {
     let newFormData = { ...item };
+    setErrors({});
 
     Object.keys(fields).forEach((field) => {
       if (fields[field].type.includes(admin_table_field_types.PASSWORD)) {
@@ -227,9 +255,7 @@ const AdminTable = ({
     setIsLoading(true);
     setData(input_data);
     if (input_data.length > 0) {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000)
+      setIsLoading(false);
     }
   }, [input_data]);
 
@@ -366,7 +392,7 @@ const AdminTable = ({
             >
               Previous
             </button>
-            <span className="text-[--primary-text-color]">|</span>
+            <input className="w-12 text-center" type="number" value={currentPage} onChange={handleChangePage} />
             <button
               onClick={() => setCurrentPage((prev) => prev + 1)}
               disabled={currentPage === maxPage}

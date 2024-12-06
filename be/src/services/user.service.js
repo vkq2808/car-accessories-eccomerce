@@ -178,12 +178,12 @@ class UserService {
         }
     }
 
-    async delete(id) {
+    async delete(options = {}) {
         try {
-            await this.model.destroy({ where: { id: id } });
+            await this.model.destroy(options);
         } catch (error) {
             console.error(error);
-            return null;
+            throw error;
         }
     }
 

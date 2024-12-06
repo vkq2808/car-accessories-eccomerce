@@ -24,7 +24,7 @@ const Sidebar = ({ setIsSideBarOpen }) => {
             navigate(path);
         };
         let items = [];
-        if ([account_roles.ADMIN, account_roles.SUPER_ADMIN].includes(auth.role)) {
+        if ([account_roles.ADMIN, account_roles.SUPER_ADMIN].includes(auth.user?.role)) {
             items = [
                 { id: 11, title: "Hone", icon: <FiHome />, onClick: () => handleNavigate("/") },
                 { id: 14, title: "Admin Page", icon: <FiSettings />, onClick: () => handleNavigate("/admin/dashboard") },

@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             user.hasMany(models.order, { foreignKey: 'user_id', onDelete: 'SET NULL' });
             user.hasMany(models.product_follow, { foreignKey: 'user_id', onDelete: 'SET NULL' });
             user.hasMany(models.cost, { foreignKey: 'employee_id', onDelete: 'SET NULL' });
+            user.hasMany(models.task, { foreignKey: 'assignedTo', onDelete: 'SET NULL', as: 'employee' });
         }
         getFullName() {
             return `${this.firstName} ${this.lastName}`;
@@ -30,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
         }
 
         static compare_password(password) {
-            const bcrypt = require('bcrypt');
+            const bcrypt = require('bcryptjs');
             return bcrypt.compareSync(password, this.get().hashed_password);
         }
     }
@@ -40,14 +41,36 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             unique: true
         },
-        hashed_password: DataTypes.STRING,
-        first_name: DataTypes.STRING,
-        last_name: DataTypes.STRING,
-        address: DataTypes.STRING,
-        phone: DataTypes.STRING,
-        gender: DataTypes.STRING,
-        birth: DataTypes.DATE,
-        role: DataTypes.STRING,
+        hashed_password: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        first_name: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        last_name: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        address: {
+            type: DataTypes.STRING,
+        },
+        phone: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        gender: {
+            type: DataTypes.STRING,
+        },
+        birth: {
+            type: DataTypes.DATE,
+            allowNull: false
+        },
+        role: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         image_url: {
             type: DataTypes.STRING,
             allowNull: true

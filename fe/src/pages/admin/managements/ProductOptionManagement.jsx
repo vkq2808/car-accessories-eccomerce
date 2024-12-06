@@ -55,7 +55,7 @@ const ProductOptionManagement = ({ product_options, product_id, setInputData }) 
       value: ""
     },
     stock: {
-      type: [admin_table_field_types.NUMBER],
+      type: [admin_table_field_types.NUMBER, admin_table_field_types.POSITIVE_NUMBER],
       value: ""
     }
   };

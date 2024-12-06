@@ -46,9 +46,9 @@ class ProductOptionService {
     }
   }
 
-  async delete(id, options = {}) {
+  async delete(options = {}) {
     try {
-      const result = await this.model.destroy({ where: { id: id }, ...options });
+      const result = await this.model.destroy(options);
       return result;
     } catch (error) {
       console.error(error);

@@ -229,11 +229,7 @@ export default class UserController {
             }
 
             let data = await new UserService().delete({ where: { id: req.params.id } });
-            if (data) {
-                return res.status(200).json({ message: "Delete successfully" });
-            } else {
-                return res.status(404).json({ message: "Not found" });
-            }
+            return res.status(200).json({ message: "Delete successfully" });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ message: "Internal server error" });

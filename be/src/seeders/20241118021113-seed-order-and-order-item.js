@@ -21,13 +21,18 @@ module.exports = {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
+    let users = await queryInterface.sequelize.query(
+      `SELECT id, role FROM users`,
+      { type: Sequelize.QueryTypes.SELECT }
+    );
+
+
     let product_options = await queryInterface.sequelize.query(
       `SELECT p.id, po.id as option_id, po.price, po.stock as po_stock
        FROM products p 
        JOIN product_options po ON po.product_id = p.id`,
       { type: Sequelize.QueryTypes.SELECT }
     );
-
     for (let product of product_options) {
       // Thêm đơn hàng
       let createdAt = getRandomDateWithinLastTwoMonths();
@@ -40,13 +45,22 @@ module.exports = {
 
       let p_stock = curr_p[0].stock;
       let po_stock = product.po_stock;
-      // console.log(p_stock);
+      let null_user = !(getRandomInt(0, 100) > 70);
+      let user = null_user ? users[getRandomInt(0, users.length - 1)] : null;
+
+      while (user && user.role !== 'USER') {
+        user = users[getRandomInt(0, users.length - 1)];
+      }
+
+      let user_id = user ? user.id : null;
+      let statusChance = getRandomInt(0, 100);
+      let status = statusChance > 90 ? order_status[0] : statusChance > 70 ? order_status[1] : order_status[2];
 
       if (po_stock > 0) {
         let result = await queryInterface.bulkInsert('orders', [
           {
-            user_id: getRandomInt(0, 1) ? 1 : null,
-            status: order_status[getRandomInt(0, 2)],
+            user_id,
+            status,
             currency: 'VND',
             discount: 0,
             total_amount: 0,
@@ -97,6 +111,7 @@ module.exports = {
           {
             id: order_id
           });
+        console.log('Order created, id:', order_id);
       }
     }
   },
