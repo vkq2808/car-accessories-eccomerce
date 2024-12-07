@@ -55,6 +55,7 @@ export const contact_constants = {
 }
 
 export const admin_table_field_types = {
+  ACTION: "action",
   POSITIVE_NUMBER: "positive-number",
   CUSTOM_CHECKING: "custom-checking",
   TABLE: "table",

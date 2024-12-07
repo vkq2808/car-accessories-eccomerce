@@ -504,48 +504,52 @@ const TableCell = ({ field, item, fields, handleEdit, handleDelete, table_key, s
     return null;
   }
 
+  const fieldProps = fields[field];
+
   return (
     <td key={table_key + field + '-' + item.id?.value + index} className="px-3 py-2 text-xs whitespace-nowrap select-none">
-      {field !== "Actions" ? (
-        fields[field]?.type.includes(admin_table_field_types.IMAGE) ? (
+      {field !== "Actions" ?
+        fieldProps?.type.includes(admin_table_field_types.ACTION) ? (
+          <fieldProps.child />
+        ) : fieldProps?.type.includes(admin_table_field_types.IMAGE) ? (
           <img src={item[field].value} alt="" className="w-8 h-8 rounded-[30%]" />
-        ) : fields[field]?.type.includes(admin_table_field_types.DATE) ? (
+        ) : fieldProps?.type.includes(admin_table_field_types.DATE) ? (
           new Date(item[field]?.value).toLocaleDateString('vi-VN')
-        ) : fields[field]?.type.includes(admin_table_field_types.DATE_TIME) ? (
+        ) : fieldProps?.type.includes(admin_table_field_types.DATE_TIME) ? (
           new Date(item[field]?.value).toLocaleString('vi-VN')
-        ) : fields[field]?.type.includes(admin_table_field_types.SELECT) ? (
-          fields[field].options.find(option => option.value === item[field]?.value)?.label || item[field]?.value
-        ) : fields[field]?.type.includes(admin_table_field_types.NUMBER) ? (
+        ) : fieldProps?.type.includes(admin_table_field_types.SELECT) ? (
+          fieldProps.options.find(option => option.value === item[field]?.value)?.label || item[field]?.value
+        ) : fieldProps?.type.includes(admin_table_field_types.NUMBER) ? (
           new Intl.NumberFormat().format(item[field]?.value)
-        ) : fields[field]?.type.includes(admin_table_field_types.TEXTAREA) ? (
+        ) : fieldProps?.type.includes(admin_table_field_types.TEXTAREA) ? (
           maximizeString(item[field]?.value, 20)
-        ) : fields[field]?.type.includes(admin_table_field_types.JSON) ?
+        ) : fieldProps?.type.includes(admin_table_field_types.JSON) ?
           (<JsonViewer
             data={item[field]?.value}
           />) : (
             maximizeString(item[field]?.value, 20)
           )
-      ) : (
-        <div className="flex gap-3">
-          <div
-            onClick={() => handleEdit(item)}
-            className="text-blue-600 hover:text-blue-800 transition-colors duration-200 cursor-pointer"
-            aria-label="Edit record"
-          >
-            <FaEdit size={18} />
+        : (
+          <div className="flex gap-3">
+            <div
+              onClick={() => handleEdit(item)}
+              className="text-blue-600 hover:text-blue-800 transition-colors duration-200 cursor-pointer"
+              aria-label="Edit record"
+            >
+              <FaEdit size={18} />
+            </div>
+            <div
+              onClick={() => {
+                setEditingId(item.id.value);
+                setShowConfirmDelete(true);
+              }}
+              className="text-red-600 hover:text-red-800 transition-colors duration-200 cursor-pointer"
+              aria-label="Delete record"
+            >
+              <FaTrash size={18} />
+            </div>
           </div>
-          <div
-            onClick={() => {
-              setEditingId(item.id.value);
-              setShowConfirmDelete(true);
-            }}
-            className="text-red-600 hover:text-red-800 transition-colors duration-200 cursor-pointer"
-            aria-label="Delete record"
-          >
-            <FaTrash size={18} />
-          </div>
-        </div>
-      )}
+        )}
     </td>
   );
 };
