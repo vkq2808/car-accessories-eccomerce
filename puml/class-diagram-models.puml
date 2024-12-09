@@ -2,23 +2,25 @@
 skinparam DefaultFontName "Times New Roman"
 skinparam DefaultFontSize 14
 
-user --|> Model
-setting --|> Model
-category --|> Model
-product --|> Model
-product_option --|> Model
-cart --|> Model
-Model <|-- cart_item
-Model <|-- product_follow
-Model <|-- cost
-Model <|-- order
-Model <|-- order_item
-Model <|-- payment
+User --|> Model
+Setting --|> Model
+Category --|> Model
+Product --|> Model
+Product_option --|> Model
+Cart --|> Model
+Model <|-- Cart_item
+Model <|-- Product_follow
+Model <|-- Cost
+Model <|-- Order
+Model <|-- Order_item
+
+Payment -left-|> Model
+Task -right-|> Model
 
 abstract class Model<<T>> {
     +id: int
-    +created_at: datetime
-    +updated_at: datetime
+    +createdAt: Datetime
+    +updatedAt: Datetime
 
     +save(): T
     +destroy(): void
@@ -34,52 +36,63 @@ object QueryOption {
     +where: object
     +limit: int
     +offset: int
-    +order: string
+    +order: object
 }
 
-class setting {
+class Task {
+  +title: string
+  +description: string
+  +status: string
+  +assigned_date: Datetime
+  +deadline: Datetime
+  +completetion_date: Datetime
+  +admin: User
+  +employee: User
+}
+
+class Setting {
   +key: string
   +value: JSON
 }
 
-class category {
+class Category {
   +name: string
   +description: string
   +link: string
   +image_url: string
 }
 
-class product {
+class Product {
   +name: string
   +detail: string
-  +category_id: int
   +stock: int
   +status: string
+  +category: Category
 }
 
-class product_option {
+class Product_option {
   +name: string
   +type: string
-  +product_id: int
+  +product: Product
 }
 
-class cart {
-  +user_id: int
+class Cart {
+  +user: User
 }
 
-class cart_item {
-  +cart_id: int
+class Cart_item {
+  +cart: Cart
   +quantity: int
-  +product_id: int
-  +product_option_id: int
+  +product: Product
+  +product_option: Product_option
 }
 
-class product_follow {
-  +product_id: int
-  +user_id: int
+class Product_follow {
+  +product: Product
+  +user: User
 }
 
-class user {
+class User {
   +first_name: string
   +last_name: string
   +email: string
@@ -90,17 +103,16 @@ class user {
   +imgUrl: string
 }
 
-class cost {
-  +id:int
+class Cost {
   +total_cost: int,
   +cost_type: string,
-  +product_id: int,
-  +employee_id: int,
+  +product: Product,
+  +employee: User,
   +description: string
 }
 
-class order {
-  +user_id: int
+class Order {
+  +user: User
   +status: string
   +total_amount: double
   +discount: double
@@ -109,15 +121,15 @@ class order {
   +info: JSON
 }
 
-class order_item {
-  +order_id: int
+class Order_item {
+  +order: Order
   +quantity: int
-  +product_id: int
-  +product_option_id: int
+  +product: Product
+  +product_option: Product_option
 }
 
-class payment {
-  +order_id: int
+class Payment {
+  +order: Order
   +method: string
   +bank_code: string
   +status: string
@@ -130,5 +142,6 @@ class payment {
   +transaction_time: Date
   +transaction_data: JSON
 }
+
 
 @enduml

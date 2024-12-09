@@ -2,7 +2,7 @@ import db from '../models';
 
 class TaskService {
     constructor() {
-        this.model = db.task; // Đảm bảo rằng bảng task đã được định nghĩa trong Sequelize models
+        this.model = db.task;
     }
 
     async create(data) {

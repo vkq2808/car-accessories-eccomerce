@@ -11,6 +11,7 @@ import CostService from "./cost.service";
 import ProductOptionService from "./product_option.service";
 import SettingService from "./setting.service";
 import FileService from "./file.service";
+import TaskService from "./task.service";
 
 
 export {
@@ -26,5 +27,6 @@ export {
   PaymentService,
   CostService,
   ProductOptionService,
-  FileService
+  FileService,
+  TaskService
 }

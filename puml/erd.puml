@@ -110,8 +110,11 @@ object tasks{
   +title: TEXT
   +description: TEXT
   +status: TEXT
-  +assignedTo: INTEGER
-  +start_date: Date
+  +assigned_date
+  +deadline: Date
+  +completetion_date: Date
+  +employee_id: INTEGER
+  +admin_id: INTEGER
 }
 
 ' Các mối quan hệ
@@ -129,4 +132,5 @@ costs "1" -- "0..1" users : salary
 product_follows "0..*" -- "1" products : is
 product_follows "0..*" -- "1" users : of
 users "1" -- "0..*" tasks : assignedTo
+tasks "1" -- "0..1" users : assignedBy
 @enduml
