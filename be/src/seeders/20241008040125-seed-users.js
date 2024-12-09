@@ -28,14 +28,19 @@ module.exports = {
         return new Date(randomTimestamp);
       }
 
-      const users = data.results
-        .filter((user) => {
-          // Kiểm tra nếu email đã tồn tại trong Set
+      let users = data.results
+        .map((user) => {
+          let randomString = Math.random().toString(36).substring(7);
           if (emailSet.has(user.email)) {
-            return false;
+            emailSet.add(randomString + user.email);
+            return {
+              ...user,
+              email: randomString + user.email,
+            };
+          } else {
+            emailSet.add(user.email);
+            return user;
           }
-          emailSet.add(user.email);
-          return true;
         })
         .map((user, index) => {
           const hashedPassword = bcrypt.hashSync(user.login.password, salt);

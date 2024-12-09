@@ -1,12 +1,12 @@
 @startuml class_diagram
 
-entity setting {
+object settings {
   +id: INTEGER
   +key: TEXT
   +value: JSON
 }
 
-entity category {
+object categories {
   +id: INTEGER
   +name: TEXT
   +description: TEXT
@@ -14,7 +14,7 @@ entity category {
   +image_url: TEXT
 }
 
-entity product {
+object products {
   +id: INTEGER
   +name: TEXT
   +detail: TEXT
@@ -23,19 +23,19 @@ entity product {
   +status: TEXT
 }
 
-entity product_option {
+object product_options {
   +id: INTEGER
   +name: TEXT
   +type: TEXT
   +product_id: INTEGER
 }
 
-entity cart {
+object carts {
   +id: INTEGER
   +user_id: INTEGER
 }
 
-entity cart_item {
+object cart_items {
   +id: INTEGER
   +cart_id: INTEGER
   +quantity: INTEGER
@@ -43,13 +43,13 @@ entity cart_item {
   +product_option_id: INTEGER
 }
 
-entity product_follow {
+object product_follows {
   +id: INTEGER
   +product_id: INTEGER
   +user_id: INTEGER
 }
 
-entity user {
+object users {
   +id: INTEGER
   +first_name: TEXT
   +last_name: TEXT
@@ -61,7 +61,7 @@ entity user {
   +imgUrl: TEXT
 }
 
-entity cost {
+object costs {
   +id:INTEGER
   +total_cost: INTEGER,
   +cost_type: TEXT,
@@ -70,7 +70,7 @@ entity cost {
   +description: TEXT
 }
 
-entity order {
+object orders {
   +id: INTEGER
   +user_id: INTEGER
   +status: TEXT
@@ -81,7 +81,7 @@ entity order {
   +info: JSON
 }
 
-entity order_item {
+object order_items {
   +id: INTEGER
   +order_id: INTEGER
   +quantity: INTEGER
@@ -89,7 +89,7 @@ entity order_item {
   +product_option_id: INTEGER
 }
 
-entity payment {
+object payments {
   +id: INTEGER
   +order_id: INTEGER
   +method: TEXT
@@ -105,18 +105,28 @@ entity payment {
   +transaction_data: JSON
 }
 
+object tasks{
+  +id: INTEGER
+  +title: TEXT
+  +description: TEXT
+  +status: TEXT
+  +assignedTo: INTEGER
+  +start_date: Date
+}
+
 ' Các mối quan hệ
-category "1" -- "0..*" product : contains
-cart "1" -- "0..*" cart_item : contains
-user "1" -- "0..*" order : places
-user "1" -- "0..1" cart : owns
-order "1" -- "0..*" order_item : contains
-order "1" -- "0..1" payment : paid_by
-product "1" -- "0..*" product_option : has
-cart_item "0..*" -- "1" product : is
-order_item "0..*" -- "1" product : is
-cost "1" -- "0..1" product : purchasing
-cost "1" -- "0..1" user : salary
-product_follow "0..*" -- "1" product : is
-product_follow "0..*" -- "1" user : of
+categories "1" -- "0..*" products : contains
+carts "1" -- "0..*" cart_items : contains
+users "1" -- "0..*" orders : places
+users "1" -- "0..1" carts : owns
+orders "1" -- "0..*" order_items : contains
+orders "1" -- "0..1" payments : paid_by
+products "1" -- "0..*" product_options : has
+cart_items "0..*" -- "1" products : is
+order_items "0..*" -- "1" products : is
+costs "1" -- "0..1" products : purchasing
+costs "1" -- "0..1" users : salary
+product_follows "0..*" -- "1" products : is
+product_follows "0..*" -- "1" users : of
+users "1" -- "0..*" tasks : assignedTo
 @enduml

@@ -10,7 +10,6 @@ module.exports = {
     for (let product of products) {
       let remaining_stock = product.stock;
 
-      const product_option_amount = Math.floor(Math.random() * 6) + 1;
       let product_options = [
         {
           name: 'Default',
@@ -21,42 +20,36 @@ module.exports = {
         },
         {
           name: 'Size S',
-          price: product.price + product.price * 0.05,
           product_id: product.id,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           name: 'Size M',
-          price: product.price + product.price * 0.1,
           product_id: product.id,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           name: 'Size L',
-          price: product.price + product.price * 0.15,
           product_id: product.id,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           name: 'Color Red',
-          price: product.price + product.price * 0.05,
           product_id: product.id,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           name: 'Color Blue',
-          price: product.price + product.price * 0.5,
           product_id: product.id,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           name: 'Color Green',
-          price: product.price + product.price * 0.5,
           product_id: product.id,
           createdAt: new Date(),
           updatedAt: new Date()
@@ -64,6 +57,7 @@ module.exports = {
       ];
 
       let inserting_product_options = [];
+      const product_option_amount = Math.floor(Math.random() * 5) + 1;
       // console.log('total stock:', remaining_stock);
 
       const default_stock = Math.floor(Math.random() * remaining_stock * 0.5) + 1;
@@ -81,16 +75,19 @@ module.exports = {
         const random_product_option_index = Math.floor(Math.random() * product_options.length);
         // console.log(product_options[random_product_option_index].name, 'stock:', stock);
         remaining_stock -= stock;
-        product_options[random_product_option_index].stock = stock;
-        inserting_product_options.push(product_options[random_product_option_index]);
+        let product_option = product_options[random_product_option_index];
+        product_option.stock = stock;
+        product_option.price = product.price + Math.floor((Math.random() / 3 * product.price) / 100000) * 100000;
+        inserting_product_options.push(product_option);
         product_options = product_options.filter((_, index) => index !== random_product_option_index);
       }
 
       if (remaining_stock > 0) {
         const random_product_option_index = Math.floor(Math.random() * product_options.length);
-        product_options[random_product_option_index].stock = remaining_stock;
-        inserting_product_options.push(product_options[random_product_option_index]);
-        // console.log('last stock:', remaining_stock);
+        let product_option = product_options[random_product_option_index];
+        product_option.stock = remaining_stock;
+        product_option.price = product.price + Math.floor((Math.random() / 3 * product.price) / 100000) * 100000;
+        inserting_product_options.push(product_option);
       }
       await queryInterface.bulkInsert('product_options', inserting_product_options, {});
     }
