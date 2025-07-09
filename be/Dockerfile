@@ -5,11 +5,16 @@ WORKDIR /app
 
 # Copy package files first for better caching
 COPY package*.json ./
-RUN npm ci --only=production && npm cache clean --force
+
+# Install all dependencies (including devDependencies for build)
+RUN npm ci && npm cache clean --force
 
 # Copy source code and build
 COPY . .
 RUN npm run build
+
+# Install only production dependencies for the final stage
+RUN npm ci --only=production && npm cache clean --force
 
 # ========== FINAL STAGE ==========
 FROM node:18-alpine
@@ -22,13 +27,13 @@ RUN apk add --no-cache supervisor && \
 # Create necessary directories
 RUN mkdir -p /app /var/log/supervisor
 
-# Copy built application from builder stage
-COPY --from=builder /app/dist /app/dist
-COPY --from=builder /app/node_modules /app/node_modules
-COPY --from=builder /app/package.json /app/package.json
+# Copy built application and production dependencies from builder stage
+COPY --from=builder --chown=nextjs:nodejs /app/dist /app/dist
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules /app/node_modules
+COPY --from=builder --chown=nextjs:nodejs /app/package.json /app/package.json
 
 # Copy supervisor configuration
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY --chown=nextjs:nodejs supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Set working directory
 WORKDIR /app
