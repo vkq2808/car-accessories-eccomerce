@@ -49,7 +49,6 @@ const startServer = async () => {
             await sequelizeSync();
             await seedData();
             console.log("Database is initialized. Process has been completed");
-            return;
         }
 
         // Khởi động server
