@@ -11,7 +11,9 @@
     "db:create": "sequelize db:create",
     "db:drop": "sequelize db:drop",
     "db:all": "npm-run-all db:drop db:create db:migrate db:seed",
-    "start:init-database": "cross-env INIT_DATABASE=true npm start"
+    "start:init-database": "cross-env INIT_DATABASE=true npm start",
+    "start:prod": "node dist/server.js",
+    "build": "babel src -d dist --copy-files --extensions \".js,.json,.ejs\""
   },
   "author": "Vu Khanh Quoc",
   "license": "Apache-2.0",
@@ -40,6 +42,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
+    "@babel/cli": "^7.25.0",
     "@babel/node": "^7.25.0",
     "@babel/preset-env": "^7.25.4",
     "concurrently": "^9.0.1",
