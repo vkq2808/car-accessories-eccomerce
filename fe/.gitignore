@@ -137,3 +137,4 @@ dist
 .pnp.*
 # config
 be/src/config/config.js
+.vercel

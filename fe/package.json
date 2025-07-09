@@ -1,6 +1,6 @@
 {
   "name": "fe",
-  "version": "1.0.0",
+  "version": "--cwd",
   "main": "index.js",
   "private": true,
   "author": "",
