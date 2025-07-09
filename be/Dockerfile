@@ -38,11 +38,9 @@ COPY --chown=nextjs:nodejs supervisord.conf /etc/supervisor/conf.d/supervisord.c
 # Set working directory
 WORKDIR /app
 
-# Change ownership to non-root user
-RUN chown -R nextjs:nodejs /app /var/log/supervisor
-
-# Switch to non-root user
-USER nextjs
+# Create log directory and set permissions
+RUN mkdir -p /var/log/supervisor && \
+    chown -R nextjs:nodejs /var/log/supervisor
 
 # Environment variables
 ENV NODE_ENV=production
@@ -55,4 +53,5 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD node -e "require('http').get('http://localhost:3000/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })" || exit 1
 
+# Run supervisor as root (it will start the backend process as nextjs user)
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
