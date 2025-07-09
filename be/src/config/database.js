@@ -6,7 +6,7 @@ const process = require('process');
 
 require('dotenv').config();
 
-const sequelize = new Sequelize(process.env.DB_NAME || 'db', process.env.DB_USER || 'root', process.env.DB_PASSWORD || '@123', {
+const sequelize = new Sequelize(process.env.MYSQL_DATABASE || 'db', process.env.DB_USER || 'root', process.env.MYSQL_ROOT_PASSWORD || '@123', {
     host: 'localhost',
     dialect: 'mysql',
     port: process.env.DB_PORT || 3306,
@@ -31,13 +31,13 @@ export const sequelizeSync = async () => {
         const connection = mysql.createConnection({
             host: 'localhost',
             user: process.env.DB_USER,
-            password: process.env.DB_PASSWORD
+            password: process.env.MYSQL_ROOT_PASSWORD
         });
 
         // Sử dụng Promise để đảm bảo các truy vấn hoàn thành đúng thứ tự
         const dropDatabase = () => {
             return new Promise((resolve, reject) => {
-                connection.query('DROP DATABASE IF EXISTS ' + process.env.DB_NAME, (err, results) => {
+                connection.query('DROP DATABASE IF EXISTS ' + process.env.MYSQL_DATABASE, (err, results) => {
                     if (err) {
                         return reject('Error dropping database: ' + err);
                     }
@@ -49,7 +49,7 @@ export const sequelizeSync = async () => {
 
         const createDatabase = () => {
             return new Promise((resolve, reject) => {
-                connection.query('CREATE DATABASE ' + process.env.DB_NAME, (err, results) => {
+                connection.query('CREATE DATABASE ' + process.env.MYSQL_DATABASE, (err, results) => {
                     if (err) {
                         return reject('Error creating database: ' + err);
                     }

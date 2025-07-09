@@ -9,7 +9,7 @@ const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
 const db = {};
 
-let sequelize = new Sequelize(process.env.DB_NAME || 'db', process.env.DB_USER || 'root', process.env.DB_PASSWORD || '@123', {
+let sequelize = new Sequelize(process.env.MYSQL_DATABASE || 'db', process.env.DB_USER || 'root', process.env.MYSQL_ROOT_PASSWORD || '@123', {
     host: 'localhost',
     dialect: 'mysql',
     port: process.env.DB_PORT || 3306,

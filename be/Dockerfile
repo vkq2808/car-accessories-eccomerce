@@ -37,8 +37,6 @@ COPY init.sql /docker-entrypoint-initdb.d/init.sql
 # Set ENV
 ENV NODE_ENV=production
 ENV PORT=3001
-ENV MYSQL_ROOT_PASSWORD=123456
-ENV MYSQL_DATABASE=mydb
 
 # Expose các cổng
 EXPOSE 3001 3306
