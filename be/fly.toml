@@ -1,14 +1,14 @@
-# fly.toml app configuration file generated for your-app-name on 2024-01-01T00:00:00Z
+# fly.toml app configuration file generated for car-part-ecommerce on 2024-01-01T00:00:00Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "car-part-ecommerce-back-end"  # Thay đổi tên app của bạn
+app = "car-part-ecommerce"
 primary_region = "sin"  # Singapore - gần Vietnam nhất
 
 [build]
-  # Sử dụng Node.js buildpack
-  builder = "heroku/buildpacks:20"
+  # Fly.io sẽ tự động detect Node.js và chạy npm install
+  # Không cần builder khi có Dockerfile hoặc để Fly tự detect
 
 [env]
   PORT = "8080"
@@ -45,20 +45,14 @@ primary_region = "sin"  # Singapore - gần Vietnam nhất
   timeout = 2000
   tls_skip_verify = false
 
-# Volumes (nếu cần lưu trữ file)
-# [[mounts]]
-#   source = "data"
-#   destination = "/data"
-
-# Cấu hình database (PostgreSQL)
-# [[statics]]
-#   guest_path = "/app/public"
-#   url_prefix = "/static/"
+# Cấu hình static files (nếu cần)
+[[statics]]
+  guest_path = "/app/public"
+  url_prefix = "/static/"
 
 # Cấu hình cho multiple processes
-# [processes]
-#   web = "npm start"
-#   worker = "npm run worker"
+[processes]
+  web = "npm start"
 
 # Cấu hình scaling
 [scaling]
