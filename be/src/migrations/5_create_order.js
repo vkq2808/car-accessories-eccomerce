@@ -58,7 +58,6 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     });
-    await queryInterface.sequelize.query(`ALTER TABLE orders AUTO_INCREMENT = 100`);
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('orders');

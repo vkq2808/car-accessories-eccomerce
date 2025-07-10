@@ -6,11 +6,11 @@ const process = require('process');
 
 require('dotenv').config();
 
-export const sequelize = new Sequelize(process.env.DB_NAME || 'car_db', process.env.DB_USER || 'postgres', process.env.DB_PASSWORD || 'postgres', {
+const sequelize = new Sequelize(process.env.DB_NAME || 'postgres', process.env.DB_USER || 'postgres', process.env.DB_PASSWORD || 'postgres', {
     host: process.env.DB_HOST || 'localhost',
     dialect: 'postgres',
     port: process.env.DB_PORT || 5432,
-    logging: false,
+    logging: false
 });
 
 let connectDB = async () => {
@@ -24,10 +24,10 @@ let connectDB = async () => {
 
 export const sequelizeSync = async () => {
     try {
+        // Tạo kết nối PostgreSQL để quản lý database
         const { Client } = require('pg');
         require('dotenv').config();
 
-        // Tạo kết nối PostgreSQL để quản lý database
         const client = new Client({
             host: process.env.DB_HOST || 'localhost',
             port: process.env.DB_PORT || 5432,
@@ -70,7 +70,7 @@ export const sequelizeSync = async () => {
         };
 
         // Đảm bảo các truy vấn hoàn thành trước khi tiếp tục
-        await dropDatabase();
+        // await dropDatabase();
         await createDatabase();
 
         // Đóng kết nối
