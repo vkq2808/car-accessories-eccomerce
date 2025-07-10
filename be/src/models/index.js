@@ -8,13 +8,7 @@ const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
 const db = {};
-
-let sequelize = new Sequelize(process.env.MYSQL_DATABASE || 'db', process.env.DB_USER || 'root', process.env.MYSQL_ROOT_PASSWORD || '@123', {
-    host: 'localhost',
-    dialect: 'mysql',
-    port: process.env.DB_PORT || 3306,
-    logging: false
-});
+const { sequelize } = require('../config/database.js');
 fs
     .readdirSync(__dirname)
     .filter(file => {

@@ -6,10 +6,10 @@ const process = require('process');
 
 require('dotenv').config();
 
-const sequelize = new Sequelize(process.env.MYSQL_DATABASE || 'db', process.env.DB_USER || 'root', process.env.MYSQL_ROOT_PASSWORD || '@123', {
-    host: 'localhost',
-    dialect: 'mysql',
-    port: process.env.DB_PORT || 3306,
+export const sequelize = new Sequelize(process.env.DB_NAME || 'car_db', process.env.DB_USER || 'postgres', process.env.DB_PASSWORD || 'postgres', {
+    host: process.env.DB_HOST || 'localhost',
+    dialect: 'postgres',
+    port: process.env.DB_PORT || 5432,
     logging: false
 });
 
@@ -24,39 +24,49 @@ let connectDB = async () => {
 
 export const sequelizeSync = async () => {
     try {
-        const mysql = require('mysql2');
+        const { Client } = require('pg');
         require('dotenv').config();
 
-        // Tạo kết nối MySQL
-        const connection = mysql.createConnection({
-            host: 'localhost',
-            user: process.env.DB_USER,
-            password: process.env.MYSQL_ROOT_PASSWORD
+        // Tạo kết nối PostgreSQL để quản lý database
+        const client = new Client({
+            host: process.env.DB_HOST || 'localhost',
+            port: process.env.DB_PORT || 5432,
+            user: process.env.DB_USER || 'postgres',
+            password: process.env.DB_PASSWORD || 'postgres',
+            database: 'postgres' // Kết nối đến database mặc định để tạo/xóa database
         });
 
-        // Sử dụng Promise để đảm bảo các truy vấn hoàn thành đúng thứ tự
-        const dropDatabase = () => {
-            return new Promise((resolve, reject) => {
-                connection.query('DROP DATABASE IF EXISTS ' + process.env.MYSQL_DATABASE, (err, results) => {
-                    if (err) {
-                        return reject('Error dropping database: ' + err);
-                    }
-                    console.log('Database dropped successfully.');
-                    resolve(results);
-                });
-            });
+        await client.connect();
+
+        // Sử dụng async/await cho các truy vấn
+        const dropDatabase = async () => {
+            try {
+                const dbName = process.env.DB_NAME || 'car_db';
+                // Terminate existing connections to the database
+                await client.query(`
+                    SELECT pg_terminate_backend(pg_stat_activity.pid)
+                    FROM pg_stat_activity
+                    WHERE pg_stat_activity.datname = '${dbName}'
+                    AND pid <> pg_backend_pid()
+                `);
+
+                await client.query(`DROP DATABASE IF EXISTS "${dbName}"`);
+                console.log('Database dropped successfully.');
+            } catch (error) {
+                console.error('Error dropping database:', error.message);
+                throw error;
+            }
         };
 
-        const createDatabase = () => {
-            return new Promise((resolve, reject) => {
-                connection.query('CREATE DATABASE ' + process.env.MYSQL_DATABASE, (err, results) => {
-                    if (err) {
-                        return reject('Error creating database: ' + err);
-                    }
-                    console.log('Database created successfully.');
-                    resolve(results);
-                });
-            });
+        const createDatabase = async () => {
+            try {
+                const dbName = process.env.DB_NAME || 'car_db';
+                await client.query(`CREATE DATABASE "${dbName}"`);
+                console.log('Database created successfully.');
+            } catch (error) {
+                console.error('Error creating database:', error.message);
+                throw error;
+            }
         };
 
         // Đảm bảo các truy vấn hoàn thành trước khi tiếp tục
@@ -64,7 +74,7 @@ export const sequelizeSync = async () => {
         await createDatabase();
 
         // Đóng kết nối
-        connection.end();
+        await client.end();
 
         // Đồng bộ hóa các models với Sequelize
         await db.sequelize.sync({ force: true });
