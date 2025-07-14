@@ -12,7 +12,7 @@ import ProductOptionService from "./product_option.service";
 import SettingService from "./setting.service";
 import FileService from "./file.service";
 import TaskService from "./task.service";
-
+import EventService from "./event.service";
 
 export {
   UserService,
@@ -28,5 +28,6 @@ export {
   CostService,
   ProductOptionService,
   FileService,
-  TaskService
+  TaskService,
+  EventService
 }

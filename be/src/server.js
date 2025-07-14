@@ -46,9 +46,7 @@ const startServer = async () => {
         await connectDB();
         const INIT_DATABASE = process.env.INIT_DATABASE;
         if (INIT_DATABASE === 'true') {
-            await sequelizeSync();
             await seedData();
-            console.log("Database is initialized. Process has been completed");
             return;
         }
 

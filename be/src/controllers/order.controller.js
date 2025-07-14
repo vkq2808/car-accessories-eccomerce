@@ -4,22 +4,24 @@ import jwt from "jsonwebtoken";
 import db from "../models";
 import moment from "moment";
 import { account_roles, order_status, payment_method_codes } from "../constants/constants";
+import { USER_ROLES, ORDER_STATUS, PAYMENT_STATUS, PAYMENT_METHODS } from "../constants/enum";
 import EmailService from "../services/email.service";
 import order_queue from "./queues/order_queue";
 const { Op } = require('sequelize');
 
 require("dotenv").config();
+
 const role_author_number = {
-  [account_roles.NO_ROLE]: 0,
-  [account_roles.USER]: 1,
-  [account_roles.EMPLOYEE]: 1,
-  [account_roles.ADMIN]: 2,
-  [account_roles.SUPER_ADMIN]: 3,
+  [USER_ROLES.NO_ROLE]: 0,
+  [USER_ROLES.USER]: 1,
+  [USER_ROLES.EMPLOYEE]: 2,
+  [USER_ROLES.ADMIN]: 3,
+  [USER_ROLES.SUPER_ADMIN]: 4,
 }
-const canCreate = (req_role) => role_author_number[req_role] >= role_author_number[account_roles.ADMIN];
-const canRead = (req_role) => role_author_number[req_role] >= role_author_number[account_roles.NO_ROLE];
-const canUpdate = (req_role) => role_author_number[req_role] >= role_author_number[account_roles.ADMIN];
-const canDelete = (req_role) => role_author_number[req_role] >= role_author_number[account_roles.ADMIN];
+const canCreate = (req_role) => role_author_number[req_role] >= role_author_number[USER_ROLES.ADMIN];
+const canRead = (req_role) => role_author_number[req_role] >= role_author_number[USER_ROLES.NO_ROLE];
+const canUpdate = (req_role) => role_author_number[req_role] >= role_author_number[USER_ROLES.ADMIN];
+const canDelete = (req_role) => role_author_number[req_role] >= role_author_number[USER_ROLES.ADMIN];
 
 export default class OrderController {
   constructor() {

@@ -1,5 +1,6 @@
 import db from "../models";
-import { CartItemService, CartService } from "../services";
+import { CartItemService, CartService, ProductService, ProductOptionService } from "../services";
+import { CART_STATUS } from "../constants/enum";
 
 export default class CartController {
     constructor() {
@@ -9,52 +10,83 @@ export default class CartController {
         const transaction = await db.sequelize.transaction();
         try {
             const { user } = req;
-            const { product, quantity, product_option } = req.body;
+            const { product_id, quantity, product_option_id } = req.body;
 
-            let cart = await new CartService().getOne({
-                where: { user_id: user.id },
-                include: [{ model: db.cart_item, include: [{ model: db.product, include: [db.product_option] }, { model: db.product_option }] }],
-                transaction
-            });
-            let cart_items = cart.cart_items;
+            // Validate input
+            if (!product_id || !quantity || quantity <= 0) {
+                await transaction.rollback();
+                return res.status(400).json({ message: "Invalid product_id or quantity" });
+            }
 
-            let found = false;
+            // Verify product exists
+            const product = await new ProductService().getById(product_id);
+            if (!product) {
+                await transaction.rollback();
+                return res.status(404).json({ message: "Product not found" });
+            }
 
-            for (
-                let i = 0;
-                i < cart_items.length;
-                i++
-            ) {
-                if (
-                    cart_items[i].product.id === product.id &&
-                    cart_items[i].product_option.id === product_option.id
-                ) {
-                    cart_items[i].quantity += quantity;
-                    await cart_items[i].save({ transaction })
-                    found = true;
-                    break;
+            // Verify product option if provided
+            let productOption = null;
+            if (product_option_id) {
+                productOption = await new ProductOptionService().getById(product_option_id);
+                if (!productOption || productOption.product_id !== product_id) {
+                    await transaction.rollback();
+                    return res.status(404).json({ message: "Product option not found or doesn't belong to product" });
                 }
             }
 
-            if (!found) {
-                await new CartItemService().create({
-                    cart_id: cart.id,
-                    product_id: product.id,
-                    product_option_id: product_option.id,
-                    quantity: quantity
-                }, { transaction });
+            // Get or create cart
+            let cart = await new CartService().findOrCreateCart(user.id);
+            if (!cart) {
+                await transaction.rollback();
+                return res.status(500).json({ message: "Failed to create or get cart" });
             }
-            await transaction.commit();
 
-            cart = await new CartService().getOne({
-                where: { user_id: user.id },
-                include: [{ model: db.cart_item, include: [{ model: db.product, include: [db.product_option] }, { model: db.product_option }] }]
+            // Check if item already exists in cart
+            const existingCartItem = await new CartItemService().getOne({
+                where: {
+                    cart_id: cart.id,
+                    product_id: product_id,
+                    product_option_id: product_option_id || null
+                },
+                transaction
             });
 
-            return res.status(200).json(cart);
+            const price = productOption ? productOption.price : product.price;
+
+            if (existingCartItem) {
+                // Update existing cart item
+                const newQuantity = existingCartItem.quantity + quantity;
+                await new CartItemService().update({
+                    id: existingCartItem.id,
+                    quantity: newQuantity,
+                    price: price,
+                    total_price: price * newQuantity
+                });
+            } else {
+                // Create new cart item
+                await new CartItemService().create({
+                    cart_id: cart.id,
+                    product_id: product_id,
+                    product_option_id: product_option_id || null,
+                    quantity: quantity,
+                    price: price,
+                    total_price: price * quantity
+                }, { transaction });
+            }
+
+            // Recalculate cart totals
+            await new CartService().calculateCartTotals(cart.id);
+
+            await transaction.commit();
+
+            // Get updated cart
+            cart = await new CartService().getByUserId(user.id);
+            return res.status(200).json({ cart, message: "Product added to cart successfully" });
+
         } catch (error) {
-            console.error(error);
             await transaction.rollback();
+            console.error(error);
             return res.status(500).json({ message: "Internal server error" });
         }
     }
@@ -68,10 +100,6 @@ export default class CartController {
                 cart = await new CartService().create({ user_id: user.id });
             }
 
-            if (!cart.cart_items) {
-                cart.cart_items = [];
-            }
-
             return res.status(200).json(cart);
         } catch (error) {
             console.error(error);
@@ -79,85 +107,7 @@ export default class CartController {
         }
     }
 
-    updateCartItem = async (req, res) => {
-        try {
-            const { user } = req;
-            const { quantity, product_option } = req.body;
-            console.log(req.body)
-
-            await new CartItemService().update({
-                id: req.params.id,
-                quantity: quantity,
-                product_option_id: product_option.id
-            });
-
-            const cart = await new CartService().getOne({
-                where: { user_id: user.id },
-                include: [{ model: db.cart_item, include: [{ model: db.product, include: [db.product_option] }, { model: db.product_option }] }]
-            });
-
-            return res.status(200).json(cart);
-        }
-        catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Internal server error" });
-        }
-    }
-
-    deleteCartItem = async (req, res) => {
-        try {
-            const { user } = req;
-
-            await new CartItemService().delete({ where: { id: req.params.id } });
-
-            const cart = await new CartService().getOne({
-                where: { user_id: user.id },
-                include: [{ model: db.cart_item, include: [{ model: db.product, include: [db.product_option] }, { model: db.product_option }] }]
-            });
-
-            return res.status(200).json(cart);
-        }
-        catch (error) {
-            console.error(error);
-
-            return res.status(500).json({ message: "Internal server error" });
-        }
-    }
-
-    sync = async (req, res) => {
-        try {
-            const { user } = req;
-            const cart = await new CartService().getByUserId(user.id);
-            const { cart_items } = req.body;
-
-            for (const item of cart_items) {
-                let found = false;
-                for (const cartItem of cart.cart_items) {
-                    if (cartItem.product.id === item.product.id && cartItem.product_option.id === item.product_option.id) {
-                        cartItem.quantity += item.quantity;
-                        await cartItem.save();
-                        found = true;
-                    }
-                }
-                if (!found) {
-                    await new CartItemService().create({
-                        cart_id: cart.id,
-                        product_id: item.product.id,
-                        product_option_id: item.product_option.id,
-                        quantity: item.quantity
-                    });
-                }
-            }
-
-            const updatedCart = await new CartService().getByUserId(user.id);
-
-            return res.status(200).json(updatedCart);
-        } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Internal server error" });
-        }
-    }
-
+    // Admin methods
     async getAll(req, res) {
         try {
             const data = await new CartService().getAll();
@@ -193,7 +143,7 @@ export default class CartController {
 
     async update(req, res) {
         try {
-            const data = await new CartService().update(req.params.id, req.body);
+            const data = await new CartService().update(req.body);
             return res.status(200).json(data);
         } catch (error) {
             console.error(error);
@@ -203,17 +153,176 @@ export default class CartController {
 
     async delete(req, res) {
         try {
-            const { user } = req;
-            let cart = await new CartService().getByUserId(user.id);
-            if (!cart) {
-                return res.status(404).json({ message: "Not found" });
-            }
-            if (cart.id !== parseInt(req.params.id)) {
-                return res.status(402).json({ message: "Forbidden" });
-            }
-
             await new CartService().delete({ where: { id: req.params.id } });
             return res.status(204).json();
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+    }
+
+    async updateCartItem(req, res) {
+        try {
+            const { id } = req.params;
+            const { quantity, product_option_id } = req.body;
+            const user = req.user;
+
+            // Validate input
+            if (!quantity || quantity <= 0) {
+                return res.status(400).json({ message: "Invalid quantity" });
+            }
+
+            // Get cart item and verify ownership
+            const cartItem = await new CartItemService().getOne({
+                where: { id: id, deleted_at: null },
+                include: [{
+                    model: db.cart,
+                    where: { user_id: user.id, deleted_at: null },
+                    required: true
+                }]
+            });
+
+            if (!cartItem) {
+                return res.status(404).json({ message: "Cart item not found" });
+            }
+
+            // Get product price (from option if specified, otherwise from product)
+            let price = cartItem.price;
+            if (product_option_id) {
+                const productOption = await new ProductOptionService().getById(product_option_id);
+                if (productOption && productOption.product_id === cartItem.product_id) {
+                    price = productOption.price;
+                }
+            }
+
+            // Update cart item
+            const updatedCartItem = await new CartItemService().update({
+                id: id,
+                quantity: quantity,
+                price: price,
+                product_option_id: product_option_id || cartItem.product_option_id,
+                total_price: price * quantity
+            });
+
+            if (!updatedCartItem) {
+                return res.status(500).json({ message: "Failed to update cart item" });
+            }
+
+            // Recalculate cart totals
+            await new CartService().calculateCartTotals(cartItem.cart.id);
+
+            // Get updated cart
+            const cart = await new CartService().getByUserId(user.id);
+            return res.status(200).json({ cart, message: "Cart item updated successfully" });
+
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+    }
+
+    async deleteCartItem(req, res) {
+        try {
+            const { id } = req.params;
+            const user = req.user;
+
+            // Get cart item and verify ownership
+            const cartItem = await new CartItemService().getOne({
+                where: { id: id, deleted_at: null },
+                include: [{
+                    model: db.cart,
+                    where: { user_id: user.id, deleted_at: null },
+                    required: true
+                }]
+            });
+
+            if (!cartItem) {
+                return res.status(404).json({ message: "Cart item not found" });
+            }
+
+            // Delete cart item
+            await new CartItemService().delete({ where: { id: id } });
+
+            // Recalculate cart totals
+            await new CartService().calculateCartTotals(cartItem.cart.id);
+
+            // Get updated cart
+            const cart = await new CartService().getByUserId(user.id);
+            return res.status(200).json({ cart, message: "Cart item deleted successfully" });
+
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+    }
+
+    async sync(req, res) {
+        try {
+            const { cart_items } = req.body;
+            const user = req.user;
+
+            if (!cart_items || !Array.isArray(cart_items)) {
+                return res.status(400).json({ message: "Invalid cart_items data" });
+            }
+
+            const transaction = await db.sequelize.transaction();
+
+            try {
+                // Get or create cart
+                let cart = await new CartService().findOrCreateCart(user.id);
+                if (!cart) {
+                    await transaction.rollback();
+                    return res.status(500).json({ message: "Failed to create or get cart" });
+                }
+
+                // Clear existing cart items
+                await new CartItemService().delete({
+                    where: { cart_id: cart.id },
+                    transaction
+                });
+
+                // Add new cart items
+                for (const item of cart_items) {
+                    const { product_id, quantity, product_option_id } = item;
+
+                    // Validate product
+                    const product = await new ProductService().getById(product_id);
+                    if (!product) continue;
+
+                    // Get price
+                    let price = product.price;
+                    if (product_option_id) {
+                        const productOption = await new ProductOptionService().getById(product_option_id);
+                        if (productOption && productOption.product_id === product_id) {
+                            price = productOption.price;
+                        }
+                    }
+
+                    // Create cart item
+                    await new CartItemService().create({
+                        cart_id: cart.id,
+                        product_id: product_id,
+                        product_option_id: product_option_id || null,
+                        quantity: quantity,
+                        price: price,
+                        total_price: price * quantity
+                    }, { transaction });
+                }
+
+                // Recalculate cart totals
+                await new CartService().calculateCartTotals(cart.id);
+
+                await transaction.commit();
+
+                // Get updated cart
+                cart = await new CartService().getByUserId(user.id);
+                return res.status(200).json({ cart, message: "Cart synchronized successfully" });
+
+            } catch (error) {
+                await transaction.rollback();
+                throw error;
+            }
+
         } catch (error) {
             console.error(error);
             return res.status(500).json({ message: "Internal server error" });

@@ -2,13 +2,14 @@ import jwt from 'jsonwebtoken';
 import db from '../models';
 import { CartService, OrderService, UserService } from '../services';
 import { account_roles, order_status, payment_method_codes } from '../constants/constants';
+import { USER_ROLES, ORDER_STATUS, PAYMENT_METHODS, GENERAL_STATUS } from '../constants/enum';
 
 const role_author_number = {
-    [account_roles.NO_ROLE]: 0,
-    [account_roles.USER]: 1,
-    [account_roles.EMPLOYEE]: 1,
-    [account_roles.ADMIN]: 2,
-    [account_roles.SUPER_ADMIN]: 3,
+    [USER_ROLES.NO_ROLE]: 0,
+    [USER_ROLES.USER]: 1,
+    [USER_ROLES.EMPLOYEE]: 2,
+    [USER_ROLES.ADMIN]: 3,
+    [USER_ROLES.SUPER_ADMIN]: 4,
 }
 const canCreate = (req_role, user_role) => {
     return role_author_number[req_role] > role_author_number[user_role];
@@ -39,12 +40,16 @@ export default class UserController {
 
             let update = formData;
 
+            // Handle password update
             if (update.password) {
                 if (update.password.length < 8) {
                     return res.status(400).json({ message: "Password must be at least 8 characters" });
                 }
 
                 let user = await new UserService().getOne({ where: { id } });
+                if (!user) {
+                    return res.status(404).json({ message: "User not found" });
+                }
 
                 let old_password_match = await new UserService().compareUserPassword(update.old_password, user.hashed_password);
                 if (!old_password_match) {
@@ -53,6 +58,17 @@ export default class UserController {
                 update.hashed_password = await new UserService().hashUserPassword(update.password);
                 delete update.password;
                 delete update.old_password;
+            }
+
+            // Validate enum values
+            if (update.gender && !Object.values(USER_GENDERS).includes(update.gender)) {
+                return res.status(400).json({ message: "Invalid gender value" });
+            }
+            if (update.status && !Object.values(GENERAL_STATUS).includes(update.status)) {
+                return res.status(400).json({ message: "Invalid status value" });
+            }
+            if (update.role && !Object.values(USER_ROLES).includes(update.role)) {
+                return res.status(400).json({ message: "Invalid role value" });
             }
 
             await new UserService().update({ id, ...update });
@@ -70,24 +86,30 @@ export default class UserController {
             if (!order) {
                 return res.status(404).json({ message: "Not found" });
             }
-            if (order.status !== order_status.PENDING) {
+            if (order.status !== ORDER_STATUS.PENDING) {
                 return res.status(400).json({ message: "Order is not pending" });
             }
-            if (order.payment_method !== payment_method_codes.COD) {
+            if (order.payment_method !== PAYMENT_METHODS.COD) {
                 return res.status(400).json({ message: "Can't cancel this order" });
             }
             if (order.user_id !== req.user.id) {
                 return res.status(403).json({ message: "You don't have permission to cancel this order" });
             }
-            const data = await new OrderService().update({ id: req.params.id, status: order_status.CANCELLED });
+            const data = await new OrderService().update({ id: req.params.id, status: ORDER_STATUS.CANCELLED });
 
             let updatedOrder = await new OrderService().getOne({
                 where: { id: req.params.id },
                 include: [
                     {
                         model: db.order_item,
+                        where: { deleted_at: null },
+                        required: false,
                         include: [
-                            { model: db.product }
+                            {
+                                model: db.product,
+                                where: { deleted_at: null },
+                                required: false
+                            }
                         ]
                     }
                 ]
@@ -119,11 +141,23 @@ export default class UserController {
                 include: [
                     {
                         model: db.order_item,
+                        where: { deleted_at: null },
+                        required: false,
                         include: [
-                            { model: db.product }
+                            {
+                                model: db.product,
+                                where: { deleted_at: null },
+                                required: false
+                            }
                         ]
+                    },
+                    {
+                        model: db.payment,
+                        where: { deleted_at: null },
+                        required: false
                     }
-                ]
+                ],
+                order: [['createdAt', 'DESC']]
             });
             return res.status(200).json({ orders });
         } catch (error) {
@@ -171,11 +205,28 @@ export default class UserController {
 
     async create(req, res) {
         try {
-            if (!canCreate(req.user?.role || account_roles.NO_ROLE, req.body.role)) {
+            if (!canCreate(req.user?.role || USER_ROLES.NO_ROLE, req.body.role)) {
                 return res.status(403).json({ message: "You don't have permission to create this user" });
             }
 
             let { password, ...formData } = req.body;
+
+            // Validate enum values
+            if (formData.gender && !Object.values(USER_GENDERS).includes(formData.gender)) {
+                return res.status(400).json({ message: "Invalid gender value" });
+            }
+            if (formData.status && !Object.values(GENERAL_STATUS).includes(formData.status)) {
+                return res.status(400).json({ message: "Invalid status value" });
+            }
+            if (formData.role && !Object.values(USER_ROLES).includes(formData.role)) {
+                return res.status(400).json({ message: "Invalid role value" });
+            }
+
+            // Set default values
+            formData.status = formData.status || GENERAL_STATUS.ACTIVE;
+            formData.role = formData.role || USER_ROLES.USER;
+            formData.gender = formData.gender || USER_GENDERS.OTHER;
+
             formData.hashed_password = await new UserService().hashUserPassword(password);
             const data = await new UserService().create(formData);
             return res.status(201).json({ user: data, message: "Create successfully" });
@@ -193,11 +244,23 @@ export default class UserController {
             }
 
             console.log(req.user.id, req.body.id, req.user?.role, target_user.role);
-            if (req.user.id != req.body.id && !canUpdate(req.user?.role || account_roles.NO_ROLE, target_user.role)) {
+            if (req.user.id != req.body.id && !canUpdate(req.user?.role || USER_ROLES.NO_ROLE, target_user.role)) {
                 return res.status(403).json({ message: "You don't have permission to edit this user" });
             }
 
             let { password, ...formData } = req.body;
+
+            // Validate enum values
+            if (formData.gender && !Object.values(USER_GENDERS).includes(formData.gender)) {
+                return res.status(400).json({ message: "Invalid gender value" });
+            }
+            if (formData.status && !Object.values(GENERAL_STATUS).includes(formData.status)) {
+                return res.status(400).json({ message: "Invalid status value" });
+            }
+            if (formData.role && !Object.values(USER_ROLES).includes(formData.role)) {
+                return res.status(400).json({ message: "Invalid role value" });
+            }
+
             if (password) {
                 formData.hashed_password = await new UserService().hashUserPassword(password);
             }
@@ -224,7 +287,7 @@ export default class UserController {
             if (!target_user) {
                 return res.status(404).json({ message: "Not found" });
             }
-            if (!canDelete(req.user?.role || account_roles.NO_ROLE, target_user.role) && req.user.id !== req.params.id) {
+            if (!canDelete(req.user?.role || USER_ROLES.NO_ROLE, target_user.role) && req.user.id !== req.params.id) {
                 return res.status(403).json({ message: "You don't have permission to delete this user" });
             }
 

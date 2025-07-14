@@ -7,7 +7,12 @@ export default class OrderItemService {
 
     async create(data, options = {}) {
         try {
-            const result = await this.model.create(data, options);
+            const orderItemData = {
+                ...data,
+                total_price: (data.price || 0) * (data.quantity || 1)
+            };
+
+            const result = await this.model.create(orderItemData, options);
             return result;
         } catch (error) {
             console.error(error);
@@ -18,12 +23,53 @@ export default class OrderItemService {
     async update(data) {
         try {
             const { id, ...filteredData } = data;
-            const result = await this.model.update(filteredData, { where: { id: id } });
+
+            // Recalculate total_price if quantity or price changed
+            if (filteredData.quantity !== undefined || filteredData.price !== undefined) {
+                const currentItem = await this.model.findOne({
+                    where: {
+                        id: id,
+                        deleted_at: null
+                    }
+                });
+
+                if (currentItem) {
+                    const newQuantity = filteredData.quantity !== undefined ? filteredData.quantity : currentItem.quantity;
+                    const newPrice = filteredData.price !== undefined ? filteredData.price : currentItem.price;
+                    filteredData.total_price = newQuantity * newPrice;
+                }
+            }
+
+            const result = await this.model.update(filteredData, {
+                where: {
+                    id: id,
+                    deleted_at: null
+                }
+            });
+
             if (result[0] === 0) {
                 return null;
             }
-            let product = await this.model.findOne({ where: { id: id } });
-            return product;
+
+            let orderItem = await this.model.findOne({
+                where: {
+                    id: id,
+                    deleted_at: null
+                },
+                include: [
+                    {
+                        model: db.product,
+                        where: { deleted_at: null },
+                        required: false
+                    },
+                    {
+                        model: db.product_option,
+                        where: { deleted_at: null },
+                        required: false
+                    }
+                ]
+            });
+            return orderItem;
         } catch (error) {
             console.error(error);
             return null;
@@ -32,7 +78,12 @@ export default class OrderItemService {
 
     async delete(id) {
         try {
-            const result = await this.model.destroy({ where: { id: id } });
+            const result = await this.model.destroy({
+                where: {
+                    id: id,
+                    deleted_at: null
+                }
+            });
             return result;
         } catch (error) {
             console.error(error);
@@ -42,7 +93,24 @@ export default class OrderItemService {
 
     async getById(id) {
         try {
-            const result = await this.model.findOne({ where: { id: id } });
+            const result = await this.model.findOne({
+                where: {
+                    id: id,
+                    deleted_at: null
+                },
+                include: [
+                    {
+                        model: db.product,
+                        where: { deleted_at: null },
+                        required: false
+                    },
+                    {
+                        model: db.product_option,
+                        where: { deleted_at: null },
+                        required: false
+                    }
+                ]
+            });
             return result;
         } catch (error) {
             console.error(error);
@@ -52,7 +120,27 @@ export default class OrderItemService {
 
     async getAll(options = {}) {
         try {
-            const result = await this.model.findAll(options);
+            // Add soft delete filter by default
+            const whereCondition = options.where ?
+                { ...options.where, deleted_at: null } :
+                { deleted_at: null };
+
+            const result = await this.model.findAll({
+                ...options,
+                where: whereCondition,
+                include: [
+                    {
+                        model: db.product,
+                        where: { deleted_at: null },
+                        required: false
+                    },
+                    {
+                        model: db.product_option,
+                        where: { deleted_at: null },
+                        required: false
+                    }
+                ]
+            });
             return result;
         } catch (error) {
             console.error(error);
@@ -62,7 +150,27 @@ export default class OrderItemService {
 
     async getOne(options = {}) {
         try {
-            const result = await this.model.findOne(options);
+            // Add soft delete filter by default
+            const whereCondition = options.where ?
+                { ...options.where, deleted_at: null } :
+                { deleted_at: null };
+
+            const result = await this.model.findOne({
+                ...options,
+                where: whereCondition,
+                include: [
+                    {
+                        model: db.product,
+                        where: { deleted_at: null },
+                        required: false
+                    },
+                    {
+                        model: db.product_option,
+                        where: { deleted_at: null },
+                        required: false
+                    }
+                ]
+            });
             return result;
         } catch (error) {
             console.error(error);
@@ -72,8 +180,56 @@ export default class OrderItemService {
 
     async searchAndCountAll(options = {}) {
         try {
-            const { rows, count } = await this.model.findAndCountAll(options);
+            // Add soft delete filter by default
+            const whereCondition = options.where ?
+                { ...options.where, deleted_at: null } :
+                { deleted_at: null };
+
+            const { rows, count } = await this.model.findAndCountAll({
+                ...options,
+                where: whereCondition,
+                include: [
+                    {
+                        model: db.product,
+                        where: { deleted_at: null },
+                        required: false
+                    },
+                    {
+                        model: db.product_option,
+                        where: { deleted_at: null },
+                        required: false
+                    }
+                ]
+            });
             return { rows, count };
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    }
+
+    // Additional methods for order item management
+    async getByOrderId(order_id) {
+        try {
+            const result = await this.model.findAll({
+                where: {
+                    order_id: order_id,
+                    deleted_at: null
+                },
+                include: [
+                    {
+                        model: db.product,
+                        where: { deleted_at: null },
+                        required: false
+                    },
+                    {
+                        model: db.product_option,
+                        where: { deleted_at: null },
+                        required: false
+                    }
+                ]
+            });
+            return result;
         } catch (error) {
             console.error(error);
             return null;

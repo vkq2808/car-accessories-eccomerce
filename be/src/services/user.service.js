@@ -2,6 +2,7 @@
 import bcrypt from 'bcryptjs';
 import db from '../models/index';
 import CartService from './cart.service';
+import { USER_ROLES, USER_GENDERS, GENERAL_STATUS } from '../constants/enum';
 
 require('dotenv').config();
 
@@ -42,16 +43,31 @@ class UserService {
     async createUser(data) {
         try {
             const hashPasswordFromBcrypt = await this.hashUserPassword(data.password);
-            await this.model.create({
+            const userData = {
                 email: data.email,
                 hashed_password: hashPasswordFromBcrypt,
                 first_name: data.first_name,
                 last_name: data.last_name,
                 phone: data.phone,
-                birth: data.birth,
-                role: data.role
-            });
-            return 'Create a new user successful';
+                birth_date: data.birth_date || data.birth,
+                gender: data.gender || USER_GENDERS.OTHER,
+                address: data.address,
+                city: data.city,
+                country: data.country,
+                postal_code: data.postal_code,
+                role: data.role || USER_ROLES.USER,
+                status: data.status || GENERAL_STATUS.ACTIVE,
+                email_verified: data.email_verified || false,
+                phone_verified: data.phone_verified || false,
+                avatar_url: data.avatar_url,
+                preferences: data.preferences || {},
+                last_login: null,
+                login_attempts: 0,
+                locked_until: null
+            };
+
+            const user = await this.model.create(userData);
+            return user;
         } catch (error) {
             console.error(error);
             throw error;
@@ -61,23 +77,75 @@ class UserService {
     async getFullUserInfoById(user_id) {
         try {
             const user = await this.model.findOne({
-                where: { id: user_id },
+                where: {
+                    id: user_id,
+                    deleted_at: null
+                },
                 include: [{
                     model: db.cart,
+                    where: { deleted_at: null },
+                    required: false,
                     include: [{
                         model: db.cart_item,
-                        include: [db.product_option, { model: db.product, include: [db.product_option] }]
+                        where: { deleted_at: null },
+                        required: false,
+                        include: [
+                            {
+                                model: db.product_option,
+                                where: { deleted_at: null },
+                                required: false
+                            },
+                            {
+                                model: db.product,
+                                where: { deleted_at: null },
+                                required: false,
+                                include: [{
+                                    model: db.product_option,
+                                    where: { deleted_at: null },
+                                    required: false
+                                }]
+                            }
+                        ]
                     }]
                 }, {
                     model: db.order,
+                    where: { deleted_at: null },
+                    required: false,
                     include: [{
                         model: db.order_item,
-                        include: [{ model: db.product, include: [db.product_option] }, db.product_option]
+                        where: { deleted_at: null },
+                        required: false,
+                        include: [
+                            {
+                                model: db.product,
+                                where: { deleted_at: null },
+                                required: false,
+                                include: [{
+                                    model: db.product_option,
+                                    where: { deleted_at: null },
+                                    required: false
+                                }]
+                            },
+                            {
+                                model: db.product_option,
+                                where: { deleted_at: null },
+                                required: false
+                            }
+                        ]
                     }, {
-                        model: db.payment
+                        model: db.payment,
+                        where: { deleted_at: null },
+                        required: false
                     }]
                 }, {
-                    model: db.product_follow
+                    model: db.product_follow,
+                    where: { deleted_at: null },
+                    required: false,
+                    include: [{
+                        model: db.product,
+                        where: { deleted_at: null },
+                        required: false
+                    }]
                 }]
             });
             return user || null;
@@ -89,13 +157,32 @@ class UserService {
 
     async updateUser(data) {
         try {
-            const user = await this.model.findOne({ where: { id: data.id } });
+            const user = await this.model.findOne({
+                where: {
+                    id: data.id,
+                    deleted_at: null
+                }
+            });
             if (user) {
-                user.first_name = data.first_name;
-                user.last_name = data.last_name;
-                user.address = data.address;
+                // Update allowed fields
+                if (data.first_name !== undefined) user.first_name = data.first_name;
+                if (data.last_name !== undefined) user.last_name = data.last_name;
+                if (data.phone !== undefined) user.phone = data.phone;
+                if (data.birth_date !== undefined) user.birth_date = data.birth_date;
+                if (data.gender !== undefined) user.gender = data.gender;
+                if (data.address !== undefined) user.address = data.address;
+                if (data.city !== undefined) user.city = data.city;
+                if (data.country !== undefined) user.country = data.country;
+                if (data.postal_code !== undefined) user.postal_code = data.postal_code;
+                if (data.avatar_url !== undefined) user.avatar_url = data.avatar_url;
+                if (data.preferences !== undefined) user.preferences = data.preferences;
+                if (data.email_verified !== undefined) user.email_verified = data.email_verified;
+                if (data.phone_verified !== undefined) user.phone_verified = data.phone_verified;
+                if (data.status !== undefined) user.status = data.status;
+                if (data.role !== undefined) user.role = data.role;
+
                 await user.save();
-                return await this.model.findAll();
+                return user;
             } else {
                 return null;
             }
@@ -107,9 +194,16 @@ class UserService {
 
     async deleteUser(user_id) {
         try {
-            const user = await this.model.findOne({ where: { id: user_id } });
+            const user = await this.model.findOne({
+                where: {
+                    id: user_id,
+                    deleted_at: null
+                }
+            });
             if (user) {
+                // Soft delete
                 await user.destroy();
+                return { message: 'User deleted successfully' };
             }
             return null;
         } catch (error) {
@@ -121,7 +215,12 @@ class UserService {
     async getUserInfoByEmail(userEmail) {
         try {
             if (!userEmail) return null;
-            const user = await this.model.findOne({ where: { email: userEmail } });
+            const user = await this.model.findOne({
+                where: {
+                    email: userEmail,
+                    deleted_at: null
+                }
+            });
             return user || null;
         } catch (error) {
             console.error(error);
@@ -131,9 +230,16 @@ class UserService {
 
     async updateUserPassword(data) {
         try {
-            const user = await this.model.findOne({ where: { email: data.email } });
+            const user = await this.model.findOne({
+                where: {
+                    email: data.email,
+                    deleted_at: null
+                }
+            });
             if (user) {
                 user.hashed_password = await this.hashUserPassword(data.password);
+                user.login_attempts = 0; // Reset login attempts on password change
+                user.locked_until = null; // Unlock account if locked
                 await user.save();
                 return user;
             } else {
@@ -189,7 +295,12 @@ class UserService {
 
     async getById(id) {
         try {
-            const result = await this.model.findOne({ where: { id: id } });
+            const result = await this.model.findOne({
+                where: {
+                    id: id,
+                    deleted_at: null
+                }
+            });
             return result;
         } catch (error) {
             console.error(error);
@@ -199,7 +310,15 @@ class UserService {
 
     async getAll(options = {}) {
         try {
-            const result = await this.model.findAll(options);
+            // Add soft delete filter by default
+            const whereCondition = options.where ?
+                { ...options.where, deleted_at: null } :
+                { deleted_at: null };
+
+            const result = await this.model.findAll({
+                ...options,
+                where: whereCondition
+            });
             return result;
         } catch (error) {
             return null;
@@ -208,7 +327,15 @@ class UserService {
 
     async getOne(options = {}) {
         try {
-            const result = await this.model.findOne(options);
+            // Add soft delete filter by default
+            const whereCondition = options.where ?
+                { ...options.where, deleted_at: null } :
+                { deleted_at: null };
+
+            const result = await this.model.findOne({
+                ...options,
+                where: whereCondition
+            });
             return result;
         } catch (error) {
             console.error(error);
@@ -218,11 +345,83 @@ class UserService {
 
     async searchAndCountAll(options = {}) {
         try {
-            const { rows, count } = await this.model.findAndCountAll(options);
+            // Add soft delete filter by default
+            const whereCondition = options.where ?
+                { ...options.where, deleted_at: null } :
+                { deleted_at: null };
+
+            const { rows, count } = await this.model.findAndCountAll({
+                ...options,
+                where: whereCondition
+            });
             return { rows, count };
         } catch (error) {
             console.error(error);
             return null;
+        }
+    }
+
+    // Additional methods for user management
+    async updateLastLogin(user_id) {
+        try {
+            const user = await this.model.findOne({
+                where: {
+                    id: user_id,
+                    deleted_at: null
+                }
+            });
+            if (user) {
+                user.last_login = new Date();
+                user.login_attempts = 0; // Reset login attempts on successful login
+                await user.save();
+                return user;
+            }
+            return null;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    async incrementLoginAttempts(user_id) {
+        try {
+            const user = await this.model.findOne({
+                where: {
+                    id: user_id,
+                    deleted_at: null
+                }
+            });
+            if (user) {
+                user.login_attempts = (user.login_attempts || 0) + 1;
+                // Lock account after 5 failed attempts for 30 minutes
+                if (user.login_attempts >= 5) {
+                    user.locked_until = new Date(Date.now() + 30 * 60 * 1000);
+                }
+                await user.save();
+                return user;
+            }
+            return null;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    async isAccountLocked(user_id) {
+        try {
+            const user = await this.model.findOne({
+                where: {
+                    id: user_id,
+                    deleted_at: null
+                }
+            });
+            if (user && user.locked_until) {
+                return new Date() < user.locked_until;
+            }
+            return false;
+        } catch (error) {
+            console.error(error);
+            return false;
         }
     }
 }

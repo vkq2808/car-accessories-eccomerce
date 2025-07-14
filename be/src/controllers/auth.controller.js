@@ -4,6 +4,7 @@ import { UserService } from "../services";
 import EmailService from '../services/email.service';
 import fs from 'fs';
 import { account_roles } from '../constants/constants';
+import { USER_ROLES, USER_GENDERS, GENERAL_STATUS } from '../constants/enum';
 
 export default class AuthController {
 
@@ -14,7 +15,7 @@ export default class AuthController {
     }
 
     registerUser = async (req, res) => {
-        const { email, password, first_name, last_name, phone, birth } = req.body;
+        const { email, password, first_name, last_name, phone, birth_date, gender } = req.body;
 
         if (
             !email ||
@@ -32,7 +33,16 @@ export default class AuthController {
             }
 
             const token = jwt.sign(
-                { email, password, first_name: first_name.trim(), last_name: last_name.trim(), phone, birth, role: account_roles.USER },
+                {
+                    email,
+                    password,
+                    first_name: first_name.trim(),
+                    last_name: last_name.trim(),
+                    phone,
+                    birth_date,
+                    gender: gender || USER_GENDERS.OTHER,
+                    role: USER_ROLES.USER
+                },
                 process.env.REGISTER_SECRET_KEY,
                 { expiresIn: '24h' }
             );
@@ -57,12 +67,30 @@ export default class AuthController {
 
         try {
             const user = await new UserService().getUserInfoByEmail(email);
-            if (
-                !user ||
-                !(await new UserService().compareUserPassword(password, user.hashed_password))
-            ) {
+            if (!user) {
                 return res.status(400).json({ message: "Email hoặc mật khẩu không chính xác" });
             }
+
+            // Check if account is locked
+            const isLocked = await new UserService().isAccountLocked(user.id);
+            if (isLocked) {
+                return res.status(423).json({ message: "Tài khoản đã bị khóa do quá nhiều lần đăng nhập sai. Vui lòng thử lại sau." });
+            }
+
+            // Check if account is active
+            if (user.status !== GENERAL_STATUS.ACTIVE) {
+                return res.status(403).json({ message: "Tài khoản đã bị vô hiệu hóa" });
+            }
+
+            const isPasswordValid = await new UserService().compareUserPassword(password, user.hashed_password);
+            if (!isPasswordValid) {
+                // Increment login attempts
+                await new UserService().incrementLoginAttempts(user.id);
+                return res.status(400).json({ message: "Email hoặc mật khẩu không chính xác" });
+            }
+
+            // Update last login and reset login attempts
+            await new UserService().updateLastLogin(user.id);
 
             const access_token = jwt.sign(
                 { email: user.email, id: user.id, role: user.role },
@@ -75,7 +103,26 @@ export default class AuthController {
                 { expiresIn: '1d' }
             );
 
-            return res.status(200).json({ message: "Đăng nhập thành công", user, access_token, refresh_token });
+            // Remove sensitive data before sending response
+            const userResponse = {
+                id: user.id,
+                email: user.email,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                phone: user.phone,
+                role: user.role,
+                status: user.status,
+                avatar_url: user.avatar_url,
+                email_verified: user.email_verified,
+                phone_verified: user.phone_verified
+            };
+
+            return res.status(200).json({
+                message: "Đăng nhập thành công",
+                user: userResponse,
+                access_token,
+                refresh_token
+            });
         } catch (err) {
             return res.status(500).json({ message: "Lỗi máy chủ", error: err });
         }
@@ -101,8 +148,11 @@ export default class AuthController {
                 first_name: decoded.first_name,
                 last_name: decoded.last_name,
                 phone: decoded.phone,
-                birth: decoded.birth,
-                role: decoded.role
+                birth_date: decoded.birth_date,
+                gender: decoded.gender,
+                role: decoded.role,
+                email_verified: true,
+                status: GENERAL_STATUS.ACTIVE
             });
 
             return res.status(201).json({ message: "Email xác thực thành công", user: newUser });

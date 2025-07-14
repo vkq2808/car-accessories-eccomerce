@@ -7,6 +7,7 @@ import CategoryController from "./category.controller";
 import CostController from "./cost.controller";
 import PublicController from "./public.controller";
 import TaskController from "./task.controller";
+import EventController from "./event.controller";
 
 export {
     AuthController,
@@ -17,5 +18,6 @@ export {
     CategoryController,
     CostController,
     PublicController,
-    TaskController
+    TaskController,
+    EventController
 }
