@@ -1,3 +1,4 @@
+import { type } from 'os';
 import db from '../models';
 import { Op } from 'sequelize';
 
@@ -11,18 +12,7 @@ export default class SettingService {
   async getSetting(key, defaultValue = null) {
     try {
       const setting = await this.SettingModel.findOne({
-        where: { key, is_active: true },
-        include: [
-          {
-            model: this.UserModel,
-            as: 'updater',
-            attributes: ['id', 'first_name', 'last_name', 'email'],
-            where: {
-              deleted_at: null
-            },
-            required: false
-          }
-        ]
+        where: { key }
       });
 
       if (!setting) {
@@ -312,7 +302,8 @@ export default class SettingService {
 
   // Legacy methods for backward compatibility
   async getPolicies() {
-    return await this.getSetting('policies');
+    const res = await this.getSetting('policies');
+    return res ? JSON.parse(res) : [];
   }
 
   async updatePolicies(data, userId = null) {
@@ -325,7 +316,8 @@ export default class SettingService {
   }
 
   async getPromotions() {
-    return await this.getSetting('promotions');
+    const res = await this.getSetting('promotions');
+    return res ? JSON.parse(res) : [];
   }
 
   async updatePromotions(data, userId = null) {

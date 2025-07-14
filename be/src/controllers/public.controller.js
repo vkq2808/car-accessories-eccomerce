@@ -52,7 +52,7 @@ export default class PublicController {
     try {
       const policiesSettings = await new SettingService().getPolicies();
 
-      return res.status(200).json({ policies: policiesSettings.value });
+      return res.status(200).json({ policies: policiesSettings });
     } catch (error) {
       // console.error(error);
       return res.status(500).json({ message: "Internal server error", error: error.message });
@@ -100,7 +100,7 @@ export default class PublicController {
     try {
       const promotionsSettings = await new SettingService().getPromotions();
 
-      return res.status(200).json({ promotions: promotionsSettings.value });
+      return res.status(200).json({ promotions: promotionsSettings });
     } catch (error) {
       // console.error(error);
       return res.status(500).json({ message: "Internal server error", error: error.message });

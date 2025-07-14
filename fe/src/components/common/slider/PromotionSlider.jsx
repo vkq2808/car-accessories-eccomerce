@@ -13,9 +13,8 @@ const PromotionSlider = ({ promotions, handleNavigate }) => {
         autoplay={{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true }}
         pagination={{ clickable: true }}
         className="promotion-slider"
-        effect="cube"
       >
-        {promotions.map((promotion, index) => (
+        {promotions?.map((promotion, index) => (
           <SwiperSlide key={index} className="duration-500">
             <div className=" flex lg:h-[600px] relative w-full">
               <div className="promotion-detail flex flex-col sticky w-full">
