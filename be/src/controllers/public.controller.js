@@ -54,7 +54,7 @@ export default class PublicController {
 
       return res.status(200).json({ policies: policiesSettings.value });
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       return res.status(500).json({ message: "Internal server error", error: error.message });
     }
   }
@@ -102,7 +102,7 @@ export default class PublicController {
 
       return res.status(200).json({ promotions: promotionsSettings.value });
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       return res.status(500).json({ message: "Internal server error", error: error.message });
     }
   }

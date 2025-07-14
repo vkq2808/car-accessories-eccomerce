@@ -395,6 +395,9 @@ module.exports = (sequelize, DataTypes) => {
         tableName: 'tasks',
         timestamps: true,
         paranoid: true, // Soft delete
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
+        deleted_at: 'deleted_at',
         indexes: [
             {
                 fields: ['employee_id']

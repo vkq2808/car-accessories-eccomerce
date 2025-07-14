@@ -48,7 +48,10 @@ module.exports = (sequelize, DataTypes) => {
             const { hashed_password, ...data } = this.get();
             return {
                 ...data,
-                full_name: this.getFullName()
+                full_name: this.getFullName(),
+                is_active_status: this.isActive(),
+                is_suspended: this.isSuspended(),
+                is_pending: this.isPending()
             };
         }
 
@@ -83,6 +86,30 @@ module.exports = (sequelize, DataTypes) => {
 
         isEmployee() {
             return ['EMPLOYEE', 'ADMIN', 'SUPER_ADMIN'].includes(this.role);
+        }
+
+        isActive() {
+            return this.status === 'ACTIVE';
+        }
+
+        isSuspended() {
+            return this.status === 'SUSPENDED';
+        }
+
+        isPending() {
+            return this.status === 'PENDING';
+        }
+
+        activate() {
+            this.status = 'ACTIVE';
+        }
+
+        suspend() {
+            this.status = 'SUSPENDED';
+        }
+
+        deactivate() {
+            this.status = 'INACTIVE';
         }
     }
 
@@ -212,6 +239,17 @@ module.exports = (sequelize, DataTypes) => {
         last_login: {
             type: DataTypes.DATE,
             allowNull: true
+        },
+        status: {
+            type: DataTypes.ENUM('ACTIVE', 'INACTIVE', 'SUSPENDED', 'PENDING'),
+            allowNull: false,
+            defaultValue: 'ACTIVE',
+            validate: {
+                isIn: {
+                    args: [['ACTIVE', 'INACTIVE', 'SUSPENDED', 'PENDING']],
+                    msg: 'Status must be one of: ACTIVE, INACTIVE, SUSPENDED, PENDING'
+                }
+            }
         }
     }, {
         sequelize,
@@ -219,6 +257,9 @@ module.exports = (sequelize, DataTypes) => {
         tableName: 'users',
         timestamps: true,
         paranoid: true, // Soft delete
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
+        deletedAt: 'deleted_at',
         indexes: [
             {
                 unique: true,
@@ -232,6 +273,9 @@ module.exports = (sequelize, DataTypes) => {
             },
             {
                 fields: ['phone']
+            },
+            {
+                fields: ['status']
             }
         ],
         hooks: {

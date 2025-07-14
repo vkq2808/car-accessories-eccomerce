@@ -7,68 +7,62 @@ class ProductService {
         this.model = db.product;
     }
 
-    async searchAndCountProducts({ searchTerm, category_id, category_path, page, limit, sort, min_price, max_price, status }) {
+    async searchAndCountProducts({
+        searchTerm,
+        category_id,
+        category_path,
+        page = 1,
+        limit = 10,
+        sort = 'name',
+        order = 'ASC',
+        minPrice,
+        maxPrice,
+        inStock,
+        featured,
+        status
+    }) {
         try {
             const whereCondition = {
                 deleted_at: null,
                 ...(category_id && parseInt(category_id) !== -1 && { category_id: parseInt(category_id) }),
                 ...(searchTerm && {
                     [db.Sequelize.Op.or]: [
-                        { name: { [db.Sequelize.Op.like]: `%${searchTerm}%` } },
-                        { description: { [db.Sequelize.Op.like]: `%${searchTerm}%` } },
-                        { sku: { [db.Sequelize.Op.like]: `%${searchTerm}%` } }
+                        { name: { [db.Sequelize.Op.iLike]: `%${searchTerm}%` } },
+                        { detail: { [db.Sequelize.Op.iLike]: `%${searchTerm}%` } },
+                        { short_description: { [db.Sequelize.Op.iLike]: `%${searchTerm}%` } },
+                        { sku: { [db.Sequelize.Op.iLike]: `%${searchTerm}%` } }
                     ]
                 }),
                 ...(category_path && { '$category.path$': category_path }),
-                ...(min_price && { price: { [db.Sequelize.Op.gte]: min_price } }),
-                ...(max_price && { price: { [db.Sequelize.Op.lte]: max_price } }),
-                ...(status && { status: status })
+                ...(minPrice && { price: { [db.Sequelize.Op.gte]: minPrice } }),
+                ...(maxPrice && { price: { [db.Sequelize.Op.lte]: maxPrice } }),
+                ...(inStock && { stock: { [db.Sequelize.Op.gt]: 0 } }),
+                ...(featured && { is_featured: true }),
+                ...(status && { is_active: status === 'active' })
             };
 
             // Price range filter
-            if (min_price && max_price) {
+            if (minPrice && maxPrice) {
                 whereCondition.price = {
-                    [db.Sequelize.Op.between]: [min_price, max_price]
+                    [db.Sequelize.Op.between]: [minPrice, maxPrice]
                 };
             }
 
-            // Sorting
-            let orderBy = [['created_at', 'DESC']];
-            if (sort) {
-                switch (sort) {
-                    case PRODUCT_SORT_OPTIONS.NAME_ASC:
-                        orderBy = [['name', 'ASC']];
-                        break;
-                    case PRODUCT_SORT_OPTIONS.NAME_DESC:
-                        orderBy = [['name', 'DESC']];
-                        break;
-                    case PRODUCT_SORT_OPTIONS.PRICE_ASC:
-                        orderBy = [['price', 'ASC']];
-                        break;
-                    case PRODUCT_SORT_OPTIONS.PRICE_DESC:
-                        orderBy = [['price', 'DESC']];
-                        break;
-                    case PRODUCT_SORT_OPTIONS.CREATED_ASC:
-                        orderBy = [['created_at', 'ASC']];
-                        break;
-                    case PRODUCT_SORT_OPTIONS.CREATED_DESC:
-                        orderBy = [['created_at', 'DESC']];
-                        break;
-                    default:
-                        orderBy = [['created_at', 'DESC']];
-                }
-            }
+            // Simplified sorting - use the sort and order parameters directly
+            const orderBy = [[sort, order]];
 
             const results = await this.model.findAndCountAll({
                 where: whereCondition,
                 include: [
                     {
                         model: db.category,
+                        as: 'category', // Use the alias defined in the association
                         where: { deleted_at: null },
                         required: false
                     },
                     {
                         model: db.product_option,
+                        as: 'options', // Use the alias defined in the association
                         where: { deleted_at: null },
                         required: false
                     }
@@ -226,23 +220,18 @@ class ProductService {
 
     async getAll(options = {}) {
         try {
-            // Add soft delete filter by default
-            const whereCondition = options.where ?
-                { ...options.where, deleted_at: null } :
-                { deleted_at: null };
 
             const result = await this.model.findAll({
                 ...options,
-                where: whereCondition,
                 include: [
                     {
                         model: db.category,
-                        where: { deleted_at: null },
+                        as: 'category',
                         required: false
                     },
                     {
                         model: db.product_option,
-                        where: { deleted_at: null },
+                        as: 'options',
                         required: false
                     }
                 ]
@@ -267,11 +256,13 @@ class ProductService {
                 include: [
                     {
                         model: db.category,
+                        as: 'category',
                         where: { deleted_at: null },
                         required: false
                     },
                     {
                         model: db.product_option,
+                        as: 'options',
                         where: { deleted_at: null },
                         required: false
                     }

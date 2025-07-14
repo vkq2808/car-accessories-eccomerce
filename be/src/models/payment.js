@@ -228,6 +228,8 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'payment',
     tableName: 'payments',
     timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     indexes: [
       {
         unique: true,

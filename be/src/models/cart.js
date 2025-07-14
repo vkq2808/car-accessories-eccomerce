@@ -95,6 +95,8 @@ module.exports = (sequelize, DataTypes) => {
         modelName: 'cart',
         tableName: 'carts',
         timestamps: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
         indexes: [
             {
                 unique: true,

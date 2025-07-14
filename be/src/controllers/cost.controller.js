@@ -24,16 +24,7 @@ export default class CostController {
         return res.status(403).json({ message: "You don't have permission to read" });
       }
 
-      const data = await new CostService().getAll({
-        include: [{
-          model: db.product,
-          as: "product",
-        }, {
-          model: db.user,
-          as: "employee",
-        },
-        ]
-      });
+      const data = await new CostService().getAll({});
 
       return res.status(200).json({ costs: data });
 

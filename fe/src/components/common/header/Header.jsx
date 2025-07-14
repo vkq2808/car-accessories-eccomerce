@@ -24,21 +24,6 @@ const Header = ({ setIsSideBarOpen }) => {
     const [loadingUser, setLoadingUser] = useState(false);
 
     useEffect(() => {
-        setTimeout(() => {
-            if (auth.token) {
-                postDataAPI('auth/check-token', { token: auth.token })
-                    .then(res => {
-                        setLoadingUser(true);
-                    }).catch(err => {
-                        setLoadingUser(false);
-                        dispatch({ type: GLOBALTYPES.AUTH, payload: { user: null, token: null } })
-                    })
-            }
-        }, 300);
-        setLoadingUser(false);
-    }, [auth, dispatch]);
-
-    useEffect(() => {
         const renderItemsWithDelay = async () => {
             setDisplayedProducts([]); // Đặt lại danh sách hiển thị
             for (let i = 0; i < searchResults.products.length; i++) {

@@ -41,9 +41,9 @@ const ProductManagement = () => {
         value: item.category_id,
       }, image_url: {
         value: item.image_url
-      }, product_options: {
+      }, options: {
         props: {
-          product_options: item.product_options,
+          options: item.options,
           product_id: item.id
         }
       }
@@ -105,7 +105,7 @@ const ProductManagement = () => {
       type: [admin_table_field_types.NUMBER, admin_table_field_types.NO_FORM_DATA],
       value: ""
     },
-    product_options: {
+    options: {
       type: [admin_table_field_types.TABLE, admin_table_field_types.HIDDEN, admin_table_field_types.NO_ADDABLE],
       value: "",
       child: ProductOptionManagement,
@@ -125,7 +125,7 @@ const ProductManagement = () => {
         }));
       },
       props: {
-        product_options: "",
+        options: "",
         product_id: ""
       }
     },

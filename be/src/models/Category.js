@@ -173,6 +173,9 @@ module.exports = (sequelize, DataTypes) => {
         tableName: 'categories',
         timestamps: true,
         paranoid: true, // Soft delete
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
+        deleted_at: 'deleted_at',
         indexes: [
             {
                 unique: true,

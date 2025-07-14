@@ -21,6 +21,8 @@ export const login = (data) => async (dispatch) => {
 
         if (res.status === 200) {
 
+            console.log(res.data)
+
             dispatch({
                 type: GLOBALTYPES.AUTH,
                 payload: { token: "Bearer " + res.data.access_token, user: res.data.user, role: res.data.user.role }
@@ -41,7 +43,7 @@ export const login = (data) => async (dispatch) => {
     } catch (err) {
         dispatch({
             type: GLOBALTYPES.ERROR_ALERT,
-            payload: "Lỗi khi đăng nhập"
+            payload: err.response.data.message
         })
     }
 }

@@ -19,6 +19,7 @@ const Sidebar = ({ setIsSideBarOpen }) => {
 
 
     useEffect(() => {
+        console.log("Sidebar mounted or auth changed", auth);
         const handleNavigate = (path) => {
             setIsSideBarOpen(false);
             navigate(path);

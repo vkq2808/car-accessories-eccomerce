@@ -98,18 +98,13 @@ export default class CostService {
   async getAll(options = {}) {
     try {
       // Add soft delete filter by default
-      const whereCondition = options.where ?
-        { ...options.where, deleted_at: null } :
-        { deleted_at: null };
 
       const result = await this.model.findAll({
         ...options,
-        where: whereCondition,
         include: [
           {
             model: db.user,
-            as: 'created_by_user',
-            where: { deleted_at: null },
+            as: 'approver',
             required: false,
             attributes: ['id', 'first_name', 'last_name', 'email']
           }

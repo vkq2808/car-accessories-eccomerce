@@ -14,7 +14,7 @@ const sequelizeOptions = {
     host: process.env.DB_HOST || config.host || 'localhost',
     dialect: config.dialect || 'postgres',
     port: process.env.DB_PORT || config.port || 5432,
-    logging: process.env.NODE_ENV === 'development' ? console.log : false,
+    // logging: process.env.NODE_ENV === 'development' ? console.log : false,
     pool: {
         max: 10,
         min: 0,

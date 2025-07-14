@@ -93,7 +93,7 @@ module.exports = {
         type: DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
-      deletedAt: {
+      deleted_at: {
         type: DATE,
         allowNull: true
       }

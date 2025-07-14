@@ -141,19 +141,19 @@ export default class UserController {
                 include: [
                     {
                         model: db.order_item,
-                        where: { deleted_at: null },
+                        as: 'items',
                         required: false,
                         include: [
                             {
                                 model: db.product,
-                                where: { deleted_at: null },
+                                as: 'product',
                                 required: false
                             }
                         ]
                     },
                     {
-                        model: db.payment,
-                        where: { deleted_at: null },
+                        model: db.user,
+                        as: 'user',
                         required: false
                     }
                 ],

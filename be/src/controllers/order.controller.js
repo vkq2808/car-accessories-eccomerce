@@ -82,6 +82,7 @@ export default class OrderController {
       });
 
       let groupedData = data.reduce((acc, order) => {
+        console.log(order.created_at)
 
         let dateKey = new Date(order.created_at).toISOString().split('T')[0];
 
@@ -117,6 +118,7 @@ export default class OrderController {
       });
 
       let groupedData = data.reduce((acc, order) => {
+        console.log(order)
 
         let dateKey = new Date(order.created_at).toISOString().split('T')[0].slice(0, 7);
 
@@ -667,10 +669,8 @@ export default class OrderController {
         include: [
           {
             model: db.order_item,
-            include: [db.product, db.product_option]
-          },
-          {
-            model: db.payment
+            as: "items",
+            include: [{ model: db.product, as: "product" }, { model: db.product_option, as: "options" }]
           },
           {
             model: db.user,

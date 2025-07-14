@@ -102,6 +102,8 @@ module.exports = (sequelize, DataTypes) => {
         modelName: 'product_follow',
         tableName: 'product_follows',
         timestamps: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
         indexes: [
             {
                 unique: true,

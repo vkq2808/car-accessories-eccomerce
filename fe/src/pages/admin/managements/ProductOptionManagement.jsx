@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { GLOBALTYPES } from '../../../redux/actions/globalTypes';
 import { useNavigate } from 'react-router-dom';
 
-const ProductOptionManagement = ({ product_options, product_id, setInputData }) => {
+const ProductOptionManagement = ({ options, product_id, setInputData }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -34,8 +34,8 @@ const ProductOptionManagement = ({ product_options, product_id, setInputData }) 
   }
 
   useEffect(() => {
-    setData(product_options?.map((item) => mapData(item)) || []);
-  }, [dispatch, navigate, product_options]);
+    setData(options?.map((item) => mapData(item)) || []);
+  }, [dispatch, navigate, options]);
 
   const fields = {
     id: {

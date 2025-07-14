@@ -158,20 +158,114 @@ export default class ProductController {
 
     search = async (req, res) => {
         try {
-            const { searchTerm, category_id, category_path, page, limit } = req.query;
-
-            const { rows, count } = await new ProductService().searchAndCountProducts({
+            const {
                 searchTerm,
                 category_id,
                 category_path,
-                page,
-                limit
+                page = 1,
+                limit = 10,
+                sort = 'name',
+                order = 'ASC',
+                minPrice,
+                maxPrice,
+                inStock,
+                featured
+            } = req.query;
+
+            // Input validation
+            const pageNum = Math.max(1, parseInt(page) || 1);
+            const limitNum = Math.max(1, Math.min(100, parseInt(limit) || 10)); // Max 100 items per page
+            const sortOrder = ['ASC', 'DESC'].includes(order?.toUpperCase()) ? order.toUpperCase() : 'ASC';
+            const sortField = ['name', 'price', 'created_at', 'stock', 'discount_percentage'].includes(sort) ? sort : 'name';
+
+            // Price range validation
+            const minPriceNum = minPrice ? Math.max(0, parseFloat(minPrice)) : undefined;
+            const maxPriceNum = maxPrice ? Math.max(0, parseFloat(maxPrice)) : undefined;
+
+            if (minPriceNum && maxPriceNum && minPriceNum > maxPriceNum) {
+                return res.status(400).json({
+                    message: "Minimum price cannot be greater than maximum price"
+                });
+            }
+
+            // Search parameters
+            const searchParams = {
+                searchTerm: searchTerm?.trim(),
+                category_id: category_id ? parseInt(category_id) : undefined,
+                category_path: category_path?.trim(),
+                page: pageNum,
+                limit: limitNum,
+                sort: sortField,
+                order: sortOrder,
+                minPrice: minPriceNum,
+                maxPrice: maxPriceNum,
+                inStock: inStock === 'true',
+                featured: featured === 'true'
+            };
+
+            // Remove undefined values
+            Object.keys(searchParams).forEach(key => {
+                if (searchParams[key] === undefined) {
+                    delete searchParams[key];
+                }
             });
 
-            return res.status(200).json({ result: { products: rows, total: count } });
+            const { rows, count } = await new ProductService().searchAndCountProducts(searchParams);
+
+            // Calculate pagination info
+            const totalPages = Math.ceil(count / limitNum);
+            const hasNextPage = pageNum < totalPages;
+            const hasPreviousPage = pageNum > 1;
+
+            return res.status(200).json({
+                result: {
+                    products: rows,
+                    total: count,
+                    pagination: {
+                        currentPage: pageNum,
+                        totalPages,
+                        hasNextPage,
+                        hasPreviousPage,
+                        limit: limitNum
+                    },
+                    filters: {
+                        searchTerm: searchParams.searchTerm,
+                        category_id: searchParams.category_id,
+                        category_path: searchParams.category_path,
+                        priceRange: {
+                            min: minPriceNum,
+                            max: maxPriceNum
+                        },
+                        inStock: searchParams.inStock,
+                        featured: searchParams.featured
+                    },
+                    sorting: {
+                        field: sortField,
+                        order: sortOrder
+                    }
+                }
+            });
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: error.message });
+            // console.error('Product search error:', error);
+
+            // Handle specific error types
+            if (error.name === 'SequelizeValidationError') {
+                return res.status(400).json({
+                    message: 'Invalid search parameters',
+                    errors: error.errors?.map(e => e.message) || []
+                });
+            }
+
+            if (error.name === 'SequelizeDatabaseError') {
+                return res.status(500).json({
+                    message: 'Database error occurred while searching products'
+                });
+            }
+
+            return res.status(500).json({
+                message: 'An error occurred while searching products',
+                ...(process.env.NODE_ENV === 'development' && { error: error.message })
+            });
         }
     }
 
@@ -179,12 +273,7 @@ export default class ProductController {
         try {
             const user = req.user;
 
-            const products = await new ProductFollowService().getAll({
-                where: {
-                    user_id: user.id
-                },
-                include: [{ model: db.product, include: [db.product_option] }]
-            });
+            const products = await new ProductFollowService().getUserFollowedProducts(user.id);
             return res.status(200).json({ products: products });
         } catch (error) {
             return res.status(500).json({ message: error.message });
@@ -261,9 +350,7 @@ export default class ProductController {
             if (!canRead(req.user?.role || account_roles.NO_ROLE)) {
                 return res.status(403).json({ message: "You don't have permission to read" });
             }
-            const data = await new ProductService().getAll({
-                include: [db.product_option]
-            });
+            const data = await new ProductService().getAll();
             return res.status(200).json(data);
 
         } catch (error) {

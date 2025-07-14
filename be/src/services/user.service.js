@@ -83,25 +83,25 @@ class UserService {
                 },
                 include: [{
                     model: db.cart,
-                    where: { deleted_at: null },
+                    as: 'cart',
                     required: false,
                     include: [{
                         model: db.cart_item,
-                        where: { deleted_at: null },
+                        as: 'items',
                         required: false,
                         include: [
                             {
                                 model: db.product_option,
-                                where: { deleted_at: null },
+                                as: 'productOption',
                                 required: false
                             },
                             {
                                 model: db.product,
-                                where: { deleted_at: null },
+                                as: 'product',
                                 required: false,
                                 include: [{
                                     model: db.product_option,
-                                    where: { deleted_at: null },
+                                    as: 'options',
                                     required: false
                                 }]
                             }
@@ -109,41 +109,37 @@ class UserService {
                     }]
                 }, {
                     model: db.order,
-                    where: { deleted_at: null },
+                    as: 'orders',
                     required: false,
                     include: [{
                         model: db.order_item,
-                        where: { deleted_at: null },
+                        as: 'items',
                         required: false,
                         include: [
                             {
                                 model: db.product,
-                                where: { deleted_at: null },
+                                as: 'product',
                                 required: false,
                                 include: [{
                                     model: db.product_option,
-                                    where: { deleted_at: null },
+                                    as: 'options',
                                     required: false
                                 }]
                             },
                             {
                                 model: db.product_option,
-                                where: { deleted_at: null },
+                                as: 'productOption',
                                 required: false
                             }
                         ]
-                    }, {
-                        model: db.payment,
-                        where: { deleted_at: null },
-                        required: false
                     }]
                 }, {
                     model: db.product_follow,
-                    where: { deleted_at: null },
+                    as: 'followedProducts',
                     required: false,
                     include: [{
                         model: db.product,
-                        where: { deleted_at: null },
+                        as: 'product',
                         required: false
                     }]
                 }]

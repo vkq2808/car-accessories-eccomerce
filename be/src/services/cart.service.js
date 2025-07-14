@@ -10,31 +10,25 @@ export default class CartService {
         try {
             const cart = await this.model.findOne({
                 where: {
-                    user_id,
-                    deleted_at: null
+                    user_id
                 },
                 include: [{
                     model: db.cart_item,
-                    where: { deleted_at: null },
+                    as: 'items',
                     required: false,
                     include: [
                         {
                             model: db.product_option,
-                            where: { deleted_at: null },
+                            as: 'productOption',
                             required: false
                         },
                         {
                             model: db.product,
-                            where: { deleted_at: null },
-                            required: false,
-                            include: [{
-                                model: db.product_option,
-                                where: { deleted_at: null },
-                                required: false
-                            }]
+                            as: 'product',
+                            required: false
                         }
                     ]
-                }]
+                }],
             });
             return cart || null;
         } catch (error) {

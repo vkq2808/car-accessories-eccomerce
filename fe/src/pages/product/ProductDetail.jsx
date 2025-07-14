@@ -34,7 +34,7 @@ const ProductDetail = () => {
                     setIsLoading(false);
                     if (res.status === 200) {
                         setProduct(res.data.product);
-                        let defaultOption = res.data.product.product_options.find(option => option.stock > 0)
+                        let defaultOption = res.data.product.options.find(option => option.stock > 0)
                         setSelectedProductOption(defaultOption)
                     } else {
                         dispatch({ type: GLOBALTYPES.ERROR_ALERT, payload: res.data.message });
@@ -107,7 +107,7 @@ const ProductDetail = () => {
     }
 
     const hanleChangeProductOption = (e) => {
-        setSelectedProductOption(product.product_options.find(option => option.id === parseInt(e.target.value)))
+        setSelectedProductOption(product.options.find(option => option.id === parseInt(e.target.value)))
     }
 
     return (
@@ -132,11 +132,11 @@ const ProductDetail = () => {
                         (<div className="flex w-full md:w-[80%] bg-[--primary-background-color] text-[--primary-text-color] pb-10">
                             <div className="flex flex-col w-full">
                                 <div className="flex flex-col w-full py-4 md:flex-row justify-between">
-                                    <img className="w-full md:w-[40%] md:max-h-[300px] object-contain p-2 hover:scale-110 transition-all" src={product.image_url} alt={product.name} />
+                                    <img className="w-full md:w-[40%] md:max-h-[300px] object-contain p-2 hover:scale-110 transition-all" src={product?.image_url} alt={product?.name} />
                                     <div className="flex flex-col p-2 md:w-[40%]">
-                                        <h2 className="select-all">{product.name}</h2>
-                                        <h4 className="text-[--color-red] mb-4">{formatNumberWithCommas(product.price)} {product.currency}</h4>
-                                        <p>{formatNumberWithCommas(product.stock)} sản phẩm có sẵn</p>
+                                        <h2 className="select-all">{product?.name}</h2>
+                                        <h4 className="text-[--color-red] mb-4">{formatNumberWithCommas(product?.price)} {product?.currency}</h4>
+                                        <p>{formatNumberWithCommas(product?.stock)} sản phẩm có sẵn</p>
 
                                         <div className="flex pb-4">
                                             <div className={`flex items-center p-2 cursor-pointer ${followingStyle} hover:scale-110 transition-all`}
@@ -161,7 +161,7 @@ const ProductDetail = () => {
                                             <label htmlFor='product_option'>Option</label>
                                             <select id='product_option' name='product_option' className="w-full p-2 hover:scale-110 transition-all" onChange={hanleChangeProductOption}>
                                                 {
-                                                    product.product_options?.map((option, index) => (
+                                                    product?.options?.map((option, index) => (
                                                         <option className="" disabled={option.stock === 0} key={index} value={option.id}>{option.name} - {option.price}</option>
                                                     ))
                                                 }
@@ -170,7 +170,7 @@ const ProductDetail = () => {
 
                                         <div className="mb-4 flex">
                                             <span className="mr-2">Tổng tiền:</span>
-                                            <span>{formatNumberWithCommas(selectedProductOption.price * quantity)} {product.currency}</span>
+                                            <span>{formatNumberWithCommas(selectedProductOption?.price || 0 * quantity)} {product?.currency}</span>
                                         </div>
                                         <div className="actions flex justify-between">
                                             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-[40%] min-w-[120px]"

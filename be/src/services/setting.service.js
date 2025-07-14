@@ -16,7 +16,11 @@ export default class SettingService {
           {
             model: this.UserModel,
             as: 'updater',
-            attributes: ['id', 'first_name', 'last_name', 'email']
+            attributes: ['id', 'first_name', 'last_name', 'email'],
+            where: {
+              deleted_at: null
+            },
+            required: false
           }
         ]
       });
@@ -86,7 +90,11 @@ export default class SettingService {
           {
             model: this.UserModel,
             as: 'updater',
-            attributes: ['id', 'first_name', 'last_name', 'email']
+            attributes: ['id', 'first_name', 'last_name', 'email'],
+            where: {
+              deleted_at: null
+            },
+            required: false
           }
         ],
         order: [['sort_order', 'ASC'], ['key', 'ASC']]
@@ -128,7 +136,11 @@ export default class SettingService {
           {
             model: this.UserModel,
             as: 'updater',
-            attributes: ['id', 'first_name', 'last_name', 'email']
+            attributes: ['id', 'first_name', 'last_name', 'email'],
+            where: {
+              deleted_at: null
+            },
+            required: false
           }
         ],
         order: [['sort_order', 'ASC'], ['key', 'ASC']],
@@ -174,7 +186,11 @@ export default class SettingService {
           {
             model: this.UserModel,
             as: 'updater',
-            attributes: ['id', 'first_name', 'last_name', 'email']
+            attributes: ['id', 'first_name', 'last_name', 'email'],
+            where: {
+              deleted_at: null
+            },
+            required: false
           }
         ]
       });
@@ -278,7 +294,11 @@ export default class SettingService {
           {
             model: this.UserModel,
             as: 'updater',
-            attributes: ['id', 'first_name', 'last_name', 'email']
+            attributes: ['id', 'first_name', 'last_name', 'email'],
+            where: {
+              deleted_at: null
+            },
+            required: false
           }
         ],
         order: [['sort_order', 'ASC'], ['key', 'ASC']]

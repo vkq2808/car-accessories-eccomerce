@@ -82,7 +82,7 @@ const Cart = () => {
     const handleChangeProductOption = (e, index) => {
         let cartItem = cart.cart_items[index];
         let product_option_id = e.target.value;
-        let new_product_option = cartItem.product.product_options.find(option => option.id === parseInt(product_option_id));
+        let new_product_option = cartItem.product.options.find(option => option.id === parseInt(product_option_id));
         dispatch(updateCartItem({ token: auth.token, cart_item: cartItem, quantity: cartItem.quantity, product_option: cartItem.product_option, new_product_option: new_product_option }));
     }
 
@@ -164,7 +164,7 @@ const Cart = () => {
                                             <select name="cart_product_option" id="cart_product_option" value={item.product_option.id}
                                                 onChange={(e) => handleChangeProductOption(e, index)}
                                             >
-                                                {item.product.product_options.map((option) => {
+                                                {item.product.options.map((option) => {
                                                     return (
                                                         <option key={'cart-' + option.id} value={option.id} disabled={option.stock === 0}>
                                                             {option.name} - {formatNumberWithCommas(option.price)} {item.product.currency}

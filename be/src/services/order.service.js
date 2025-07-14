@@ -160,7 +160,7 @@ export default class OrderService {
         include: [
           {
             model: db.user,
-            where: { deleted_at: null },
+            as: 'user',
             required: false,
             attributes: ['id', 'first_name', 'last_name', 'email', 'phone']
           }
