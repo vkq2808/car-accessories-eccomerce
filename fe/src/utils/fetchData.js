@@ -10,7 +10,7 @@ export const setDispatch = (d) => {
     dispatch = d;
 };
 
-const server_url = process.env.REACT_APP_API_URL || 'https://car-accessories-eccomerce.onrender.com/api/v1';
+const server_url = process.env.REACT_APP_API_URL || 'https://car-accessories-eccomerce-production.up.railway.app/api/v1';
 const axiosInstance = axios.create({
     baseURL: server_url,
 });
