@@ -169,7 +169,7 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         price: {
-            type: DataTypes.DECIMAL(10, 2),
+            type: DataTypes.DECIMAL(15, 2),
             allowNull: false,
             validate: {
                 min: {
@@ -179,7 +179,7 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         original_price: {
-            type: DataTypes.DECIMAL(10, 2),
+            type: DataTypes.DECIMAL(15, 2),
             allowNull: true,
             validate: {
                 min: {

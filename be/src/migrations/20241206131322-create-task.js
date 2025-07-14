@@ -18,12 +18,12 @@ module.exports = {
                 allowNull: true,
             },
             status: {
-                type: Sequelize.ENUM('PENDING', 'IN_PROGRESS', 'AWAITING_CONFIRMATION', 'COMPLETED', 'REJECTED', 'CANCELLED'),
+                type: Sequelize.DataTypes.ENUM('PENDING', 'IN_PROGRESS', 'AWAITING_CONFIRMATION', 'COMPLETED', 'REJECTED', 'CANCELLED'),
                 allowNull: false,
                 defaultValue: 'PENDING',
             },
             priority: {
-                type: Sequelize.ENUM('LOW', 'MEDIUM', 'HIGH', 'URGENT'),
+                type: Sequelize.DataTypes.ENUM('LOW', 'MEDIUM', 'HIGH', 'URGENT'),
                 allowNull: false,
                 defaultValue: 'MEDIUM'
             },
@@ -159,12 +159,12 @@ module.exports = {
                 allowNull: false,
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
             },
-            createdAt: {
+            created_at: {
                 allowNull: false,
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
             },
-            updatedAt: {
+            updated_at: {
                 allowNull: false,
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
@@ -178,14 +178,11 @@ module.exports = {
         // Add indexes
         await queryInterface.addIndex('tasks', ['employee_id']);
         await queryInterface.addIndex('tasks', ['admin_id']);
-        await queryInterface.addIndex('tasks', ['status']);
         await queryInterface.addIndex('tasks', ['priority']);
         await queryInterface.addIndex('tasks', ['category']);
         await queryInterface.addIndex('tasks', ['assigned_date']);
         await queryInterface.addIndex('tasks', ['deadline']);
-        await queryInterface.addIndex('tasks', ['completed_at']);
         await queryInterface.addIndex('tasks', ['progress']);
-        await queryInterface.addIndex('tasks', ['last_updated']);
     },
 
     async down(queryInterface, Sequelize) {

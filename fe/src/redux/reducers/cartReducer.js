@@ -7,7 +7,7 @@ const initialState = localStorage.getItem('cart')
         cart_items: [],
         deleted_items: [],
         id: null,
-        createdAt: new Date().toISOString(),
+        created_at: new Date().toISOString(),
     };
 
 const cartReducer = (state = initialState, action) => {
@@ -29,7 +29,7 @@ const cartReducer = (state = initialState, action) => {
         case CART_ACTION_TYPES.CLEAR_CART:
             return {
                 ...initialState,
-                createdAt: new Date().toISOString(),
+                created_at: new Date().toISOString(),
             };
 
         case CART_ACTION_TYPES.GET_CART:

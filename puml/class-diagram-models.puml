@@ -19,8 +19,8 @@ Task -right-|> Model
 
 abstract class Model<<T>> {
     +id: int
-    +createdAt: Datetime
-    +updatedAt: Datetime
+    +created_at: Datetime
+    +updated_at: Datetime
 
     +save(): T
     +destroy(): void

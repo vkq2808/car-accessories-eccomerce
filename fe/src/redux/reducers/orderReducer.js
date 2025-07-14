@@ -58,7 +58,7 @@ const orderReducer = (state = initialState, action) => {
         order_items: action.payload.cart.cart_items,
         total_amount: action.payload.cart.cart_items.reduce((acc, item) => acc + item.product_option.price * item.quantity, 0),
         status: ORDER_STATUS.PENDING,
-        createdAt: action.payload.cart.createdAt,
+        created_at: action.payload.cart.created_at,
         is_cart: true,
       }
     case ORDER_ACTION_TYPES.REMOVE_ORDER_ITEM:

@@ -14,7 +14,7 @@ module.exports = {
         allowNull: false
       },
       cost_type: {
-        type: Sequelize.ENUM('PURCHASE', 'SALARY', 'MAINTENANCE', 'UTILITIES', 'MARKETING', 'OTHER'),
+        type: Sequelize.DataTypes.ENUM('PURCHASE', 'SALARY', 'MAINTENANCE', 'UTILITIES', 'MARKETING', 'OTHER'),
         allowNull: false
       },
       category: {
@@ -65,12 +65,12 @@ module.exports = {
         defaultValue: 'VND'
       },
       status: {
-        type: Sequelize.ENUM('PENDING', 'APPROVED', 'REJECTED'),
+        type: Sequelize.DataTypes.ENUM('PENDING', 'APPROVED', 'REJECTED'),
         allowNull: false,
         defaultValue: 'PENDING'
       },
       payment_method: {
-        type: Sequelize.ENUM('CASH', 'BANK_TRANSFER', 'CARD', 'CHECK', 'OTHER'),
+        type: Sequelize.DataTypes.ENUM('CASH', 'BANK_TRANSFER', 'CARD', 'CHECK', 'OTHER'),
         allowNull: true
       },
       payment_reference: {
@@ -136,19 +136,19 @@ module.exports = {
         defaultValue: false
       },
       recurring_frequency: {
-        type: Sequelize.ENUM('DAILY', 'WEEKLY', 'MONTHLY', 'QUARTERLY', 'YEARLY'),
+        type: Sequelize.DataTypes.ENUM('DAILY', 'WEEKLY', 'MONTHLY', 'QUARTERLY', 'YEARLY'),
         allowNull: true
       },
       recurring_end_date: {
         type: Sequelize.DATE,
         allowNull: true
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')

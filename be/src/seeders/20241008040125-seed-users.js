@@ -5,7 +5,9 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     const axios = require('axios');
     const bcrypt = require('bcryptjs');
-    const account_roles = ['EMPLOYEE', 'USER'];
+    const { USER_ROLES, USER_GENDERS } = require('../constants/enum');
+    const account_roles = [USER_ROLES.EMPLOYEE, USER_ROLES.USER];
+    const genders = [USER_GENDERS.MALE, USER_GENDERS.FEMALE, USER_GENDERS.OTHER];
     const emailSet = new Set(); // Đảm bảo email là duy nhất
     require('dotenv').config();
     const salt = process.env.SALT;
@@ -16,7 +18,7 @@ module.exports = {
 
     try {
       const { data } = await axios.get(
-        'https://randomuser.me/api/?results=200&inc=email,phone,name,dob,login'
+        'https://randomuser.me/api/?results=200&inc=email,phone,name,dob,login,gender'
       );
 
       function getRandomDateWithinLastTwoMonths() {
@@ -45,7 +47,8 @@ module.exports = {
         .map((user, index) => {
           const hashedPassword = bcrypt.hashSync(user.login.password, salt);
           let roleIndex = getRandomInt(0, 1);
-          let createdAt = getRandomDateWithinLastTwoMonths();
+          let genderIndex = getRandomInt(0, 2);
+          let created_at = getRandomDateWithinLastTwoMonths();
           console.log(index, ", email: ", user.email, ", role: ", account_roles[roleIndex]);
           return {
             email: user.email,
@@ -54,20 +57,22 @@ module.exports = {
             last_name: user.name.last,
             hashed_password: hashedPassword,
             birth: new Date(user.dob.date),
+            gender: user.gender === 'male' ? USER_GENDERS.MALE : user.gender === 'female' ? USER_GENDERS.FEMALE : genders[genderIndex],
             role: account_roles[roleIndex],
-            createdAt: createdAt,
-            updatedAt: createdAt,
+            is_active: true,
+            email_verified: true,
+            created_at: created_at,
+            updated_at: created_at,
           };
         });
-      users = users.sort((a, b) => a.createdAt - b.createdAt);
+      users = users.sort((a, b) => a.created_at - b.created_at);
       console.log("Inserting users..., length: ", users.length);
-      await queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 0;');
-      const batchSize = 1000; // Tăng kích thước batch
+
+      const batchSize = 100; // Reduce batch size for PostgreSQL
       for (let i = 0; i < users.length; i += batchSize) {
         const batch = users.slice(i, i + batchSize);
         await queryInterface.bulkInsert('users', batch);
       }
-      await queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 1;');
     } catch (error) {
       console.error('Error during seeding:', error);
     }

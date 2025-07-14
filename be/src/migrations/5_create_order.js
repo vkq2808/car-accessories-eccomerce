@@ -25,17 +25,17 @@ module.exports = {
         onDelete: 'SET NULL'
       },
       status: {
-        type: Sequelize.ENUM('PENDING', 'CONFIRMED', 'PROCESSING', 'SHIPPING', 'DELIVERED', 'FINISHED', 'CANCELLED'),
+        type: Sequelize.DataTypes.ENUM('PENDING', 'CONFIRMED', 'PROCESSING', 'SHIPPING', 'DELIVERED', 'FINISHED', 'CANCELLED'),
         allowNull: false,
         defaultValue: 'PENDING'
       },
       total_amount: {
-        type: Sequelize.DECIMAL(10, 2),
+        type: Sequelize.DECIMAL(15, 2),
         allowNull: false,
         defaultValue: 0
       },
       subtotal: {
-        type: Sequelize.DECIMAL(10, 2),
+        type: Sequelize.DECIMAL(15, 2),
         allowNull: false,
         defaultValue: 0
       },
@@ -45,17 +45,17 @@ module.exports = {
         defaultValue: 'VND'
       },
       discount: {
-        type: Sequelize.DECIMAL(10, 2),
+        type: Sequelize.DECIMAL(15, 2),
         allowNull: false,
         defaultValue: 0
       },
       tax_amount: {
-        type: Sequelize.DECIMAL(10, 2),
+        type: Sequelize.DECIMAL(15, 2),
         allowNull: false,
         defaultValue: 0
       },
       shipping_fee: {
-        type: Sequelize.DECIMAL(10, 2),
+        type: Sequelize.DECIMAL(15, 2),
         allowNull: false,
         defaultValue: 0
       },
@@ -75,11 +75,11 @@ module.exports = {
         defaultValue: {}
       },
       payment_method: {
-        type: Sequelize.ENUM('COD', 'VNPAY', 'MOMO', 'BANK_TRANSFER'),
+        type: Sequelize.DataTypes.ENUM('COD', 'VNPAY', 'MOMO', 'BANK_TRANSFER'),
         allowNull: true
       },
       payment_status: {
-        type: Sequelize.ENUM('PENDING', 'PAID', 'FAILED', 'REFUNDED'),
+        type: Sequelize.DataTypes.ENUM('PENDING', 'PAID', 'FAILED', 'REFUNDED'),
         allowNull: false,
         defaultValue: 'PENDING'
       },
@@ -112,12 +112,12 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
@@ -138,7 +138,7 @@ module.exports = {
     await queryInterface.addIndex('orders', ['payment_status']);
     await queryInterface.addIndex('orders', ['payment_method']);
     await queryInterface.addIndex('orders', ['total_amount']);
-    await queryInterface.addIndex('orders', ['createdAt']);
+    await queryInterface.addIndex('orders', ['created_at']);
   },
 
   down: async (queryInterface, Sequelize) => {

@@ -21,7 +21,7 @@ module.exports = {
                 onDelete: 'CASCADE'
             },
             status: {
-                type: Sequelize.ENUM('ACTIVE', 'INACTIVE', 'ARCHIVED'),
+                type: Sequelize.DataTypes.ENUM('ACTIVE', 'INACTIVE', 'ARCHIVED'),
                 allowNull: false,
                 defaultValue: 'ACTIVE'
             },
@@ -29,12 +29,12 @@ module.exports = {
                 type: Sequelize.DATE,
                 allowNull: true
             },
-            createdAt: {
+            created_at: {
                 allowNull: false,
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
             },
-            updatedAt: {
+            updated_at: {
                 allowNull: false,
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')

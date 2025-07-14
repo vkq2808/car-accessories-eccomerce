@@ -27,11 +27,11 @@ module.exports = {
                 allowNull: true
             },
             price: {
-                type: Sequelize.DECIMAL(10, 2),
+                type: Sequelize.DECIMAL(15, 2),
                 allowNull: false
             },
             original_price: {
-                type: Sequelize.DECIMAL(10, 2),
+                type: Sequelize.DECIMAL(15, 2),
                 allowNull: true
             },
             discount_percentage: {
@@ -82,17 +82,17 @@ module.exports = {
                 type: Sequelize.TEXT,
                 allowNull: true
             },
-            createdAt: {
+            created_at: {
                 allowNull: false,
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
             },
-            updatedAt: {
+            updated_at: {
                 allowNull: false,
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
             },
-            deletedAt: {
+            deleted_at: {
                 type: Sequelize.DATE,
                 allowNull: true
             }

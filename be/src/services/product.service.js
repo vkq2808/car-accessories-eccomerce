@@ -33,7 +33,7 @@ class ProductService {
             }
 
             // Sorting
-            let orderBy = [['createdAt', 'DESC']];
+            let orderBy = [['created_at', 'DESC']];
             if (sort) {
                 switch (sort) {
                     case PRODUCT_SORT_OPTIONS.NAME_ASC:
@@ -49,13 +49,13 @@ class ProductService {
                         orderBy = [['price', 'DESC']];
                         break;
                     case PRODUCT_SORT_OPTIONS.CREATED_ASC:
-                        orderBy = [['createdAt', 'ASC']];
+                        orderBy = [['created_at', 'ASC']];
                         break;
                     case PRODUCT_SORT_OPTIONS.CREATED_DESC:
-                        orderBy = [['createdAt', 'DESC']];
+                        orderBy = [['created_at', 'DESC']];
                         break;
                     default:
-                        orderBy = [['createdAt', 'DESC']];
+                        orderBy = [['created_at', 'DESC']];
                 }
             }
 
@@ -379,7 +379,7 @@ class ProductService {
                     }
                 ],
                 limit: parseInt(limit),
-                order: [['createdAt', 'DESC']]
+                order: [['created_at', 'DESC']]
             });
             return result;
         } catch (error) {
@@ -410,7 +410,7 @@ class ProductService {
                     }
                 ],
                 limit: parseInt(limit),
-                order: [['createdAt', 'DESC']]
+                order: [['created_at', 'DESC']]
             });
             return result;
         } catch (error) {

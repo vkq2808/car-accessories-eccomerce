@@ -10,7 +10,7 @@ const OrderHistory = () => {
 
   useEffect(() => {
     getDataAPI('user/orders').then(res => {
-      setDisplayedOrders(res.data.orders.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)));
+      setDisplayedOrders(res.data.orders.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at)));
     }).catch(err => {
       console.log(err);
     });
@@ -41,7 +41,7 @@ const OrderHistory = () => {
               displayedOrders?.map(order => (
                 <tr key={order.id}>
                   <td className="text-center p-2">{order.id}</td>
-                  <td className="text-center p-2">{new Date(order.createdAt).toLocaleString('vi-VN')}</td>
+                  <td className="text-center p-2">{new Date(order.created_at).toLocaleString('vi-VN')}</td>
                   <td className="text-center p-2">{formatNumberWithCommas(order.total_amount)} {order.currency}</td>
                   <td className="text-center p-2">{order.status}</td>
                   <td className="text-center p-2">
@@ -93,7 +93,7 @@ const ViewOrderDetail = ({ order, setViewOrder, setDisplayedOrders }) => {
         <div className='flex gap-10'>
           <div className='w-1/2'>
             <h3 className="text-lg font-semibold">Order ID: {order.id}</h3>
-            <h4 className="text-md font-semibold">Date: {new Date(order.createdAt).toLocaleString('vi-VN')}</h4>
+            <h4 className="text-md font-semibold">Date: {new Date(order.created_at).toLocaleString('vi-VN')}</h4>
             <h4 className="text-md font-semibold">Total: {formatNumberWithCommas(order.total_amount)} {order.currency}</h4>
             <h4 className="text-md font-semibold flex">Status: <OrderStatusBadge status={order.status} /></h4>
             <h4 className="text-md font-semibold">Payment Method: <OrderMethod method_code={order.payment_method} /></h4>

@@ -45,19 +45,19 @@ module.exports = {
                 defaultValue: 1
             },
             unit_price: {
-                type: Sequelize.DECIMAL(10, 2),
+                type: Sequelize.DECIMAL(15, 2),
                 allowNull: true
             },
             note: {
                 type: Sequelize.TEXT,
                 allowNull: true
             },
-            createdAt: {
+            created_at: {
                 allowNull: false,
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
             },
-            updatedAt: {
+            updated_at: {
                 allowNull: false,
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')

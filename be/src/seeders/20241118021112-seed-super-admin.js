@@ -2,6 +2,7 @@
 
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
+const { USER_ROLES, USER_GENDERS } = require('../constants/enum');
 dotenv.config();
 
 /** @type {import('sequelize-cli').Migration} */
@@ -14,28 +15,29 @@ module.exports = {
         const adminPhone = process.env.ADMIN_PHONE;
         const adminBirth = process.env.ADMIN_BIRTH;
 
-        await queryInterface.bulkInsert('Users', [{
+        await queryInterface.bulkInsert('users', [{
             email: adminEmail,
             hashed_password: adminHashPassword,
             first_name: adminfirst_name,
             last_name: adminlast_name,
-            role: 'SUPER_ADMIN',
+            role: USER_ROLES.SUPER_ADMIN,
             phone: adminPhone,
             birth: new Date(adminBirth),
+            gender: USER_GENDERS.MALE,
             address: 'Đây là địa chỉ admin',
             image_url: "http://localhost:3001/api/v1/file/image/avatar.jpeg",
-            createdAt: new Date(),
-            updatedAt: new Date(),
+            is_active: true,
+            is_active: true,
+            email_verified: true,
+            created_at: new Date(),
+            updated_at: new Date(),
         },
         ], {});
     },
 
     async down(queryInterface, Sequelize) {
-        /**
-         * Add commands to revert seed here.
-         *
-         * Example:
-         * await queryInterface.bulkDelete('People', null, {});
-         */
+        await queryInterface.bulkDelete('users', {
+            email: process.env.ADMIN_EMAIL
+        }, {});
     }
 };

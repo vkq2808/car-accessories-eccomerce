@@ -35,7 +35,7 @@ module.exports = {
                 allowNull: false
             },
             gender: {
-                type: Sequelize.ENUM('MALE', 'FEMALE', 'OTHER'),
+                type: Sequelize.DataTypes.ENUM('MALE', 'FEMALE', 'OTHER'),
                 allowNull: true,
                 defaultValue: 'OTHER'
             },
@@ -44,7 +44,7 @@ module.exports = {
                 allowNull: true
             },
             role: {
-                type: Sequelize.ENUM('NO_ROLE', 'USER', 'EMPLOYEE', 'ADMIN', 'SUPER_ADMIN'),
+                type: Sequelize.DataTypes.ENUM('NO_ROLE', 'USER', 'EMPLOYEE', 'ADMIN', 'SUPER_ADMIN'),
                 allowNull: false,
                 defaultValue: 'USER'
             },
@@ -70,12 +70,12 @@ module.exports = {
                 type: Sequelize.DATE,
                 allowNull: true
             },
-            createdAt: {
+            created_at: {
                 allowNull: false,
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
             },
-            updatedAt: {
+            updated_at: {
                 allowNull: false,
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')

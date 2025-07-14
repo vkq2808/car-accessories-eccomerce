@@ -3,7 +3,8 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    const order_status = ['PENDING', 'DELIVERING', 'FINISHED'];
+    const { ORDER_STATUS } = require('../constants/enum');
+    const order_status = [ORDER_STATUS.PENDING, ORDER_STATUS.SHIPPING, ORDER_STATUS.DELIVERED];
 
     // Hàm để lấy ngày ngẫu nhiên trong 2 tháng vừa qua
     function getRandomDateWithinLastTwoMonths() {
@@ -22,10 +23,9 @@ module.exports = {
     }
 
     let users = await queryInterface.sequelize.query(
-      `SELECT id, role FROM users`,
+      `SELECT id, role FROM users WHERE role = 'USER'`,
       { type: Sequelize.QueryTypes.SELECT }
     );
-
 
     let product_options = await queryInterface.sequelize.query(
       `SELECT p.id, po.id as option_id, po.price, po.stock as po_stock
@@ -33,10 +33,11 @@ module.exports = {
        JOIN product_options po ON po.product_id = p.id`,
       { type: Sequelize.QueryTypes.SELECT }
     );
+
     for (let product of product_options) {
       // Thêm đơn hàng
-      let createdAt = getRandomDateWithinLastTwoMonths();
-      let updatedAt = createdAt;
+      let created_at = getRandomDateWithinLastTwoMonths();
+      let updated_at = created_at;
 
       let curr_p = await queryInterface.sequelize.query(
         `SELECT stock FROM products WHERE id = ${product.id}`,
@@ -48,33 +49,29 @@ module.exports = {
       let null_user = !(getRandomInt(0, 100) > 70);
       let user = null_user ? users[getRandomInt(0, users.length - 1)] : null;
 
-      while (user && user.role !== 'USER') {
-        user = users[getRandomInt(0, users.length - 1)];
-      }
-
       let user_id = user ? user.id : null;
       let statusChance = getRandomInt(0, 100);
       let status = statusChance > 90 ? order_status[0] : statusChance > 70 ? order_status[1] : order_status[2];
 
       if (po_stock > 0) {
-        let result = await queryInterface.bulkInsert('orders', [
+        // Thêm đơn hàng và lấy id từ returning
+        let insertedOrders = await queryInterface.bulkInsert('orders', [
           {
             user_id,
             status,
             currency: 'VND',
             discount: 0,
             total_amount: 0,
-            createdAt: createdAt,
-            updatedAt: updatedAt,
+            created_at: created_at,
+            updated_at: updated_at,
           },
-        ]);
+        ], { returning: true });
 
-        // Lấy ID cuối cùng được chèn
-        let [lastInserted] = await queryInterface.sequelize.query('SELECT LAST_INSERT_ID() as id');
-        let order_id = lastInserted[0].id;
+        let order_id = insertedOrders[0].id;
 
         let max = po_stock > 5 ? 5 : po_stock;
         let order_item_quantity = getRandomInt(1, max);
+
         await queryInterface.bulkInsert('order_items', [
           {
             order_id: order_id,
@@ -83,8 +80,8 @@ module.exports = {
             quantity: order_item_quantity,
             price: product.price,
             currency: 'VND',
-            createdAt: createdAt,
-            updatedAt: updatedAt,
+            created_at: created_at,
+            updated_at: updated_at,
           }
         ], {});
 
@@ -95,6 +92,7 @@ module.exports = {
           {
             id: product.id
           });
+
         await queryInterface.bulkUpdate('product_options',
           {
             stock: po_stock - order_item_quantity
@@ -102,19 +100,21 @@ module.exports = {
           {
             id: product.option_id
           });
-        // Cập nhật tổng tiền
+
         await queryInterface.bulkUpdate('orders',
           {
             total_amount: product.price * order_item_quantity,
-            payment_method: 'cod'
+            payment_method: 'COD'
           },
           {
             id: order_id
           });
+
         console.log('Order created, id:', order_id);
       }
     }
   },
+
 
   async down(queryInterface, Sequelize) {
     await queryInterface.bulkDelete('order_items', null, {});

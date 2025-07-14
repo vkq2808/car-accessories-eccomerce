@@ -28,12 +28,12 @@ module.exports = {
         allowNull: true
       },
       status: {
-        type: Sequelize.ENUM('PENDING', 'PROCESSING', 'SUCCESS', 'FAILED', 'CANCELLED', 'REFUNDED'),
+        type: Sequelize.DataTypes.ENUM('PENDING', 'PROCESSING', 'SUCCESS', 'FAILED', 'CANCELLED', 'REFUNDED'),
         allowNull: false,
         defaultValue: 'PENDING'
       },
       amount: {
-        type: Sequelize.DECIMAL(10, 2),
+        type: Sequelize.DECIMAL(15, 2),
         allowNull: false
       },
       currency: {
@@ -76,7 +76,7 @@ module.exports = {
         allowNull: true
       },
       refund_amount: {
-        type: Sequelize.DECIMAL(10, 2),
+        type: Sequelize.DECIMAL(15, 2),
         allowNull: false,
         defaultValue: 0
       },
@@ -101,12 +101,12 @@ module.exports = {
         allowNull: true,
         defaultValue: {}
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
@@ -123,7 +123,7 @@ module.exports = {
     await queryInterface.addIndex('payments', ['method']);
     await queryInterface.addIndex('payments', ['payment_gateway']);
     await queryInterface.addIndex('payments', ['amount']);
-    await queryInterface.addIndex('payments', ['createdAt']);
+    await queryInterface.addIndex('payments', ['created_at']);
   },
 
   down: async (queryInterface, Sequelize) => {

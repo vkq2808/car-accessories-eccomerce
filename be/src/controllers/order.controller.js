@@ -37,18 +37,18 @@ export default class OrderController {
       let day = 24 * 60 * 60 * 1000;
       let data = await new OrderService().getAll({
         where: {
-          createdAt: {
+          created_at: {
             [Op.gte]: start - 6 * day,
             [Op.lt]: end
           }
         },
         include: [db.payment],
-        attributes: ['total_amount', 'createdAt', 'user_id']
+        attributes: ['total_amount', 'created_at', 'user_id']
       });
 
       let groupedData = data.reduce((acc, order) => {
 
-        let dateKey = new Date(order.createdAt).toISOString().split('T')[0];
+        let dateKey = new Date(order.created_at).toISOString().split('T')[0];
 
         if (!acc[dateKey]) {
           acc[dateKey] = [];
@@ -72,18 +72,18 @@ export default class OrderController {
 
       let data = await new OrderService().getAll({
         where: {
-          createdAt: {
+          created_at: {
             [Op.gte]: start,
             [Op.lt]: end
           }
         },
         include: [db.payment],
-        attributes: ['total_amount', 'createdAt', 'user_id']
+        attributes: ['total_amount', 'created_at', 'user_id']
       });
 
       let groupedData = data.reduce((acc, order) => {
 
-        let dateKey = new Date(order.createdAt).toISOString().split('T')[0];
+        let dateKey = new Date(order.created_at).toISOString().split('T')[0];
 
         if (!acc[dateKey]) {
           acc[dateKey] = [];
@@ -107,18 +107,18 @@ export default class OrderController {
 
       let data = await new OrderService().getAll({
         where: {
-          createdAt: {
+          created_at: {
             [Op.gte]: start,
             [Op.lt]: end
           }
         },
         include: [db.payment],
-        attributes: ['total_amount', 'createdAt', 'user_id']
+        attributes: ['total_amount', 'created_at', 'user_id']
       });
 
       let groupedData = data.reduce((acc, order) => {
 
-        let dateKey = new Date(order.createdAt).toISOString().split('T')[0].slice(0, 7);
+        let dateKey = new Date(order.created_at).toISOString().split('T')[0].slice(0, 7);
 
         if (!acc[dateKey]) {
           acc[dateKey] = [];
@@ -150,18 +150,18 @@ export default class OrderController {
     try {
       let data = await new OrderService().getAll({
         where: {
-          createdAt: {
+          created_at: {
             [Op.gte]: start,
             [Op.lt]: end
           }
         },
         include: [db.payment],
-        attributes: ['total_amount', 'createdAt', 'user_id']
+        attributes: ['total_amount', 'created_at', 'user_id']
       });
 
       let groupedData = data.reduce((acc, order) => {
 
-        let dateKey = new Date(order.createdAt).toISOString().split('T')[0];
+        let dateKey = new Date(order.created_at).toISOString().split('T')[0];
 
         if (!acc[dateKey]) {
           acc[dateKey] = [];

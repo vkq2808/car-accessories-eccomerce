@@ -116,7 +116,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'PENDING'
     },
     amount: {
-      type: DataTypes.DECIMAL(10, 2),
+      type: DataTypes.DECIMAL(15, 2),
       allowNull: false,
       validate: {
         min: {
@@ -181,7 +181,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     refund_amount: {
-      type: DataTypes.DECIMAL(10, 2),
+      type: DataTypes.DECIMAL(15, 2),
       allowNull: true,
       validate: {
         min: {
@@ -203,7 +203,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     fee_amount: {
-      type: DataTypes.DECIMAL(10, 2),
+      type: DataTypes.DECIMAL(15, 2),
       allowNull: false,
       defaultValue: 0,
       validate: {
@@ -214,7 +214,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     net_amount: {
-      type: DataTypes.DECIMAL(10, 2),
+      type: DataTypes.DECIMAL(15, 2),
       allowNull: true,
       validate: {
         min: {

@@ -25,7 +25,7 @@ const RecentOrderTable = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       let res = await getDataAPI('admin/order');
-      let data = res.data.orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 5).map((item) => {
+      let data = res.data.orders.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 5).map((item) => {
         return {
           id: {
             value: item.id,

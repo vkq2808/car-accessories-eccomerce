@@ -74,8 +74,12 @@ Sạc nhanh là tính năng đáng giá đối với xe hơi, khi mà thời gia
         currency: "VND",
         category_id: 1,
         image_url: "http://localhost:3001/api/v1/file/assest/1733186460508.jpeg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        is_active: true,
+        is_featured: true,
+        created_at: new Date(),
+        updated_at: new Date()
 
       }, {
         name: "Dán Phim Cách Nhiệt 3M",
@@ -107,8 +111,12 @@ Phim cách nhiệt 3M do 3M sản xuất, có hai loại chính: 3M crystalline 
         currency: "VND",
         category_id: 2,
         image_url: "https://bacnam.vn/wp-content/uploads/2024/03/Dan-phim-cach-nhiet-3m-kinh-lai-2.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Cách Âm Chống Ồn Xe Ford Territory",
@@ -155,8 +163,10 @@ Ford Territory là dòng xe SUV 7 chỗ với thiết kế hiện đại, tiện
         currency: "VND",
         category_id: 5,
         image_url: "https://tpcar.vn/wp-content/uploads/2022/12/cach-am-chong-on-ford-territory-1.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Cách Âm Chống Ồn Xe BMW Territory",
@@ -202,8 +212,10 @@ Ford Territory là dòng xe SUV 7 chỗ với thiết kế hiện đại, tiện
         currency: "VND",
         category_id: 5,
         image_url: "https://www.phathuyauto.com.vn/image/cache/data/cham-soc-xe-hoi/chong-on-chong-nong/cach-am-chong-on-xe-ford/cach-am-chong-on-ford-territory-800x600.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Body Kits Honda Civic",
@@ -236,8 +248,10 @@ Body Kits là tập hợp của những phụ kiện ngoại thất xe để tha
         currency: "VND",
         category_id: 6,
         image_url: "https://orokingauto.com/wp-content/uploads/2023/05/body-kit-honda-civic-2017-2021-type-r-5.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
 
       {
@@ -317,8 +331,10 @@ Lê Nguyễn Auto cam kết đến quý khách:
         currency: "VND",
         category_id: 3,
         image_url: "https://tinphatdochoioto.com/wp-content/uploads/2021/11/Boc-Ghe-Da-Xe-Nissan-Sunny-1024x768.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Nước Hoa Cho Xe",
@@ -366,8 +382,10 @@ Với mức giá cạnh tranh, bạn có thể tiết kiệm chi phí mà vẫn 
         currency: "VND",
         category_id: 7,
         image_url: "https://mrchailo.com/wp-content/uploads/2024/02/nuoc-hoa-o-to-2.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Bọc Trần Da Lộn Xe Mazda CX-5",
@@ -426,8 +444,10 @@ Tại Lê Nguyễn Auto, chúng tôi là đơn vị cung cấp và trực tiếp
         currency: "VND",
         category_id: 3,
         image_url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSpG_MT8RpELyGfiT5Vpy3TRgXQyHY1Q5pgA&s",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         "name": "Cốp Điện Perfect Car",
@@ -463,8 +483,10 @@ Perfect Car có thể lắp đặt cho nhiều dòng xe với thiết kế zin, 
         currency: "VND",
         category_id: 9,
         image_url: "https://cdn.chungauto.vn/uploads/cop-dien-mitsubishi-xpander/cop-dien-perfect-car-chungauto.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Bi Aozoom Domax & Bi Gầm F Light Audi Q7",
@@ -507,8 +529,10 @@ Bi Aozoom Domax và Bi gầm F Light Audi Q7 đều là các phụ kiện ánh s
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/1_3f9c29aebf1f4007b30a2669a4c47de7_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "BMW X1 2019 - BI GẦM WASP LED FOG LIGHT",
@@ -547,8 +571,10 @@ Bi gầm Wasp Led Fog Light là loại bi đèn sương mù trang bị bóng đ�
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/1_0bbc1fe096304f2b801ea7803730fa18_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "BMW X6 2010 - BI GẦM WASP LED FOG LIGHT",
@@ -578,8 +604,10 @@ Bi gầm Wasp LED Fog Light là một tùy chọn phụ kiện sau-market cho BM
         currency: "VND",
         category_id: 10,
         image_url: "https://file.hstatic.net/200000317829/file/4_950d1b749a874fae8f4ccb4b8aa3a476.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Bộ Đèn Bi Aozoom Cho Xe Honda HRV",
@@ -619,8 +647,10 @@ Sự phát triển không ngừng trong công nghệ ô tô mang lại không ch
         currency: "VND",
         category_id: 10,
         image_url: "https://file.hstatic.net/200000317829/file/3_2eabdb3b886740ea9d092270b3955c8c_1024x1024.png",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Đánh Bóng Chóa Đèn Xe Toyota Innova",
@@ -663,8 +693,10 @@ Chóa đèn xe ô tô trở nên mờ có thể do nhiều nguyên nhân khác n
         currency: "VND",
         category_id: 10,
         image_url: "https://file.hstatic.net/200000317829/file/3_f212bcdbb9ed4788a5cf3315a940dafe_2048x2048.png",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "ĐÈN BI AOZOOM SQUARE V1, V2, V3 CHO VF3",
@@ -732,8 +764,10 @@ Aozoom cung cấp các mẫu đèn bi LED dành riêng cho dòng xe VF3 của Vi
         currency: "VND",
         category_id: 10,
         image_url: "https://file.hstatic.net/200000317829/file/5_2c8b59ae46a343979cde9ac518cbcb1d.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Đèn LED Nội Thất V3 Mazda 6 2023",
@@ -778,8 +812,10 @@ Việc lắp đèn LED nội thất V3 cho xe Mazda 6 2023 không chỉ là mộ
         currency: "VND",
         category_id: 10,
         image_url: "https://file.hstatic.net/200000317829/file/6_acba4311063d47a895a83f0b11ff3dd3_1024x1024.png",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Độ Bi Aozoom Laser Jaguar Xe Outlander",
@@ -819,8 +855,10 @@ Hỗ trợ sau bán hàng: Cung cấp bảo hành và hỗ trợ cho sản phẩ
         currency: "VND",
         category_id: 3,
         image_url: "https://product.hstatic.net/200000317829/product/2_3ecdaa8000d648c4a7ae0d901e29edc9_master.png",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Độ Bi Aozoom Laser Thor Xe Ford Everest",
@@ -871,8 +909,10 @@ Khi ánh sáng từ đèn xe phản chiếu trên con đường phía trước, 
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_d51ea27f5f5744debfb2d6afca592ea8_master.png",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Độ Bi Gầm 3 Chế Độ Cho Xe Chevrolet Cruze",
@@ -901,8 +941,10 @@ Với việc đảm bảo những tiêu chí an toàn kể trên, chủ xe hoàn
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_671ed86831c24ecd8ed0b987349d75f5_master.png",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Độ Đèn Bi Aozoo Thor Xe Kia Sportage 2023",
@@ -960,8 +1002,10 @@ Việc độ đèn bi Aozoo Thor cho Kia Sportage 2023 mang đến nhiều lợi
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/3_cba59933c82f4806a92ccb13da9df2fc_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Độ Đèn Bi Aozoom Laser Iron Xe Hyundai Santafe",
@@ -998,8 +1042,10 @@ Hãy cùng Lê Nguyễn Auto khám phá những ưu điểm không thể bỏ qu
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/3_dc9f27e3fb86417f87f189055a37817b_master.png",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Độ Đèn Bi Aozoom Laser Jaguar Cho Xe Chevrolet Colorado",
@@ -1037,8 +1083,10 @@ Hãy cùng Lê Nguyễn Auto khám phá những ưu điểm không thể bỏ qu
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_f11625f80df946e2a29baa6b5aee89e8_master.png",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Độ Đèn Bi Laser Aozoom Vinfast Lux SA2.0",
@@ -1095,8 +1143,10 @@ Thời gian lắp đặt phụ thuộc vào độ khó của từng dòng xe và
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_6df44d147e084f2384868b0f61331377_master.png",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "ĐỘ ĐÈN BI XE Ô TÔ AOZOOM",
@@ -1153,8 +1203,10 @@ Hiện nay, đèn xenon Aozoom ngày càng được ưa chuộng nên dẫn đ�
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/3_dc4f79ffeb094e97a8dbdbaf90e48075_master.png",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
 
       {
@@ -1264,8 +1316,10 @@ Nếu mua tìm sản phẩm đáp ứng yêu cầu thẩm mỹ sang trọng, mà
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_885c848345ce4293a8ca68f50f629807_master.png",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "ĐỘ ĐÈN TĂNG SÁNG BI LASER AOZOOM DOMAX OMERA VÀ LASER THOR XE FORD TERRITORY",
@@ -1300,8 +1354,10 @@ Bạn đang sở hữu một chiếc Ford Territory và muốn nâng cấp hệ 
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_d62f219e27564eafa9de4daae14ba2e6_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Độ Đèn Tăng Sáng Cho Xe Hyundai Custin",
@@ -1351,8 +1407,10 @@ Khi nói đến độ đèn tăng sáng cho xe Hyundai Custin, không chỉ là 
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_36e0e65c51ed4151b0829586356a2c11_master.png",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Độ Đèn Tăng Sáng Xpander Cross",
@@ -1389,8 +1447,10 @@ Xpander Cross là mẫu xe 7 chỗ cỡ nhỏ của hãng Mitsubishi Motors, thu
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_c4981dd256774c5085455f6a9e4093b7_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "FORD RANGER 2023 - BI LASER OMEGA",
@@ -1435,8 +1495,10 @@ Bi Laser Omega là sản phẩm đèn pha thế hệ mới được thiết kế
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_5d78d03792a8453db3f5e177a73082f5_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "FORD TERRITORY 2024 - BI LED X-LED PRO DOMAX NEW ARRIVAL & BI LASER THOR",
@@ -1511,8 +1573,10 @@ Lắp đặt và sử dụng Bi LED X-LED Pro Domax và Bi Laser Thor trên Ford
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/13_afa13a192ac7405da73245674d5a325d_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "HONDA CIVIC 2006 - BI LED LEO LIGHT & BI GẦM WASP LED FOG LIGHT",
@@ -1583,8 +1647,10 @@ Quy trình cơ bản để lắp đặt bi LED Leo Light và bi gầm WASP LED F
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/10_646451984c814646b00dc82578e56eec_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "HONDA CIVIC 2024 ĐỘ ĐEN BI AOZOOM BI LED LASER THOR VÀ CAP",
@@ -1629,8 +1695,10 @@ Sau khi lắp đặt đèn, bước cuối cùng là cân chỉnh lại góc chi
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_39d0537019fb4acf91a3f6b6fb8bacea_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "HONDA CR-V BI GẦM WASP AOZOOM",
@@ -1688,8 +1756,10 @@ Người dùng đánh giá cao khả năng chiếu sáng vượt trội, tuổi 
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_61c986fdf943447180310b2943fb4ac4_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "HONDA HR-V 2023 BI LASER THOR",
@@ -1740,8 +1810,10 @@ Hệ thống đèn pha LED Bi Laser Thor là một điểm nhấn ấn tượng 
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/3_5220bc50989d4410bc9dbe26d47342a8_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "HUYNDAI CRETA LÊN BI LED",
@@ -1777,8 +1849,10 @@ Lắp đặt bi LED cho Hyundai Creta mang đến nhiều ưu điểm vượt tr
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_4e589de561bc4ef2b92748ff320d16ed_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "HYUNDAI CUSTIN - BI GẦM WASP LED FOG LIGHT",
@@ -1815,8 +1889,10 @@ Hyundai Custin là một mẫu xe thương mại được ưa chuộng bởi nhi
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_e2e81551d3a849fab231d8f40fc87ff4_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "HYUNDAI ELANTRA 2018 - BI LASER IRON LIGHT",
@@ -1849,8 +1925,10 @@ Bi Laser Iron Light là một bước tiến mới trong lĩnh vực công ngh�
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_f5d1a2795f7940648980f56c8772a646_master.png",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "HYUNDAI PALISADE 2024 - BI LASER THOR Aozoom",
@@ -1913,8 +1991,10 @@ Việc lắp đặt đèn bi laser Thor Aozoom trên Hyundai Palisade 2024 rất
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_0ddf37d083c54b0e9e48dbe09ae02bbf_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "KIA CARNIVAL - BI GẦM WASP LED FOG LIGHT",
@@ -1960,8 +2040,10 @@ Bi gầm WASP LED Fog Light không chỉ mang đến hiệu suất chiếu sáng
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/3_879cfd38a2ea4d3eb469e959c848faf9_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "KIA SORENTO 2018 - BI LASER OMEGA",
@@ -2005,8 +2087,10 @@ Dưới đây là những ưu điểm nổi bật của bi Laser Omega:
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_97ae994fbb2948f281bf02559ff8029e_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Lắp Đèn X-LIGHT F10 Cho Xe HONDA",
@@ -2046,8 +2130,10 @@ Quy trình này đảm bảo rằng việc lắp đặt đèn X-Light F10 cho xe
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/3_4e48968cc59545cd9284a98b091780c3_master.png",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "LED Nội Thất Xe Innova 18 Bóng Phát Sáng",
@@ -2084,8 +2170,10 @@ Phụ kiện có rất nhiều kiểu dáng và màu sắc khác nhau để phù
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_fc35673cf43d4919b62aa467bd0e9dac_master.png",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Mazda 3 2023 - Bi Laser Aozoom",
@@ -2146,8 +2234,10 @@ Việc trang bị Bi Laser Aozoom cho Mazda 3 2023 mang đến nhiều lợi íc
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_673894964ded4b628aa12e4523294851_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Mazda CX-5 2024 - Bi Laser Omega Domax & Bi Laser Thor",
@@ -2210,8 +2300,10 @@ Trong khía cạnh vận hành, Mazda CX-5 2024 được trang bị động cơ 
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_54cf9d22828f4544a09f26a68fa5bcd6_master.png",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Mercedes S550 Độ Đèn Tăng Sáng Bi Aozoom",
@@ -2263,8 +2355,10 @@ Bi Laser Aozoom là công nghệ tiên tiến được đánh giá cao trong lĩ
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_23dd110185894ea38a2a2c5677ade4ee_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Nissan Kicks 2024 - Bi Gầm Wasp LED Fog Light",
@@ -2301,8 +2395,10 @@ Công nghệ Bi Gầm Wasp LED Fog Light là một tiên tiến trong lĩnh vự
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_786bc8362264452fb27def0e18019301_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "VF3 Độ Đèn Tăng Sáng Bi Aozoom Squere V2",
@@ -2340,8 +2436,10 @@ Các bước độ đèn tăng sáng VF3 bao gồm:
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_40e51c9f746b4d208fd23533e4c7d590_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "VF9 Độ Bi AOZOOM DOMAX",
@@ -2378,8 +2476,10 @@ VinFast VF9 là mẫu SUV điện cỡ E sang trọng được trang bị hệ t
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_376553a119de45bf85ddd007668d194e_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "VinFast VF3 Độ Đèn Square V1",
@@ -2427,8 +2527,10 @@ Khi lựa chọn độ đèn Square V1 cho VinFast VF3, người dùng sẽ có 
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_90be6732fdfd4d9d8deaad9828192678_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "VinFast VF9 - Bi Laser Omega",
@@ -2466,8 +2568,10 @@ Nâng cấp đèn chiếu sáng trên ô tô lên một hệ thống hiệu qu�
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_42b68441f62c46a7bf4c60240ebf119f_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Ford Ranger - Độ Bi Aozoom XLED Pro Domax với LED Mí và LED Xi Nhan",
@@ -2494,8 +2598,10 @@ Việc nâng cấp hệ thống đèn ô tô bằng các sản phẩm chất lư
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_04348c90c8d2478ea900465b56fd3832_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Chevrolet Trailblazer - Độ Đèn Bi Tăng Sáng Aozoom Domax XLED Pro",
@@ -2543,8 +2649,10 @@ Việc độ đèn bi tăng sáng cho xe Trailblazer mang lại nhiều lợi í
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_d56dc8e4b99e4394bebdd76425d7011e_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Xpander - Lắp Bi Xenon Aozoom Thor",
@@ -2591,8 +2699,10 @@ Bi Aozoom Thor là một sản phẩm mới của thương hiệu Aozoom, đư�
         currency: "VND",
         category_id: 10,
         image_url: "https://product.hstatic.net/200000317829/product/2_c2af34a6a47f479cabe717a77b0e8c4e_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "BMW - Phủ Ceramic Kubebon Bảo Vệ Sơn",
@@ -2637,8 +2747,10 @@ Sở hữu một chiếc xe BMW luôn là niềm tự hào của mỗi chủ nh�
         currency: "VND",
         category_id: 8,
         image_url: "https://product.hstatic.net/200000317829/product/2_aff8535cf9564cdc884924cb90591de1_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Có Nên Phủ Ceramic Sơn Xe KIA Sedona",
@@ -2676,8 +2788,10 @@ Phủ ceramic cho xe Kia Sedona là dịch vụ bảo vệ và làm đẹp bề 
         currency: "VND",
         category_id: 8,
         image_url: "https://product.hstatic.net/200000317829/product/2_6141eea8867f425eafef4b8d4b0bcac0_master.png",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Phủ Ceramic",
@@ -2715,8 +2829,10 @@ Phủ ceramic xe ô tô là một quá trình chăm sóc và bảo vệ bề m�
         currency: "VND",
         category_id: 8,
         image_url: "https://product.hstatic.net/200000317829/product/2_6b4c5dbf64424ec4b3f2a452cc78ec32_master.png",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Phủ Ceramic Audi A5",
@@ -2753,8 +2869,10 @@ Phủ ceramic xe ô tô là một quá trình chăm sóc và bảo vệ bề m�
         currency: "VND",
         category_id: 8,
         image_url: "https://product.hstatic.net/200000317829/product/2_38cd06a7c00e4daea74903e594a35934_master.png",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "Phủ Ceramic Cho Xe Chevrolet Cruze",
@@ -2793,8 +2911,10 @@ Chọn dịch vụ có thương hiệu uy tín, chi phí hợp lý và tay ngh�
         currency: "VND",
         category_id: 8,
         image_url: "https://product.hstatic.net/200000317829/product/khong_co_tieu_de__bai_dang_facebook___1__77cf30f1b8ea47819b59ca9da159ecdc_master.jpg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: "3M Crystalline | Phim Cách Nhiệt 3M Chính Hãng",
@@ -2851,8 +2971,10 @@ Phim cách nhiệt có các mã tối màu có khả năng chống nhìn từ ng
         currency: "VND",
         category_id: 2,
         image_url: "http://localhost:3001/api/v1/file/assest/1733186344578.jpeg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
 
       },
       {
@@ -2922,8 +3044,10 @@ Sử dụng phim cách nhiệt kém chất lượng đem lại nhiều hậu qu�
         currency: "VND",
         category_id: 2,
         image_url: "http://localhost:3001/api/v1/file/assest/1733188009652.jpeg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
 
       },
       {
@@ -3011,8 +3135,10 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         currency: "VND",
         category_id: 1,
         image_url: "http://localhost:3001/api/v1/file/assest/1733186602303.jpeg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
 
       },
       {
@@ -3100,8 +3226,10 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         currency: "VND",
         category_id: 1,
         image_url: "http://localhost:3001/api/v1/file/assest/1733187057739.jpeg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
 
       },
       {
@@ -3179,8 +3307,10 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         currency: "VND",
         category_id: 1,
         image_url: "http://localhost:3001/api/v1/file/assest/1733187291609.jpeg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
 
       },
       {
@@ -3258,8 +3388,10 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         currency: "VND",
         category_id: 1,
         image_url: "http://localhost:3001/api/v1/file/assest/1733187363279.jpeg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
 
       },
       {
@@ -3337,8 +3469,10 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         currency: "VND",
         category_id: 1,
         image_url: "Màn Hình Gotech GT 2K 360 | Màn Hình DVD Android Ô Tô",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
 
       },
       {
@@ -3404,8 +3538,10 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         currency: "VND",
         category_id: 1,
         image_url: "http://localhost:3001/api/v1/file/assest/1733187718500.jpeg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
 
       },
       {
@@ -3471,8 +3607,10 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         currency: "VND",
         category_id: 1,
         image_url: "http://localhost:3001/api/v1/file/assest/1733187816574.jpeg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
 
       },
       {
@@ -3538,8 +3676,10 @@ Qua đó, hỗ trợ người dùng tìm kiếm lộ trình di chuyển nhanh ch
         currency: "VND",
         category_id: 1,
         image_url: "http://localhost:3001/api/v1/file/assest/1733187847816.jpeg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
 
       },
       {
@@ -3595,8 +3735,10 @@ Với 72 sắc màu thời thượng trên màn hình, cho bạn tự do thay đ
         currency: "VND",
         category_id: 1,
         image_url: "http://localhost:3001/api/v1/file/assest/1733188009652.jpeg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
 
       },
       {
@@ -3652,8 +3794,10 @@ Với 72 sắc màu thời thượng trên màn hình, cho bạn tự do thay đ
         currency: "VND",
         category_id: 1,
         image_url: "http://localhost:3001/api/v1/file/assest/1733188009652.jpeg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
 
       },
       {
@@ -3709,8 +3853,10 @@ Với 72 sắc màu thời thượng trên màn hình, cho bạn tự do thay đ
         currency: "VND",
         category_id: 1,
         image_url: "http://localhost:3001/api/v1/file/assest/1733188009652.jpeg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
 
       },
       {
@@ -3766,8 +3912,10 @@ Với 72 sắc màu thời thượng trên màn hình, cho bạn tự do thay đ
         currency: "VND",
         category_id: 1,
         image_url: "http://localhost:3001/api/v1/file/assest/1733188009652.jpeg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
 
       },
       {
@@ -3823,8 +3971,10 @@ Với 72 sắc màu thời thượng trên màn hình, cho bạn tự do thay đ
         currency: "VND",
         category_id: 1,
         image_url: "http://localhost:3001/api/v1/file/assest/1733188009652.jpeg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
 
       },
       {
@@ -3876,8 +4026,10 @@ Với 72 sắc màu thời thượng trên màn hình, cho bạn tự do thay đ
         currency: "VND",
         category_id: 1,
         image_url: "http://localhost:3001/api/v1/file/assest/1733188009652.jpeg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
 
       },
       {
@@ -3921,8 +4073,10 @@ Cuối cùng tiến hành kích hoạt bảo hành, hướng dẫn khách sử d
         currency: "VND",
         category_id: 1,
         image_url: "http://localhost:3001/api/v1/file/assest/1733188009652.jpeg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
 
       },
       {
@@ -3959,8 +4113,10 @@ Phạt nguội là vấn đề nóng hiện nay, đặc biệt khi nhiều ngư�
         currency: "VND",
         category_id: 1,
         image_url: "http://localhost:3001/api/v1/file/assest/1733188009652.jpeg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
 
       },
       {
@@ -4013,8 +4169,10 @@ Màn hình ô tô Zestech có khả năng kết nối và hiển thị các thi�
         currency: "VND",
         category_id: 1,
         image_url: "http://localhost:3001/api/v1/file/assest/1733188009652.jpeg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
 
       },
       {
@@ -4066,8 +4224,10 @@ ICAR Calendar còn được tích hợp lịch âm của người Việt. Ví d�
         currency: "VND",
         category_id: 1,
         image_url: "http://localhost:3001/api/v1/file/assest/1733188009652.jpeg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
 
       },
       {
@@ -4112,8 +4272,10 @@ Thông qua ứng dụng Zestech Tracking bạn có thể biết được chính 
         currency: "VND",
         category_id: 1,
         image_url: "http://localhost:3001/api/v1/file/assest/1733188009652.jpeg",
-        createdAt: new Date(),
-        updatedAt: new Date()
+        is_active: true,
+        is_featured: false,
+        created_at: new Date(),
+        updated_at: new Date()
 
       },
     ];
@@ -4122,11 +4284,6 @@ Thông qua ứng dụng Zestech Tracking bạn có thể biết được chính 
     }
   },
   async down(queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+    await queryInterface.bulkDelete('products', null, {});
   }
 };

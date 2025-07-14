@@ -9,13 +9,13 @@ module.exports = {
         host: process.env.DB_HOST || '127.0.0.1',
         port: process.env.DB_PORT || 5432,
         dialect: process.env.DB_DIALECT || 'postgres',
-        logging: console.log,
-        pool: {
-            max: 20,
-            min: 0,
-            acquire: 30000,
-            idle: 10000
-        }
+        // logging: console.log,
+        // pool: {
+        //     max: 20,
+        //     min: 0,
+        //     acquire: 30000,
+        //     idle: 10000
+        // }
     },
     test: {
         username: process.env.DB_USER || 'root',

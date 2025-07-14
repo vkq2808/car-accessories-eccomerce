@@ -115,7 +115,7 @@ export default class PaymentService {
             attributes: ['id', 'order_number', 'status', 'total_amount']
           }
         ],
-        order: options.order || [['createdAt', 'DESC']]
+        order: options.order || [['created_at', 'DESC']]
       });
       return result;
     } catch (error) {
@@ -168,7 +168,7 @@ export default class PaymentService {
             attributes: ['id', 'order_number', 'status', 'total_amount']
           }
         ],
-        order: options.order || [['createdAt', 'DESC']]
+        order: options.order || [['created_at', 'DESC']]
       });
       return { rows, count };
     } catch (error) {
@@ -214,7 +214,7 @@ export default class PaymentService {
           order_id: order_id,
           deleted_at: null
         },
-        order: [['createdAt', 'DESC']]
+        order: [['created_at', 'DESC']]
       });
       return result;
     } catch (error) {
@@ -294,7 +294,7 @@ export default class PaymentService {
             attributes: ['id', 'order_number', 'status', 'total_amount']
           }
         ],
-        order: [['createdAt', 'DESC']],
+        order: [['created_at', 'DESC']],
         ...options
       });
       return result;
@@ -319,7 +319,7 @@ export default class PaymentService {
             attributes: ['id', 'order_number', 'status', 'total_amount']
           }
         ],
-        order: [['createdAt', 'DESC']],
+        order: [['created_at', 'DESC']],
         ...options
       });
       return result;

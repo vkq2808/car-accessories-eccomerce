@@ -165,7 +165,7 @@ export default class OrderService {
             attributes: ['id', 'first_name', 'last_name', 'email', 'phone']
           }
         ],
-        order: options.order || [['createdAt', 'DESC']]
+        order: options.order || [['created_at', 'DESC']]
       });
       return result;
     } catch (error) {
@@ -240,7 +240,7 @@ export default class OrderService {
             attributes: ['id', 'first_name', 'last_name', 'email', 'phone']
           }
         ],
-        order: options.order || [['createdAt', 'DESC']]
+        order: options.order || [['created_at', 'DESC']]
       });
       return { rows, count };
     } catch (error) {
@@ -332,7 +332,7 @@ export default class OrderService {
             required: false
           }
         ],
-        order: [['createdAt', 'DESC']],
+        order: [['created_at', 'DESC']],
         ...options
       });
       return result;
@@ -426,7 +426,7 @@ export default class OrderService {
             attributes: ['id', 'first_name', 'last_name', 'email', 'phone']
           }
         ],
-        order: [['createdAt', 'DESC']],
+        order: [['created_at', 'DESC']],
         ...options
       });
       return result;

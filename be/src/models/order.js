@@ -126,7 +126,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'PENDING'
     },
     total_amount: {
-      type: DataTypes.DECIMAL(10, 2),
+      type: DataTypes.DECIMAL(15, 2),
       allowNull: false,
       defaultValue: 0,
       validate: {
@@ -137,7 +137,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     subtotal: {
-      type: DataTypes.DECIMAL(10, 2),
+      type: DataTypes.DECIMAL(15, 2),
       allowNull: false,
       defaultValue: 0,
       validate: {
@@ -159,7 +159,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     discount: {
-      type: DataTypes.DECIMAL(10, 2),
+      type: DataTypes.DECIMAL(15, 2),
       allowNull: false,
       defaultValue: 0,
       validate: {
@@ -170,7 +170,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     tax_amount: {
-      type: DataTypes.DECIMAL(10, 2),
+      type: DataTypes.DECIMAL(15, 2),
       allowNull: false,
       defaultValue: 0,
       validate: {
@@ -181,7 +181,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     shipping_fee: {
-      type: DataTypes.DECIMAL(10, 2),
+      type: DataTypes.DECIMAL(15, 2),
       allowNull: false,
       defaultValue: 0,
       validate: {
@@ -276,7 +276,7 @@ module.exports = (sequelize, DataTypes) => {
         fields: ['total_amount']
       },
       {
-        fields: ['createdAt']
+        fields: ['created_at']
       }
     ],
     hooks: {

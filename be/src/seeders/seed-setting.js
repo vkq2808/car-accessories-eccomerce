@@ -5,7 +5,8 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     let settings = [
       {
-        key: 'policies', value: JSON.stringify([
+        key: 'policies',
+        value: JSON.stringify([
           {
             image_url: "http://localhost:3001/api/v1/file/assest/policy_1.webp",
             title: "Tư Vấn Miễn Phí",
@@ -23,10 +24,12 @@ module.exports = {
             title: "Thanh Toán An Toàn",
             content: "Chính sách hậu mãi uy tín"
           }
-        ])
+        ]),
+        is_active: true
       },
       {
-        key: 'promotions', value: JSON.stringify([
+        key: 'promotions',
+        value: JSON.stringify([
           {
             image_url: "http://localhost:3001/api/v1/file/assest/promotion1.png",
             link: '/search/q?category_id=-1'
@@ -39,17 +42,19 @@ module.exports = {
             image_url: "http://localhost:3001/api/v1/file/assest/promotion3.png",
             link: '/search/q?category_id=-1'
           },
-        ])
+        ]),
+        is_active: true
       },
     ];
 
     await queryInterface.bulkInsert('settings', settings.map(setting => ({
       ...setting,
-      createdAt: new Date(),
-      updatedAt: new Date()
+      created_at: new Date(),
+      updated_at: new Date()
     })), {});
   },
 
   async down(queryInterface, Sequelize) {
+    await queryInterface.bulkDelete('settings', null, {});
   }
 };

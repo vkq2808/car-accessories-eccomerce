@@ -34,17 +34,17 @@ module.exports = {
         allowNull: true
       },
       event_type: {
-        type: Sequelize.ENUM('MEETING', 'CONFERENCE', 'WORKSHOP', 'TRAINING', 'SOCIAL', 'MAINTENANCE', 'PROMOTION', 'OTHER'),
+        type: Sequelize.DataTypes.ENUM('MEETING', 'CONFERENCE', 'WORKSHOP', 'TRAINING', 'SOCIAL', 'MAINTENANCE', 'PROMOTION', 'OTHER'),
         allowNull: false,
         defaultValue: 'OTHER'
       },
       status: {
-        type: Sequelize.ENUM('DRAFT', 'PUBLISHED', 'CANCELLED', 'COMPLETED'),
+        type: Sequelize.DataTypes.ENUM('DRAFT', 'PUBLISHED', 'CANCELLED', 'COMPLETED'),
         allowNull: false,
         defaultValue: 'DRAFT'
       },
       visibility: {
-        type: Sequelize.ENUM('PUBLIC', 'PRIVATE', 'INTERNAL'),
+        type: Sequelize.DataTypes.ENUM('PUBLIC', 'PRIVATE', 'INTERNAL'),
         allowNull: false,
         defaultValue: 'PUBLIC'
       },
@@ -116,12 +116,12 @@ module.exports = {
           intervals: [24, 2]
         }
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')

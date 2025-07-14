@@ -5,7 +5,10 @@ const db = require('../models');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    let products = await queryInterface.select(db.product, 'products', ['id']);
+    let products = await queryInterface.sequelize.query(
+      'SELECT id, price, stock FROM products;',
+      { type: Sequelize.QueryTypes.SELECT }
+    );
 
     for (let product of products) {
       let remaining_stock = product.stock;
@@ -14,45 +17,65 @@ module.exports = {
         {
           name: 'Default',
           price: product.price,
+          stock: Math.floor(remaining_stock * 0.3),
           product_id: product.id,
-          createdAt: new Date(),
-          updatedAt: new Date()
+          is_active: true,
+          created_at: new Date(),
+          updated_at: new Date()
         },
         {
           name: 'Size S',
+          price: product.price,
+          stock: Math.floor(remaining_stock * 0.2),
           product_id: product.id,
-          createdAt: new Date(),
-          updatedAt: new Date()
+          is_active: true,
+          created_at: new Date(),
+          updated_at: new Date()
         },
         {
           name: 'Size M',
+          price: product.price + 50000,
+          stock: Math.floor(remaining_stock * 0.25),
           product_id: product.id,
-          createdAt: new Date(),
-          updatedAt: new Date()
+          is_active: true,
+          created_at: new Date(),
+          updated_at: new Date()
         },
         {
           name: 'Size L',
+          price: product.price + 100000,
+          stock: Math.floor(remaining_stock * 0.15),
           product_id: product.id,
-          createdAt: new Date(),
-          updatedAt: new Date()
+          is_active: true,
+          created_at: new Date(),
+          updated_at: new Date()
         },
         {
           name: 'Color Red',
+          price: product.price,
+          stock: Math.floor(remaining_stock * 0.05),
           product_id: product.id,
-          createdAt: new Date(),
-          updatedAt: new Date()
+          is_active: true,
+          created_at: new Date(),
+          updated_at: new Date()
         },
         {
           name: 'Color Blue',
+          price: product.price,
+          stock: Math.floor(remaining_stock * 0.05),
           product_id: product.id,
-          createdAt: new Date(),
-          updatedAt: new Date()
+          is_active: true,
+          created_at: new Date(),
+          updated_at: new Date()
         },
         {
           name: 'Color Green',
+          price: product.price,
+          stock: Math.floor(remaining_stock * 0.05),
           product_id: product.id,
-          createdAt: new Date(),
-          updatedAt: new Date()
+          is_active: true,
+          created_at: new Date(),
+          updated_at: new Date()
         }
       ];
 
@@ -78,6 +101,9 @@ module.exports = {
         let product_option = product_options[random_product_option_index];
         product_option.stock = stock;
         product_option.price = product.price + Math.floor((Math.random() / 3 * product.price) / 100000) * 100000;
+        product_option.is_active = true;
+        product_option.created_at = new Date();
+        product_option.updated_at = new Date();
         inserting_product_options.push(product_option);
         product_options = product_options.filter((_, index) => index !== random_product_option_index);
       }
@@ -87,6 +113,10 @@ module.exports = {
         let product_option = product_options[random_product_option_index];
         product_option.stock = remaining_stock;
         product_option.price = product.price + Math.floor((Math.random() / 3 * product.price) / 100000) * 100000;
+        product_option.is_active = true;
+        product_option.created_at = new Date();
+        product_option.updated_at = new Date();
+        product_option.price = product.price + Math.floor((Math.random() / 3 * product.price) / 100000) * 100000;
         inserting_product_options.push(product_option);
       }
       await queryInterface.bulkInsert('product_options', inserting_product_options, {});
@@ -94,11 +124,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+    await queryInterface.bulkDelete('product_options', null, {});
   }
 };
