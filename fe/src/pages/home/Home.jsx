@@ -49,7 +49,6 @@ const NewHome = () => {
     const fetchPromotions = async () => {
       try {
         const response = await getDataAPI('public/get-promotions');
-        console.log(response.data);
         setPromotions(response.data.promotions);
       } catch (err) {
         console.log(err);
