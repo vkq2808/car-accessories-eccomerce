@@ -7,7 +7,6 @@ import { postDataAPI, putDataAPI } from "../../utils/fetchData";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 import OrderHistory from "./OrderHistory";
 import { getUserInfo } from "../../redux/actions/authActions";
-import { imgSrc } from "../../utils/imageSrc";
 
 const UserProfile = () => {
     const [isEditing, setIsEditing] = useState(false);
@@ -198,7 +197,7 @@ const UserProfile = () => {
                     <div className="absolute -top-16 left-1/2 transform -translate-x-1/2">
                         <div className="relative group">
                             <img
-                                src={imgSrc(userData.image_url)}
+                                src={userData.image_url}
                                 alt="Profile"
                                 className="w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover"
                                 onError={(e) => {
