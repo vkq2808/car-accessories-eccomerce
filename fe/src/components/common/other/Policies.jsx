@@ -1,4 +1,4 @@
-
+import { imgSrc } from '../../../utils/imgSrc';
 const Policies = ({ policies }) => {
 
   return (

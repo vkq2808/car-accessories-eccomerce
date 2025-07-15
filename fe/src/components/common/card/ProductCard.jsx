@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
 import { formatNumberWithCommas, maximizeString } from "../../../utils/stringUtils";
 import { useNavigate } from "react-router-dom";
+import { imgSrc } from "../../../utils/imgSrc";
 
 const ProductCard = ({ product, className, ...props }) => {
   const navigate = useNavigate();

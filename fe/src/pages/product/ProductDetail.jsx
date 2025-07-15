@@ -10,6 +10,7 @@ import { getEmptyOrder, ORDER_ACTION_TYPES } from "../../redux/actions/orderActi
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { CustomMarkdown } from "../../components";
+import { imgSrc } from "../../utils/imgSrc";
 
 const follwedProductStyle = "text-[#ff0000] hover:text-[#ff0000]"
 const notFollwedProductStyle = "text-inherit hover:text-[#ff0000]"

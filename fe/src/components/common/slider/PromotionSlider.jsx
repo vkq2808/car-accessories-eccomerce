@@ -1,5 +1,10 @@
 import { Autoplay, EffectFade, Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/effect-fade";
+import { imgSrc } from "../../../utils/imgSrc";
 
 const PromotionSlider = ({ promotions, handleNavigate }) => {
 
