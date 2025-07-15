@@ -7,6 +7,7 @@ import { postDataAPI, putDataAPI } from "../../utils/fetchData";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 import OrderHistory from "./OrderHistory";
 import { getUserInfo } from "../../redux/actions/authActions";
+import { imgSrc } from "../../utils/imageSrc";
 
 const UserProfile = () => {
     const [isEditing, setIsEditing] = useState(false);
@@ -125,7 +126,6 @@ const UserProfile = () => {
                     }
                 } else {
                     const data = { ...userData, id: auth.user.id };
-                    console.log(data);
                     const res = await putDataAPI("user/update-info", data, auth.token);
                     if (res.status === 200) {
                         dispatch({ type: GLOBALTYPES.SUCCESS_ALERT, payload: "You updated your profile successfully" });
@@ -198,7 +198,7 @@ const UserProfile = () => {
                     <div className="absolute -top-16 left-1/2 transform -translate-x-1/2">
                         <div className="relative group">
                             <img
-                                src={userData.image_url}
+                                src={imgSrc(userData.image_url)}
                                 alt="Profile"
                                 className="w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover"
                                 onError={(e) => {

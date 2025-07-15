@@ -132,7 +132,7 @@ const ProductDetail = () => {
                         (<div className="flex w-full md:w-[80%] bg-[--primary-background-color] text-[--primary-text-color] pb-10">
                             <div className="flex flex-col w-full">
                                 <div className="flex flex-col w-full py-4 md:flex-row justify-between">
-                                    <img className="w-full md:w-[40%] md:max-h-[300px] object-contain p-2 hover:scale-110 transition-all" src={product?.image_url} alt={product?.name} />
+                                    <img className="w-full md:w-[40%] md:max-h-[300px] object-contain p-2 hover:scale-110 transition-all" src={imgSrc(product?.image_url)} alt={product?.name} />
                                     <div className="flex flex-col p-2 md:w-[40%]">
                                         <h2 className="select-all">{product?.name}</h2>
                                         <h4 className="text-[--color-red] mb-4">{formatNumberWithCommas(product?.price)} {product?.currency}</h4>
