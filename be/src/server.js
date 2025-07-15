@@ -19,9 +19,10 @@ const startServer = async () => {
 
         // config cors
         app.use(cors({
-            origin: process.env.CLIENT_URL,
+            origin: [process.env.CLIENT_URL, 'https://car-accessories-eccomerce-production.up.railway.app', 'http://localhost:3000'],
             credentials: true,
         }));
+
 
         // Cấu hình ứng dụng
         app.use(bodyParser.json());
