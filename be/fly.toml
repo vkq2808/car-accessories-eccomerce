@@ -1,9 +1,6 @@
 app = "car-part-ecommerce"
 primary_region = "sin"
 
-[build]
-  builtin = "nodejs"
-
 [env]
   PORT = "8080"
   NODE_ENV = "production"
