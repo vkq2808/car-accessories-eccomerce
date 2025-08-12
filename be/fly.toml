@@ -29,9 +29,6 @@ primary_region = "sin"
   guest_path = "/app/public"
   url_prefix = "/static/"
 
-[processes]
-  web = "npm start"
-
 [scaling]
   min_machines = 0
   max_machines = 10
