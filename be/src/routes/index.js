@@ -39,4 +39,12 @@ export const applyAllRoutes = (app) => {
     applyFileRoutes(app);
     publicAPIRoute(app);
     applyTaskRoute(app);
+
+    app.get('/', (req, res) => {
+        res.send('Welcome to the Car Accessories E-commerce API');
+    });
+
+    app.get('/health', (req, res) => {
+        res.status(200).send('OK');
+    });
 }
