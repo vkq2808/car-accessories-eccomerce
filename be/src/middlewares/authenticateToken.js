@@ -3,10 +3,10 @@ import { account_roles } from '../constants/constants';
 
 const authenticateToken = (req, res, next) => {
     console.log(req.method, req.path);
-    const openRoutes = ['/auth', '/product', '/category', '/order', '/file', '/public'];
+    const openRoutes = ['/auth', '/product', '/category', '/order', '/file', '/public', '/health'];
     const adminRoutes = ['/admin'];
     // Kiểm tra nếu route không cần token thì cho qua
-    if (openRoutes.some(route => req.path.includes('/api/v1' + route))) {
+    if (openRoutes.some(route => req.path.includes('/api/v1' + route)) || req.path === '/') {
         return next();
     }
 
