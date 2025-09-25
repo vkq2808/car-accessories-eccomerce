@@ -23,7 +23,7 @@ primary_region = "sin"
 [vm]
   cpu_kind = "shared"
   cpus = 1
-  memory_mb = 256
+  memory_mb = 512
 
 [[statics]]
   guest_path = "/app/public"
