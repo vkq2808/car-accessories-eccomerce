@@ -30,6 +30,15 @@ const startServer = async () => {
         app.use(express.static('public'));
         app.use(bodyParser.urlencoded({ extended: true }));
 
+
+        app.get('/', (req, res) => {
+            res.send('Welcome to the Car Accessories E-commerce API');
+        });
+
+        app.get('/health', (req, res) => {
+            res.status(200).send('OK');
+        });
+
         // Middleware
         app.use(authenticateToken);
         app.use(helmet(
